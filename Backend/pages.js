@@ -14,6 +14,7 @@ exports.technics = function(req, res) {
     if (req.query.type)
     res.render('technicsPage', {
         pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
+        description: req.query.type + "бу. Великий вибір техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
         types: req.query.type,
         mark: req.query.mark
     });
@@ -53,9 +54,10 @@ exports.technic = function(req, res) {
                     else if(type=="Рокли")type="Рокла";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
-                    pageTitle: "купити " + type + ' ' + mark + ' ' + model + " Львівська обасть | TrackTop" ,
+                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська обасть | TrackTop" ,
                     name: mark + ' ' + model,
                     // type:type,
+                    description :  mark + ' ' + model + "від TrackTop у Львівській області. Великий вибір техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                     technic: data[0]
                 });
             }
