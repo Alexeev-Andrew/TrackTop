@@ -38,7 +38,7 @@ function  initialize() {
 
 $(function(){
     $('#logo').click(function () {
-        document.location.href = "http://tracktop.com.ua:5050/";
+        document.location.href = "http://tracktop.com.ua/";
     })
 
     require('../basket').initialiseBasket();

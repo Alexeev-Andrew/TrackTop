@@ -117,6 +117,30 @@ openEditTechnicModal = function(cell) {
 
 }
 
+openRemoveModalTechnic = function(cell){
+    $('#myModal').modal("toggle");
+    let row = $(cell).parents("tr");
+    let cols = row.children("td");
+    let id  = $(cols[0]).text();
+    $('#modal-btn-delete').click(function() {
+        var conf =confirm ("Ви впевнені, що хочете видалити?");
+        if(conf) {
+            function callback(err,data) {
+                if( err) {
+                    Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                }
+                else {
+                    $(cell).parents("tr").remove();
+                }
+            }
+            require("../API").deleteTechnicsByID(id,callback);
+        }
+    });
+     // todo if btn sold is clicked - delete images and attribute sold
+
+
+}
+
 deleteTechnic = function(cell) {
     // check if we can delete
     var row = $(cell).parents("tr");
@@ -148,22 +172,35 @@ deleteEquipment = function(cell) {
     var conf =confirm ("Ви впевнені, що хочете видалити?");
     if(conf) {
         // set attribute to "sold" or delete from db
-        function callback2(err,data) {
+
+        function callback3(err,data3) {
             if( err) {
-                //Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                console.log(err);
             }
             else {
-                function callback(err,data) {
-                    if(err) console.log.err;
+                function callback2(err,data) {
+                    if( err) {
+                        //Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                        console.log(err);
+                    }
                     else {
-                        $(cell).parents("tr").remove();
+                        function callback(err,data) {
+                            if(err) console.log(err);
+                            else {
+                                $(cell).parents("tr").remove();
+                            }
+                        }
+                        require("../API").deleteEquipmentsByID(id,callback)
+
                     }
                 }
-                require("../API").deleteEquipmentsByID(id,callback)
-
+                require("../API").deleteEquipmentsModelsByID(id,callback2)
             }
         }
-        require("../API").deleteEquipmentsModelsByID(id,callback2)
+
+
+        require("../API").delete_images_by_equipment_id(id,callback3);
+
 
 
     }
@@ -232,6 +269,7 @@ openAddEquipmentModel = function () {
     document.getElementById('addEquipmentModel').style.display='block';
     // $('#addEquipmentModel').modal('show');
     $("#add-btn").text("Додати");
+    $('#type_technics').prop("disabled", true);
     // $('#multiple-select-container-'+container_num).css("display", "none");
     equipmentFormClear();
 
@@ -247,6 +285,17 @@ openAddEquipmentModel = function () {
     require("../API").getModels(callback1);
     // to do
     // get all types of technics, loop through and add options text = type, value=type
+
+    $('#categories_modal').children().remove();
+    $('#categories_modal').append('<option selected value="Категорія" disabled>Категорія</option>');
+    function callback2(err,data) {
+        if (err) console.log(err);
+        data.data.forEach(function(item){
+            if (! $('#categories_modal').find("option[value='" + item.category_name + "']").length)
+                $('#categories_modal').append(new Option(item.category_name, item.category_name));
+        });
+    }
+    require("../API").get_equipments_categories(callback2);
 
 }
 
@@ -276,11 +325,30 @@ openEditEquipmentModal = function(cell) {
     }
     require("../API").getModels(callback1);
 
+
     function callback(err,data) {
         if (err) {
             console.log(err);
         }
         else {
+            let categories = [];
+
+            function callback2(err,data2) {
+                if(err) console.log(err);
+                else {
+                    data2.data.forEach(function (item) {
+                        categories.push(item);
+                        //  $('#categories_modal').append(new Option(item.category_name, item.category_name,false,true));
+                        // if (! $('#type_technics').find("option[value='" + item.technic_type + "']").length)
+                        //     $('#type_technics').append(new Option(item.technic_type, item.technic_type));
+                    });
+                    for(let i =0;i<categories.length;i++) {
+                        if(categories[i].id == data.data[0].id_category) $("#categories_modal").append(new Option(categories[i].category_name, categories[i].category_name,true,true));
+                        $('#categories_modal').prop("disabled",true);
+                    }
+                }
+            }
+            require("../API").get_equipments_categories(callback2);
             //стан валюта
             $("#description").val(data.data[0].description);
             $("#state-choice").val(data.data[0].state);
@@ -289,6 +357,8 @@ openEditEquipmentModal = function(cell) {
             if(cur == "євро")  $("#currency-choice").val("€");
             if(cur == "гривня")  $("#currency-choice").val("грн");
             $("#type_technics").val(data.data[0].technic_type);
+
+
             $('#mark-choice').prop("disabled", false);
             $('#model-choice').prop("disabled", false);
 
@@ -346,19 +416,25 @@ $(function(){
     //alert( "ready!" );
     function callback(err,data) {
         data.data.forEach(function(item){
-            $("#allTechnics tbody").append(
-                "<tr class='rowTechnic'>" +
-                "<td class=\"id\">"+item.id+"</td>" +
+
+            //console.log(item.sold);
+           // console.log(item.sold==true);
+            let el;
+
+            if (item.sold) el += "<tr class='rowTechnic soldTechnic'>"; else {
+                el+="<tr class='rowTechnic'>";
+            }
+            el+= "<td class=\"id\">"+item.id+"</td>" +
                 "<td class=\"type\">"+item.types_of_technics_name+"</td>" +
                 " <td class=\"mark\">"+item.marks_of_technics_name+"</td>" +
                 " <td class=\"model\">"+item.model+"</td>" +
                 " <td class=\"price\">"+item.price+"</td>" +
-                " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit\"></i></button></td>" +
-                "<td class=\"delete-btn\"><button class=\"btn btn-secondary\" onclick='deleteTechnic(this)'><i class=\"fa fa-remove\"></i></button></td>" +
+                " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit\"></i></button></td>" + //onclick='deleteTechnic(this)'
+                "<td class=\"delete-btn delete-btn-technic\"><button class=\"btn btn-secondary\" onclick='openRemoveModalTechnic(this)'><i class=\"fa fa-remove\"></i></button></td>" +
                 "</tr>"
+            $("#allTechnics tbody").append(el
             );
         });
-
     }
     require("../API").getTechnics(callback);
 });
@@ -414,7 +490,7 @@ function productBuildTableRow(id) {
     return ret;
 }
 
-function filterSelect(i) {
+filterSelect = function(i) {
     var input =  document.getElementsByClassName("mysearch")[0];
     filter = input.value.toUpperCase();
     var list;
@@ -570,6 +646,14 @@ function checkInputTechnic() {
     else  return true;
 }
 
+unlockType = function() {
+    if( $('#categories_modal').val() =="Запчастини до комбайнів")
+    $('#type_technics').prop("disabled", false);
+    else {
+        $('#type_technics').prop("disabled", true);
+    }
+}
+
 function checkInputEquipment() {
     var name = $('#name-equipment').val();
     var price = $("input[type=number][name=price-input]").val();
@@ -577,9 +661,18 @@ function checkInputEquipment() {
     var selectedType = $('#type_technics').children("option:selected").val();
     var mark = $("#mark-choice").val();
     var models = $("#model-choice").val();
-    if(mark=="Марка") return  false;
-    if(models==null) return  false;
-    if(name.toString().trim() =="" || price.toString().trim()=="" || amount.toString().trim()=="" || selectedType.toString().trim()=="Тип" || mark.toString().trim()=="" || models.length==0) return false;
+    let categories = $("#categories_modal").val();
+    if(categories=="Категорія") return false;
+    if(categories=="Запчастини до комбайнів") {
+        if(selectedType=="Комбайни") {
+            if(mark=="Марка") return  false;
+            if(models==null) return  false;
+            if(models.length==0) return false;
+        }
+        else if(mark.trim()=="") return false;
+    }
+
+    if(name.toString().trim() =="" || price.toString().trim()=="" || amount.toString().trim()==""  ) return false; // selectedType.toString().trim()=="Тип" ||
     else  return true;
 }
 
@@ -591,6 +684,7 @@ addEquipmentToDB = function () {
     var state = $('#state-choice').children("option:selected").val();
     var amount = $("#equipment-amount").val();
     var description = $("textarea[name=description]").val();
+    let category = $("#categories_modal").val();
     var selectedType = $('#type_technics').children("option:selected").val();
     var mark = $("#mark-choice").val();
     var models = $("#model-choice").val();
@@ -610,54 +704,70 @@ addEquipmentToDB = function () {
         vendor_code:code,
         currency:"долар",
         state:state,
+        id_category:1,
         description:description
     };
     if(currency=="€") equipment.currency="євро";
     if(currency=="грн") equipment.currency="гривня";
 
+
     if(add_update_btn=="Додати") {
 
         if (checkInputEquipment()) {
 
-            function callback(err, data) {
-                let insertedid = data.data.insertId;
-                // console.log(data.data.insertId);
-                let model_id = null;
+            function callback5(err, data5) {
+                if (err) console.log(err);
+                else {
+                    data5.data.forEach(function (item) {
+                        if (item.category_name == category) equipment.id_category = item.id;
+                    })
 
-                function callback2(err, data1) {
-                    if (err) console.log(err);
-                    else {
-                        let equipmentmodel;
-                        models.forEach(function (item_model) {
-                            data1.data.forEach(function (item) {
-                                if (item.model == item_model) {
-                                    model_id = item.id;
-                                    equipmentmodel = {
-                                        equipment_id: insertedid,
-                                        model_id: model_id
-                                    }
+                    function callback(err, data) {
+                        let insertedid = data.data.insertId;
+                        // console.log(data.data.insertId);
+                        let model_id = null;
 
-                                    function callback3(err, data) {
-                                        if (err) console.log(err);
-                                        else {
-                                            $('#addEquipmentModel').modal('hide');
-                                        }
-                                    }
+                        if (category == "Запчастини до комбайнів") {
 
-                                    require("../API").addEquipmentsModels(equipmentmodel, callback3);
+                            function callback2(err, data1) {
+                                if (err) console.log(err);
+                                else {
+
+                                    let equipmentmodel;
+                                    models.forEach(function (item_model) {
+                                        data1.data.forEach(function (item) {
+                                            if (item.model == item_model) {
+                                                model_id = item.id;
+                                                equipmentmodel = {
+                                                    equipment_id: insertedid,
+                                                    model_id: model_id
+                                                }
+
+                                                function callback3(err, data) {
+                                                    if (err) console.log(err);
+                                                    else {
+                                                        $('#addEquipmentModel').modal('hide');
+                                                    }
+                                                }
+
+                                                require("../API").addEquipmentsModels(equipmentmodel, callback3);
+                                            }
+                                        })
+                                    })
+                                    $('#addEquipmentModel').modal('hide');
                                 }
-                            })
-                        })
-                        $('#addEquipmentModel').modal('hide');
+
+                            }
+
+                            require("../API").getModels(callback2);
+                        }
+
                     }
 
+                    require("../API").addEquipment(equipment, callback);
                 }
-
-                require("../API").getModels(callback2);
-
             }
-
-            require("../API").addEquipment(equipment, callback);
+            require("../API").get_equipments_categories(callback5);
 
         } else {
             alert("Невірні дані!!!")
@@ -720,6 +830,7 @@ function equipmentFormClear() {
     $("#description").val("");
     $("#model-choice").children().remove();
     $('#model-choice').prop("disabled", true);
+    $('#categories_modal').prop("disabled", false);
     //multipleEquipmentOpen = true;
     $('#multiple-select-container-'+(container_num-1)).remove();
 }

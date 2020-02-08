@@ -113,6 +113,10 @@ exports.getReview = function(id,callback) {
     backendGet("/api/getreview/", callback,{id :id});
 };
 
+exports.get_equipments_categories = function(callback) {
+    backendGet("/api/get_equipments_categories/", callback);
+};
+
 exports.getReviews = function(callback) {
     backendGet("/api/getreviews/", callback,);
 };
@@ -215,4 +219,21 @@ exports.deleteEquipmentsByID = function(id,callback) {
 
 exports.deleteEquipmentsModelsByID = function(id,callback) {
     backendPost("/api/delete_equipments_models_by_id",{id: id},callback);
+}
+/////
+
+exports.delete_images_by_technic_id = function(id,callback) {
+    backendPost("/api/delete_images_by_technic_id",{id: id},callback);
+}
+
+exports.delete_check_technics_by_technic_id = function(id,callback) {
+    backendPost("/api/delete_check_technics_by_technic_id",{id: id},callback);
+}
+
+exports.delete_images_by_equipment_id = function(id,callback) {
+    backendPost("/api/delete_images_by_equipment_id",{id: id},callback);
+}
+
+exports.delete_check_equipments_by_equipment_id = function(id,callback) {
+    backendPost("/api/delete_check_equipments_by_equipment_id",{id: id},callback);
 }

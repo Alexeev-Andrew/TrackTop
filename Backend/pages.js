@@ -112,6 +112,12 @@ exports.about = (req, res) => {
     })
 }
 
+exports.sitemap = (req, res) => {
+    res.render('sitemap', {
+        pageTitle: 'Карта сайту магазину сг техніки TrackTop | Львівська область'
+    })
+}
+
 exports.reviews = (req, res) => {
     res.render('reviews', {
     })

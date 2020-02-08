@@ -2,6 +2,7 @@ var Templates = require('../Templates');
 
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
+var $categories =   $('.categories');
 
 var values = require('../values.js');
 var API_URL = values.url;
@@ -135,4 +136,42 @@ exports.initializeEquipments = function(){
     }
 
     require("../API").getEquipments(callback);
+}
+
+function showCategories(list) {
+
+    $categories.html("");
+    if(list.length===0) {
+        // $equipments.append("Нічого не знайдено");
+        //TODO: templ for empty result
+        $(".nothing_found").css("display","block");
+        return;
+    }
+    function showOne(type) {
+        var html_code = Templates.equipmentInList({equipment: type});
+        var $node = $(html_code);
+
+
+        $node.click(function () {
+            document.location.href = API_URL+"/equipment/"+ type.category_name ;
+        });
+
+        $categories.append($node);
+    }
+
+    list.forEach(showOne);
+}
+
+exports.initializeCategoriees = function(){
+    var l=[];
+
+    function callback(err,data) {
+        if(data.error) console.log(data.error);
+        data.data.forEach(function(item){
+            l.push(item)
+        });
+        showEquipments(l);
+    }
+
+    require("../API").get_equipments_categories(callback);
 }

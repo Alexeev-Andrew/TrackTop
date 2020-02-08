@@ -467,6 +467,29 @@ exports.get_technics = function (req,res) {
     db.get_technics(callback);
 }
 
+exports.get_equipments_categories = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.get_equipments_categories(callback);
+}
+
+
 exports.get_equipments = function (req,res) {
     var db = require('./db');
 
@@ -870,7 +893,7 @@ exports.delete_technic_by_id = function(req,res){
     var db = require('./db');
     var info = req.body;
 
-    function callback(error,data){
+    function callback1(error,data1){
         if(error) {
             console.log("Error! ", error.sqlMessage);
             res.send({
@@ -879,15 +902,40 @@ exports.delete_technic_by_id = function(req,res){
             });
         }
         else {
-            console.log("Success! ", data);
-            res.send({
-                success: true
-            });
+            function callback2(error,data2){
+                if(error) {
+                    console.log("Error! ", error.sqlMessage);
+                    res.send({
+                        success: true,
+                        error: error.sqlMessage
+                    });
+                }
+                else {
+                    function callback(error,data){
+                        if(error) {
+                            console.log("Error! ", error.sqlMessage);
+                            res.send({
+                                success: true,
+                                error: error.sqlMessage
+                            });
+                        }
+                        else {
+                            console.log("Success! ", data);
+                            res.send({
+                                success: true
+                            });
+                        }
+                    }
+
+                    db.delete_technics(info.id,callback);
+                }
+            }
+            db.delete_check_technics_by_technic_id(info.id,callback2)
         }
     }
 
-    // ..todo delete images
-    db.delete_technics(info.id,callback);
+    db.delete_images_by_technic_id(info.id,callback1);
+
 
 }
 
@@ -936,4 +984,96 @@ exports.delete_equipments_models_by_id = function(req,res){
         }
     }
     db.delete_equipments_models(info.id,callback);
+}
+
+exports.delete_images_by_technic_id = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_images_by_technic_id(info.id,callback);
+}
+
+exports.delete_check_technics_by_technic_id = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_check_technics_by_technic_id(info.id,callback);
+}
+
+exports.delete_images_by_equipment_id = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_images_by_equipment_id(info.id,callback);
+}
+
+exports.delete_check_equipments_by_equipment_id = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_check_equipments_by_equipment_id(info.id,callback);
 }

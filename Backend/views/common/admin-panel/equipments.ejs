@@ -91,10 +91,20 @@
                 </div>
 
                 <br>
-                <div>Підходить до:</div>
-                <span class="name-type">Категорія</span>
+                <div>Категорія запчастини</div>
+
+                <div class="ds"> <select class="form-control form-item admin-panel-input" id="categories_modal" name="categories_modal"
+                                                              onchange="unlockType()">
+<!--          <option selected disabled>Тип</option>-->
+<!--                        <option selected disabled>Категорія</option>-->
+                     </select>
+         </div>
+
+                <br/>
+                <div>Підходить до моделей:</div>
+<!--                <span class="name-type">Категорія</span>-->
                      <div class="ds"> <select class="form-control form-item admin-panel-input" id="type_technics" name="sellist1"
-                                              onchange="getMarks()">
+                                              onchange="getMarks()" disabled>
 <!--          <option selected disabled>Тип</option>-->
                         <option selected disabled>Тип</option>
                      </select>

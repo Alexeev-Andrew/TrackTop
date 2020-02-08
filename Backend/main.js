@@ -49,6 +49,8 @@ function configureEndpoints(app) {
     app.get('/api/getmodels', api.get_models);
     app.get('/api/getreview', api.get_review);
     app.get('/api/getreviews', api.get_reviews);
+    app.get('/api/get_equipments_categories', api.get_equipments_categories);
+
 
     app.post('/api/signin',  api.sign_in);
 
@@ -72,6 +74,13 @@ function configureEndpoints(app) {
     app.post('/api/delete_equipments_by_id', api.delete_equipments_by_id);
     app.post('/api/delete_equipments_models_by_id', api.delete_equipments_models_by_id);
 
+    // todo
+    app.post('/api/delete_images_by_technic_id', api.delete_images_by_technic_id);
+    app.post('/api/delete_check_technics_by_technic_id', api.delete_check_technics_by_technic_id);
+    app.post('/api/delete_images_by_equipment_id', api.delete_images_by_equipment_id);
+    app.post('/api/delete_check_equipments_by_equipment_id', api.delete_check_equipments_by_equipment_id);
+    ////////////
+
 
     //Сторінки
     app.get('/', pages.mainPage);
@@ -81,6 +90,7 @@ function configureEndpoints(app) {
     app.get('/equipments', pages.equipments);
     app.get('/equipment', pages.equipment);
     app.get('/about', pages.about);
+    app.get('/sitemap', pages.sitemap);
     app.get('/reviews', pages.reviews);
     // app.use(sitemap({
     //     sitemapUrl: '/sitemap.xml', // optional, default value is '/sitemap.xml'
