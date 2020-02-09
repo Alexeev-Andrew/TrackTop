@@ -50,7 +50,7 @@
                      class="fa fa-remove popup-close link" title="Закрити"></div>
             </div>
         </div>
-        <div class="container">
+        <div class="container scroll">
             <span class="form-group">
                 <span class="name-type">Назва</span>
      <div class="ds">
@@ -124,12 +124,22 @@
                     <div class="ds ds-models">
                 <select class="form-control form-item admin-panel-input" id="model-choice" placeholder="Модель" disabled ></select>
                     </div>
-                                <div class="">
+                    <div class="">
                 <label for="description">Опис</label>
                 <textarea class="form-control" id="description" name="description" rows="6"></textarea>
             </div>
+
                 </div>
 
+<div id="fileUploadForm" class="uploader__box js-uploader__box l-center-box">
+  <form id="fileUploadForm" >
+      <div class="uploader__contents">
+          <label class="button button--secondary" for="fileinput">Додати фото</label>
+          <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">
+      </div>
+      <input class="uploadButton button button--big-bottom" type="submit" value="Upload Selected Files">
+  </form>
+</div>
              </span>
 
 
