@@ -4,10 +4,12 @@ var container_num = 1;
 var values = require('../values.js');
 var API_URL = values.url;
 var file_uploader = require('blueimp-file-upload');
+var type = 'tech';
 
 //multiple = new MultipleSelect();
 openAddTechnicModel = function () {
 
+    type = 'tech';
     document.getElementById('addTechnicModel').style.display='block';
     // $('#addTechnicModel').style.display='block';
     $("#add-btn").text("Додати");
@@ -229,6 +231,7 @@ showModels = function() {
 }
 
 openAddEquipmentModel = function () {
+    type = 'eq';
     document.getElementById('addEquipmentModel').style.display='block';
     // $('#addEquipmentModel').modal('show');
     $("#add-btn").text("Додати");
@@ -791,21 +794,34 @@ $(function(){
 
     $('#fileinput0').change(function (event) {
         for(var i=0;i<event.target.files.length;i++)
-        require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-            if(err || data.error)
-                console.log(err||data.error);
-
-        })
+            if(type=='tech')
+                require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
+                    if(err || data.error)
+                    console.log(err||data.error);
+                });
+            else
+                require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
+                    if(err || data.error)
+                        console.log(err||data.error);
+                })
     })
 
     $('#secondaryfileinput0').change(function (event) {
         for(var i=0;i<event.target.files.length;i++)
-        require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-            if(err || data.error)
-                console.log(err||data.error);
+            if(type=='tech')
+                require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
+                    if(err || data.error)
+                    console.log(err||data.error);
+                });
+            else
+                require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
+                    if(err || data.error)
+                        console.log(err||data.error);
+                })
 
-        })
     })
+
+
 
 
 });
