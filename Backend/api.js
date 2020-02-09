@@ -896,6 +896,7 @@ exports.delete_technic_by_id = function(req,res){
     function callback1(error,data1){
         if(error) {
             console.log("Error! ", error.sqlMessage);
+
             res.send({
                 success: true,
                 error: error.sqlMessage
