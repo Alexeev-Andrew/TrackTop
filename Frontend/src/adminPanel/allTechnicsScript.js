@@ -556,19 +556,19 @@ addTechnicToDB = function () {
 
             function callback1(err, data) {
 
-                if (data.error) console.log(data.error);
+                if (err) console.log(err);
                 else {
                     technic.type_id = (data.data[0].id);
 
                     function callback2(err, data) {
-                        if (data.error) console.log(data.error);
+                        if (err) console.log(err);
                         if (data.data.length < 1) {
                             function callback4(err, data) {
                                 // console.log(data.data.insertId);
                                 technic.mark_id = data.data.insertId;
 
                                 function callback(err, data) {
-                                    if (data.error) console.log(data.error);
+                                    if (err) console.log(err);
                                     else {
                                         console.log("success");
                                     }
@@ -582,8 +582,10 @@ addTechnicToDB = function () {
                             technic.mark_id = data.data[0].id;
 
                             function callback(err, data) {
-                                if (data.error) console.log(data.error);
-                                $('#addTechnicModel').modal('toggle');
+                                if (err) console.log(err);
+                                else {
+                                    console.log("sfdsdf")
+                                }
                             }
 
                             require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback);
@@ -592,6 +594,7 @@ addTechnicToDB = function () {
 
                     require("../API").getId("marks_of_technics", mark, callback2);
                 }
+                $('#addTechnicModel').modal('toggle');
             }
 
             require("../API").getId("types_of_technics", selectedType, callback1);

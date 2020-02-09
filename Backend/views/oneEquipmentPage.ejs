@@ -120,8 +120,8 @@
                     <%}%> </span></div>
 
 
-            <div class="row_info float_left"><i><span class="header_type">В наявності</span></i> <span class="type_description"><%= equipment.amount%>
-                </span> </div>
+            <div class="row_info float_left"><i><span class="header_type">В наявності</span></i>  <% if(equipment.amount) { %><span class="type_description">Так
+                </span> <%} else { %> <span class="type_description">Так </span><%}%> </div>
 
             <% if(equipment.vendor_code) { %>
             <div class="row_info vendor_code_one_equipment_page"><i><span class="header_type">Артикул </span></i> <span
