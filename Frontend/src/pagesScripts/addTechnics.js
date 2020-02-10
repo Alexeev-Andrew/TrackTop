@@ -148,12 +148,12 @@ function showCategories(list) {
         return;
     }
     function showOne(type) {
-        var html_code = Templates.equipmentInList({equipment: type});
+        var html_code = Templates.equipmentCategory({category: type});
         var $node = $(html_code);
 
 
         $node.click(function () {
-            document.location.href = API_URL+"/equipment/"+ type.category_name ;
+            document.location.href = API_URL+"/equipment/?category"+ type.category_name ;
         });
 
         $categories.append($node);
@@ -170,7 +170,7 @@ exports.initializeCategoriees = function(){
         data.data.forEach(function(item){
             l.push(item)
         });
-        showEquipments(l);
+        showCategories(l);
     }
 
     require("../API").get_equipments_categories(callback);

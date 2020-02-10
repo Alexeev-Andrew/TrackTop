@@ -4,7 +4,7 @@ function  initialize() {
 
 // todo
 function  initializeCategories() {
-    require('../pagesScripts/addTechnics').initializeEquipments();
+    require('../pagesScripts/addTechnics').initializeCategoriees();
 }
 ///
 $(function(){
