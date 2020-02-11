@@ -140,7 +140,7 @@ exports.getTechnics = function(callback) {
 };
 
 exports.getEquipments = function(callback) {
-    backendGet("/api/getequipments/", callback);
+    backendGet("/api/getequipments/", callback);//{equip_category: cat}
 };
 
 exports.getTechnicsByType = function(tp,callback) {
