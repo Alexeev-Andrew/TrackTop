@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        let phone = localStorage.getItem("phone");
+        if (phone) {
+            gtag('config', 'UA-154016757-1',{'user_id':phone});
+            gtag('set', {'user_id': phone});
+        }
+        else {
+            gtag('config', 'UA-154016757-1');
+        }
+        gtag('event', 'page_view', { 'send_to': 'UA-154016757-1' });
+    </script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less" />
+    
+    <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+    <!-- LESS JavaScript компілятор -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <!--style for text-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">-->
+    <!--font awesome-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '446478622679823');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=446478622679823&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <% include common/header.ejs %>
+    <% include common/basket.ejs %>
+    <% include common/left_panel.ejs %>
+
+    <div id="main">
+        <div class='type_header'>
+            <h1> Категорії Запчастин</h1>
+        </div>
+
+<!--        <% include common/searchBar.ejs %>-->
+        <div class="nothing_found">Нічого не знайдено. Напишіть повідомлення, щоб замовити товар!!!</div>
+        <div class="equipments">
+    </div>
+            <div id="description_technic_equipment" style="height: 100px; border: #4c78ab"></div>
+            </div>
+
+
+        </div>
+        <!-- jQuery JavaScript -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+        <!--Bootsrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="assets/js/equipmentsMain.js"> </script>
+
+        <% include common/footer.ejs %>
+</body>
+
+</html>

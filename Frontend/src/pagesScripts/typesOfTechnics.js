@@ -19,6 +19,7 @@ function showTypes(list) {
             if(type.name=="Запчастини")
             document.location.href = API_URL+"/equipments";
             else {
+                localStorage.setItem('currentMarkOfTechnics', "");
                 localStorage.setItem('currentTypeOfTechnics', typ);
                 document.location.href = API_URL+"/technics?type=" + typ;
             }

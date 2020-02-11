@@ -9,6 +9,27 @@ var API_URL = values.url;
 
 function showTechnics(list) {
 
+    let crums = " <li>\n" +
+        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+        "            <span class=\"sr-only\">Головна</span></a>\n" +
+        "    </li>\n" ;
+    if(localStorage.getItem('currentTypeOfTechnics')) crums+=
+        " <li class='current'>\n" +
+        "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+        "            <span>"+localStorage.getItem('currentTypeOfTechnics')+ "</span></a>\n" +
+        "    </li>\n";
+    else {crums+=
+        " <li class='current'>\n" +
+        "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+        "            <span>"+localStorage.getItem('currentMarkOfTechnics')+ "</span></a>\n" +
+        "    </li>\n";
+    }
+    $("#breadcrumb").append(crums);
+    let a = ($(".seturl").length-1);
+    $(".seturl").attr("href", document.location.href);
+
+
+
     $technics.html("");
     if(list.length===0) {
        // $technics.append("Нічого не знайдено");

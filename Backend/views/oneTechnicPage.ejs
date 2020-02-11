@@ -4,6 +4,11 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title><%= pageTitle %></title>
+
+    <% if(description) { %>
+    <meta name="description" content="<%= description %>">
+    <%}%>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
     <script>
@@ -75,7 +80,10 @@
     <% include common/left_panel.ejs %>
     <% include common/message.ejs %>
 
+
+
     <div id="main" class="container-fluid">
+        <%include breadcrumbs.ejs%>
         <h1>
             <div class="header-technic">
         <div class='type_header'>

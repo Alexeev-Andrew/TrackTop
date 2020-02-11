@@ -4,6 +4,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title><%= pageTitle %></title>
+    <% if(description) { %>
+        <meta name="description" content="<%= description %>">
+    <%}%>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
     <script>
@@ -68,7 +71,9 @@
     <% include common/left_panel.ejs %>
 
     <div id="main">
+        <%include breadcrumbs.ejs%>
         <div class='type_header'>
+            <h1>
 
             <% if(types){ %>
             <%= types %>
@@ -79,6 +84,7 @@
             Запчастини
             <% } %>
             <% } %>
+            </h1>
 
         </div>
 
@@ -160,11 +166,7 @@
         <!--Bootsrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-        <% if(!mark && !types) {%>
-        <script type="text/javascript" src="assets/js/equipmentsMain.js"> </script>
-        <%} else {%>
         <script type="text/javascript" src="assets/js/technicsMain.js"> </script>
-        <% } %>
         <% include common/footer.ejs %>
 </body>
 

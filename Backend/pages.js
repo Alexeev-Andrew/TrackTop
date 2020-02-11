@@ -14,13 +14,14 @@ exports.technics = function(req, res) {
     if (req.query.type)
     res.render('technicsPage', {
         pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
-        description: req.query.type + "бу. Великий вибір техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+        description: req.query.type + " бу. Великий вибір техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
         types: req.query.type,
         mark: req.query.mark
     });
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
+            description : "",
             types: req.query.type,
             mark: req.query.mark
         });
@@ -57,7 +58,7 @@ exports.technic = function(req, res) {
                     pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська обасть | TrackTop" ,
                     name: mark + ' ' + model,
                     // type:type,
-                    description :  mark + ' ' + model + "від TrackTop у Львівській області. Великий вибір техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
+                    description :  mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                     technic: data[0]
                 });
             }
@@ -98,7 +99,7 @@ exports.equipment = function(req, res) {
 
 exports.equipments = function(req, res) {
 
-    res.render('technicsPage', {
+    res.render('equipmentsPage', {
         pageTitle: 'Запчастини до сг техніки Львіська область | TrackTop',
         types: null,
         mark: null

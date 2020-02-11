@@ -44,6 +44,7 @@ function showMarks(list) {
         var mark = $node.html();
         $node.click(function () {
             localStorage.setItem('currentMarkOfTechnics', mark);
+            localStorage.setItem('currentTypeOfTechnics', "");
             document.location.href = API_URL+"/technics?mark="+mark;
         })
 
