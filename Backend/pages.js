@@ -21,7 +21,7 @@ exports.technics = function(req, res) {
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : null,
+            description : "У нас ви можете придбати "+ req.query.type + " марки " + req.query.mark + " ! Дзвоніть ☎ (067)-646-22-44 " ,
             types: req.query.type,
             mark: req.query.mark
         });
@@ -101,7 +101,7 @@ exports.equipments = function(req, res) {
 
     res.render('equipmentsPage', {
         pageTitle: 'Запчастини до сг техніки Львіська область | TrackTop',
-        description: null,
+        description: "У нас ви можете купити запчастини до комбайнів, тракторів, плугів, пресів та сівалок! Дзвоніть ☎ (067)-646-22-44",
         types: null,
         mark: null
     });
