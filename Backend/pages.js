@@ -21,7 +21,7 @@ exports.technics = function(req, res) {
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : "У нас ви можете придбати "+ req.query.type + " марки " + req.query.mark + " ! Дзвоніть ☎ (067)-646-22-44 " ,
+            description : "У нас ви можете придбати сг техніку" + " марки " + req.query.mark + " ! Дзвоніть ☎ (067)-646-22-44 " ,
             types: req.query.type,
             mark: req.query.mark
         });
