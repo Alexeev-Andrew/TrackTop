@@ -9,24 +9,31 @@ var API_URL = values.url;
 
 function showTechnics(list) {
 
-    let crums = " <li>\n" +
-        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
-        "            <span class=\"sr-only\">Головна</span></a>\n" +
-        "    </li>\n" ;
-    if(localStorage.getItem('currentTypeOfTechnics')) crums+=
-        " <li class='current'>\n" +
-        "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-        "            <span>"+localStorage.getItem('currentTypeOfTechnics')+ "</span></a>\n" +
-        "    </li>\n";
-    else {crums+=
-        " <li class='current'>\n" +
-        "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-        "            <span>"+localStorage.getItem('currentMarkOfTechnics')+ "</span></a>\n" +
-        "    </li>\n";
+    let curType = localStorage.getItem('currentTypeOfTechnics');
+    let curMark = localStorage.getItem('currentMarkOfTechnics');
+
+    if (curType == null && curMark == null) {} else {
+
+        let crums = " <li>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "            <span class=\"sr-only\">Головна</span></a>\n" +
+            "    </li>\n";
+        if (curType) crums +=
+            " <li class='current'>\n" +
+            "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+            "            <span>" + curType + "</span></a>\n" +
+            "    </li>\n";
+        else {
+            crums +=
+                " <li class='current'>\n" +
+                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+                "            <span>" + curMark + "</span></a>\n" +
+                "    </li>\n";
+        }
+        $("#breadcrumb").append(crums);
+        let a = ($(".seturl").length - 1);
+        $(".seturl").attr("href", document.location.href);
     }
-    $("#breadcrumb").append(crums);
-    let a = ($(".seturl").length-1);
-    $(".seturl").attr("href", document.location.href);
 
 
 
@@ -41,7 +48,7 @@ function showTechnics(list) {
         var $node = $(html_code);
 
         var model = $node.find('.model_').html();
-        var mark = $node.find('.mark_').html();
+        var mark = $node.find('.mark_technic').html();
         var typ = localStorage.getItem('currentTypeOfTechnics');
 
         var s = type.type_name;

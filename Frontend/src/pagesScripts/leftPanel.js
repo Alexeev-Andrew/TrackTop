@@ -11,7 +11,7 @@ var API_URL = values.url;
 function showTechnics(list) {
 
     $technics.html("");
-    $technics.append('<a href="#" class="active">Техніка</a>');
+    $technics.append('<a href="#" class="active active-none-link">Техніка</a>');
 
     function showOne(t) {
         var html_code = Templates.technicInMenu({item: t});
@@ -34,7 +34,7 @@ function showTechnics(list) {
 function showMarks(list) {
 
     $models.html("");
-    $models.append('<a href="#" class="active">Моделі</a>');
+    $models.append('<a href="#" class="active active-none-link">Марки</a>');
 
     function showOne(t) {
         var html_code = Templates.technicInMenu({item: t});
@@ -62,7 +62,8 @@ exports.initialize = function(){
         if(data.error) console.log(data.error);
         var l=[];
         data.data.forEach(function(item){
-            l.push(item)
+            item.url=  API_URL+"/technics?type="+item.name;
+            l.push(item);
         });
         showTechnics(l);
     }
@@ -70,6 +71,7 @@ exports.initialize = function(){
         if(data.error) console.log(data.error);
         var l=[];
         data.data.forEach(function(item){
+            item.url=API_URL+"/technics?mark="+ item.name;
             l.push(item)
         });
         showMarks(l);

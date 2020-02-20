@@ -4,36 +4,41 @@ var API_URL = values.url;
 function  initialize() {
     var tech = JSON.parse(localStorage.getItem('currTechnic'));
     let cur_type_mark;
-    let crums = " <li>\n" +
-        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
-        "            <span class=\"sr-only\">Головна</span></a>\n" +
-        "    </li>\n" ;
-    if(localStorage.getItem('currentTypeOfTechnics')) {
-        cur_type_mark = localStorage.getItem('currentTypeOfTechnics');
-        crums +=
-            " <li>\n" +
-            "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-            "            <span>" + localStorage.getItem('currentTypeOfTechnics') + "</span></a>\n" +
-            "    </li>\n";
-    }
-    else {crums+=
-        " <li >\n" +
-        "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-        "            <span>"+localStorage.getItem('currentMarkOfTechnics')+ "</span></a>\n" +
-        "    </li>\n";
-        cur_type_mark = localStorage.getItem('currentMarkOfTechnics');
-    }
-    crums +=
-        " <li class='current'>\n" +
-        "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
-        "            <span>" + $(".type_header").text() + "</span></a>\n" +
-        "    </li>\n";
+    let curType = localStorage.getItem('currentTypeOfTechnics');
+    let curMark = localStorage.getItem('currentMarkOfTechnics');
 
-    $("#breadcrumb").append(crums);
-    let a = ($(".seturl").length-1);
-    let h = $(".seturl")[(a-1)];
-    $(".seturl").attr("href", API_URL+"/technics?type="+ cur_type_mark);
-    $(".seturl-last").attr("href", document.location.href);
+    if ( (curType == null && curMark == null) || $(window).width()<768) {} else {
+        let crums = " <li>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "            <span class=\"sr-only\">Головна</span></a>\n" +
+            "    </li>\n";
+        if (curType) {
+            cur_type_mark = curType;
+            crums +=
+                " <li>\n" +
+                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+                "            <span>" + curType + "</span></a>\n" +
+                "    </li>\n";
+        } else {
+            crums +=
+                " <li >\n" +
+                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+                "            <span>" + curMark + "</span></a>\n" +
+                "    </li>\n";
+            cur_type_mark = curMark;
+        }
+        crums +=
+            " <li class='current'>\n" +
+            "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
+            "            <span>" + $(".type_header").text() + "</span></a>\n" +
+            "    </li>\n";
+
+        $("#breadcrumb").append(crums);
+        let a = ($(".seturl").length - 1);
+        let h = $(".seturl")[(a - 1)];
+        $(".seturl").attr("href", API_URL + "/technics?type=" + cur_type_mark);
+        $(".seturl-last").attr("href", document.location.href);
+    }
 
     var dataset = [];
     function callback(err,data) {
