@@ -21,7 +21,7 @@ exports.technics = function(req, res) {
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : "",
+            description : null,
             types: req.query.type,
             mark: req.query.mark
         });
@@ -101,6 +101,7 @@ exports.equipments = function(req, res) {
 
     res.render('equipmentsPage', {
         pageTitle: 'Запчастини до сг техніки Львіська область | TrackTop',
+        description: null,
         types: null,
         mark: null
     });
