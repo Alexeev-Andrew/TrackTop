@@ -40,9 +40,11 @@ exports.initializeTypes = function(){
 
         l.push( {
             photo_location: 'equipment.jpg',//'http://localhost:5050/images/photo1.jpg'
-            name: 'Запчастини'
+            name: 'Запчастини',
+            url: API_URL+"/equipments"
         });
         data.data.forEach(function(item){
+            item.url=API_URL+"/technics?type="+item.name;
             l.push(item)
         });
         showTypes(l);

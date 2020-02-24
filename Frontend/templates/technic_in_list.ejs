@@ -14,7 +14,14 @@
             !-->
 
         <div class="caption">
-            <div class="model"><h3 class="mark_" ><span class="mark_technic"><%= technic.name %></span> <span class="model_"><%= technic.model %></span></h3></div>
+            <a href="<%= technic.url %>">
+                <div class="model">
+                    <h3 class="mark_" >
+                        <span class="mark_technic"><%= technic.name %></span>
+                        <span class="model_"><%= technic.model %></span>
+                    </h3>
+                </div>
+            </a>
             <div class="price"><i>Ціна</i> <%= technic.price %>
                 <% if(technic.currency.toString() == "гривня") { %>
                     грн

@@ -94,3 +94,33 @@
 h1 {
   margin-top: 0px !important;
 }
+
+
+
+
+
+@media screen and (max-width: 500px) {
+  #breadcrumb {
+    position: absolute !important;
+    margin-top: -38px !important;
+    padding-left: 50px;
+  }
+
+  .breadcrumb-mobile li a:before {
+    content: ""!important;
+    position: absolute!important;
+    top: 0!important;
+    border: 20px solid transparent!important;
+    border-right: 20px solid #c2b0cc!important;
+    border-width: 17px 10px!important;
+    width: 0!important;
+    height: 0!important;
+  }
+
+  .breadcrumb-mobile li a:after {
+  border: none!important;
+  }
+  .breadcrumb-mobile li a:active:before {
+    border-right: 20px solid #7c747a!important;
+  }
+}

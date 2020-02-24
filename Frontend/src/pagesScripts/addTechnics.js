@@ -44,6 +44,8 @@ function showTechnics(list) {
         return;
     }
     function showOne(type) {
+        console.log(type);
+        type.url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name
         var html_code = Templates.technicInList({technic: type});
         var $node = $(html_code);
 

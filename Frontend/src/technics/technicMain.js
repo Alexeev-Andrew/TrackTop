@@ -7,7 +7,19 @@ function  initialize() {
     let curType = localStorage.getItem('currentTypeOfTechnics');
     let curMark = localStorage.getItem('currentMarkOfTechnics');
 
-    if ( (curType == null && curMark == null) || $(window).width()<768) {} else {
+     if ( (curType == null && curMark == null) ) {}
+     else if( $(window).width()<500 && document.referrer!="") {
+         $("#breadcrumb").addClass("breadcrumb-mobile");
+
+        let crums = " <li class='back_breadcrumb'>\n" +
+            "        <a class='seturl'>\n" +
+            "            <span >Назад</span></a>\n" +
+            "    </li>\n";
+        $("#breadcrumb").append(crums);
+
+        $(".seturl").attr("href", document.referrer);
+     }
+     else {
         let crums = " <li>\n" +
             "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
@@ -39,6 +51,7 @@ function  initialize() {
         $(".seturl").attr("href", API_URL + "/technics?type=" + cur_type_mark);
         $(".seturl-last").attr("href", document.location.href);
     }
+
 
     var dataset = [];
     function callback(err,data) {
