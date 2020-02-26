@@ -87,9 +87,9 @@ function showTechnics(list) {
 exports.initializeTechnics = function(){
 
     var l=[];
-
-    var tp = localStorage.getItem('currentTypeOfTechnics');
-    var mrk = localStorage.getItem('currentMarkOfTechnics');
+    let tp1 = $(".type_header").text().trim();
+    let tp = localStorage.getItem('currentTypeOfTechnics');
+    let mrk = localStorage.getItem('currentMarkOfTechnics');
 
     console.log(tp);
     if(tp=="Сівалки") {
@@ -105,17 +105,21 @@ exports.initializeTechnics = function(){
     }
 
     if(tp==null) {
-        console.log("tp == null");
+        //console.log("tp == null");
         require("../API").getTechnics(callback);
     }
     else {
         if (/type=([^&]+)/.exec(document.location.href)) {
-            require("../API").getTechnicsByType({type: tp}, callback);
-            console.log("type");
+            require("../API").getTechnicsByType({type: tp1}, callback);
+            localStorage.setItem('currentTypeOfTechnics',tp1);
+            //console.log("type");
         }
         else {
-            require("../API").getTechnicsByType({mark: mrk}, callback);
-            console.log("mark");
+            tp1 = tp1.substr(tp1.indexOf('и')+2);
+            //console.log(tp1);
+            require("../API").getTechnicsByType({mark: tp1}, callback);
+            localStorage.setItem('currentMarkOfTechnics',tp1);
+            //console.log("mark");
         }
     }
 }
