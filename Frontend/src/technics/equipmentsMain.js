@@ -1,10 +1,10 @@
-function  initialize() {
-    require('../pagesScripts/addTechnics').initializeEquipments();
-}
+// function  initialize() {
+//     require('../pagesScripts/addTechnics').initializeEquipments();
+// }
 
 // todo
 function  initializeCategories() {
-    require('../pagesScripts/addTechnics').initializeCategoriees();
+    require('../pagesScripts/addTechnics').initializeCategories();
 }
 ///
 $(function(){
@@ -44,5 +44,5 @@ $(function(){
         document.location.href = "http://tracktop.com.ua:5050/profile";
     })
 
-    initialize();
+    initializeCategories();
 });

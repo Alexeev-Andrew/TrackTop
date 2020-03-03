@@ -50,7 +50,7 @@
 }
 
 .model {
-  font-size    : 22px;
+  font-size    : 2rem;
   height       : 29px;
   margin-bottom: 4px;
   font-family  : "Times New Roman", Times, Gabriola;
@@ -105,12 +105,38 @@
 }
 
 @media (max-width:500px) {
+  .model, .mark_ {
+    font-size: 1.7rem!important;
+    margin-bottom: 0px;
+
+  }
+  .model {
+    height: 24px;
+  }
+  .price {
+    font-size: 1.5rem!important;
+  }
   .technics {
     width                : 100%;
     display              : grid;
     padding              : 3% 10%;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-rows   : auto;
     grid-gap             : 20px;
   }
 }
+
+@media (max-width:400px) {
+  .technics {
+    margin-left: -10px;
+  }
+}
+
+
+@media (max-width:350px) {
+  .technics {
+    margin-left: 0px !important;
+    grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
+  }
+}
+

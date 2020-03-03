@@ -104,6 +104,13 @@ exports.insert_technic_photos = function(photos,id,callback){
         connection.query("INSERT INTO tracktop.images_technics SET ?", {file_name:photos[i].val,id_technic:id}, callback);
     }
 }
+
+exports.insert_equipment_photos = function(photos,id,callback){
+
+    for(var i=0;i<photos.length;i++){
+        connection.query("INSERT INTO tracktop.images_equipments SET ?", {file_name:photos[i].val,id_equipment:id}, callback);
+    }
+}
 //select methods
 
 exports.get_id = function (table_name, name , callback) {

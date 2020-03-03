@@ -187,7 +187,7 @@ function showCategories(list) {
 
 
         $node.click(function () {
-            document.location.href = API_URL+"/equipment/?category"+ type.category_name ;
+            document.location.href = API_URL+"/equipment/?category="+ type.category_name ;
         });
 
         $categories.append($node);
@@ -196,7 +196,7 @@ function showCategories(list) {
     list.forEach(showOne);
 }
 
-exports.initializeCategoriees = function(){
+exports.initializeCategories = function(){
     var l=[];
 
     function callback(err,data) {

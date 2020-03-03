@@ -520,15 +520,16 @@ filterSelect = function(i) {
 }
 
 addTechnicToDB = function () {
-    var selectedType = $('#type_technics').children("option:selected").val();
-    var mark = $("#mark-choice").val();
-    var model = $("#model-choice").val();
-    var price = $("input[type=number][name=price-input]").val();
-    var currency = $('#currency-choice').children("option:selected").val();
-    var year = $("input[type=number][name=year-input]").val();
+    let selectedType = $('#type_technics').children("option:selected").val();
+    let mark = $("#mark-choice").val();
+    let model = $("#model-choice").val();
+    let price = $("input[type=number][name=price-input]").val();
+    let currency = $('#currency-choice').children("option:selected").val();
+    let year = $("input[type=number][name=year-input]").val();
     var description = $("textarea[name=description]").val();
     // ..todo photos
     let add_update = $("#add-btn").text();
+
     // console.log(selectedType);
     // console.log(mark);
     // console.log(model);
@@ -545,7 +546,7 @@ addTechnicToDB = function () {
         production_date: year,
         currency: "долар",
         description: description,
-        main_photo_location: getPhotos().length > 0 ? getPhotos()[0].val : "default_technic"
+        main_photo_location: getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
     }
     if (currency == 'грн') technic.currency = "гривня";
     if (currency == '€') technic.currency = "євро";
@@ -571,30 +572,34 @@ addTechnicToDB = function () {
                                     if (err) console.log(err);
                                     else {
                                         console.log("success");
+                                       // $('#addTechnicModel').modal('hide');
                                     }
+                                    //$('#addTechnicModel').modal('hide');
                                 }
 
                                 require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback);
+                                $('#addTechnicModel').css("display", "none");
                             }
 
                             require("../API").addMarkTechnic({name: mark}, callback4);
                         } else {
                             technic.mark_id = data.data[0].id;
 
-                            function callback(err, data) {
+                            function callback9(err, data) {
                                 if (err) console.log(err);
                                 else {
-                                    console.log("sfdsdf")
+                                    console.log("sfdsdf");
                                 }
                             }
 
-                            require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback);
+                            require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback9);
+                            $('#addTechnicModel').css("display", "none");
                         }
                     }
 
                     require("../API").getId("marks_of_technics", mark, callback2);
                 }
-                $('#addTechnicModel').modal('toggle');
+
             }
 
             require("../API").getId("types_of_technics", selectedType, callback1);
@@ -623,7 +628,7 @@ addTechnicToDB = function () {
                         // Notify("Помилка! Не вдалось видалити.",null,null,'success');
                     }
                     else {
-                        $('#addTechnicModel').modal('toggle');
+                       // $('#addTechnicModel').modal('toggle');
                         //console.log("data = "+ data);
                         alert("Товар оновлено!");
                         // Notify("Товар успішно оновлено!",null,null,'success');
@@ -711,7 +716,8 @@ addEquipmentToDB = function () {
         currency:"долар",
         state:state,
         id_category:1,
-        description:description
+        description:description,
+        main_photo_location: getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
     };
     if(currency=="€") equipment.currency="євро";
     if(currency=="грн") equipment.currency="гривня";
@@ -770,7 +776,8 @@ addEquipmentToDB = function () {
 
                     }
 
-                    require("../API").addEquipment(equipment, callback);
+                    require("../API").addEquipment({equipment:equipment, photos: getPhotos()}, callback);
+                    $('#addEquipmentModel').css("display", "none");
                 }
             }
             require("../API").get_equipments_categories(callback5);
@@ -939,3 +946,11 @@ $(function(){
 
 
 });
+
+function hideModal(){
+    $(".modal").removeClass("in");
+    $(".modal-backdrop").remove();
+    $('body').removeClass('modal-open');
+    $('body').css('padding-right', '');
+    $(".modal").hide();
+}

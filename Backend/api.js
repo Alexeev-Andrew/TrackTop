@@ -71,14 +71,21 @@ exports.addEquipment = function(req, res) {
         }
         else {
             console.log("Success! ", data);
-            res.send({
-                success: true,
-                data: data
-            });
+            function callback(error,data){
+                if(error) {
+                    console.log("Error! ", error.sqlMessage);
+                    res.send({
+                        success: true,
+                        error: error.sqlMessage
+                    });
+                }
+            }
+            db.insert_equipment_photos(info.photos,data.insertId, callback);
+
         }
     }
 
-    db.insert_equipment(info,callback);
+    db.insert_equipment(info.equipment,callback);
 
 };
 
