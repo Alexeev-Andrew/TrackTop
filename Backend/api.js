@@ -64,23 +64,23 @@ exports.addEquipment = function(req, res) {
     function callback(error,data){
         if(error) {
             console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
-                error: error.sqlMessage
-            });
         }
         else {
             console.log("Success! ", data);
-            function callback(error,data){
+            res.send({
+                success: true,
+                data: data
+            });
+            function callback1(error,data2){
                 if(error) {
                     console.log("Error! ", error.sqlMessage);
-                    res.send({
-                        success: true,
-                        error: error.sqlMessage
-                    });
+                    // res.send({
+                    //     success: true,
+                    //     error: error.sqlMessage
+                    // });
                 }
             }
-            db.insert_equipment_photos(info.photos,data.insertId, callback);
+            db.insert_equipment_photos(info.photos,data.insertId, callback1);
 
         }
     }

@@ -237,7 +237,8 @@ exports.get_equipments = function(callback){
 }
 
 exports.get_equipment_by_id = function(id,callback){
-    connection.query("SELECT * FROM tracktop.models inner join tracktop.equipments_models on models.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id where equipment_id = " + id,callback);
+    //connection.query("SELECT * FROM tracktop.models inner join tracktop.equipments_models on models.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id where equipment_id = " + id,callback);
+    connection.query("SELECT * FROM  tracktop.equipments inner join tracktop.equipments_categories on  equipments.id_category = equipments_categories.id where equipments.id = " + id,callback);
 }
 
 exports.get_equipments_by_model = function(model,callback) {
@@ -345,7 +346,7 @@ exports.update_type_of_technic = function(id,type,callback){
 }
 
 exports.update_technic = function(id,technic,callback){
-    connection.query("UPDATE tracktop.technics SET ?"+ technic + "WHERE id = "+ id,callback);
+    connection.query("UPDATE tracktop.technics SET ? Where id = ? ", [technic,id],callback);
 }
 
 exports.update_review = function(id,review,callback){

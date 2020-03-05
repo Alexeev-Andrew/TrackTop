@@ -77,6 +77,7 @@ openEditTechnicModal = function(cell) {
     var row = $(cell).parents("tr");
     var cols = row.children("td");
     var id  = $(cols[0]).text();
+    localStorage.setItem("currId", id);
     //console.log(id);
     var s = $(cols[1]).text();
     //children("button")[0]).data("id");
@@ -334,6 +335,9 @@ openEditEquipmentModal = function(cell) {
             console.log(err);
         }
         else {
+            // console.log(data);
+            // console.log(data.data);
+            // console.log(data.data[0]);
             let categories = [];
 
             function callback2(err,data2) {
@@ -346,7 +350,12 @@ openEditEquipmentModal = function(cell) {
                         //     $('#type_technics').append(new Option(item.technic_type, item.technic_type));
                     });
                     for(let i =0;i<categories.length;i++) {
-                        if(categories[i].id == data.data[0].id_category) $("#categories_modal").append(new Option(categories[i].category_name, categories[i].category_name,true,true));
+                        if(categories[i].id == data.data[0].id_category) {
+                            $("#categories_modal").append(new Option(categories[i].category_name, categories[i].category_name,true,true));
+                        }
+                        else {
+                            $("#categories_modal").append(new Option(categories[i].category_name, categories[i].category_name,true,false));
+                        }
                         $('#categories_modal').prop("disabled",true);
                     }
                 }
@@ -609,9 +618,7 @@ addTechnicToDB = function () {
     }
     else {
 
-        var row = $(cell).parents("tr");
-        var cols = row.children("td");
-        var id  = $(cols[0]).text();
+        var id  = localStorage.getItem("currId");
         technic.id = id;
 
         function callback(err,data) {
@@ -622,6 +629,7 @@ addTechnicToDB = function () {
             else {
                 technic.mark_id = data.data[0].mark_id;
                 technic.type_id = data.data[0].type_id;
+                technic.main_photo_location = data.data[0].main_photo_location;
                 function callback5(err,data1) {
                     if( err) {
                         console.log(err);
@@ -735,8 +743,10 @@ addEquipmentToDB = function () {
                     })
 
                     function callback(err, data) {
+                        //console.log(data.data);
+                       // console.log(data.data[0]);
                         let insertedid = data.data.insertId;
-                        // console.log(data.data.insertId);
+                         console.log(data.data.insertId);
                         let model_id = null;
 
                         if (category == "Запчастини до комбайнів") {
@@ -758,7 +768,7 @@ addEquipmentToDB = function () {
                                                 function callback3(err, data) {
                                                     if (err) console.log(err);
                                                     else {
-                                                        $('#addEquipmentModel').modal('hide');
+                                                        //$('#addEquipmentModel').modal('hide');
                                                     }
                                                 }
 
@@ -766,7 +776,7 @@ addEquipmentToDB = function () {
                                             }
                                         })
                                     })
-                                    $('#addEquipmentModel').modal('hide');
+                                    //$('#addEquipmentModel').modal('hide');
                                 }
 
                             }
@@ -821,6 +831,10 @@ addEquipmentToDB = function () {
 
     // $("#allEquipments tbody").append(
     //     productBuildTableRow(102));
+}
+
+function updateTechnic (technic) {
+
 }
 
 
