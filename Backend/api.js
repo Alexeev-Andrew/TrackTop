@@ -19,7 +19,7 @@ exports.addTehnic = function(req, res) {
                     console.log("Error! ", error.sqlMessage);
                     res.send({
                         success: true,
-                        error: error.sqlMessage
+                        data: data
                     });
                 }
             }
@@ -161,6 +161,30 @@ exports.addModel = function(req, res) {
     }
 
     db.insert_model(info,callback);
+
+};
+
+exports.addImagesTechnic = function(req, res) {
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success ");
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.insert_technic_photos(info.photos,info.tehnic_id, callback);
 
 };
 
@@ -517,6 +541,29 @@ exports.get_equipments = function (req,res) {
         }
     }
     db.get_equipments(callback);
+}
+
+
+exports.getequipmentswithmodels = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.get_equipment_withModels_by_id(req.body.id, callback);
 }
 
 exports.get_technics_by_tp = function (req,res) {
@@ -1015,6 +1062,29 @@ exports.delete_images_by_technic_id = function(req,res){
     }
 
     db.delete_images_by_technic_id(info.id,callback);
+}
+
+exports.delete_image_by_filename = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_technic_image_by_id(info.id,callback);
 }
 
 exports.delete_check_technics_by_technic_id = function(req,res){

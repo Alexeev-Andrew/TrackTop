@@ -174,11 +174,19 @@ exports.get_technic_im_by_type_model_mark = function(type_of_technics, mark_of_t
 }
 
 exports.get_technic_im_by_id = function(id, callback){
-    connection.query("SELECT file_name from tracktop.images_technics where id_technic="+id, callback);
+    connection.query("SELECT * from tracktop.images_technics where id_technic="+id, callback);
 }
 
 exports.get_equipment_im_by_id = function(id, callback){
-    connection.query("SELECT file_name from tracktop.images_equipments where id_equipment="+id, callback);
+    connection.query("SELECT * from tracktop.images_equipments where id_equipment="+id, callback);
+}
+
+exports.get_technic_images_by_id = function(id, callback){
+    connection.query("SELECT * from tracktop.images_technics where id_technic="+id, callback);
+}
+
+exports.get_equipment_images_by_id = function(id, callback){
+    connection.query("SELECT * from tracktop.images_equipments where id_equipment="+id, callback);
 }
 
 exports.get_technics_price_more = function(price,callback){
@@ -241,9 +249,18 @@ exports.get_equipment_by_id = function(id,callback){
     connection.query("SELECT * FROM  tracktop.equipments inner join tracktop.equipments_categories on  equipments.id_category = equipments_categories.id where equipments.id = " + id,callback);
 }
 
+exports.get_equipment_withModels_by_id = function(id,callback){
+    connection.query("SELECT * FROM tracktop.models inner join tracktop.equipments_models on models.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id where equipment_id = " + id,callback);
+}
+
 exports.get_equipments_by_model = function(model,callback) {
     connection.query("SELECT * FROM tracktop.models inner join equipments_models on models.id = equipments_models.model_id inner join equipments on equipments.id = equipments_models.equipment_id where"+
     "model = \'" + model + "\'", callback);
+}
+
+exports.get_equipments_by_category_id = function(id_category,callback) {
+    connection.query("SELECT * FROM  tracktop.equipments where "+
+        "id_category = \'" + id_category + "\'", callback);
 }
 
 exports.get_equipments_categories = function(callback){
@@ -300,6 +317,10 @@ exports.delete_images_by_technic_id = function(id,callback){
     connection.query("DELETE FROM tracktop.images_technics WHERE tracktop.images_technics.id_technic = "+ id,callback);
 }
 
+exports.delete_technic_image_by_id= function(id,callback){
+    connection.query("DELETE FROM tracktop.images_technics WHERE tracktop.images_technics.id = "+ id,callback);
+}
+
 exports.delete_check_technics_by_technic_id = function(id,callback){
     connection.query("DELETE FROM tracktop.check_technics WHERE tracktop.check_technics.technic_id = "+ id,callback);
 }
@@ -334,7 +355,7 @@ exports.update_client_by_phone = function(phone,client,callback){
 }
 
 exports.update_equipments = function(id,equipment,callback){
-    connection.query("UPDATE tracktop.equipments SET name = 'newname' WHERE id = "+ id,callback);
+    connection.query("UPDATE tracktop.equipments SET ? Where id = ? ", [equipment,id],callback);
 }
 
 exports.update_mark_of_technic = function(id,mark,callback){

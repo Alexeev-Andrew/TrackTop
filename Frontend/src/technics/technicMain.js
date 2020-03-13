@@ -1,15 +1,22 @@
 var values = require('../values.js');
 var API_URL = values.url;
 
-function  initialize() {
-    var tech = JSON.parse(localStorage.getItem('currTechnic'));
+$( window ).on( "orientationchange", function( event ) {
+   // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());
+    $("#breadcrumb").empty()
+    setTimeout(function() {   //calls click event after a certain time
+        initilizebreadcrumb();
+    }, 500);
+});
+
+function initilizebreadcrumb(){
     let cur_type_mark;
     let curType = localStorage.getItem('currentTypeOfTechnics');
     let curMark = localStorage.getItem('currentMarkOfTechnics');
 
-     if ( (curType == null && curMark == null) ) {}
-     else if( $(window).width()<500 && document.referrer!="") {
-         $("#breadcrumb").addClass("breadcrumb-mobile");
+    if ( (curType == null && curMark == null) ) {}
+    else if( $(window).width()<500 && document.referrer!="") {
+        $("#breadcrumb").addClass("breadcrumb-mobile");
 
         let crums = " <li class='back_breadcrumb'>\n" +
             "        <a class='seturl'>\n" +
@@ -18,8 +25,8 @@ function  initialize() {
         $("#breadcrumb").append(crums);
 
         $(".seturl").attr("href", document.referrer);
-     }
-     else {
+    }
+    else {
         let crums = " <li>\n" +
             "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
@@ -51,6 +58,11 @@ function  initialize() {
         $(".seturl").attr("href", API_URL + "/technics?type=" + cur_type_mark);
         $(".seturl-last").attr("href", document.location.href);
     }
+}
+
+function  initialize() {
+    var tech = JSON.parse(localStorage.getItem('currTechnic'));
+    initilizebreadcrumb();
 
 
     var dataset = [];
