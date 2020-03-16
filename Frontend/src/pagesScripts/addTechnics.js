@@ -45,7 +45,7 @@ function showTechnics(list) {
     }
     function showOne(type) {
         console.log(type);
-        type.url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name
+        type.url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name+ '&number_id='+type.id;
         var html_code = Templates.technicInList({technic: type});
         var $node = $(html_code);
 
@@ -55,10 +55,10 @@ function showTechnics(list) {
 
         var s = type.type_name;
 
-        console.log("s = "+ s );
+        //console.log("s = "+ s );
        // var typ = $node.find('.type_h2').html();
 //console.log(typ);
-        console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
+        //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
 
         $node.click(function () {
             console.log("type"+ type);
@@ -75,7 +75,7 @@ function showTechnics(list) {
                 amount: type.amount,
                 description: type.description
             }));
-            document.location.href = API_URL+"/technic?model="+model+"&mark="+mark+'&type='+type.type_name;
+            document.location.href = API_URL+"/technic?model="+model+"&mark="+mark+'&type='+type.type_name + '&number_id='+type.id;;
         });
 
         $technics.append($node);

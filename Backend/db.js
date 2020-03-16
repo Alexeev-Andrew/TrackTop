@@ -222,6 +222,7 @@ exports.get_technic_by_type_model_mark = function(type_of_technics, mark_of_tech
 }
 
 
+
 exports.get_technics_by_country = function(country,callback){
     connection.query("SELECT * FROM tracktop.technics WHERE tracktop.technics.country_producer =" + country,callback);
 }

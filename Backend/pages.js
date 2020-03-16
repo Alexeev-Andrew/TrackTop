@@ -32,11 +32,15 @@ exports.technic = function(req, res) {
     var model = req.query.model;
     var mark = req.query.mark;
     var type = req.query.type;
+    var number_id = req.query.number_id;
 
-    // console.log("model"+ model + "mark = " + mark + "type" + type);
+     console.log("model"+ model + "mark = " + mark + "type" + type + " id = "+ number_id);
+
+    require('./db').get_technics_by_id(number_id,
 
 
-    require('./db').get_technic_by_type_model_mark(type,mark,model, function (error,data) {
+    //require('./db').get_technic_by_type_model_mark(type,mark,model,
+        function (error,data) {
 
         if(error) {
             console.log("Error! ", error.sqlMessage);
@@ -51,8 +55,6 @@ exports.technic = function(req, res) {
                // console.log(data[0]+"\n");
                     if(type=="Сівалки") type="Сівалка";
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
-                    else if(type=="Штабелери електричні")type="Штабелер електричний";
-                    else if(type=="Рокли")type="Рокла";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
                     pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська обасть | TrackTop" ,

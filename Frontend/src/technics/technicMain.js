@@ -13,6 +13,7 @@ function initilizebreadcrumb(){
     let cur_type_mark;
     let curType = localStorage.getItem('currentTypeOfTechnics');
     let curMark = localStorage.getItem('currentMarkOfTechnics');
+    let curTech = JSON.parse(localStorage.getItem('currTechnic'));
 
     if ( (curType == null && curMark == null) ) {}
     else if( $(window).width()<500 && document.referrer!="") {
@@ -56,46 +57,68 @@ function initilizebreadcrumb(){
         let a = ($(".seturl").length - 1);
         let h = $(".seturl")[(a - 1)];
         $(".seturl").attr("href", API_URL + "/technics?type=" + cur_type_mark);
-        $(".seturl-last").attr("href", document.location.href);
+        $(".seturl-last").attr("href", API_URL + "/technic?model=" + curTech.model + "&mark=" + curTech.mark + "&type="+ curType +"&number_id="+curTech.id);
     }
 }
 
 function  initialize() {
-    var tech = JSON.parse(localStorage.getItem('currTechnic'));
-    initilizebreadcrumb();
+    let param = getUrlParameter("number_id");
+    function callback5(err,data5) {
+        if(data5.error) console.log(data5.error);
+        else {
+            console.log(data5.data[0]);
+            let type = data5.data[0];
+            localStorage.setItem('currTechnic',JSON.stringify({
+                id: type.id,
+                model: type.model,
+                mark: type.marks_of_technics_name,
+                main_photo_location: type.main_photo_location,
+                price: type.price,
+                currency: type.currency,
+                amount: type.amount,
+                description: type.description
+            }));
+            $(".type_header").text(type.marks_of_technics_name + " " + type.model);
+            var tech = JSON.parse(localStorage.getItem('currTechnic'));
+            localStorage.setItem("currentTypeOfTechnics" , type.types_of_technics_name);
+            initilizebreadcrumb();
 
 
-    var dataset = [];
-    function callback(err,data) {
-        if(data.error) console.log(data.error);
-        data.data.forEach(function(item){
-            dataset.push("technics/"+item.file_name)
-        });
-        require('../pagesScripts/slider').initialize(dataset);
+            var dataset = [];
+            function callback(err,data) {
+                if(data.error) console.log(data.error);
+                data.data.forEach(function(item){
+                    dataset.push("technics/"+item.file_name)
+                });
+                require('../pagesScripts/slider').initialize(dataset);
+            }
+            require('../API').getTechnicsImagesById(tech.id,callback);
+
+            $('.order_technic').click(function(){
+
+                // var equipment = localStorage.getItem('currEquipment');
+                // console.log(equipment);
+                // var isTech = equipment==null ? false : true;
+
+                require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!",null,null,'success');
+
+                require('../basket').addToCart({
+                    id : tech.id,
+                    title: tech.mark+' '+tech.model,
+                    price: tech.price,
+                    currency: tech.currency,
+                    icon: "technics/"+tech.main_photo_location,
+                    quantity: tech.amount,
+                    isTech : true
+                });
+
+                // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
+            })
+        }
     }
-    require('../API').getTechnicsImagesById(tech.id,callback);
+    require('../API').getTechnicsById(param,callback5);
 
-    $('.order_technic').click(function(){
 
-        // var equipment = localStorage.getItem('currEquipment');
-        // console.log(equipment);
-        // var isTech = equipment==null ? false : true;
-
-        var tech = JSON.parse(localStorage.getItem('currTechnic'));
-        require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!",null,null,'success');
-
-        require('../basket').addToCart({
-            id : tech.id,
-            title: tech.mark+' '+tech.model,
-            price: tech.price,
-            currency: tech.currency,
-            icon: "technics/"+tech.main_photo_location,
-            quantity: tech.amount,
-            isTech : true
-        });
-
-       // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
-    })
 }
 
 $(function(){
@@ -137,3 +160,18 @@ $(function(){
         document.location.href = API_URL+"/profile";
     })
 });
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
