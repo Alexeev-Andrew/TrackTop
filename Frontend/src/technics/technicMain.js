@@ -3,7 +3,7 @@ var API_URL = values.url;
 
 $( window ).on( "orientationchange", function( event ) {
    // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());
-    $("#breadcrumb").empty()
+    $("#breadcrumb").empty();
     setTimeout(function() {   //calls click event after a certain time
         initilizebreadcrumb();
     }, 500);
@@ -26,6 +26,9 @@ function initilizebreadcrumb(){
         $("#breadcrumb").append(crums);
 
         $(".seturl").attr("href", document.referrer);
+    }
+    else if ($(window).width()<500) {
+        $("#breadcrumb").empty();
     }
     else {
         let crums = " <li>\n" +
