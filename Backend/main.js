@@ -38,6 +38,7 @@ function configureEndpoints(app) {
     app.post('/api/addcheckequipment/', api.addCheckEquipment);
     app.post('/api/addchecktechnic/', api.addCheckTechnic);
     app.post('/api/addimagestechnic/', api.addImagesTechnic);
+    app.post('/api/addimagesequipment/', api.addImagesEquipment);
     //app.post('/api/addtypetechnics/', api.addCheckEquipment);
     app.post('/api/addmarktechnics/', api.addMarkTechnics);
     app.post('/api/addmodel/', api.addModel);
@@ -51,7 +52,7 @@ function configureEndpoints(app) {
     app.get('/api/getreview', api.get_review);
     app.get('/api/getreviews', api.get_reviews);
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
-    app.get('/api/getequipmentswithmodels', api.getequipmentswithmodels);
+    app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
 
 
     app.post('/api/signin',  api.sign_in);
@@ -75,10 +76,11 @@ function configureEndpoints(app) {
     app.post('/api/delete_technic_by_id', api.delete_technic_by_id);
     app.post('/api/delete_equipments_by_id', api.delete_equipments_by_id);
     app.post('/api/delete_equipments_models_by_id', api.delete_equipments_models_by_id);
-
+    app.post('/api/delete_equipments_models_by_ids', api.delete_equipments_models_by_ids);
     // todo
     app.post('/api/delete_images_by_technic_id', api.delete_images_by_technic_id);
-    app.post('/api/delete_image_by_filename', api.delete_image_by_filename);
+    app.post('/api/delete_oneimagetechnic_by_id', api.delete_imageTechnic_by_id);
+    app.post('/api/delete_oneimageequipment_by_id', api.delete_imageEquipment_by_id);
     app.post('/api/delete_check_technics_by_technic_id', api.delete_check_technics_by_technic_id);
     app.post('/api/delete_images_by_equipment_id', api.delete_images_by_equipment_id);
     app.post('/api/delete_check_equipments_by_equipment_id', api.delete_check_equipments_by_equipment_id);

@@ -188,6 +188,30 @@ exports.addImagesTechnic = function(req, res) {
 
 };
 
+exports.addImagesEquipment = function(req, res) {
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success ");
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.insert_equipment_photos(info.photos,info.equipment_id, callback);
+
+};
+
 exports.addClient = function(req, res) {
     var db = require('./db');
     var info = req.body;
@@ -546,10 +570,11 @@ exports.get_equipments = function (req,res) {
 
 exports.getequipmentswithmodels = function (req,res) {
     var db = require('./db');
-
+    console.log(req.body.id);
+    console.log(req.body);
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            console.log("Error! some ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -1019,6 +1044,28 @@ exports.delete_equipments_by_id = function(req,res){
 
 }
 
+exports.delete_equipments_models_by_ids = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+    db.delete_equipments_models_by_IDS(info.equipment_id, info.model_id,callback);
+}
+
 exports.delete_equipments_models_by_id = function(req,res){
     var db = require('./db');
     var info = req.body;
@@ -1064,7 +1111,7 @@ exports.delete_images_by_technic_id = function(req,res){
     db.delete_images_by_technic_id(info.id,callback);
 }
 
-exports.delete_image_by_filename = function(req,res){
+exports.delete_imageTechnic_by_id = function(req,res){
     var db = require('./db');
     var info = req.body;
 
@@ -1085,6 +1132,29 @@ exports.delete_image_by_filename = function(req,res){
     }
 
     db.delete_technic_image_by_id(info.id,callback);
+}
+
+exports.delete_imageEquipment_by_id = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.delete_equipment_image_by_id(info.id,callback);
 }
 
 exports.delete_check_technics_by_technic_id = function(req,res){

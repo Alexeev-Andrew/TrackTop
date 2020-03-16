@@ -147,45 +147,23 @@ openRemoveModalTechnic = function(cell){
     let cols = row.children("td");
     let id  = $(cols[0]).text();
     $('#modal-btn-delete').click(function() {
-        var conf =confirm ("Ви впевнені, що хочете видалити?");
-        if(conf) {
             function callback(err,data) {
                 if( err) {
                     Notify("Помилка! Не вдалось видалити.",null,null,'success');
                 }
                 else {
                     $(cell).parents("tr").remove();
+                    $('#myModal').modal("hide");
                 }
             }
             require("../API").deleteTechnicsByID(id,callback);
-        }
     });
      // todo if btn sold is clicked - delete images and attribute sold
 
 
 }
 
-deleteTechnic = function(cell) {
-    // check if we can delete
-    var row = $(cell).parents("tr");
-    var cols = row.children("td");
-    var id  = $(cols[0]).text();
-    //console.log(id);
-    var conf =confirm ("Ви впевнені, що хочете видалити?");
-    if(conf) {
-        // set attribute to "sold" or delete from db
-        function callback(err,data) {
-            if( err) {
-                Notify("Помилка! Не вдалось видалити.",null,null,'success');
-            }
-            else {
-                $(cell).parents("tr").remove();
-            }
-        }
-        require("../API").deleteTechnicsByID(id,callback)
-    }
 
-}
 
 deleteEquipment = function(cell) {
     // check if we can delete
@@ -360,9 +338,6 @@ openEditEquipmentModal = function(cell) {
             console.log(err);
         }
         else {
-            // console.log(data);
-            // console.log(data.data);
-            // console.log(data.data[0]);
             let categories = [];
 
             function callback2(err,data2) {
@@ -393,59 +368,94 @@ openEditEquipmentModal = function(cell) {
 
 
                     if($("#categories_modal").val() == "Запчастини до комбайнів") {
-                        $("#type_technics").prop("disabled", false);
+                        //$("#type_technics").prop("disabled", false);
                         //console.log(data5.data[0].technic_type);
-                        $("#type_technics").append(new Option("Rjc,dd", "dfsdfsd",true,true));
+                        $("#type_technics").append(new Option("Комбайни", "Комбайни",true,true));
                         //$("#type_technics").val(data.data[0].technic_type);
-                        $('#mark-choice').prop("disabled", false);
+                        //$('#mark-choice').prop("disabled", false);
                         $('#model-choice').prop("disabled", false);
 
                         function callback5(err,data5){
-                            if(err) console.log("We have an error");
+                            if(err){
+                                console.log("We have an error");
+                                console.log(err);
+                            }
                             else {
-                                console.log(data5.data[0]);
-                                console.log(data5.data);
+                                //console.log(data5.data[0]);
+                                let arr = data5.data;
+                                let models_old = [];
+                                arr.forEach(function (item) {
+                                   models_old.push({equipment_id: item.equipment_id , model_id: item.model_id});
+                                })
+                                localStorage.setItem("models_old",JSON.stringify(models_old));
                                 ////
-                                // $("#mark-choice").append(new Option(data5.data[0].technic_mark, data5.data[0].technic_mark,true,true));
-                                // let models_selected = [] ;
-                                // data5.data.forEach(function (item) {
-                                //     models_selected.push(item.model);
-                                // })
-                                // function callback3(err, data3) {
-                                //     if (err) {
-                                //         console.log(err);
-                                //     }
-                                //     $('#model-choice').prop("multiple",true);
-                                //     data3.data.forEach(function (item3) {
-                                //         if(models_selected.includes(item3.model)) {
-                                //             $('#model-choice').append(new Option(item3.model, item3.model,true,true));
-                                //             console.log("contains");
-                                //         }
-                                //
-                                //         else {
-                                //             $('#model-choice').append(new Option(item3.model, item3.model,false,true));
-                                //             console.log("not contains");
-                                //         }
-                                //     });
-                                //     new MultipleSelect('#model-choice');
-                                //     console.log(container_num);
-                                //     multipleEquipmentOpen = true;
-                                //     container_num++;
-                                // }
-//
-                               // require("../API").getModelsbyTypeMark(data5.data[0].technic_type, data5.data[0].technic_mark, callback3);
+                                $("#mark-choice").append(new Option(data5.data[0].technic_mark, data5.data[0].technic_mark,true,true));
+                                let models_selected = [] ;
+                                data5.data.forEach(function (item) {
+                                    models_selected.push(item.model);
+                                })
+                                function callback3(err, data3) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    $('#model-choice').prop("multiple",true);
+                                    data3.data.forEach(function (item3) {
+                                        if(models_selected.includes(item3.model)) {
+                                            $('#model-choice').append(new Option(item3.model, item3.model,true,true));
+                                            console.log("contains");
+                                        }
+
+                                        else {
+                                            $('#model-choice').append(new Option(item3.model, item3.model,false,false));
+                                            console.log("not contains");
+                                        }
+                                    });
+                                    new MultipleSelect('#model-choice');
+                                    console.log(container_num);
+                                    multipleEquipmentOpen = true;
+                                    container_num++;
+                                }
+
+                               require("../API").getModelsbyTypeMark(data5.data[0].technic_type, data5.data[0].technic_mark, callback3);
                                /////
                             }
 
                         }
-
+                        console.log(id);
                         require("../API").getEquipmentsWithModels(id,callback5);
                     }
-                    ///
+
                 }
             }
             require("../API").get_equipments_categories(callback2);
-            //стан валюта
+
+            /// to do photo for equipment
+            function callback1(err,data) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    localStorage.setItem("photo_arr", JSON.stringify(data.data));
+                    $('.uploader__file-list').empty();
+
+                    $('.js-uploader__submit-button').removeClass("uploader__hide");
+                    $('.js-uploader__further-instructions').removeClass("uploader__hide");
+
+                    $('.js-uploader__contents').addClass("uploader__hide");
+                    // console.log(data.data);
+
+                    data.data.forEach(function(item){
+                            getFileObject("/images/technics/" + item.file_name , function (fileObject) {
+                                //console.log(fileObject.size);
+                                $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
+                                    " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
+                            })
+                        }
+                    );
+                }
+            }
+            require("../API").getEquipmentImagesById(id,callback1);
+            ///
 
         }
     }
@@ -600,7 +610,6 @@ addTechnicToDB = function () {
         production_date: year,
         currency: "долар",
         description: description,
-        main_photo_location: getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
     }
     if (currency == 'грн') technic.currency = "гривня";
     if (currency == '€') technic.currency = "євро";
@@ -608,6 +617,7 @@ addTechnicToDB = function () {
     if(add_update=="Додати") {
 
         if (checkInputTechnic()) {
+            technic.main_photo_location =  getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg";
 
             function callback1(err, data) {
 
@@ -687,7 +697,7 @@ addTechnicToDB = function () {
                         console.log("success")
                     }
                 }
-                require("../API").delete_image_by_id(photo_arr[i].id,callback8)
+                require("../API").delete_oneImageTechnic_by_id(photo_arr[i].id,callback8)
                 // to do    delete photo from server
             }
         }
@@ -806,7 +816,6 @@ addEquipmentToDB = function () {
         state:state,
         id_category:1,
         description:description,
-        main_photo_location: getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
     };
     if(currency=="€") equipment.currency="євро";
     if(currency=="грн") equipment.currency="гривня";
@@ -815,6 +824,7 @@ addEquipmentToDB = function () {
     if(add_update_btn=="Додати") {
 
         if (checkInputEquipment()) {
+            equipment.main_photo_location =  getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
 
             function callback5(err, data5) {
                 if (err) console.log(err);
@@ -883,11 +893,99 @@ addEquipmentToDB = function () {
         console.log(curId);
             if (checkInputEquipment()) {
 
+                //// in process
+                equipment.id = curId;
+                let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
+                let photo_arr_names = [];
+                photo_arr.forEach(function (item) {
+                    photo_arr_names.push(item.file_name);
+                })
+                let newPhotos = getPhotos();
+                let photos_to_add = [];
+                for( let i =0; i < newPhotos.length;i++) {
+                    let a = newPhotos[i].val.trim();
+                    if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
+                    newPhotos[i] = a;
+
+                }
+
+                for( let i =0; i < photo_arr.length;i++) {
+                    if (!newPhotos.includes(photo_arr[i].file_name)) {
+                        //console.log(photo_arr[i]);
+                        function callback8(err, data){
+                            if(err) console.log(err)
+                            else {
+                                console.log("success")
+                            }
+                        }
+                        require("../API").delete_oneImageEquipment_by_id(photo_arr[i].id,callback8)
+                        // to do    delete photo from server
+                    }
+                }
+                function callback11(err, data){
+                    if(err) console.log(err)
+                    else {
+                        console.log("success")
+                        console.log(data);
+                    }
+                }
+                require("../API").addImagesEquipment( photos_to_add, curId ,callback11);
+
+                /// to do .. delete from db equip
+                let old_models = JSON.parse(localStorage.getItem("models_old"));
+                let new_models = [];
+
+                function callback12(err, data12) {
+                    if (err) console.log(err);
+                    else {
+                        models.forEach(function (item_model) {
+                            data12.data.forEach(function (item) {
+                                if (item.model == item_model) {
+                                    model_id = item.id;
+                                    new_models.push({equipment_id: parseInt(curId), model_id: model_id});
+                                }
+                            });
+                        });
+                        console.log(new_models);
+                        new_models.forEach(function (item) {
+                            if(!old_models.includes(item)) {
+                                function callback3(err, data) {
+                                    if (err) console.log(err);
+                                    else {
+                                        //$('#addEquipmentModel').modal('hide');
+                                    }
+                                }
+
+                                require("../API").addEquipmentsModels(item, callback3);
+                            }
+                        })
+                            console.log(old_models);
+                        for(let i = 0;i < old_models.length;i++) {
+                            if(!include(old_models[i], new_models)) {
+                                console.log(include(old_models[i], new_models) + " old " +  old_models[i]);
+                                function callback13(err, data) {
+                                    if (err) console.log(err);
+                                    else {
+                                        //$('#addEquipmentModel').modal('hide');
+                                    }
+                                }
+
+                                require("../API").deleteEquipmentsModelsByIDS(old_models[i].equipment_id, old_models[i].model_id,callback13);
+                            }
+                        }
+                    }
+                }
+                require("../API").getModels(callback12);
+
+                ////
+
                 function callback5(err, data5) {
                     if (err) console.log(err);
                     else {
                         equipment.id_category = data5.data[0].id_category;
-                        equipment.main_photo_location = data5.data[0].main_photo_location;
+                        if (!newPhotos.includes(equipment.main_photo_location)) {
+                            equipment.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
+                        }
                         //console.log(eq);
                         function callback6(err, data6) {
                             if (err) console.log(err);
@@ -935,6 +1033,12 @@ function equipmentFormClear() {
     $('#categories_modal').prop("disabled", false);
     //multipleEquipmentOpen = true;
     $('#multiple-select-container-'+(container_num-1)).remove();
+    $('.uploader__file-list').empty();
+// class="js-uploader__contents uploader__contents uploader__hide"
+    $('.uploader__contents').removeClass("uploader__hide");
+    $('.js-uploader__further-instructions').addClass("uploader__hide");
+
+    $('.js-uploader__submit-button').addClass("uploader__hide");
 }
 
 
@@ -1076,4 +1180,12 @@ function hideModal(){
      do {
          currentDate = Date.now();
      } while (currentDate - date < milliseconds);
+ }
+
+ function  include(elem,arr2) {
+
+         for(let i = 0 ; i < arr2.length;i++){
+             if(elem.equipment_id == arr2[i].equipment_id && elem.model_id == arr2[i].model_id) return true;
+         }
+        return false;
  }

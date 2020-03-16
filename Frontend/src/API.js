@@ -58,6 +58,10 @@ exports.addImagesTechnic = function(photos, technic_id, callback) {
     backendPost("/api/addimagestechnic/", {photos : photos , tehnic_id : technic_id }, callback);
 };
 
+exports.addImagesEquipment = function(photos, equipment_id, callback) {
+    backendPost("/api/addimagesequipment/", {photos : photos , equipment_id : equipment_id }, callback);
+};
+
 exports.addReview = function(review, callback) {
     backendPost("/api/addreview/", review, callback);
 };
@@ -148,7 +152,7 @@ exports.getEquipments = function(callback) {
 };
 
 exports.getEquipmentsWithModels = function(id,callback) {
-    backendGet("/api/getequipmentswithmodels/",id, callback);//{equip_category: cat}
+    backendPost("/api/getequipmentswithmodels/", {id: id}, callback );
 };
 
 exports.getTechnicsByType = function(tp,callback) {
@@ -228,14 +232,22 @@ exports.deleteEquipmentsByID = function(id,callback) {
 exports.deleteEquipmentsModelsByID = function(id,callback) {
     backendPost("/api/delete_equipments_models_by_id",{id: id},callback);
 }
+
+exports.deleteEquipmentsModelsByIDS = function(equipment_id , model_id , callback) {
+    backendPost("/api/delete_equipments_models_by_ids",{equipment_id: equipment_id , model_id : model_id},callback);
+}
 /////
 
 exports.delete_images_by_technic_id = function(id,callback) {
     backendPost("/api/delete_images_by_technic_id",{id: id},callback);
 }
 
-exports.delete_image_by_id = function(id,callback) {
-    backendPost("/api/delete_image_by_filename",{id: id},callback);
+exports.delete_oneImageTechnic_by_id = function(id,callback) {
+    backendPost("/api/delete_oneimagetechnic_by_id",{id: id},callback);
+}
+
+exports.delete_oneImageEquipment_by_id = function(id,callback) {
+    backendPost("/api/delete_oneimageequipment_by_id",{id: id},callback);
 }
 
 exports.delete_check_technics_by_technic_id = function(id,callback) {
