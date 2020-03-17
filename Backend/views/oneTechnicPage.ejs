@@ -7,9 +7,12 @@
 
     <% if(description) { %>
     <meta name="description" content="<%= description %>">
+        <meta property="og:description" content="<%= description %>"/>
     <%}%>
-<!--    <meta property="og:title" content="">-->
-    <meta property="og:image" content="/images/technics/<%=technic.main_photo_location%>">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="<%= pageTitle %>"/>
+    <meta property="og:image" content="http://tracktop.com.ua/images/technics/<%=technic.main_photo_location%>"/>
+    <meta property="og:locale" content="uk_UA">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
