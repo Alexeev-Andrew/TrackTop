@@ -9,6 +9,7 @@ $( window ).on( "orientationchange", function( event ) {
     }, 500);
 });
 
+
 function initilizebreadcrumb(){
     let cur_type_mark;
     let curType = localStorage.getItem('currentTypeOfTechnics');
@@ -16,7 +17,7 @@ function initilizebreadcrumb(){
     let curTech = JSON.parse(localStorage.getItem('currTechnic'));
 
     if ( (curType == null && curMark == null) ) {}
-    else if( $(window).width()<500 && document.referrer!="") {
+    else if( $(window).width()<500 && (document.referrer!="" && document.referrer!=document.location.href)) {
         $("#breadcrumb").addClass("breadcrumb-mobile");
 
         let crums = " <li class='back_breadcrumb'>\n" +

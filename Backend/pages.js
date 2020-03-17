@@ -57,7 +57,7 @@ exports.technic = function(req, res) {
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
-                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська обасть | TrackTop" ,
+                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська область | TrackTop" ,
                     name: mark + ' ' + model,
                     // type:type,
                     description :  mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
