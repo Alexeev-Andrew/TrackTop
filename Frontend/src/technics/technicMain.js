@@ -1,5 +1,6 @@
 var values = require('../values.js');
 var API_URL = values.url;
+require('fancybox')($);
 
 $( window ).on( "orientationchange", function( event ) {
    // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());
@@ -8,6 +9,12 @@ $( window ).on( "orientationchange", function( event ) {
         initilizebreadcrumb();
     }, 500);
 });
+
+$(document).ready(function() {
+    //$(".slider").setLockAncors()
+    $('.fancybox').fancybox({padding:0,margin:5});
+    $.fancybox.defaults.hash = false;
+})
 
 
 function initilizebreadcrumb(){

@@ -34,5 +34,8 @@
     "password-hash": "^1.2.2",
     "sitemap": "^5.1.0",
     "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "fancybox": "^3.0.1"
   }
 }
