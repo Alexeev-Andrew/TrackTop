@@ -7,6 +7,8 @@ var $categories =   $('.categories');
 var values = require('../values.js');
 var API_URL = values.url;
 
+var equipments_showed = 0;
+
 function showTechnics(list) {
 
     let curType = localStorage.getItem('currentTypeOfTechnics');
@@ -91,10 +93,6 @@ exports.initializeTechnics = function(){
     let tp = localStorage.getItem('currentTypeOfTechnics');
     let mrk = localStorage.getItem('currentMarkOfTechnics');
 
-    console.log(tp);
-    if(tp=="Сівалки") {
-        console.log("Сівалки");
-    }
 
     function callback(err,data) {
         if(data.error) console.log(data.error);
@@ -104,25 +102,25 @@ exports.initializeTechnics = function(){
         showTechnics(l);
     }
 
-    if(tp==null) {
-        //console.log("tp == null");
-        require("../API").getTechnics(callback);
-    }
-    else {
+
         if (/type=([^&]+)/.exec(document.location.href)) {
             require("../API").getTechnicsByType({type: tp1}, callback);
             localStorage.setItem('currentTypeOfTechnics',tp1);
             //console.log("type");
         }
-        else {
+        else if(tp1){
             tp1 = tp1.substr(tp1.indexOf('и')+2);
             //console.log(tp1);
             require("../API").getTechnicsByType({mark: tp1}, callback);
             localStorage.setItem('currentMarkOfTechnics',tp1);
             //console.log("mark");
         }
-    }
+        else {
+            require("../API").getTechnics(callback);
+        }
 }
+
+
 
 function showEquipments(list) {
 
@@ -133,43 +131,76 @@ function showEquipments(list) {
         $(".nothing_found").css("display","block");
         return;
     }
-    function showOne(type) {
-        var html_code = Templates.equipmentInList({equipment: type});
-        var $node = $(html_code);
 
-        var typ = localStorage.getItem('currentTypeOfTechnics');
-
-        $node.click(function () {
-            document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
-            localStorage.setItem('currEquipment',JSON.stringify({
-                id: type.id,
-                name: type.name,
-                main_photo_location: type.main_photo_location,
-                price: type.price,
-                currency: type.currency,
-                amount: type.amount,
-                description: type.description
-            }));
-        });
-
-        $equipments.append($node);
+    for(let i =0 ; i< 10;i ++) {
+        if(list.length> i) {
+            equipments_showed = i;
+            showOneEquipment(list[i]);
+        }
     }
+    let k = equipments_showed;
+    $(window).scroll(function() {
+        let next = equipments_showed+10 ;
+        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - 300) {
+            // ajax call get data from server and append to the div
+            //console.log("ida");
+            for(let i =equipments_showed+1 ; i<next;i ++) {
+                if(list.length> i) {
+                    equipments_showed = i;
+                    showOneEquipment(list[i]);
+                }
+            }
+        }
+    });
+}
 
-    list.forEach(showOne);
+function showOneEquipment(type) {
+    var html_code = Templates.equipmentInList({equipment: type});
+    var $node = $(html_code);
+
+    var typ = localStorage.getItem('currentTypeOfTechnics');
+
+    $node.click(function () {
+        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
+        localStorage.setItem('currEquipment',JSON.stringify({
+            id: type.id,
+            name: type.name,
+            main_photo_location: type.main_photo_location,
+            price: type.price,
+            currency: type.currency,
+            amount: type.amount,
+            description: type.description
+        }));
+    });
+
+    $equipments.append($node);
 }
 
 exports.initializeEquipments = function(){
     var l=[];
 
-    function callback(err,data) {
+    let currCategory = localStorage.getItem("current_category_equipments");
+    function callback1(err,data) {
         if(data.error) console.log(data.error);
-        data.data.forEach(function(item){
-            l.push(item)
-        });
-        showEquipments(l);
-    }
+        else {
+           data.data.forEach(function (item) {
+               if(item.category_name == currCategory) {
+                   function callback(err,data) {
+                       if(data.error) console.log(data.error);
+                       data.data.forEach(function(item){
+                           l.push(item)
+                       });
+                       showEquipments(l);
+                   }
 
-    require("../API").getEquipments(callback);
+                   require("../API").getEquipmentsByCategoryId(item.id,callback);
+               }
+           })
+        }
+    }
+    require("../API").get_equipments_categories(callback1);
+
+
 }
 
 function showCategories(list) {
@@ -187,7 +218,8 @@ function showCategories(list) {
 
 
         $node.click(function () {
-            //document.location.href = API_URL+"/equipment/?category="+ type.category_name ;
+            //document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+            //localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);

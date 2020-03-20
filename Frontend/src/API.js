@@ -151,6 +151,10 @@ exports.getEquipments = function(callback) {
     backendGet("/api/getequipments/", callback);//{equip_category: cat}
 };
 
+exports.getEquipmentsByCategoryId = function(id,callback) {
+    backendPost("/api/getequipmentsbycategoryid/", {id:id},callback);
+};
+
 exports.getEquipmentsWithModels = function(id,callback) {
     backendPost("/api/getequipmentswithmodels/", {id: id}, callback );
 };

@@ -1,3 +1,5 @@
+require('fancybox')($);
+
 function  initialize() {
     var equipment = JSON.parse(localStorage.getItem('currEquipment'));
     var dataset = [];
@@ -29,12 +31,18 @@ function  initialize() {
             title: equipment.name,
             price: equipment.price,
             currency: equipment.currency,
-            icon: "equipments/"+equipment.main_photo_location,
+            icon: equipment.main_photo_location,
             quantity: equipment.amount,
             isTech : false
         });
     })
 }
+
+$(document).ready(function() {
+    //$(".slider").setLockAncors()
+    $('.fancybox').fancybox({padding:0,margin:5});
+    $.fancybox.defaults.hash = false;
+})
 
 $(function(){
     $('#logo').click(function () {
@@ -72,6 +80,6 @@ $(function(){
     initialize();
 
     $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua:5050/profile";
+        document.location.href = "http://tracktop.com.ua/profile";
     })
 });

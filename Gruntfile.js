@@ -30,8 +30,12 @@ module.exports = function(grunt) {
                 dest:       'Frontend/www/assets/js/technicsMain.js'
             },
             equipments: {
-                src:        'Frontend/src/technics/equipmentsMain.js',
+                src:        'Frontend/src/technics/equipmentsCategoriesMain.js',
                 dest:       'Frontend/www/assets/js/equipmentsMain.js'
+            },
+            equipmentsByCategory: {
+                src:        'Frontend/src/technics/equipmentsByCategory.js',
+                dest:       'Frontend/www/assets/js/equipmentsByCategory.js'
             },
             oneTechnic: {
                 src:        'Frontend/src/technics/technicMain.js',
@@ -88,6 +92,7 @@ module.exports = function(grunt) {
             'browserify:profile',
             'browserify:adminPanel',
             'browserify:oneEquipment',
+            'browserify:equipmentsByCategory',
             //Інші завдання які необхідно виконати
         ]
     );

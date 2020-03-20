@@ -69,23 +69,28 @@
 
     <div id="main">
         <div class='type_header'>
-            <h1> Категорії Запчастин</h1>
+            <h1><%= name %></h1>
         </div>
 
-<!--        <% include common/searchBar.ejs %>-->
-        <div class="wrapper_category">
-            <div class="categories"> </div>
+        <% if(name!="Запчастини до комбайнів"){ %>
+                    <% include common/searchBar.ejs %>
+
+        <% } %>
+        <div class="equipments">
+
+        </div>
             <div id="description_technic_equipment" style="height: 100px; border: #4c78ab"></div>
             </div>
-        </div>
 
+
+        </div>
         <!-- jQuery JavaScript -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 
         <!--Bootsrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-        <script type="text/javascript" src="/assets/js/equipmentsMain.js"> </script>
+        <script type="text/javascript" src="/assets/js/equipmentsByCategory.js"> </script>
 
         <% include common/footer.ejs %>
 </body>

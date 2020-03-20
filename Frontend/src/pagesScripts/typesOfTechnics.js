@@ -17,7 +17,7 @@ function showTypes(list) {
 
         $node.click(function () {
             if(type.name=="Запчастини")
-            document.location.href = API_URL+"/equipments";
+            document.location.href = API_URL+"/category_equipments";
             else {
                 localStorage.setItem('currentMarkOfTechnics', "");
                 localStorage.setItem('currentTypeOfTechnics', typ);
@@ -41,7 +41,7 @@ exports.initializeTypes = function(){
         l.push( {
             photo_location: 'equipment.jpg',//'http://localhost:5050/images/photo1.jpg'
             name: 'Запчастини',
-            url: API_URL+"/equipments"
+            url: API_URL+"/category_equipments"
         });
         data.data.forEach(function(item){
             item.url=API_URL+"/technics?type="+item.name;

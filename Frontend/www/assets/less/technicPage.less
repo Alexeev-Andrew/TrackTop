@@ -22,6 +22,20 @@
   max-width: 100%;
 }
 
+
+.full_screen_btn {
+  z-index: 1000000000000;
+  position: absolute;
+  bottom: 0;
+  margin-left: -32px;
+  margin-bottom: 8px;
+  background-color: rgba(194, 176, 204, 0.5);
+  font-size: 28px!important;
+  color: white;
+  padding: 3px;
+  transition: opacity 0.1s linear 0s, transform 0.1s linear 0s;
+}
+
 .slider__control {
   position: absolute;
   top: 50%;
@@ -183,6 +197,11 @@ td {
   min-width: 50%;
   margin: 8px auto;
   padding-top: 8px;
+}
+
+.one_image {
+  cursor: zoom-in;
+  position: relative !important;
 }
 
 @media screen and (max-width: 900px){

@@ -1,6 +1,6 @@
 exports.mainPage = function(req, res) {
     res.render('mainPage', {
-        pageTitle: 'Інтернет-магазин сг техніки Львівська область | TrackTop'
+        pageTitle: 'Інтернет-магазин сг техніки Львівська область | TrackTop',
     });
 };
 
@@ -14,19 +14,47 @@ exports.technics = function(req, res) {
     if (req.query.type)
     res.render('technicsPage', {
         pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
-        description: req.query.type + " бу. Великий вибір техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+        description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
         types: req.query.type,
         mark: req.query.mark
     });
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : "У нас ви можете придбати сг техніку" + " марки " + req.query.mark + " ! Дзвоніть ☎ (067)-646-22-44 " ,
+            description : "У нас ви можете придбати сг техніку" + " марки " + req.query.mark + " ! Корчин, Львівська область. Дзвоніть ☎ (067)-646-22-44 " ,
             types: req.query.type,
             mark: req.query.mark
         });
     }
 };
+
+exports.category = function(req, res) {
+    if (req.query.name) {
+        if(req.query.name=="Колеса"){
+            res.render('categoryPage', {
+                pageTitle:  "Колеса до с/г техніки! Шини до спецтехінки. Корчин, Львівська область | TrackTop",
+                description: "Купити колеса/шини до сільгосптехніки та спецтехніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                name: req.query.name
+            });
+        }
+        else if(req.query.name!="Інше")
+        res.render('categoryPage', {
+            pageTitle:  req.query.name + " та іншої с/г техніки! Корчин, Львівська область | TrackTop",
+            description: "Купити " + req.query.name + ". Доставка по всій Україні. Вибирай запчастини до сільгосптехніки від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+            name: req.query.name
+        });
+        else if(req.query.name=="Інше"){
+                res.render('categoryPage', {
+                    pageTitle:  "Запчастини до сільськогосподарської техніки! Корчин, Львівська область | TrackTop",
+                    description: "Купити запчастини до сг техніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                    name: req.query.name
+                });
+        }
+
+    }
+
+};
+
 
 exports.technic = function(req, res) {
     var model = req.query.model;
@@ -57,10 +85,10 @@ exports.technic = function(req, res) {
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
-                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + " Львівська область | TrackTop" ,
+                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop" ,
                     name: mark + ' ' + model,
                     // type:type,
-                    description :  mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
+                    description :  mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                     technic: data[0]
                 });
             }
@@ -130,6 +158,6 @@ exports.reviews = (req, res) => {
 exports.adminPanel = (req, res) => {
     res.render('adminPage', {
         pageTitle: 'admin panel',
-        currPage:  req.query.page || "0"
+        currPage:  req.query.page || "1"
     })
 }

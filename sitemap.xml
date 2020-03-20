@@ -35,7 +35,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>http://tracktop.com.ua/equipments</loc>
+        <loc>http://tracktop.com.ua/category_equipments</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>

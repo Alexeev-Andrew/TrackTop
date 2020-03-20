@@ -614,6 +614,28 @@ exports.get_technics_by_tp = function (req,res) {
     else if(req.body.mark) db.get_technics_by_mark_name(req.body.mark, callback);
 }
 
+exports.getequipmentsbycategoryid = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+     db.get_equipments_by_category_id(req.body.id, callback);
+}
+
 
 // exports.get_technics_im_by_tp_model = function (req,res) {
 //     var db = require('./db');

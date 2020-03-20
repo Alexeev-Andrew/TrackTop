@@ -52,6 +52,7 @@ function configureEndpoints(app) {
     app.get('/api/getreview', api.get_review);
     app.get('/api/getreviews', api.get_reviews);
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
+    app.post('/api/getequipmentsbycategoryid', api.getequipmentsbycategoryid);
     app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
 
 
@@ -92,7 +93,9 @@ function configureEndpoints(app) {
     app.get('/profile', pages.profile);
     app.get('/technics', pages.technics);
     app.get('/technic', pages.technic);
-    app.get('/equipments', pages.equipments);
+    app.get('/category_equipments', pages.equipments);
+    app.get('/category_equipments/', pages.equipments);
+    app.get('/category_equipments/category', pages.category);
     app.get('/equipment', pages.equipment);
     app.get('/about', pages.about);
     app.get('/sitemap', pages.sitemap);
@@ -118,7 +121,7 @@ function configureEndpoints(app) {
             smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })
             smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'daily', priority: 0.8 })
             smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/equipments',  changefreq: 'daily', priority: 0.8 })
+            smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
             smStream.write({ url: '/about',  changefreq: 'monthly',  priority: 0.6 })
             smStream.end()
 

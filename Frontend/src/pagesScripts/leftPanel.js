@@ -81,6 +81,6 @@ exports.initialize = function(){
     require("../API").getMarks(callback2);
 
     $equipment.click(function(){
-        document.location.href = API_URL+"/equipments";
+        document.location.href = API_URL+"/category_equipments";
     })
 }
