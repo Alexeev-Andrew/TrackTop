@@ -23,6 +23,7 @@ function showTechnics(list) {
         $node.click(function () {
             localStorage.setItem('currentTypeOfTechnics', typ);
             document.location.href = API_URL+"/technics?type="+typ;
+            $( "body" ).removeClass("bodyOverflowHidden");
         })
 
         $technics.append($node);
@@ -46,6 +47,7 @@ function showMarks(list) {
             localStorage.setItem('currentMarkOfTechnics', mark);
             localStorage.setItem('currentTypeOfTechnics', "");
             document.location.href = API_URL+"/technics?mark="+mark;
+            $( "body" ).removeClass("bodyOverflowHidden");
         })
 
         $models.append($node);
@@ -82,5 +84,27 @@ exports.initialize = function(){
 
     $equipment.click(function(){
         document.location.href = API_URL+"/category_equipments";
+        $( "body" ).removeClass("bodyOverflowHidden");
     })
 }
+
+
+toggleLeftPanel = function () {
+    if($( "#menuToggle ul" ).hasClass("toggleMenuLeftOpen")){
+        $( "#menuToggle ul" ).removeClass("toggleMenuLeftOpen");
+        $( "#menuToggle  span" ).removeClass("menuToggleSpans");
+        $( "#menuToggle  span:nth-last-child(3)" ).removeClass("child-3");
+        $( "#menuToggle  span:nth-last-child(2)" ).removeClass("child-2");
+        $( "body" ).removeClass("bodyOverflowHidden");
+    }
+    else {
+        $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
+        $( "#menuToggle  span" ).addClass("menuToggleSpans");
+        $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
+        $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
+        $( "body" ).addClass("bodyOverflowHidden");
+    }
+    // if(opened) $( "body" ).addClass("bodyOverflowHidden");
+    // else  $( "body" ).removeClass("bodyOverflowHidden");
+}
+

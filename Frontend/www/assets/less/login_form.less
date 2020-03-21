@@ -3,15 +3,15 @@
 .form-popup {
   display: none;
   position: fixed;
-  top: @heightTopPanel+10px;
-  right: 15px;
+  top: @heightTopPanel+2px;
   border: 3px solid #f1f1f1;
   z-index: 9;
+  right: 10px;
 }
 
 /* Add styles to the form container */
 .form-container {
-  max-width: 300px;
+  max-width: 350px;
   padding: 10px;
   background-color: white;
 }
@@ -41,4 +41,18 @@
   background: white;
   display: block;
   text-align: center;
+}
+
+@media (max-width: 500px) {
+  .form-container {
+    max-width: none;
+    width: 100%!important;
+  }
+
+  .message-popup {
+    width: 100%;
+  }
+  .form-popup {
+    right: 0px !important;
+  }
 }

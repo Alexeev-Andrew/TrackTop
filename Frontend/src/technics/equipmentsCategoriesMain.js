@@ -41,7 +41,7 @@ $(function(){
     require('../profile/user_form').isLogged();
 
     $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua:5050/profile";
+        document.location.href = "http://tracktop.com.ua/profile";
     })
 
     initializeCategories();

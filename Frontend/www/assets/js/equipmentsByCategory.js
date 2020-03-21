@@ -848,8 +848,8 @@ function showCategories(list) {
 
 
         $node.click(function () {
-            //document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
-            //localStorage.setItem("current_category_equipments", type.category_name);
+            document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+            localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);
@@ -897,6 +897,7 @@ function showTechnics(list) {
         $node.click(function () {
             localStorage.setItem('currentTypeOfTechnics', typ);
             document.location.href = API_URL+"/technics?type="+typ;
+            $( "body" ).removeClass("bodyOverflowHidden");
         })
 
         $technics.append($node);
@@ -920,6 +921,7 @@ function showMarks(list) {
             localStorage.setItem('currentMarkOfTechnics', mark);
             localStorage.setItem('currentTypeOfTechnics', "");
             document.location.href = API_URL+"/technics?mark="+mark;
+            $( "body" ).removeClass("bodyOverflowHidden");
         })
 
         $models.append($node);
@@ -956,8 +958,31 @@ exports.initialize = function(){
 
     $equipment.click(function(){
         document.location.href = API_URL+"/category_equipments";
+        $( "body" ).removeClass("bodyOverflowHidden");
     })
 }
+
+
+toggleLeftPanel = function () {
+    if($( "#menuToggle ul" ).hasClass("toggleMenuLeftOpen")){
+        $( "#menuToggle ul" ).removeClass("toggleMenuLeftOpen");
+        $( "#menuToggle  span" ).removeClass("menuToggleSpans");
+        $( "#menuToggle  span:nth-last-child(3)" ).removeClass("child-3");
+        $( "#menuToggle  span:nth-last-child(2)" ).removeClass("child-2");
+        $( "body" ).removeClass("bodyOverflowHidden");
+    }
+    else {
+        $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
+        $( "#menuToggle  span" ).addClass("menuToggleSpans");
+        $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
+        $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
+        $( "body" ).addClass("bodyOverflowHidden");
+    }
+    // if(opened) $( "body" ).addClass("bodyOverflowHidden");
+    // else  $( "body" ).removeClass("bodyOverflowHidden");
+}
+
+
 },{"../API":1,"../Templates":2,"../values.js":10}],6:[function(require,module,exports){
 exports.openForm = function() {
     document.getElementById("myForm").style.display = "block";
@@ -1402,7 +1427,7 @@ openReviewModal = function () {
 }
 
 $(function(){
-    if(document.location.href == "http://localhost:5050/reviews")
+    if(document.location.href == "tracktop.com.ua/reviews")
         initializeReviews();
 });
 
@@ -1461,7 +1486,7 @@ exports.isLogged = function () {
         if(photo_location==null) {
             $('#user_photo').attr("src", "assets/images/avatar.png");
         }
-       else  $('#user_photo').attr("src", "http://tracktop.com.ua:5050/images/users_photos/"+photo_location);
+       else  $('#user_photo').attr("src", "http://tracktop.com.ua/images/users_photos/"+photo_location);
         $('#login').css("display", "none");
         $('#signup').css("display", "none");
     }
@@ -1535,7 +1560,7 @@ $(function(){
     require('../profile/user_form').isLogged();
 
     $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua:5050/profile";
+        document.location.href = "http://tracktop.com.ua/profile";
     })
 
     initialize();

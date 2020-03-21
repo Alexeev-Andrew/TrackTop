@@ -53,7 +53,7 @@ a.active-none-link:hover {
   user-select        : none;
 }
 
-#menuToggle input {
+#menuToggle div:first-child {
   display              : block;
   width                : 40px;
   height               : 32px;
@@ -87,19 +87,19 @@ a.active-none-link:hover {
   transform-origin: 0% 100%;
 }
 
-#menuToggle input:checked~span {
-  opacity   : 1;
-  transform : rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+.menuToggleSpans {
+  opacity   : 1!important;
+  transform : rotate(45deg) translate(-2px, -1px)!important;
+  background: #232323!important;
 }
 
-#menuToggle input:checked~span:nth-last-child(3) {
-  opacity  : 0;
-  transform: rotate(0deg) scale(0.2, 0.2);
+.child-3 {
+  opacity  : 0!important;
+  transform: rotate(0deg) scale(0.2, 0.2)!important;
 }
 
-#menuToggle input:checked~span:nth-last-child(2) {
-  transform: rotate(-45deg) translate(0, -1px);
+.child-2 {
+  transform: rotate(-45deg) translate(0, -1px)!important;
 }
 
 #menu {
@@ -108,7 +108,7 @@ a.active-none-link:hover {
   flex-direction        : column;
   position              : absolute;
   top                   : 50px;
-  margin                : -60px 0 0 -67px;
+  margin                : -60px 0 0 -85px;
   padding               : 50px;
   padding-top           : 30px;
   background            : #f1f1f1;
@@ -117,6 +117,10 @@ a.active-none-link:hover {
   transform-origin      : 0% 0%;
   transform             : translate(-100%, 0);
   transition            : transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.2);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: initial;
+  height: 95vh;
 }
 
 #menu li:hover {
@@ -134,8 +138,8 @@ a.active-none-link:hover {
   text-decoration: none;
 }
 
-#menuToggle input:checked~ul {
-  transform: translate(15%, 0);
+.toggleMenuLeftOpen {
+  transform: translate(15%, 0)!important;
 }
 
 @media (max-width:500px) {
@@ -174,5 +178,39 @@ a.active-none-link:hover {
   #main {
     margin    : 0px;
     margin-top: 60px;
+  }
+}
+
+.bodyOverflowHidden {
+  overflow: hidden;
+}
+
+@media  screen and (max-width:460px) {
+  #menu {
+    margin-left: -80px;
+  }
+}
+
+@media  screen and (max-width:440px) {
+  #menu {
+    margin-left: -75px;
+  }
+}
+
+@media  screen and (max-width:380px) {
+  #menu {
+    margin-left: -70px;
+  }
+}
+
+@media  screen and (max-width:350px) {
+  #menu {
+    margin-left: -65px;
+  }
+}
+
+@media  screen and (max-width:330px) {
+  #menu {
+    margin-left: -58px;
   }
 }

@@ -372,7 +372,7 @@ openReviewModal = function () {
 }
 
 $(function(){
-    if(document.location.href == "http://localhost:5050/reviews")
+    if(document.location.href == "tracktop.com.ua/reviews")
         initializeReviews();
 });
 
