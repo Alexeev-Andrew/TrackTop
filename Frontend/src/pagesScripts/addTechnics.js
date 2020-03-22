@@ -3,6 +3,9 @@ var Templates = require('../Templates');
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
 var $categories =   $('.categories');
+var $searchedEquipments =   $('.searchedEquipments');
+
+var equipmentsByCategory = [];
 
 var values = require('../values.js');
 var API_URL = values.url;
@@ -122,9 +125,11 @@ exports.initializeTechnics = function(){
 
 
 
-function showEquipments(list) {
-
+function showEquipments(list , className , filter) {
+    if(className == "equipments")
     $equipments.html("");
+    else if(className == "searchedEquipments")
+        $searchedEquipments.html("");
     if(list.length===0) {
        // $equipments.append("Нічого не знайдено");
         //TODO: templ for empty result
@@ -135,26 +140,27 @@ function showEquipments(list) {
     for(let i =0 ; i< 10;i ++) {
         if(list.length> i) {
             equipments_showed = i;
-            showOneEquipment(list[i]);
+            showOneEquipment(list[i] , className);
         }
     }
     let k = equipments_showed;
     $(window).scroll(function() {
         let next = equipments_showed+10 ;
-        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - 300) {
+        //if(list.length> equipments_showed && )
+        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - 300 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
             // ajax call get data from server and append to the div
             //console.log("ida");
             for(let i =equipments_showed+1 ; i<next;i ++) {
-                if(list.length> i) {
+                if(list.length> i ) {
                     equipments_showed = i;
-                    showOneEquipment(list[i]);
+                    showOneEquipment(list[i] , className);
                 }
             }
         }
     });
 }
 
-function showOneEquipment(type) {
+function showOneEquipment(type , className) {
     var html_code = Templates.equipmentInList({equipment: type});
     var $node = $(html_code);
 
@@ -172,12 +178,15 @@ function showOneEquipment(type) {
             description: type.description
         }));
     });
-
+    if(className=="equipments")
     $equipments.append($node);
+    else if(className== "searchedEquipments"){
+        $searchedEquipments.append($node);
+    }
 }
 
 exports.initializeEquipments = function(){
-    var l=[];
+    let l=[];
 
     let currCategory = localStorage.getItem("current_category_equipments");
     function callback1(err,data) {
@@ -187,10 +196,11 @@ exports.initializeEquipments = function(){
                if(item.category_name == currCategory) {
                    function callback(err,data) {
                        if(data.error) console.log(data.error);
+                       equipmentsByCategory = data.data;
                        data.data.forEach(function(item){
                            l.push(item)
                        });
-                       showEquipments(l);
+                       filterSelectionEquipments();
                    }
 
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
@@ -240,4 +250,29 @@ exports.initializeCategories = function(){
     }
 
     require("../API").get_equipments_categories(callback);
+}
+
+filterSelectionEquipments = function() {
+    let input = document.getElementById("searchEquipments");
+    let filter = input.value.toLowerCase();
+    let list = [];
+    let count = 0;
+     console.log(filter);
+    for (let i = 0; i < equipmentsByCategory.length; i++) {
+        let txtValue;
+        txtValue = equipmentsByCategory[i].name + " " + equipmentsByCategory[i].description +  " " + equipmentsByCategory[i].vendor_code;
+
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            //list[i].style.display = "";
+            console.log(txtValue);
+            list.push(equipmentsByCategory[i]);
+        } else {
+            //list[i].style.display = "none";
+           // count++;
+        }
+
+    }
+    showEquipments(list,"equipments" , filter);
+
+    // }
 }

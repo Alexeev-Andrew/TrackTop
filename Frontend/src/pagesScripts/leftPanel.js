@@ -98,11 +98,11 @@ toggleLeftPanel = function () {
         $( "body" ).removeClass("bodyOverflowHidden");
     }
     else {
+        $( "body" ).addClass("bodyOverflowHidden");
         $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
         $( "#menuToggle  span" ).addClass("menuToggleSpans");
         $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
         $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
-        $( "body" ).addClass("bodyOverflowHidden");
     }
     // if(opened) $( "body" ).addClass("bodyOverflowHidden");
     // else  $( "body" ).removeClass("bodyOverflowHidden");

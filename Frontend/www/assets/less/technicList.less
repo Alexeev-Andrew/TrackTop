@@ -16,14 +16,22 @@
   height: 100%;
 }
 
-.equipments{
+.equipments {
   width                : 100%;
   display              : grid;
   padding              : 3% 10%;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-template-rows   : auto;
   grid-gap             : 20px;
-  overflow-y: scroll;
+}
+
+.searchedEquipments {
+  display: none;
+  width                : 100%;
+  padding              : 3% 10%;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-rows   : auto;
+  grid-gap             : 20px;
 }
 
 .one_equipment {
@@ -97,9 +105,25 @@
   text-align        : center;
 }
 
-.name {
+.nameEquipment {
+  position: relative;
   height: 40px;
-  font-size: 1.5rem !important;
+  font-size: 14px !important;
+  vertical-align: middle;
+}
+
+.child_name {
+  position: absolute;
+  vertical-align: middle;
+  font-weight: bold;
+  height: 40px;
+  overflow-y: hidden;
+}
+
+
+.captionEquipment {
+  padding: 0!important;
+  margin-left: 4px;
 }
 
 .mark_ {
@@ -113,6 +137,12 @@
     font-size: 1.7rem!important;
     margin-bottom: 0px;
 
+  }
+  .nameEquipment{
+    height: auto;
+  }
+  .child_name {
+    position: relative;
   }
   .model {
     height: 24px;
