@@ -591,6 +591,28 @@ exports.getequipmentswithmodels = function (req,res) {
     db.get_equipment_withModels_by_id(req.body.id, callback);
 }
 
+exports.getequipmentsbymodal = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! some ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.get_equipments_by_model(req.body.modal, callback);
+}
+
 exports.get_technics_by_tp = function (req,res) {
     var db = require('./db');
 

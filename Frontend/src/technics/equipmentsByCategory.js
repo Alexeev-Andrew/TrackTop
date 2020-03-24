@@ -2,6 +2,10 @@ function  initialize() {
     require('../pagesScripts/addTechnics').initializeEquipments();
 }
 
+function  initializeModels() {
+    require('../pagesScripts/addTechnics').initializeModels();
+}
+
 
 ///
 $(function(){
@@ -42,4 +46,5 @@ $(function(){
     })
 
     initialize();
+    initializeModels();
 });

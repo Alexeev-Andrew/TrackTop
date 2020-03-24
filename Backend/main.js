@@ -54,6 +54,7 @@ function configureEndpoints(app) {
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
     app.post('/api/getequipmentsbycategoryid', api.getequipmentsbycategoryid);
     app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
+    app.post('/api/getequipmentsbymodal', api.getequipmentsbymodal);
 
 
     app.post('/api/signin',  api.sign_in);
@@ -95,11 +96,15 @@ function configureEndpoints(app) {
     app.get('/technic', pages.technic);
     app.get('/category_equipments', pages.equipments);
     app.get('/category_equipments/', pages.equipments);
+    app.get('/category_equipments/category/:type/:mark', pages.models);
+    app.get('/category_equipments/category/:type/:mark/:model', pages.equipmentsByModel);
     app.get('/category_equipments/category', pages.category);
     app.get('/equipment', pages.equipment);
     app.get('/about', pages.about);
     app.get('/sitemap', pages.sitemap);
     app.get('/reviews', pages.reviews);
+
+
     // app.use(sitemap({
     //     sitemapUrl: '/sitemap.xml', // optional, default value is '/sitemap.xml'
     // }));

@@ -1,6 +1,6 @@
 exports.mainPage = function(req, res) {
     res.render('mainPage', {
-        pageTitle: 'Інтернет-магазин сг техніки Львівська область | TrackTop',
+        pageTitle: 'Магазин сг техніки Львівська область, сільгосптехніка Львів| TrackTop',
     });
 };
 
@@ -55,6 +55,19 @@ exports.category = function(req, res) {
 
 };
 
+exports.models = function(req, res) {
+    //console.log(req.params.type);
+        let type = req.params.type;
+        if(type ==="combine_details") {
+            res.render('models', {
+                pageTitle: "Запчастини " + req.params.mark+ ". Купити запчастини до комбайнів " +req.params.mark + " Львівська область| TrackTop",
+                mark: req.params.mark,
+                description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по доступній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44"
+            });
+        }
+
+};
+
 
 exports.technic = function(req, res) {
     var model = req.query.model;
@@ -85,10 +98,10 @@ exports.technic = function(req, res) {
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
-                    pageTitle: "Купити " + type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop" ,
+                    pageTitle:  type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop" ,
                     name: mark + ' ' + model,
                     // type:type,
-                    description :  mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
+                    description :  "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                     technic: data[0]
                 });
             }
@@ -97,6 +110,7 @@ exports.technic = function(req, res) {
 
 
 };
+
 
 exports.equipment = function(req, res) {
    // var model = req.query.model;
@@ -118,7 +132,9 @@ exports.equipment = function(req, res) {
                 // console.log(data[0]+"\n");
 
                 res.render('oneEquipmentPage', {
-                    equipment: data[0]
+                    equipment: data[0],
+                    title: "Купити " + data[0].name + ". "+ data[0].category_name + ". Запчастини до сг техніки Львіська область | TrackTop",
+                    description : "Купити " + data[0].name + ". "+ data[0].category_name + "." + data[0].description
                 });
             }
         }
@@ -137,6 +153,34 @@ exports.equipments = function(req, res) {
     });
 
 };
+
+exports.equipmentsByModel = function(req, res) {
+
+    require('./db').get_equipments_by_model(req.params.model, callback);
+
+
+    //require('./db').get_technic_by_type_model_mark(type,mark,model,
+    function callback(error, data) {
+
+        if (error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        } else {
+            res.render('categoryPage', {
+                pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
+                description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
+                name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
+                data: data.data,
+                mark : req.params.mark,
+                model : req.params.model
+            });
+        }
+
+    }
+}
 
 exports.about = (req, res) => {
     res.render('about', {

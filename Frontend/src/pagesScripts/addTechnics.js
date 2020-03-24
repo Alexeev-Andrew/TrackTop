@@ -3,7 +3,8 @@ var Templates = require('../Templates');
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
 var $categories =   $('.categories');
-var $searchedEquipments =   $('.searchedEquipments');
+var $marks =   $('.marks');
+var $models =   $('.models');
 
 var equipmentsByCategory = [];
 
@@ -66,7 +67,7 @@ function showTechnics(list) {
         //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
 
         $node.click(function () {
-            console.log("type"+ type);
+            //console.log("type"+ type);
             //
             localStorage.setItem('currentTypeOfTechnics', type.type_name);
             ///
@@ -164,7 +165,6 @@ function showOneEquipment(type , className) {
     var html_code = Templates.equipmentInList({equipment: type});
     var $node = $(html_code);
 
-    var typ = localStorage.getItem('currentTypeOfTechnics');
 
     $node.click(function () {
         document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
@@ -180,32 +180,81 @@ function showOneEquipment(type , className) {
     });
     if(className=="equipments")
     $equipments.append($node);
-    else if(className== "searchedEquipments"){
-        $searchedEquipments.append($node);
-    }
+
 }
 
 exports.initializeEquipments = function(){
     let l=[];
-
-    let currCategory = localStorage.getItem("current_category_equipments");
+    let paramCategory = getUrlParameter("name");
+    let currCategory = paramCategory;
+    localStorage.setItem("current_category_equipments", currCategory);
     function callback1(err,data) {
         if(data.error) console.log(data.error);
         else {
            data.data.forEach(function (item) {
-               if(item.category_name == currCategory) {
+               if(item.category_name == currCategory && currCategory!="Запчастини до комбайнів" ) {
                    function callback(err,data) {
                        if(data.error) console.log(data.error);
                        equipmentsByCategory = data.data;
-                       data.data.forEach(function(item){
-                           l.push(item)
-                       });
+
                        filterSelectionEquipments();
                    }
 
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
                }
+               else if(currCategory=="Запчастини до комбайнів" && !document.location.href.toString().includes("combine_details")) {
+                    let marks = [];
+                   function callback3(err,data) {
+                       if(err) console.log(err);
+                       else {
+                           //console.log(data);
+                           data.data.forEach(function (item) {
+                               if (!marks.includes(item.technic_mark))
+                                   marks.push(item.technic_mark);
+                           });
+
+                           function callback2(err,data2) {
+                               if(err) console.log(err);
+                               else {
+                                   for( let i =0; i < marks.length;i++) {
+                                       data2.data.forEach(function (item) {
+                                           if(marks[i] == item.name)
+                                               marks[i] = {name : marks[i], logo_file : item.logo_file};
+                                       })
+                                   }
+                                   //console.log(marks);
+                                   showMarks(marks);
+                               }
+                           }
+                           require("../API").getMarks(callback2);
+                           //console.log(marks)
+
+                       }
+                   }
+                   require("../API").getModelsbyTypeMark("Комбайни",null,callback3);
+               }
            })
+        if(document.location.href.toString().includes("combine_details")) {
+            let param = document.location.href.toString().split("/");
+            let model = (param[param.length-1].replace("%20"," "));
+            while (model.includes("%20")) model = model.replace("%20"," ");
+                //console.log(model);
+                require("../API").getEquipmentsByModal(model, callback2);
+
+
+                //require('./db').get_technic_by_type_model_mark(type,mark,model,
+                function callback2(error, data) {
+
+                    if (error) {
+                        //console.log("Error! ", error.sqlMessage);
+                    } else {
+                        //console.log(data.data);
+                        equipmentsByCategory = data.data;
+                        filterSelectionEquipments();
+                    }
+
+                }
+            }
         }
     }
     require("../API").get_equipments_categories(callback1);
@@ -226,10 +275,9 @@ function showCategories(list) {
         var html_code = Templates.equipmentCategory({category: type});
         var $node = $(html_code);
 
-
         $node.click(function () {
-            // document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
-            // localStorage.setItem("current_category_equipments", type.category_name);
+           // document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+          //  localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);
@@ -252,27 +300,101 @@ exports.initializeCategories = function(){
     require("../API").get_equipments_categories(callback);
 }
 
-filterSelectionEquipments = function() {
-    let input = document.getElementById("searchEquipments");
-    let filter = input.value.toLowerCase();
-    let list = [];
-    let count = 0;
-     console.log(filter);
-    for (let i = 0; i < equipmentsByCategory.length; i++) {
-        let txtValue;
-        txtValue = equipmentsByCategory[i].name + " " + equipmentsByCategory[i].description +  " " + equipmentsByCategory[i].vendor_code;
+function showMarks(list) {
 
-        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-            //list[i].style.display = "";
-            console.log(txtValue);
-            list.push(equipmentsByCategory[i]);
-        } else {
-            //list[i].style.display = "none";
-           // count++;
+    $marks.html("");
+    if(list.length===0) {
+        // $equipments.append("Нічого не знайдено");
+        //TODO: templ for empty result
+        $(".nothing_found").css("display","block");
+        return;
+    }
+    function showOneMark(mark) {
+        var html_code = Templates.oneMark({mark: mark});
+        var $node = $(html_code);
+
+
+        $node.click(function () {
+            document.location.href = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
+            localStorage.setItem("current_category_equipments", type.category_name);
+        });
+
+        $marks.append($node);
+    }
+
+    list.forEach(showOneMark);
+}
+exports.initializeModels = function () {
+
+    let l = [];
+    let param = document.location.href.toString().split("/");
+    let mark = (param[param.length-1].replace("%20"," "));
+    while (mark.includes("%20")) mark = mark.replace("%20"," ");
+    if(mark) {
+        function callback(err, data) {
+            if (data.error) console.log(data.error);
+            data.data.forEach(function (item) {
+                l.push({model: item.model, mark: mark});
+            })
+            showModels(l);
         }
 
+        require("../API").getModelsbyTypeMark("Комбайни", mark, callback);
     }
-    showEquipments(list,"equipments" , filter);
-
-    // }
 }
+
+function showModels(list) {
+
+    $models.html("");
+
+    function showOneMark(model) {
+        var html_code = Templates.oneModel({model: model});
+        var $node = $(html_code);
+
+
+        $node.click(function () {
+            document.location.href = document.location.href +"/"+ model.model ;
+            //localStorage.setItem("current_category_equipments", type.category_name);
+        });
+
+        $models.append($node);
+    }
+
+    list.forEach(showOneMark);
+}
+
+filterSelectionEquipments = function() {
+    let input = document.getElementById("searchEquipments");
+    if(input) {
+        let filter = input.value.toLowerCase();
+        let list = [];
+        let count = 0;
+        // console.log(filter);
+        for (let i = 0; i < equipmentsByCategory.length; i++) {
+            let txtValue;
+            txtValue = equipmentsByCategory[i].name + " " + equipmentsByCategory[i].description + " " + equipmentsByCategory[i].vendor_code;
+
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                //list[i].style.display = "";
+                //console.log(txtValue);
+                list.push(equipmentsByCategory[i]);
+            }
+        }
+        showEquipments(list, "equipments", filter);
+    }
+}
+
+getUrlParameter = function(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};

@@ -277,10 +277,11 @@ exports.technicInMenu = ejs.compile("<a href=\"<%= item.url %>\"><%= item.name %
 exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n            <div class=\"orderCharacteristics\">\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-remove\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
 exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n            <div class=\"orderCharacteristics\">\r\n                <span class=\"price\"><%=equipment.price %> <%= equipment.currency %></span>\r\n            </div>\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-remove\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
 exports.oneImage = ejs.compile("<div class=\"slider__item\">\r\n    <div>\r\n        <a href=\"http://tracktop.com.ua/images/<%= image %>\" class=\"fancybox\" rel=\"images-single\"  >\r\n            <img  class=\"one_image\" src=\"/images/<%= image %>\">\r\n        </a>\r\n<!--        <i class=\"fa fa-arrows-alt icons full_screen_btn\"></i>-->\r\n    </div>\r\n</div>");
-exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail  one_equipment technic-card\">\r\n        <img class=\"\" src=\"/images/equipments/<%= equipment.main_photo_location %>\">\r\n        <div class=\"caption\">\r\n            <div class=\"name\"><b><span class=\"mark_\"><%= equipment.name %></span></b></div>\r\n\r\n             <% if(!equipment.vendor_code){ %>\r\n                        <div class=\"price\" style=\"height:40px;\">\r\n\r\n                        <% } else {%>\r\n                              <div class=\"price\"> <% } %>\r\n                        <div class=\"price_equipment\"><i>Ціна</i></div> <span class=\"equipment_info\"><%= equipment.price %>\r\n                            <% if(equipment.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(equipment.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                            </span>\r\n                        </div>\r\n\r\n                        <!--\r\n            <div class=\"amount\"><i>Кількість:</i> <%= equipment.amount %></div>\r\n            <div class=\"state\"><i>Стан:</i> <%= equipment.state %></div>\r\n                        !-->\r\n                         <% if( equipment.vendor_code){ %>\r\n\r\n                          <div class=\"vendor_code\"><div class=\"vendor_code_label\"><i>Артикул</i></div> <span class =\"equipment_info\"><%= equipment.vendor_code %> </span></div>\r\n                           <% } %>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
+exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail  one_equipment technic-card\">\r\n        <img class=\"\" src=\"/images/equipments/<%= equipment.main_photo_location %>\">\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\"><div class=\"child_name\"><%= equipment.name %></div></div>\r\n\r\n             <% if(!equipment.vendor_code){ %>\r\n                        <div class=\"price\" style=\"height:40px;\">\r\n\r\n                        <% } else {%>\r\n                              <div class=\"price\"> <% } %>\r\n                        <div class=\"price_equipment\"><i>Ціна</i></div> <span class=\"equipment_info\"><%= equipment.price %>\r\n                            <% if(equipment.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(equipment.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                            </span>\r\n                        </div>\r\n\r\n                        <!--\r\n            <div class=\"amount\"><i>Кількість:</i> <%= equipment.amount %></div>\r\n            <div class=\"state\"><i>Стан:</i> <%= equipment.state %></div>\r\n                        !-->\r\n                         <% if( equipment.vendor_code){ %>\r\n\r\n                          <div class=\"vendor_code\"><div class=\"vendor_code_label\"><i>Артикул</i></div> <span class =\"equipment_info\"><%= equipment.vendor_code %> </span></div>\r\n                           <% } %>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
 exports.oneReview = ejs.compile("<div class=\"oneReview\">\r\n    <div class=\"column column1\"><img class=\"photo_reviewer\"  src=\"http://localhost:5050/images/users_photos/<%= item.photo_location%>\"></div>\r\n    <div class=\"name_recommend column column2\">\r\n        <div class=\"name\"><%= item.name%> <%= item.surname%></div>\r\n        <% if(item.recommend) { %>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-up icons\"></i> Рекомендую</div>\r\n        <% } else {%>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-down icons\"></i> Не рекомендую</div>\r\n        <% } %>\r\n\r\n    </div>\r\n    <div class=\"text_review column column3\"><%=item.text_review%></div>\r\n</div>");
-exports.equipmentCategory = ejs.compile("<div class=\"oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"\" src=\"/images/category_placeholders/<%= category.photo_location %>\">\r\n        <div class=\"caption\">\r\n            <div class=\"name\"><b><span class=\"\"><%= category.category_name %></span></b></div>\r\n\r\n\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
-
+exports.equipmentCategory = ejs.compile("<div class=\"oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"\" src=\"/images/category_placeholders/<%= category.photo_location %>\" alt=\"Купити <%= category.category_name %>\">\r\n        <div class=\"caption\">\r\n            <h2 class=\"name\"><div ><span class=\"\"><%= category.category_name %></span></div></h2>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
+exports.oneMark = ejs.compile("<div class=\"oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-marks\">\r\n        <img class=\"\" src=\"/images/marks_photos/<%= mark.logo_file %>\" alt=\"Запчасти до комбайна <%= mark.name %>\">\r\n        <div class=\"caption captionMark\">\r\n            <div class=\"name\"><b><span class=\"\">Запчастини до комбайна <%= mark.name %> , запчасти до комбайна <%= mark.name %></span></b></div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
+exports.oneModel = ejs.compile("<div class=\"oneModel col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
 },{"ejs":39}],3:[function(require,module,exports){
 var Templates = require('./Templates');
 
@@ -633,6 +634,10 @@ var Templates = require('../Templates');
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
 var $categories =   $('.categories');
+var $marks =   $('.marks');
+var $models =   $('.models');
+
+var equipmentsByCategory = [];
 
 var values = require('../values.js');
 var API_URL = values.url;
@@ -693,7 +698,7 @@ function showTechnics(list) {
         //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
 
         $node.click(function () {
-            console.log("type"+ type);
+            //console.log("type"+ type);
             //
             localStorage.setItem('currentTypeOfTechnics', type.type_name);
             ///
@@ -752,9 +757,11 @@ exports.initializeTechnics = function(){
 
 
 
-function showEquipments(list) {
-
+function showEquipments(list , className , filter) {
+    if(className == "equipments")
     $equipments.html("");
+    else if(className == "searchedEquipments")
+        $searchedEquipments.html("");
     if(list.length===0) {
        // $equipments.append("Нічого не знайдено");
         //TODO: templ for empty result
@@ -765,30 +772,30 @@ function showEquipments(list) {
     for(let i =0 ; i< 10;i ++) {
         if(list.length> i) {
             equipments_showed = i;
-            showOneEquipment(list[i]);
+            showOneEquipment(list[i] , className);
         }
     }
     let k = equipments_showed;
     $(window).scroll(function() {
         let next = equipments_showed+10 ;
-        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - 300) {
+        //if(list.length> equipments_showed && )
+        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - 300 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
             // ajax call get data from server and append to the div
             //console.log("ida");
             for(let i =equipments_showed+1 ; i<next;i ++) {
-                if(list.length> i) {
+                if(list.length> i ) {
                     equipments_showed = i;
-                    showOneEquipment(list[i]);
+                    showOneEquipment(list[i] , className);
                 }
             }
         }
     });
 }
 
-function showOneEquipment(type) {
+function showOneEquipment(type , className) {
     var html_code = Templates.equipmentInList({equipment: type});
     var $node = $(html_code);
 
-    var typ = localStorage.getItem('currentTypeOfTechnics');
 
     $node.click(function () {
         document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
@@ -802,30 +809,83 @@ function showOneEquipment(type) {
             description: type.description
         }));
     });
-
+    if(className=="equipments")
     $equipments.append($node);
+
 }
 
 exports.initializeEquipments = function(){
-    var l=[];
-
-    let currCategory = localStorage.getItem("current_category_equipments");
+    let l=[];
+    let paramCategory = getUrlParameter("name");
+    let currCategory = paramCategory;
+    localStorage.setItem("current_category_equipments", currCategory);
     function callback1(err,data) {
         if(data.error) console.log(data.error);
         else {
            data.data.forEach(function (item) {
-               if(item.category_name == currCategory) {
+               if(item.category_name == currCategory && currCategory!="Запчастини до комбайнів" ) {
                    function callback(err,data) {
                        if(data.error) console.log(data.error);
-                       data.data.forEach(function(item){
-                           l.push(item)
-                       });
-                       showEquipments(l);
+                       equipmentsByCategory = data.data;
+
+                       filterSelectionEquipments();
                    }
 
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
                }
+               else if(currCategory=="Запчастини до комбайнів" && !document.location.href.toString().includes("combine_details")) {
+                    let marks = [];
+                   function callback3(err,data) {
+                       if(err) console.log(err);
+                       else {
+                           //console.log(data);
+                           data.data.forEach(function (item) {
+                               if (!marks.includes(item.technic_mark))
+                                   marks.push(item.technic_mark);
+                           });
+
+                           function callback2(err,data2) {
+                               if(err) console.log(err);
+                               else {
+                                   for( let i =0; i < marks.length;i++) {
+                                       data2.data.forEach(function (item) {
+                                           if(marks[i] == item.name)
+                                               marks[i] = {name : marks[i], logo_file : item.logo_file};
+                                       })
+                                   }
+                                   //console.log(marks);
+                                   showMarks(marks);
+                               }
+                           }
+                           require("../API").getMarks(callback2);
+                           //console.log(marks)
+
+                       }
+                   }
+                   require("../API").getModelsbyTypeMark("Комбайни",null,callback3);
+               }
            })
+        if(document.location.href.toString().includes("combine_details")) {
+            let param = document.location.href.toString().split("/");
+            let model = (param[param.length-1].replace("%20"," "));
+            while (model.includes("%20")) model = model.replace("%20"," ");
+                //console.log(model);
+                require("../API").getEquipmentsByModal(model, callback2);
+
+
+                //require('./db').get_technic_by_type_model_mark(type,mark,model,
+                function callback2(error, data) {
+
+                    if (error) {
+                        //console.log("Error! ", error.sqlMessage);
+                    } else {
+                        //console.log(data.data);
+                        equipmentsByCategory = data.data;
+                        filterSelectionEquipments();
+                    }
+
+                }
+            }
         }
     }
     require("../API").get_equipments_categories(callback1);
@@ -846,10 +906,9 @@ function showCategories(list) {
         var html_code = Templates.equipmentCategory({category: type});
         var $node = $(html_code);
 
-
         $node.click(function () {
-            document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
-            localStorage.setItem("current_category_equipments", type.category_name);
+           // document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+          //  localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);
@@ -871,6 +930,105 @@ exports.initializeCategories = function(){
 
     require("../API").get_equipments_categories(callback);
 }
+
+function showMarks(list) {
+
+    $marks.html("");
+    if(list.length===0) {
+        // $equipments.append("Нічого не знайдено");
+        //TODO: templ for empty result
+        $(".nothing_found").css("display","block");
+        return;
+    }
+    function showOneMark(mark) {
+        var html_code = Templates.oneMark({mark: mark});
+        var $node = $(html_code);
+
+
+        $node.click(function () {
+            document.location.href = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
+            localStorage.setItem("current_category_equipments", type.category_name);
+        });
+
+        $marks.append($node);
+    }
+
+    list.forEach(showOneMark);
+}
+exports.initializeModels = function () {
+
+    let l = [];
+    let param = document.location.href.toString().split("/");
+    let mark = (param[param.length-1].replace("%20"," "));
+    while (mark.includes("%20")) mark = mark.replace("%20"," ");
+    if(mark) {
+        function callback(err, data) {
+            if (data.error) console.log(data.error);
+            data.data.forEach(function (item) {
+                l.push({model: item.model, mark: mark});
+            })
+            showModels(l);
+        }
+
+        require("../API").getModelsbyTypeMark("Комбайни", mark, callback);
+    }
+}
+
+function showModels(list) {
+
+    $models.html("");
+
+    function showOneMark(model) {
+        var html_code = Templates.oneModel({model: model});
+        var $node = $(html_code);
+
+
+        $node.click(function () {
+            document.location.href = document.location.href +"/"+ model.model ;
+            //localStorage.setItem("current_category_equipments", type.category_name);
+        });
+
+        $models.append($node);
+    }
+
+    list.forEach(showOneMark);
+}
+
+filterSelectionEquipments = function() {
+    let input = document.getElementById("searchEquipments");
+    if(input) {
+        let filter = input.value.toLowerCase();
+        let list = [];
+        let count = 0;
+        // console.log(filter);
+        for (let i = 0; i < equipmentsByCategory.length; i++) {
+            let txtValue;
+            txtValue = equipmentsByCategory[i].name + " " + equipmentsByCategory[i].description + " " + equipmentsByCategory[i].vendor_code;
+
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                //list[i].style.display = "";
+                //console.log(txtValue);
+                list.push(equipmentsByCategory[i]);
+            }
+        }
+        showEquipments(list, "equipments", filter);
+    }
+}
+
+getUrlParameter = function(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
 },{"../API":1,"../Templates":2,"../values.js":10}],5:[function(require,module,exports){
 var Templates = require('../Templates');
 
@@ -972,11 +1130,11 @@ toggleLeftPanel = function () {
         $( "body" ).removeClass("bodyOverflowHidden");
     }
     else {
+        $( "body" ).addClass("bodyOverflowHidden");
         $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
         $( "#menuToggle  span" ).addClass("menuToggleSpans");
         $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
         $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
-        $( "body" ).addClass("bodyOverflowHidden");
     }
     // if(opened) $( "body" ).addClass("bodyOverflowHidden");
     // else  $( "body" ).removeClass("bodyOverflowHidden");
@@ -1524,6 +1682,10 @@ function  initialize() {
     require('../pagesScripts/addTechnics').initializeEquipments();
 }
 
+function  initializeModels() {
+    require('../pagesScripts/addTechnics').initializeModels();
+}
+
 
 ///
 $(function(){
@@ -1564,6 +1726,7 @@ $(function(){
     })
 
     initialize();
+    initializeModels();
 });
 },{"../basket":3,"../pagesScripts/addTechnics":4,"../pagesScripts/leftPanel":5,"../profile/login_form":6,"../profile/signup_form":7,"../profile/user_form":8}],10:[function(require,module,exports){
 module.exports = {

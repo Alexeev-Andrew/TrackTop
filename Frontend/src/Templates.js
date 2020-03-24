@@ -11,3 +11,5 @@ exports.oneImage = ejs.compile(fs.readFileSync('./Frontend/templates/one_image.e
 exports.equipmentInList = ejs.compile(fs.readFileSync('./Frontend/templates/equipment_in_list.ejs', "utf8"));
 exports.oneReview = ejs.compile(fs.readFileSync('./Frontend/templates/one_review.ejs', "utf8"));
 exports.equipmentCategory = ejs.compile(fs.readFileSync('./Frontend/templates/category.ejs', "utf8"));
+exports.oneMark = ejs.compile(fs.readFileSync('./Frontend/templates/one-mark.ejs', "utf8"));
+exports.oneModel = ejs.compile(fs.readFileSync('./Frontend/templates/one-model.ejs', "utf8"));

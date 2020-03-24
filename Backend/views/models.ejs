@@ -69,24 +69,19 @@
     <% include common/left_panel.ejs %>
 
     <div id="main">
-        <div class='type_header'>
-            <h1><%= name %></h1>
+        <div class='type_header header_models'>
+            Моделі <%=mark%>
         </div>
 
-        <% if(name!="Запчастини до комбайнів"){ %>
-            <% include common/searchBarEquipments.ejs %>
-            <div class="equipments">
+            <div class="models">
             </div>
-                <div id="description_technic_equipment" style="height: 100px; border: #4c78ab"></div>
-        <% }else{ %>
-            <div class="marks">
-            </div>
-        <% } %>
 
-    </div>
+
+        </div>
 
 
 
+        </div>
         <!-- jQuery JavaScript -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 

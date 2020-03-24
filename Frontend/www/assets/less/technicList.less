@@ -16,7 +16,7 @@
   height: 100%;
 }
 
-.equipments {
+.equipments , .marks , .models{
   width                : 100%;
   display              : grid;
   padding              : 3% 10%;
@@ -40,6 +40,35 @@
 
 .oneCategory {
     cursor: pointer;
+}
+
+.oneMark {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.thumbnail-marks {
+  margin: 0 !important;
+}
+
+.thumbnail-models {
+  border: 1px solid #b4b4b4 !important;
+}
+.thumbnail-marks:hover , .thumbnail-models:hover{
+  cursor: pointer;
+  border-width: 1px;
+  border-color: #4c78ab;
+  border-style: solid;
+  background-color: #4c78ab;
+}
+
+.thumbnail-models:hover {
+  background-color: #b0b4ae;
+}
+
+
+
+.captionMark {
+  display: none;
 }
 
 .oneTechnic {
@@ -136,13 +165,22 @@
   .model, .mark_ {
     font-size: 1.7rem!important;
     margin-bottom: 0px;
-
   }
+.oneModel{
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+  .h1_header{
+    margin-top: -10px!important;
+  }
+
   .nameEquipment{
     height: auto;
   }
   .child_name {
     position: relative;
+    height: auto;
   }
   .model {
     height: 24px;
@@ -160,8 +198,12 @@
   }
 }
 
-.categories {
+.categories , .marks , .models{
   display: inline-block;
+}
+
+.models {
+  padding: 10px 10px !important;
 }
 
 .wrapper_category {
