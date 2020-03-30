@@ -162,6 +162,7 @@ function showEquipments(list , className , filter) {
 }
 
 function showOneEquipment(type , className) {
+    type.url = API_URL+"/equipment?name="+type.name+"&id="+type.id;
     var html_code = Templates.equipmentInList({equipment: type});
     var $node = $(html_code);
 
@@ -272,12 +273,13 @@ function showCategories(list) {
         return;
     }
     function showOne(type) {
+        type.url = API_URL+"/category_equipments/category?name="+ type.category_name ;
         var html_code = Templates.equipmentCategory({category: type});
         var $node = $(html_code);
 
         $node.click(function () {
-           // document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
-          //  localStorage.setItem("current_category_equipments", type.category_name);
+           document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+           localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);
@@ -310,6 +312,7 @@ function showMarks(list) {
         return;
     }
     function showOneMark(mark) {
+        mark.url = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
         var html_code = Templates.oneMark({mark: mark});
         var $node = $(html_code);
 
@@ -348,6 +351,7 @@ function showModels(list) {
     $models.html("");
 
     function showOneMark(model) {
+        model.url = document.location.href +"/"+ model.model ;
         var html_code = Templates.oneModel({model: model});
         var $node = $(html_code);
 

@@ -94,6 +94,12 @@ function  initialize() {
             localStorage.setItem("currentTypeOfTechnics" , type.types_of_technics_name);
             initilizebreadcrumb();
 
+            let alt = "Купити " ;
+            if(type.types_of_technics_name==="Преси-підбирачі") alt+="прес-підбирач";
+            else if(type.types_of_technics_name==="Сівалки") alt+="сівалку"
+            else alt +=type.types_of_technics_name.toString().substring(0,type.types_of_technics_name.length-1).toLowerCase();
+            alt += " " + type.marks_of_technics_name + " " + type.model + ". ";
+
 
             var dataset = [];
             function callback(err,data) {
@@ -101,7 +107,7 @@ function  initialize() {
                 data.data.forEach(function(item){
                     dataset.push("technics/"+item.file_name)
                 });
-                require('../pagesScripts/slider').initialize(dataset);
+                require('../pagesScripts/slider').initialize(dataset,alt);
             }
             require('../API').getTechnicsImagesById(tech.id,callback);
 

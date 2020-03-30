@@ -1,6 +1,11 @@
 <div class="oneTechnic">
     <div class="thumbnail" style="height: 100%; margin: 0px;">
-        <img class="" src="/images/technics/<%= technic.main_photo_location %>">
+        <img class="" src="/images/technics/<%= technic.main_photo_location %>"
+             <%if(technic.name==="Преси-підбирачі") {%>alt="Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>"
+        <%} else if(technic.name==="Сівалки"){%> alt="Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>"
+                <% } else { %>
+             alt ="Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>"
+        <% } %>>
         <!--
         <div class="caption">
             <div class="model"><b><span class="mark_"><%= technic.name %></span> <span class="model_"><%= technic.model %></span></b></div>

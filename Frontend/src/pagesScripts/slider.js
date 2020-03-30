@@ -3,16 +3,19 @@ var Templates = require('../Templates');
 var $images =   $('.slider__wrapper');
 
 
-function showImages(list) {
+function showImages(list,alt) {
 
     $images.html("");
 
+    let i = 1;
+
     function showOne(type) {
-        var html_code = Templates.oneImage({image: type});
+        var html_code = Templates.oneImage({image: type , alt :alt+" фото - "+ i});
 
         var $node = $(html_code);
 
         $images.append($node);
+        i++;
     }
     if(list.length==0) {
         list.push("default_technic.jpg");
@@ -40,14 +43,14 @@ function showImages(list) {
 //     require("../API").getTechnicsImagesByTypeMarkModel({type: tp1,model: tp.model, mark: tp.mark},callback);
 // }
 
-exports.initialize = function(dataset){
+exports.initialize = function(dataset,alt){
 
     var l=[];
 
     dataset.forEach(function(item){
         l.push(item)
     });
-    showImages(l);
+    showImages(l,alt);
 
     // require("../API").getTechnicsImagesById({type: tp1,model: tp.model, mark: tp.mark},callback);
 }

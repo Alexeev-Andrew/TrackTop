@@ -125,7 +125,7 @@ openEditTechnicModal = function(cell) {
             $('.js-uploader__contents').addClass("uploader__hide");
            // console.log(data.data);
 
-            data.data.forEach(function(item){
+            data.data.forEach(function(item) {
                 getFileObject("/images/technics/" + item.file_name , function (fileObject) {
                     //console.log(fileObject.size);
                     $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
