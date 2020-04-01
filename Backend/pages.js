@@ -11,10 +11,17 @@ exports.profile = function(req, res) {
 };
 
 exports.technics = function(req, res) {
-    if (req.query.type)
+    if(req.query.type == "Жатки")
+        res.render('technicsPage', {
+            pageTitle: req.query.type +" кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
+            description: "Купити" + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
+            types: req.query.type,
+            mark: req.query.mark
+        });
+    else if (req.query.type)
     res.render('technicsPage', {
         pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
-        description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+        description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ req.query.type + "в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
         types: req.query.type,
         mark: req.query.mark
     });
@@ -96,6 +103,7 @@ exports.technic = function(req, res) {
                // console.log(data[0]+"\n");
                     if(type=="Сівалки") type="Сівалка";
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
+                    else if(type=="Жатки")type="Жатка кукурудзяна (приставка кукурудзяна)";
                     else type = type.substring(0,type.length-1);
                 res.render('oneTechnicPage', {
                     pageTitle:  type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop" ,

@@ -120,15 +120,27 @@ function configureEndpoints(app) {
         try {
             const smStream = new SitemapStream({ hostname: 'http://tracktop.com.ua/' })
             const pipeline = smStream.pipe(createGzip());
+            function callback(err, data) {
+                if(data) {
+                    data.forEach(function (item) {
+                        smStream.write({ url: '/technic?model='+item.model + "&mark=" + item.marks_of_technics_name + "&type=" + item.types_of_technics_name + "&number_id=" + item.id,  changefreq: 'daily', priority: 0.7 })
+                    });
+                }
+                smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Трактори',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Плуги',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Жатки',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/category_equipments',  changefreq: 'weekly', priority: 0.8 })
 
-            smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
-            smStream.write({ url: '/about',  changefreq: 'monthly',  priority: 0.6 })
-            smStream.end()
+                smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
+                smStream.end()
+            }
+            db.get_technics(callback);
+
+
+
 
             // cache the response
             streamToPromise(pipeline).then(sm => sitemap = sm)
