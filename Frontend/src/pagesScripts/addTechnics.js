@@ -278,7 +278,7 @@ function showCategories(list) {
         var $node = $(html_code);
 
         $node.click(function () {
-           document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+           //document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
            localStorage.setItem("current_category_equipments", type.category_name);
         });
 
