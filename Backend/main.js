@@ -127,12 +127,12 @@ function configureEndpoints(app) {
                     });
                 }
                 smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'weekly', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Трактори',  changefreq: 'weekly', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'weekly', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Плуги',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Жатки',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/category_equipments',  changefreq: 'weekly', priority: 0.8 })
+                smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
 
                 smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
                 smStream.end()

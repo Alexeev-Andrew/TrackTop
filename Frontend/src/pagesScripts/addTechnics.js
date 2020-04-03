@@ -330,6 +330,7 @@ function showMarks(list) {
 exports.initializeModels = function () {
 
     let l = [];
+    let str = "<ul>"
     let param = document.location.href.toString().split("/");
     let mark = (param[param.length-1].replace("%20"," "));
     while (mark.includes("%20")) mark = mark.replace("%20"," ");
@@ -338,8 +339,12 @@ exports.initializeModels = function () {
             if (data.error) console.log(data.error);
             data.data.forEach(function (item) {
                 l.push({model: item.model, mark: mark});
+                str+="<li> Запчастини до комбайна " + mark + " " + item.model + "</li>"
             })
             showModels(l);
+
+            $('#text_models').append("Ми пропонуємо: " + str + "</ul>");
+
         }
 
         require("../API").getModelsbyTypeMark("Комбайни", mark, callback);
