@@ -720,7 +720,7 @@ addTechnicToDB = function () {
             else {
                 technic.mark_id = data.data[0].mark_id;
                 technic.type_id = data.data[0].type_id;
-                if (!newPhotos.includes(technic.main_photo_location)) {
+                if (!newPhotos.includes(data.data[0].main_photo_location)) {
                     technic.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
                 }
                 function callback5(err,data1) {
@@ -985,7 +985,7 @@ addEquipmentToDB = function () {
                     if (err) console.log(err);
                     else {
                         equipment.id_category = data5.data[0].id_category;
-                        if (!newPhotos.includes(equipment.main_photo_location)) {
+                        if (!newPhotos.includes(data5.data[0].main_photo_location)) {
                             equipment.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
                         }
                         //console.log(eq);
