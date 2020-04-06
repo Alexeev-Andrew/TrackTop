@@ -19,7 +19,9 @@ function  initialize() {
             amount: data5.data[0].amount,
             description: data5.data[0].description
         }));
-
+        let alt;
+        if (data5.data[0].description) alt = "Купити " + data5.data[0].description ;
+        else alt = "Купити " + data5.data[0].name ;
         function callback(err, data) {
             if (data.error) {
                 console.log(data.error);
@@ -28,7 +30,7 @@ function  initialize() {
             data.data.forEach(function (item) {
                 dataset.push("equipments/" + item.file_name)
             });
-            require('../pagesScripts/slider').initialize(dataset);
+            require('../pagesScripts/slider').initialize(dataset, alt);
         }
 
         require('../API').getEquipmentImagesById(id, callback);

@@ -89,17 +89,21 @@ function  initialize() {
                 amount: type.amount,
                 description: type.description
             }));
-            $(".type_header").text(type.marks_of_technics_name + " " + type.model);
+
             var tech = JSON.parse(localStorage.getItem('currTechnic'));
             localStorage.setItem("currentTypeOfTechnics" , type.types_of_technics_name);
             initilizebreadcrumb();
-
+            let type_tech;
             let alt = "Купити " ;
-            if(type.types_of_technics_name==="Преси-підбирачі") alt+="прес-підбирач";
-            else if(type.types_of_technics_name==="Сівалки") alt+="сівалку"
-            else alt +=type.types_of_technics_name.toString().substring(0,type.types_of_technics_name.length-1).toLowerCase();
+            if(type.types_of_technics_name==="Преси-підбирачі") { alt+="прес-підбирач"; type_tech = "Прес-підбирач"  }
+            else if(type.types_of_technics_name==="Сівалки") {alt+="сівалку" ; type_tech ="Сівалка"}
+            else {
+                let h = type.types_of_technics_name.toString().substring(0, type.types_of_technics_name.length - 1)
+                alt += h.toLowerCase()
+                type_tech = h
+            }
             alt += " " + type.marks_of_technics_name + " " + type.model + ". ";
-
+            $(".type_header").text(type_tech + " " +type.marks_of_technics_name + " " + type.model);
 
             var dataset = [];
             function callback(err,data) {

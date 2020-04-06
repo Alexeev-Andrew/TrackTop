@@ -28,6 +28,15 @@
   padding              : 0
 }
 
+#nothing_found{
+  font-size    : 2.5rem;
+  margin-bottom: 4px;
+  font-family  : "Times New Roman", Times, Gabriola;
+  overflow     : hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
 .searchedEquipments {
   display: none;
   width                : 100%;
@@ -55,6 +64,7 @@
 
 .thumbnail-models {
   border: 1px solid #b4b4b4 !important;
+  margin-bottom: 15px !important;
 }
 .thumbnail-marks:hover , .thumbnail-models:hover{
   cursor: pointer;
@@ -145,10 +155,13 @@
 }
 
 .child_name {
+  font-size: 14px !important;
+  margin: 0!important;
+  margin-top: 5px!important;
   position: absolute;
   vertical-align: middle;
   font-weight: bold;
-  height: 40px;
+  height: 32px;
   overflow-y: hidden;
 }
 
@@ -198,6 +211,10 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-rows   : auto;
     grid-gap             : 20px;
+  }
+
+  .thumbnail-models {
+    margin-bottom: 0px!important;
   }
 }
 

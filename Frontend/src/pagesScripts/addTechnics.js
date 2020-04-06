@@ -131,10 +131,16 @@ function showEquipments(list , className , filter) {
     $equipments.html("");
     else if(className == "searchedEquipments")
         $searchedEquipments.html("");
-    if(list.length===0) {
-       // $equipments.append("Нічого не знайдено");
+    if(list.length===0  && filter.toString().trim()=="") {
         //TODO: templ for empty result
-        $(".nothing_found").css("display","block");
+        $("#nothing_found").text("Категорія поки не запонена. Напишіть нам або подзвоніть, щоб зробити замовлення");
+        $("#description_technic_equipment").css("display","block");
+        return;
+    }
+    else if(list.length===0 ) {
+        //TODO: templ for empty result
+        
+        $("#description_technic_equipment").css("display","block");
         return;
     }
 
@@ -278,7 +284,7 @@ function showCategories(list) {
         var $node = $(html_code);
 
         $node.click(function () {
-           //document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
+           document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
            localStorage.setItem("current_category_equipments", type.category_name);
         });
 

@@ -28,7 +28,7 @@ exports.technics = function(req, res) {
     else {
         res.render('technicsPage', {
             pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : "У нас ви можете придбати сг техніку" + " марки " + req.query.mark + " ! Корчин, Львівська область. Дзвоніть ☎ (067)-646-22-44 " ,
+            description : "У нас ви можете купити сг техніку "  + req.query.mark + "! Сільгосптехніка " + req.query.mark  + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
             types: req.query.type,
             mark: req.query.mark
         });
@@ -39,15 +39,21 @@ exports.category = function(req, res) {
     if (req.query.name) {
         if(req.query.name=="Колеса"){
             res.render('categoryPage', {
-                pageTitle:  "Колеса до с/г техніки! Шини до спецтехінки. Корчин, Львівська область | TrackTop",
+                pageTitle:  "Колеса до с/г техніки! Шини до спецтехніки. Корчин, Львівська область | TrackTop",
                 description: "Купити колеса/шини до сільгосптехніки та спецтехніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                 name: req.query.name
             });
         }
+        else if(req.query.name=="Запчастини до комбайнів")
+            res.render('categoryPage', {
+                pageTitle:  req.query.name + " Claas,John Deere, MF та іншої с/г техніки! Львівська область | TrackTop",
+                description: "Купити " + req.query.name + " Клаас, Джон Дір, Массей Фергюсон. Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
+                name: req.query.name
+            });
         else if(req.query.name!="Інше")
         res.render('categoryPage', {
             pageTitle:  req.query.name + " та іншої с/г техніки! Корчин, Львівська область | TrackTop",
-            description: "Купити " + req.query.name + ". Доставка по всій Україні. Вибирай запчастини до сільгосптехніки від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+            description: "Купити " + req.query.name + ". Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
             name: req.query.name
         });
         else if(req.query.name=="Інше"){
@@ -105,10 +111,11 @@ exports.technic = function(req, res) {
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
                     else if(type=="Жатки")type="Жатка кукурудзяна (приставка кукурудзяна)";
                     else type = type.substring(0,type.length-1);
+                    let type_ = type=="Жатка кукурудзяна (приставка кукурудзяна)" ? "Жатка" : type;
                 res.render('oneTechnicPage', {
                     pageTitle:  type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop" ,
                     name: mark + ' ' + model,
-                    // type:type,
+                    type:type_,
                     description :  "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                     technic: data[0]
                 });
@@ -142,7 +149,7 @@ exports.equipment = function(req, res) {
                 res.render('oneEquipmentPage', {
                     equipment: data[0],
                     title: "Купити " + data[0].name + ". "+ data[0].category_name + ". Запчастини до сг техніки Львіська область | TrackTop",
-                    description : "Купити " + data[0].name + ". "+ data[0].category_name + "." + data[0].description
+                    description : "Купити " + data[0].description + " | TrackTop"
                 });
             }
         }
@@ -154,8 +161,8 @@ exports.equipment = function(req, res) {
 exports.equipments = function(req, res) {
 
     res.render('equipmentsPage', {
-        pageTitle: 'Запчастини до сг техніки Львіська область | TrackTop',
-        description: "У нас ви можете купити запчастини до комбайнів, тракторів, плугів, пресів та сівалок! Дзвоніть ☎ (067)-646-22-44",
+        pageTitle: 'Запчастини до сг техніки Львівська область | TrackTop',
+        description: "У нас ви можете купити запчастини до комбайнів, тракторів, плугів, пресів та сівалок! Львів | TrackTop. Дзвоніть ☎ (067)-646-22-44",
         types: null,
         mark: null
     });
