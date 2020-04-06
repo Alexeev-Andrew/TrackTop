@@ -80,6 +80,7 @@ getModels = function() {
 
 openEditTechnicModal = function(cell) {
     $('#addTechnicModel').modal('show');
+    type = 'tech';
    // console.log(cell);
     var row = $(cell).parents("tr");
     var cols = row.children("td");
@@ -305,6 +306,7 @@ openAddEquipmentModel = function () {
 openEditEquipmentModal = function(cell) {
     $('#addEquipmentModel').modal('show');
     // console.log(cell);
+    type = 'eq';
     var row = $(cell).parents("tr");
     var cols = row.children("td");
     var id  = $(cols[0]).text();

@@ -255,7 +255,7 @@ exports.get_equipment_withModels_by_id = function(id,callback){
 }
 
 exports.get_equipments_by_model = function(model,callback) {
-    connection.query("SELECT * FROM tracktop.models inner join tracktop.equipments_models on models.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id where "+
+    connection.query("SELECT * FROM tracktop.models inner join tracktop.equipments_models on models.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id inner join ( select name as mark_name, mark_name_ukr from tracktop.marks_of_technics) s on models.technic_mark = s.mark_name where "+
     "model = \'" + model + "\'", callback);
 }
 

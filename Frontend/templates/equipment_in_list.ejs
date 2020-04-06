@@ -2,7 +2,18 @@
     <div class="thumbnail  one_equipment technic-card">
         <img class="" src="/images/equipments/<%= equipment.main_photo_location %>">
         <div class="caption captionEquipment">
-            <div class="nameEquipment"><a href="<%= equipment.url %>"><div class="child_name"><%= equipment.name %></div></a></div>
+            <div class="nameEquipment">
+                <a href="<%= equipment.url %>">
+                <div class="child_name"><%= equipment.name %>
+                        <% if(equipment.technic_type=="Комбайни"){ %>
+                            до комбайна <%= equipment.technic_mark %> <%= equipment.model %>
+                            <div style="height: 1px; width: 1px; overflow: hidden">( <%=equipment.mark_name_ukr%>
+                                <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>
+                                <% } else {%><%= equipment.model %>  <% } %>) </div>
+                        <%}%>
+                    </div>
+                </a>
+            </div>
 
              <% if(!equipment.vendor_code){ %>
                         <div class="price" style="height:40px;">
