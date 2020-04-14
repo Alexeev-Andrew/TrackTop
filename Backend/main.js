@@ -126,6 +126,7 @@ function configureEndpoints(app) {
                         smStream.write({ url: '/technic?model='+item.model + "&mark=" + item.marks_of_technics_name + "&type=" + item.types_of_technics_name + "&number_id=" + item.id,  changefreq: 'daily', priority: 0.7 })
                     });
                 }
+                smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
                 smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })
@@ -133,9 +134,28 @@ function configureEndpoints(app) {
                 smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Жатки',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/category_equipments/category/combine_details/Massey%20Ferguson',  changefreq: 'daily', priority: 0.7 })
+                smStream.write({ url: '/category_equipments/category/combine_details/Claas',  changefreq: 'daily', priority: 0.7 })
+                smStream.write({ url: '/category_equipments/category/combine_details/John%20Deere',  changefreq: 'daily', priority: 0.7 })
+                function callback1(err, data1) {
+                    if (data1) {
+                        data1.forEach(function (item) {
+                            smStream.write({url: '/technics?mark=' + item.name, changefreq: 'daily', priority: 0.75})
+                        });
 
-                smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
-                smStream.end()
+                        function callback2(err, data2) {
+                            if (data2) {
+                                data2.forEach(function (item) {
+                                    smStream.write({url: 'category_equipments/category?name=' + item.category_name, changefreq: 'daily', priority: 0.75})
+                                });
+                                smStream.end();
+                            }
+                        }
+                        db.get_equipments_categories(callback2)
+                    }
+                }
+                db.get_marks_of_technics(callback1);
+
             }
             db.get_technics(callback);
 
