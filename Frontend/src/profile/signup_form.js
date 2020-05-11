@@ -161,8 +161,6 @@ function addClient(){
     });
 }
 
-
-
 sendMessage_My = function (i) {
     if(checkMessageForm()) {
 
