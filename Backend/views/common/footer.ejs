@@ -70,7 +70,7 @@
             <form method="post" action="" id="formMain" name="">
                 <label for="tele_phone_call" id="labtelcal">Приклад: +380979361952 </label>
                 <input id="tele_phone_call" type="tel" name="tele_phone_call" onkeyup="if(this.value.length >= 7) document.getElementById('butcall').disabled = false; else document.getElementById('butcall').disabled = true;" placeholder="Введіть тут ваш номер"  autocomplete="off"/>
-                <input id="butcall" type="button"  value="" onclick="document.getElementById('slibotph').style.display='none'; document.getElementById('content1').style.width='300px'; document.getElementById('content1').style.padding='0px'; AjaxFormRequest('mssgresbox', 'formMain', 'zakaz.php')"  disabled/>
+                <input id="butcall" type="button" class="sendNumberButton" value="" onclick="document.getElementById('slibotph').style.display='none'; document.getElementById('content1').style.width='300px'; document.getElementById('content1').style.padding='0px';"  disabled/>
             </form>
         </div>
     </div>
