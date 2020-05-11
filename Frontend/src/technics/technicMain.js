@@ -61,7 +61,7 @@ function initilizebreadcrumb(){
         crums +=
             " <li class='current'>\n" +
             "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
-            "            <span>" + $(".type_header").text() + "</span></a>\n" +
+            "            <span>" + curTech.mark + " "  + curTech.model + "</span></a>\n" +
             "    </li>\n";
 
         $("#breadcrumb").append(crums);
@@ -97,6 +97,7 @@ function  initialize() {
             let alt = "Купити " ;
             if(type.types_of_technics_name==="Преси-підбирачі") { alt+="прес-підбирач"; type_tech = "Прес-підбирач"  }
             else if(type.types_of_technics_name==="Сівалки") {alt+="сівалку" ; type_tech ="Сівалка"}
+            else if(type.types_of_technics_name==="Жатки") {alt+="жатку" ; type_tech ="Жатка"}
             else {
                 let h = type.types_of_technics_name.toString().substring(0, type.types_of_technics_name.length - 1)
                 alt += h.toLowerCase()

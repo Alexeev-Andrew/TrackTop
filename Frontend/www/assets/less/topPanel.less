@@ -15,8 +15,8 @@
   display         : flex;
   align-items     : center;
   justify-content : space-between;
-  position        : fixed;
-  top             : 0px;
+  position: fixed;
+  top : 0;
   width           : 100%;
   z-index:        1000;
 }
@@ -30,6 +30,21 @@
   border-radius  : 4px;
   cursor         : pointer;
   margin-left    : 25px;
+  font-style: oblique;
+  font-family: monospace;
+}
+
+.contact_phone_m {
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 4px;
+  /* margin-left: 25px; */
+  display: inline-block;
+  width: 49%;
+  font-style: oblique;
+  font-family: monospace;
 }
 
 .header a.logo {
@@ -94,4 +109,11 @@
 #exit_btn {
   padding         : -5px;
   background-color: #d9534f;
+}
+
+.phones-mobile {
+  position: fixed;
+  background-color: #ddddddad;
+  font-size: 14px!important;
+  display: block;
 }

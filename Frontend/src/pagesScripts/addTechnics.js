@@ -13,6 +13,70 @@ var API_URL = values.url;
 
 var equipments_showed = 0;
 
+function initilizebreadcrumbEquipmentCategory(){
+    if(!document.location.href.includes("combine_details")) {
+        $("#breadcrumb").empty();
+        let curCategory = localStorage.getItem('current_category_equipments');
+        let curType = eq[curCategory] ? eq[curCategory] : curCategory;
+        console.log(eq[curCategory]);
+
+        if ($(window).width() < 500 && (document.referrer != "" && document.referrer != document.location.href)) {
+            $("#breadcrumb").addClass("breadcrumb-mobile");
+
+            let crums = " <li class='back_breadcrumb'>\n" +
+                "        <a class='seturl' href='http://tracktop.com.ua/category_equipments'>\n" +
+                "            <span >Назад</span></a>\n" +
+                "    </li>\n";
+            $("#breadcrumb").append(crums);
+
+        } else if ($(window).width() < 500) {
+            $("#breadcrumb").empty();
+        } else {
+            let crums = " <li>\n" +
+                "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+                "            <span class=\"sr-only\">Головна</span></a>\n" +
+                "    </li>\n";
+            crums +=
+                " <li>\n" +
+                "        <a class='seturl' href=\"http://tracktop.com.ua/category_equipments\">\n" +
+                "            <span>Запчастини</span></a>\n" +
+                "    </li>\n";
+            crums +=
+                " <li class='current'>\n" +
+                "        <a class='seturl-last' href=\"http://tracktop.com.ua/category_equipments/category?name=" + curCategory +
+                "\">\n" +
+                "            <span>" + curType + "</span></a>\n" +
+                "    </li>\n";
+
+            $("#breadcrumb").append(crums);
+        }
+    }
+}
+
+function initializeBreadcrumbMarks(mark) {
+    let curCategory = localStorage.getItem('current_category_equipments');
+    if(document.location.href.toString().includes("combine_details")) {
+        if($(window).width() > 768) {
+            initilizebreadcrumbEquipmentCategory();
+            let h = $(".current");
+            h.addClass("seturl").removeClass("current");
+            let crums =
+                " <li class='current'>\n" +
+                "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
+                "            <span>" + mark + "</span></a>\n" +
+                "    </li>\n";
+            //let curCategory = localStorage.getItem('current_category_equipments');
+            $("#breadcrumb").append(crums);
+            $(".seturl-last").attr("href", API_URL + "/category_equipments/category/combine_details/" + mark);
+        }
+        else {
+            $(".seturl").attr("href", API_URL + "/category_equipments/category?name=" + curCategory);
+        }
+    }
+
+
+}
+
 function showTechnics(list) {
 
     let curType = localStorage.getItem('currentTypeOfTechnics');
@@ -195,6 +259,7 @@ exports.initializeEquipments = function(){
     let paramCategory = getUrlParameter("name");
     let currCategory = paramCategory;
     localStorage.setItem("current_category_equipments", currCategory);
+    initilizebreadcrumbEquipmentCategory();
     function callback1(err,data) {
         if(data.error) console.log(data.error);
         else {
@@ -244,6 +309,7 @@ exports.initializeEquipments = function(){
         if(document.location.href.toString().includes("combine_details")) {
             let param = document.location.href.toString().split("/");
             let model = (param[param.length-1].replace("%20"," "));
+            //$("#breadcrumb").empty();
             while (model.includes("%20")) model = model.replace("%20"," ");
                 //console.log(model);
                 require("../API").getEquipmentsByModal(model, callback2);
@@ -285,7 +351,7 @@ function showCategories(list) {
 
         $node.click(function () {
            document.location.href = API_URL+"/category_equipments/category?name="+ type.category_name ;
-           localStorage.setItem("current_category_equipments", type.category_name);
+           //localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $categories.append($node);
@@ -295,6 +361,19 @@ function showCategories(list) {
 }
 
 exports.initializeCategories = function(){
+    let crums = " <li>\n" +
+        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+        "            <span class=\"sr-only\">Головна</span></a>\n" +
+        "    </li>\n";
+    crums +=
+        " <li class='current'>\n" +
+        "        <a class='seturl' href=\"http://tracktop.com.ua/category_equipments\">\n" +
+        "            <span>Запчастини</span></a>\n" +
+        "    </li>\n";
+
+$("#breadcrumb").append(crums);
+
+
     var l=[];
 
     function callback(err,data) {
@@ -321,11 +400,11 @@ function showMarks(list) {
         mark.url = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
         var html_code = Templates.oneMark({mark: mark});
         var $node = $(html_code);
-
+        console.log(mark);
 
         $node.click(function () {
+            //localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
             document.location.href = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
-            localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $marks.append($node);
@@ -334,12 +413,14 @@ function showMarks(list) {
     list.forEach(showOneMark);
 }
 exports.initializeModels = function () {
+    localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
 
     let l = [];
     let str = "<ul>"
     let param = document.location.href.toString().split("/");
     let mark = (param[param.length-1].replace("%20"," "));
     while (mark.includes("%20")) mark = mark.replace("%20"," ");
+    //initializeBreadcrumbMarks(mark);
     if(mark) {
         function callback(err, data) {
             if (data.error) console.log(data.error);
@@ -348,7 +429,7 @@ exports.initializeModels = function () {
                 str+="<li> Запчастини до комбайна " + mark + " " + item.model + "</li>"
             })
             showModels(l);
-
+            //if(data.data.length > 0 )initializeBreadcrumbMarks(mark);
             $('#text_models').append("Ми пропонуємо: " + str + "</ul>");
 
         }
@@ -368,8 +449,8 @@ function showModels(list) {
 
 
         $node.click(function () {
+            //localStorage.setItem("current_category_equipments", "df");
             document.location.href = document.location.href +"/"+ model.model ;
-            //localStorage.setItem("current_category_equipments", type.category_name);
         });
 
         $models.append($node);
@@ -413,3 +494,13 @@ getUrlParameter = function(sParam) {
         }
     }
 };
+
+
+let eq = {
+    "Запчастини до комбайнів": "Комбайни",
+    "Запчастини до тракторів":"Трактори",
+    "Запчастини до сівалок":"Сівалки",
+    "Запчастини до пресів-підбирачів":"Преси-підбирачі"
+}
+
+

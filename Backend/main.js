@@ -140,7 +140,7 @@ function configureEndpoints(app) {
                 function callback1(err, data1) {
                     if (data1) {
                         data1.forEach(function (item) {
-                            smStream.write({url: '/technics?mark=' + item.name, changefreq: 'daily', priority: 0.75})
+                            smStream.write({url: '/technics?mark=' + item.name, changefreq: 'weekly', priority: 0.75})
                         });
 
                         function callback2(err, data2) {
@@ -148,18 +148,48 @@ function configureEndpoints(app) {
                                 data2.forEach(function (item) {
                                     smStream.write({url: 'category_equipments/category?name=' + item.category_name, changefreq: 'daily', priority: 0.75})
                                 });
-                                smStream.end();
+
                             }
+                            let marks = ["Massey Ferguson", "John Deere", "Claas"];
+                            marks.forEach(function (mark_item) {
+                                function callback4(err, data4) {
+                                    if (data4) {
+                                        data4.forEach(function (item) {
+                                            smStream.write({
+                                                url: '/category_equipments/category/combine_details/' + mark_item +"/" + item.model,
+                                                changefreq: 'daily',
+                                                priority: 0.7
+                                            })
+                                        });
+                                    }
+                                    if(mark_item == marks[marks.length-1]) {
+                                        function callback5(err, data5) {
+                                            if (data5) {
+                                                data5.forEach(function (item) {
+                                                    smStream.write({
+                                                        url: '/equipment?name=' + item.name + "&id=" + item.id,
+                                                        changefreq: 'weekly',
+                                                        priority: 0.6
+                                                    })
+                                                });
+                                                smStream.end();
+                                            }
+                                        }
+                                        db.get_equipments(callback5)
+                                    }
+                                }
+                                db.get_models_by_type_mark("Комбайни", mark_item, callback4);
+                            })
+
                         }
                         db.get_equipments_categories(callback2)
                     }
+
                 }
                 db.get_marks_of_technics(callback1);
 
             }
             db.get_technics(callback);
-
-
 
 
             // cache the response

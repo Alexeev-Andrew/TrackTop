@@ -11,57 +11,94 @@ exports.profile = function(req, res) {
 };
 
 exports.technics = function(req, res) {
-    if(req.query.type == "Жатки")
-        res.render('technicsPage', {
-            pageTitle: req.query.type +" кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
-            description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
-            types: req.query.type,
-            mark: req.query.mark
-        });
-    else if (req.query.type)
-    res.render('technicsPage', {
-        pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
-        description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
-        types: req.query.type,
-        mark: req.query.mark
-    });
-    else {
-        res.render('technicsPage', {
-            pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-            description : "У нас ви можете купити сг техніку "  + req.query.mark + "! Сільгосптехніка " + req.query.mark  + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
-            types: req.query.type,
-            mark: req.query.mark
-        });
-    }
+    let type = req.query.type;
+    let photo_location = null;
+        require('./db').get_types_of_technics( callback);
+        function  callback(error,data) {
+            if (error) {
+                console.log("Error! ", error.sqlMessage);
+            } else {
+                data.forEach(function (i) {
+                    if (i.name == type) {
+                        photo_location = i.photo_location;
+                    }
+                })
+            }
+            if(req.query.type == "Жатки")
+                res.render('technicsPage', {
+                    pageTitle: req.query.type +" кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
+                    description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                    types: req.query.type,
+                    mark: req.query.mark,
+                    photo_location :photo_location
+                });
+            else if (req.query.type)
+                res.render('technicsPage', {
+                    pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
+                    description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                    types: req.query.type,
+                    mark: req.query.mark,
+                    photo_location :photo_location
+                });
+            else {
+                res.render('technicsPage', {
+                    pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
+                    description : "У нас ви можете купити сг техніку "  + req.query.mark + "! Сільгосптехніка " + req.query.mark  + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
+                    types: req.query.type,
+                    mark: req.query.mark,
+                    photo_location :photo_location
+                });
+            }
+        }
+
 };
 
 exports.category = function(req, res) {
     if (req.query.name) {
-        if(req.query.name=="Колеса"){
-            res.render('categoryPage', {
-                pageTitle:  "Колеса до с/г техніки! Шини до спецтехніки. Корчин, Львівська область | TrackTop",
-                description: "Купити колеса/шини до сільгосптехніки та спецтехніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
-                name: req.query.name
-            });
-        }
-        else if(req.query.name=="Запчастини до комбайнів")
-            res.render('categoryPage', {
-                pageTitle:  req.query.name + " Claas,John Deere, MF та іншої с/г техніки! Львівська область | TrackTop",
-                description: "Купити " + req.query.name + " Клаас, Джон Дір, Массей Фергюсон. Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
-                name: req.query.name
-            });
-        else if(req.query.name!="Інше")
-        res.render('categoryPage', {
-            pageTitle:  req.query.name + " та іншої с/г техніки! Корчин, Львівська область | TrackTop",
-            description: "Купити " + req.query.name + ". Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
-            name: req.query.name
-        });
-        else if(req.query.name=="Інше"){
+        let photo_location = null;
+
+        require('./db').get_equipments_categories( callback);
+        function  callback(error,data) {
+                if(error) {
+                    console.log("Error! ", error.sqlMessage);
+                }
+                else {
+                    data.forEach(function (i) {
+                       if(i.category_name == req.query.name) {
+                           photo_location = i.photo_location;
+                       }
+                    })
+                }
+            if(req.query.name=="Колеса"){
+                res.render('categoryPage', {
+                    pageTitle:  "Колеса до с/г техніки! Шини до спецтехніки. Корчин, Львівська область | TrackTop",
+                    description: "Купити колеса/шини до сільгосптехніки та спецтехніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                    name: req.query.name,
+                    photo_location: photo_location
+                });
+            }
+            else if(req.query.name=="Запчастини до комбайнів")
+                res.render('categoryPage', {
+                    pageTitle:  req.query.name + " Claas,John Deere, MF та іншої с/г техніки! Львівська область | TrackTop",
+                    description: "Купити " + req.query.name + " Клаас, Джон Дір, Массей Фергюсон. Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
+                    name: req.query.name,
+                    photo_location: photo_location
+                });
+            else if(req.query.name!="Інше")
+                res.render('categoryPage', {
+                    pageTitle:  req.query.name + " та іншої с/г техніки! Корчин, Львівська область | TrackTop",
+                    description: "Купити " + req.query.name + ". Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
+                    name: req.query.name,
+                    photo_location: photo_location
+                });
+            else if(req.query.name=="Інше"){
                 res.render('categoryPage', {
                     pageTitle:  "Запчастини до сільськогосподарської техніки! Корчин, Львівська область | TrackTop",
                     description: "Купити запчастини до сг техніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
-                    name: req.query.name
+                    name: req.query.name,
+                    photo_location: photo_location
                 });
+            }
         }
 
     }
@@ -71,11 +108,13 @@ exports.category = function(req, res) {
 exports.models = function(req, res) {
     //console.log(req.params.type);
         let type = req.params.type;
+        let photo_location = null;
         if(type ==="combine_details") {
             res.render('models', {
                 pageTitle: "Запчастини " + req.params.mark+ ". Купити запчастини до комбайнів " +req.params.mark + " Львівська область| TrackTop",
                 mark: req.params.mark,
-                description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по доступній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44"
+                description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по доступній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                photo_location : photo_location
             });
         }
 
@@ -190,7 +229,8 @@ exports.equipmentsByModel = function(req, res) {
                 name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
                 data: data.data,
                 mark : req.params.mark,
-                model : req.params.model
+                model : req.params.model,
+                photo_location : null
             });
         }
 

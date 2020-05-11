@@ -58,6 +58,11 @@
                    src="https://www.facebook.com/tr?id=446478622679823&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="http://tracktop.com.ua/images/technics_placeholders/equipment.jpg"/>
+    <meta property="og:description" content="<%= description %>"/>
+    <meta property="og:locale" content="uk_UA">
 </head>
 
 <body>
@@ -70,8 +75,9 @@
     <% include common/left_panel.ejs %>
 
     <div id="main">
+        <%include breadcrumbs.ejs%>
         <div class='type_header'>
-            <h1 class="h1_header no-margin-top" >Запчастини до с/г техніки</h1>
+            <h1 class="h1_header " >Запчастини до с/г техніки</h1>
         </div>
 
 <!--        <% include common/searchBar.ejs %>-->
