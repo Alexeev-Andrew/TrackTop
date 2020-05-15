@@ -43,13 +43,27 @@ exports.initialiseBasket = function(){
         closeNav();
     })
 
+
+
     $(".sendNumberButton").click(function () {
-        let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val();
-        client.sendMessage("-327577485", text, {
-            disable_web_page_preview: true,
-            disable_notification: false
-        });
-        document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
+
+         let phone = $("#tele_phone_call").val();
+         let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val();
+         if(phone.length == 16) {
+             client.sendMessage("-327577485", text, {
+                 disable_web_page_preview: true,
+                 disable_notification: false
+             });
+             document.getElementById('slibotph').style.display='none';
+             document.getElementById('content1').style.width='300px';
+             document.getElementById('content1').style.padding='0px';
+             document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
+
+         }
+         else {
+             //document.getElementById('mssgresbox').innerHTML = 'Помилка!';
+         }
+        //console.log($("#tele_phone_call").val() + ", len = " + $("#tele_phone_call").val().length);
     });
 
     initialiseCart();
@@ -359,11 +373,16 @@ jQuery(document).ready(function ($) {
         $('#content1').toggle();
         e.stopPropagation()
     });
+
     $('a#slibotph').click(function (e) {
         $(this).toggleClass('active');
         $('#content1').toggle();
         e.stopPropagation()
     })
+});
+
+jQuery(function($){
+    $("#tele_phone_call").mask("+38(999)999-9999");
 });
 
 exports.initialiseCart = initialiseCart;

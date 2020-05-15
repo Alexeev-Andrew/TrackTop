@@ -61,16 +61,16 @@
     </div>
 </div>
 
-<div id="pop_up_bl">
-    <a id="setcookieph" class="close" href="#" title="Закрыть" onclick="document.getElementById('minbotph').style.display='block';document.getElementById('pop_up_bl').style.display='none'; return false;"></a>
-    <a id="stbotph" href="#" onclick="document.getElementById('stbotph').style.display='none';document.getElementById('slibotph').style.display='block';return false;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle" style="transform-origin: center;"><div class="img-circleblock" style="transform-origin: center;"></div></div></a>
-    <a id="slibotph" href="#" onclick="document.getElementById('slibotph').style.display='none';document.getElementById('stbotph').style.display='block';return false;" style="display: none;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle2" style="transform-origin: center;"><div class="img-circleblock2" style="transform-origin: center;"></div></div></a>
+<div id="pop_up_bl" class="float_btn_r">
+    <a id="setcookieph" class="close" href="#" title="Закрити" onclick="document.getElementById('minbotph').style.display='block';document.getElementById('pop_up_bl').style.display='none'; return false;"></a>
+    <a id="stbotph" href="#" onclick="document.getElementById('stbotph').style.display='none';document.getElementById('slibotph').style.display='block';document.getElementById('pop_up_bl').classList.remove('float_btn_r');return false;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle" style="transform-origin: center;"><div class="img-circleblock" style="transform-origin: center;"></div></div></a>
+    <a id="slibotph" href="#" onclick="document.getElementById('slibotph').style.display='none';document.getElementById('stbotph').style.display='block';document.getElementById('pop_up_bl').classList.remove('float_btn_r');return false;" style="display: none;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle2" style="transform-origin: center;"><div class="img-circleblock2" style="transform-origin: center;"></div></div></a>
     <div id="content1" style="display: none;">
         <div id="mssgresbox">
             <form method="post" action="" id="formMain" name="">
                 <label for="tele_phone_call" id="labtelcal">Приклад: +380979361952 </label>
                 <input id="tele_phone_call" type="tel" name="tele_phone_call" onkeyup="if(this.value.length >= 7) document.getElementById('butcall').disabled = false; else document.getElementById('butcall').disabled = true;" placeholder="Введіть тут ваш номер"  autocomplete="off"/>
-                <input id="butcall" type="button" class="sendNumberButton" value="" onclick="document.getElementById('slibotph').style.display='none'; document.getElementById('content1').style.width='300px'; document.getElementById('content1').style.padding='0px';"  disabled/>
+                <input id="butcall" type="button" class="sendNumberButton" value="" onclick=""  disabled/>
             </form>
         </div>
     </div>

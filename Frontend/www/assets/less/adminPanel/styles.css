@@ -214,7 +214,7 @@ select:focus {
 
 .navbar {
   position: fixed;
-  z-index: 1;
+  z-index: 8001;
   width: 100%;
   background: #fff;
   height: 80px;
