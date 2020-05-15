@@ -15,11 +15,11 @@
     <div style="display: flex;">
         <div class="header-right">
             <div class="mess-bask" style="display: flex;">
-                <a href="#"id="writeMessageMainPage" onclick="openMessageModal();"><i class="fas fa-envelope icons"></i></a>
-                <a href="#"id="basketBtn" class='basketBtn'><i class="fa fa-shopping-basket icons"></i></a>
+                <a id="writeMessageMainPage" onclick="openMessageModal(); fbq('trackCustom', 'openMessageModal');" ><i class="fas fa-envelope icons"></i></a>
+                <a id="basketBtn"  onclick="fbq('trackCustom', 'openBasket');" class='basketBtn'><i class="fa fa-shopping-basket icons"></i></a>
             </div>
             <div class="log-sign">
-                <a id="login" href="#login" display="none"><i class="fas fa-door-open icons"></i></a>
+                <a id="login"  onclick="fbq('trackCustom', 'Login');" display="none"><i class="fas fa-door-open icons"></i></a>
             </div>
         </div>
         <img id="user_photo" alt='This is a user image' display="none">
@@ -73,7 +73,7 @@
             </button>
         </div>
     </form>
-    <a id="signup" class="signup-back" href="#signup" display="none">Зареєструватися</a>
+    <a id="signup" class="signup-back" display="none" onclick="fbq('trackCustom', 'ClickRegistration');">Зареєструватися</a>
 </div>
 
 
