@@ -8,31 +8,12 @@
         <% } else { %>
              alt ="Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>"
         <% } %>>
-        <!--
-        <div class="caption">
-            <div class="model"><b><span class="mark_"><%= technic.name %></span> <span class="model_"><%= technic.model %></span></b></div>
-            <div class="price"><i>Ціна:</i> <%= technic.price %> <%= technic.currency %></div>
-            <% if(technic.country_producer) { %>
-            <div class="amount"><i>Виробник:</i> <%= technic.country_producer%></div>
-            <%}%>
-            <div class="amount"><i>Кількість:</i> <%= technic.amount %></div>
-            <div class="description"><i>Опис:</i> <%= technic.description %></div>
 
-            !-->
 
         <div class="caption">
             <a href="<%= technic.url %>">
                 <div class="model">
                     <h3 class="mark_" >
-                        <span style="height: 1px; display: block;overflow: hidden">
-                            <%if(technic.type_name==="Преси-підбирачі") {%>Купити прес-підбирач(купить пресс-подборщик)
-                            <%} else if(technic.type_name==="Сівалки"){%>Купити сівалку(купить сеялку)
-                                <%} else if(technic.type_name==="Жатки"){%>Купити жатку(купить жатку)
-                            <% } else { %>
-                                Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %>
-                                    (купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %>)
-                            <% } %>
-                        </span>
                         <span class="mark_technic"><%= technic.name %></span>
                         <span class="model_"><%= technic.model %></span>
                     </h3>

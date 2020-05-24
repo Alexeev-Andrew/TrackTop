@@ -14,12 +14,6 @@
                 <a href="<%= equipment.url %>">
 
                 <h3 class="child_name"><%= equipment.name %>
-                        <% if(equipment.technic_type=="Комбайни"){ %>
-                            до комбайна <%= equipment.technic_mark %> <%= equipment.model %>
-                            <div style="height: 1px; width: 1px; overflow: hidden">( <%=equipment.mark_name_ukr%>
-                                <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>
-                                <% } else {%><%= equipment.model %>  <% } %>) </div>
-                        <%}%>
                     </h3>
                 </a>
             </div>
