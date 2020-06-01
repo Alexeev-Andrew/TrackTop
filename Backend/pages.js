@@ -113,7 +113,7 @@ exports.models = function(req, res) {
             res.render('models', {
                 pageTitle: "Запчастини " + req.params.mark+ ". Купити запчастини до комбайнів " +req.params.mark + " Львівська область| TrackTop",
                 mark: req.params.mark,
-                description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по доступній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по вигідній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                 photo_location : photo_location
             });
         }
@@ -169,7 +169,7 @@ exports.technic = function(req, res) {
 exports.equipment = function(req, res) {
    // var model = req.query.model;
 
-    console.log(req);
+    //console.log(req);
 
     require('./db').get_equipment_by_id(req.query.id, function (error,data) {
 
@@ -184,12 +184,43 @@ exports.equipment = function(req, res) {
 
             if(data.length>0) {
                 // console.log(data[0]+"\n");
+                if(data[0].category_name != "Запчастини до комбайнів") {
+                    res.render('oneEquipmentPage', {
+                        equipment: data[0],
+                        title: "Купити " + data[0].name + ". " + data[0].category_name + ". Запчастини до сг техніки Львів | TrackTop",
+                        description: "Купити " + data[0].description + " | TrackTop"
+                    });
+                }
+                else {
+                    ///
+                    require('./db').get_equipment_withModels_by_id(req.query.id, function (error, data) {
 
-                res.render('oneEquipmentPage', {
-                    equipment: data[0],
-                    title: "Купити " + data[0].name + ". "+ data[0].category_name + ". Запчастини до сг техніки Львіська область | TrackTop",
-                    description : "Купити " + data[0].description + " | TrackTop"
-                });
+                        if (error) {
+                            console.log("Error! ", error.sqlMessage);
+                            res.send({
+                                success: true,
+                                error: error.sqlMessage
+                            });
+                        } else {
+
+                            if (data.length > 0) {
+
+                                let s = "";
+                                for (let i =0; i < data.length;i ++) {
+                                    s += data[i].model;
+                                    if(i<data.length-1) s +=",";
+                                }
+
+                                res.render('oneEquipmentPage', {
+                                    equipment: data[0],
+                                    title: data[0].name + " " + data[0].technic_mark + " "  + s +" | TrackTop",
+                                    description: "Купити " + data[0].name + " до комбайна " + data[0].technic_mark + " "  + s +". Запчастини до комбайнів " + "Львів | TrackTop"
+                                });
+                            }
+                        }
+                        ///
+                    });
+                }
             }
         }
     });
