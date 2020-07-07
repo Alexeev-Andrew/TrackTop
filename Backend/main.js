@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var compression = require('compression');
+const minifyHTML = require('express-minify-html');
 
 var isAuth = require('./authentification/isAuth.js');
 var roleRequired = require('./authentification/RoleRequired.js');
@@ -220,6 +222,21 @@ function startServer(port) {
 
     //Налаштування виводу в консоль списку запитів до сервера
     app.use(morgan('dev'));
+    // use compression
+    app.use(compression());
+
+    app.use(minifyHTML({
+        override: true,
+        exception_url: false,
+        htmlMinifier: {
+            removeComments: true,
+            collapseWhitespace: true,
+            collapseBooleanAttributes: false,
+            removeAttributeQuotes: false,
+            removeEmptyAttributes: false,
+            minifyJS: true
+        }
+    }));
 
     //Розбір POST запитів
     app.use(bodyParser.urlencoded({ extended: false }));

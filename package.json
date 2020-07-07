@@ -13,6 +13,7 @@
     "blueimp-file-upload": "^10.4.0",
     "body-parser": "^1.14.2",
     "brfs": "^1.4.3",
+    "compression": "^1.7.4",
     "doka": "^0.1.0",
     "ejs": "^2.4.1",
     "express": "^4.16.2",
@@ -36,6 +37,7 @@
     "zlib": "^1.0.5"
   },
   "devDependencies": {
+    "express-minify-html": "^0.12.0",
     "fancybox": "^3.0.1"
   }
 }
