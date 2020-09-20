@@ -41,4 +41,6 @@ $(function(){
     require('./profile/user_form').isLogged();
 
     require('./profile/profile').updateClient();
+
+    require('./profile/signup_form').openSubscribeModal();
 });

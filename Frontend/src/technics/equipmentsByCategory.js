@@ -40,6 +40,8 @@ $(function(){
     require('../profile/login_form').login();
 
     require('../profile/user_form').isLogged();
+    require('../profile/signup_form').openSubscribeModal();
+
 
     $('.edit-profile').click(function(){
         document.location.href = "http://tracktop.com.ua/profile";

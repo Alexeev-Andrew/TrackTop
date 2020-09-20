@@ -99,6 +99,8 @@ $(function(){
 
     require('../profile/user_form').isLogged();
     initialize();
+    require('../profile/signup_form').openSubscribeModal();
+
 
     $('.edit-profile').click(function(){
         document.location.href = "http://tracktop.com.ua/profile";

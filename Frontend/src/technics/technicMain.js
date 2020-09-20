@@ -171,6 +171,7 @@ $(function(){
 
     require('../profile/signup_form').initializeLogin();
     require('../pagesScripts/leftPanel').initialize();
+    require('../profile/signup_form').openSubscribeModal();
 
 
     require('../profile/login_form').login();

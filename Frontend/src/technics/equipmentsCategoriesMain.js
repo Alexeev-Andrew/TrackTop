@@ -37,6 +37,7 @@ $(function(){
 
    // initialize();
     require('../profile/login_form').login();
+    require('../profile/signup_form').openSubscribeModal();
 
     require('../profile/user_form').isLogged();
 

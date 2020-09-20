@@ -236,6 +236,74 @@ openMessageModal = function () {
     //})
 }
 
+function createCookie(name, value, days) {
+    var expires;
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+    }
+    else {
+        expires = "";
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function getCookie(c_name) {
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) {
+                c_end = document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
+    }
+    return "";
+}
+
+const getDeviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    if (
+        /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+            ua
+        )
+    ) {
+        return "mobile";
+    }
+    return "desktop";
+};
+
+exports.openSubscribeModal = function(){
+    let device = getDeviceType();
+    if(device == "mobile" || device == "tablet") {
+        let cookie = getCookie('visited');
+        if ('' == cookie) {
+            $('#subscribeModal').modal('show');
+            // $('#messageModal').on('shown.bs.modal', function(e) {
+            $('#user_info').css("display", "none");
+            $('#myForm').css("display", "none");
+            createCookie('visited', 'yes', 2);
+        }
+
+    }
+    $('body').on('mouseleave', function() {
+        let cookie = getCookie('visited');
+        if ('' == cookie) {
+            $('#subscribeModal').modal('show');
+            // $('#messageModal').on('shown.bs.modal', function(e) {
+            $('#user_info').css("display", "none");
+            $('#myForm').css("display", "none");
+            createCookie('visited', 'yes', 2);
+        }
+    });
+}
+
 Notify = function(text, callback, close_callback, style) {
 
     var time = '20000';
