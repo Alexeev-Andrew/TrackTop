@@ -205,11 +205,12 @@ function configureEndpoints(app) {
     })
 
     app.get('/admin-panel7913', /*isAuth, attachCurrentUser, roleRequired.requiredRole('admin'),*/ pages.adminPanel);
-
+    // app.get("/.well-known/acme-challenge/dUyRDhJZ0HlGDcm6tVe_JwWItIxNyMox6LqknnQvyGk")
     //Якщо не підійшов жоден url, тоді повертаємо файли з папки www
     app.use(express.static(path.join(__dirname, '../Frontend/www')));
     app.use('/images',express.static(path.join(__dirname, '../Backend/res/images')));
     app.use(robots(__dirname + '/robots.txt'));
+    app.use(express.static('static'));
 }
 
 function startServer(port) {
