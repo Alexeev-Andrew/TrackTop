@@ -211,6 +211,7 @@ function configureEndpoints(app) {
     app.use('/images',express.static(path.join(__dirname, '../Backend/res/images')));
     app.use(robots(__dirname + '/robots.txt'));
     app.use(express.static('static'));
+    httpApp.use("/.well-known/acme-challenge", express.static("static/.well-known/acme-challenge"));
 }
 
 function startServer(port) {
