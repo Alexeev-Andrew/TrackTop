@@ -43,6 +43,17 @@ exports.initialiseBasket = function(){
         closeNav();
     })
 
+    $('#subscribeEmail').click(function () {
+        let email = document.getElementById("email").value;
+        if(emailIsValid(email)) {
+            $("#error-msg").css("display","none");
+            writeEmail(email);
+            alert("Дякуємо за підписку!")
+        }
+        else {
+            $("#error-msg").css("display","block");
+        }
+    })
 
 
     $(".sendNumberButton").click(function () {
@@ -350,6 +361,37 @@ function getCurrentDate() {
     today = yyyy + "/" + mm + '/' + dd ;
     return today;
 }
+
+
+function emailIsValid (email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function writeEmail(email) {
+    document.getElementById("email-ajax").value = email;
+    sendAjaxForm('result_form', 'ajax_form', 'action_ajax_form.php');
+}
+
+
+
+
+function sendAjaxForm(result_form, ajax_form, url) {
+    $.ajax({
+        url:     'addUserFormSubmit', //url страницы (action_ajax_form.php)
+        type:     "POST", //метод отправки
+        dataType: "html", //формат данных
+        data: $("#"+ajax_form).serialize(),  // Сеарилизуем объект
+        success: function(response) { //Данные отправлены успешно
+            result = $.parseJSON(response);
+            // alert("Thank you for subscribing!")
+            //$('#result_form').html('Thank you!');
+        },
+        error: function(response) { // Данные не отправлены
+            $('#result_form').html('Ошибка. Данные не отправлены.');
+        }
+    });
+}
+
 
 
 jQuery(document).ready(function ($) {

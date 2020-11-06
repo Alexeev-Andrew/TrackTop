@@ -1,4 +1,29 @@
+<div class="footer footer-sub">
+    <div class="newsLetterContainer"><div class="title_subsc">Будьте першими!</div><div class="subTitle_subs">Підпишіться, щоб залишатися в курсі усіх новин!</div>
+        <div class="newsLetterInputContainer">
+
+            <form method="POST" id="ajax_form" action="" style="display: none;">
+                <input type="email" id="email-ajax" name="email">
+            </form>
+
+            <form class=""><div class="formInlineContainer">
+                    <div class="formItem formEmailInputInlineButton">
+                        <div class=""><label for="email"></label>
+                            <div class="input-email"><div class="">
+                                    <input type="email" id="email" name="email" placeholder="Email Address" value="" data-automation="email-address-input">
+                                    <div class="highlight"></div></div></div>
+                            <div id="error-msg" data-automation="email-address-input-inline-error-msg">Введіть дійсну е-пошту</div></div></div>
+
+                    <button id="subscribeEmail"  class="button_sub secondary_sub formButtonInlineButton regular_sub" type="button" data-automation="subscribe-newsletter-button">
+                        <span class="content_sub" tabindex="-1">Підписатись</span></button>
+                </div></form>
+        </div>
+    </div>
+</div>
+
+
 <div class="footer">
+
     <div class="about-cart row">
         <span class="col-lg-4 col-xs-12 contacts-block">
             <h4>TrackTop</h4>
@@ -59,6 +84,7 @@
             </div>
         </span>
     </div>
+
 </div>
 
 <div id="pop_up_bl" class="float_btn_r">
@@ -74,5 +100,6 @@
             </form>
         </div>
     </div>
+
 </div>
 <a id="minbotph"  href="#" onclick="document.getElementById('pop_up_bl').style.display='block';document.getElementById('minbotph').style.display='none'; fbq('trackCustom', 'clickCallButton2');return false;"><div class="call_button"></div></a>

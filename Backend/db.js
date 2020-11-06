@@ -111,6 +111,11 @@ exports.insert_equipment_photos = function(photos,id,callback){
         connection.query("INSERT INTO tracktop.images_equipments SET ?", {file_name:photos[i].val,id_equipment:id}, callback);
     }
 }
+
+exports.insert_emails = function(email,callback){
+        connection.query("INSERT INTO tracktop.emails SET ?", {email:email}, callback);
+}
+
 //select methods
 
 exports.get_id = function (table_name, name , callback) {

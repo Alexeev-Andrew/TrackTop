@@ -66,6 +66,9 @@ function configureEndpoints(app) {
     app.post('/api/gettechnicsbyid', api.get_technic_by_id);
     app.post('/api/getequipmentsbyid', api.get_equipment_by_id);
 
+    app.post('/addUserFormSubmit', api.addUserSubmitFnc);
+
+
 
     // app.post('/api/gettechnicsmodelim', api.get_technics_im_by_tp_model);
     app.post('/api/gettechnicsmodelim', api.get_technics_im_by_id);
@@ -211,8 +214,11 @@ function configureEndpoints(app) {
     app.use('/images',express.static(path.join(__dirname, '../Backend/res/images')));
     app.use(robots(__dirname + '/robots.txt'));
     app.use(express.static('static'));
-    httpApp.use("/.well-known/acme-challenge", express.static("/static/.well-known/acme-challenge"));
+
 }
+
+
+
 
 function startServer(port) {
     //Створюється застосунок

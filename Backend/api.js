@@ -1269,3 +1269,29 @@ exports.delete_check_equipments_by_equipment_id = function(req,res){
 
     db.delete_check_equipments_by_equipment_id(info.id,callback);
 }
+
+exports.addUserSubmitFnc = function (req, res)
+{
+
+    let db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+
+    db.insert_emails(req.body.email,callback);
+
+}
