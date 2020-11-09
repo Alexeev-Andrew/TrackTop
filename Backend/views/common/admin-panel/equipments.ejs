@@ -3,7 +3,8 @@
 
     <!-- Another variation with a button -->
     <span class="input-group  col1">
-            <input type="text" class="form-control mysearch search-admin-panel" placeholder="Пошук" onkeyup="filterSelect(2)"/>
+            <input type="text" class="form-control mysearch search-admin-panel" placeholder="Пошук"
+                   onkeyup="filterSelect(2)"/>
             <div class="input-group-append">
                 <button class="btn btn-secondary btn-admin-header" type="button" onclick="openAddEquipmentModel()">
                     <i class="fa fa-search"></i>
@@ -38,7 +39,7 @@
 </div>
 
 
-<div id="addEquipmentModel" class="modal">
+<div id="addEquipmentModel" class="modal scroll">
 
     <form class="modal-content" onsubmit='return false'>
         <div class="header-signup">
@@ -54,11 +55,13 @@
             <span class="form-group">
                 <span class="name-type">Назва</span>
      <div class="ds">
-                 <input id="name-equipment" type="text" placeholder="Назва" class="form-control form-item admin-panel-input" required>
+                 <input id="name-equipment" type="text" placeholder="Назва"
+                        class="form-control form-item admin-panel-input" required>
      </div>
                 <span class="name-type right-type">Код</span>
      <div class="ds">
-                 <input id="equipment-code" type="text" placeholder="Код" class="form-control form-item admin-panel-input">
+                 <input id="equipment-code" type="text" placeholder="Код"
+                        class="form-control form-item admin-panel-input">
      </div>
 <br>
 <div class="name-type">Ціна</div>
@@ -77,42 +80,51 @@
 
                 <!--    <label for="sel1">Тип</label>-->
                 <div class="name-type right-type">Стан</div>
-                <div class="state">
+                 <div class="ds">
+<!--                <div class="">-->
       <select class="form-control form-item admin-panel-input" id="state-choice" name="sellist1">
            <option selected>б/у</option>
         <option>новий</option>
       </select>
-                    </div>
-                <div class="name-type right-type">К-сть</div>
-                <div class="amount-input">
-                <input id="equipment-amount" type="number" placeholder="Кількість" class="form-control form-item admin-panel-input"
+<!--                    </div>-->
+                 </div>
+                <br>
+                <div class="name-type">К-сть</div>
+                 <div class="ds">
+<!--                <div class="">-->
+                <input id="equipment-amount" type="number" placeholder="Кількість"
+                       class="form-control form-item admin-panel-input"
                        min="0" required value="1">
                     <!--                <label for="mark-choice">Модель</label>-->
-                </div>
+<!--                </div>-->
+                 </div>
 
                 <br>
                 <div>Категорія запчастини</div>
 
-                <div class="ds"> <select class="form-control form-item admin-panel-input" id="categories_modal" name="categories_modal"
-                                                              onchange="unlockType()">
+                <div class="ds ds-mobile-full"> <select class="form-control form-item admin-panel-input" id="categories_modal"
+                                         name="categories_modal"
+                                         onchange="unlockType()">
 <!--          <option selected disabled>Тип</option>-->
-<!--                        <option selected disabled>Категорія</option>-->
+                        <!--                        <option selected disabled>Категорія</option>-->
                      </select>
          </div>
 
                 <br/>
                 <div>Підходить до моделей:</div>
-<!--                <span class="name-type">Категорія</span>-->
-                     <div class="ds"> <select class="form-control form-item admin-panel-input" id="type_technics" name="sellist1"
+                <!--                <span class="name-type">Категорія</span>-->
+                     <div class="ds ds-mobile-full"> <select class="form-control form-item admin-panel-input" id="type_technics"
+                                              name="sellist1"
                                               onchange="getMarks()" disabled>
 <!--          <option selected disabled>Тип</option>-->
                         <option selected disabled>Тип</option>
                      </select>
          </div>
                 <span class="name-type  right-type">Марка</span>
-                <div class="ds">
-                    <select class="form-control form-item admin-panel-input" id="mark-choice" list="marks" placeholder="Марка" disabled onchange="showModels()"> </select>
-<!--       onchange="getModels()"-->
+                <div class="ds ds-mobile-full">
+                    <select class="form-control form-item admin-panel-input" id="mark-choice" list="marks"
+                            placeholder="Марка" disabled onchange="showModels()"> </select>
+                    <!--       onchange="getModels()"-->
 
 </div>
                 <datalist id="marks">
@@ -122,7 +134,8 @@
                 <div class="form-group">
                     <div class="name-type">Модель</div>
                     <div class="ds ds-models">
-                <select class="form-control form-item admin-panel-input" id="model-choice" placeholder="Модель" disabled ></select>
+                <select class="form-control form-item admin-panel-input" id="model-choice" placeholder="Модель"
+                        disabled></select>
                     </div>
                     <div class="">
                 <label for="description">Опис</label>
@@ -132,7 +145,7 @@
                 </div>
 
 <div id="fileUploadForm" class="uploader__box js-uploader__box l-center-box">
-  <form id="fileUploadForm" >
+  <form id="fileUploadForm">
       <div class="uploader__contents">
           <label class="button button--secondary" for="fileinput">Додати фото</label>
           <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">

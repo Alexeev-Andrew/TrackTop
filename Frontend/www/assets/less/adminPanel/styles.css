@@ -546,9 +546,6 @@ ul .technic_menu {
 }
 
 
-.modal-content {
-  height: 90%!important;
-}
 
 .scroll {
   overflow-y: auto;
@@ -606,7 +603,16 @@ ul .technic_menu {
     font-size: 2em;
   }
 
+  #sidebar ul {
+    margin: 0;
+  }
+  #sidebar h5 {
+    margin-top: 5px;
+  }
 
+  #sidebar ul li a {
+    padding: 0;
+  }
   /*.col1 {*/
   /*  height: 80px;*/
   /*}*/
