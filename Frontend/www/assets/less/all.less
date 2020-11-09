@@ -18,7 +18,17 @@
   font-size: 1.5rem !important;
 }
 
+#add-btn, #cancel-modal-admin-panel {
+  min-width: 85px!important;
+}
 
+.one-row-admin-panel {
+  display: inline;
+}
+
+#currency-choice {
+  height: 38px;
+}
 
 .col2 {
   margin-left: 10px;
@@ -117,7 +127,7 @@ hr {
 
 @media screen and (max-width: 768px) {
   .ds {
-    width: 30%;
+    width: 30%!important;
   }
 
 }
@@ -125,10 +135,10 @@ hr {
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 425px) {
   .modal-content {
-    margin: 0;
+    margin: 0!important;
   }
   .ds {
-    width: 75%;
+    width: 75%!important;
   }
 
 }
@@ -138,7 +148,7 @@ hr {
     margin: 0;
   }
   .ds {
-    width: 100%;
+    width: 100%!important;
   }
 }
 
@@ -296,12 +306,21 @@ select {
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
+   .name-type {
+     text-align: left;
+     padding-left: 0;
+   }
+
+  #allTechnics {
+    margin: 0;
+  }
+
   .modal-content {
    // margin: 0;
   }
   .ds {
-    width: 75%;
+    width: 75%!important;
   }
   th, tr{
     font-size: 14px;
@@ -314,7 +333,7 @@ select {
    // margin: 0;
   }
   .ds {
-    width: 100%;
+    width: 100%!important;
   }
   th, tr {
     font-size: 12px;
@@ -337,3 +356,4 @@ select {
   margin-right: 0px !important;
   margin-left: 0px !important;
 }
+

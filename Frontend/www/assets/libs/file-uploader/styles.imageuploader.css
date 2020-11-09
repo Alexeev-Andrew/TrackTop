@@ -605,12 +605,24 @@ h6 {
   margin: 2em auto; }
 
 .uploader__file-label--secondary {
-  display: inline-block;
-  margin: 0 0.5em; }
+  cursor: pointer;
+  margin: 15px auto;}
 
 .uploader__further-instructions {
-  margin-left: 16.94915%;
+  text-align: center;
+  margin: auto;
   clear: both;
   color: #969696;
   font-size: 0.9em;
   padding: 0.5em; }
+
+
+@media screen and (max-width: 500px) {
+    .uploader__file-list__text {
+      display: none;
+    }
+    .uploader__file-list__thumbnail > img {
+      max-height: 100px;
+      max-width: 100px;
+    }
+}

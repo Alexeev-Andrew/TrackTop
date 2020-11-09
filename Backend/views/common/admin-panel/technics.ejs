@@ -6,7 +6,7 @@
             <input class="form-control mysearch search-admin-panel" placeholder="Пошук" type="text" onkeyup="
             filterSelect(1)">
             <div class="input-group-append">
-                <button class="btn btn-secondary btn-admin-header" type="button" >
+                <button class="btn btn-secondary btn-admin-header" type="button">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
@@ -20,7 +20,7 @@
 </div>
 
 
-<div class="table-responsive-md" id ="allTechnics">
+<div class="table-responsive-md" id="allTechnics">
     <table class="table  table-hover table-bordered technics-table">
         <thead class="thead-dark">
         <tr>
@@ -56,35 +56,45 @@
 
             <span class="form-group">
 <!--    <label for="sel1">Тип</label>-->
+
+                <div class="one-row-admin-panel">
                 <span class="name-type">Тип</span>
-     <div class="ds"> <select class="form-control form-item admin-panel-input" id="type_technics" name="sellist1" onchange="getModels()">
-
-
-      </select>
+     <div class="ds"> <select class="form-control form-item admin-panel-input" id="type_technics" name="sellist1"
+                              onchange="getModels()">
+         </select>
          </div>
+                </div>
                 <!--                <label for="mark-choice">Модель</label>-->
+
+                <div class="one-row-admin-panel">
                  <span class="name-type  right-type">Марка</span>
                 <div class="ds">
-<input class="form-control form-item admin-panel-input" id="mark-choice" list="marks" placeholder="Марка" required onchange="getModels()" disabled/>
+<input class="form-control form-item admin-panel-input" id="mark-choice" list="marks" placeholder="Марка" required
+       onchange="getModels()" disabled/>
 </div>
 <datalist id="marks">
     <option disabled selected value="Марка"/>
 </datalist>
+                </div>
                 <br>
+                <div class="one-row-admin-panel">
                 <div class="name-type ">Модель</div>
                 <div class="ds">
-<input class="form-control form-item admin-panel-input" id="model-choice" list="models" placeholder="Модель" required disabled/>
+<input class="form-control form-item admin-panel-input" id="model-choice" list="models" placeholder="Модель" required
+       disabled/>
 </div>
 <datalist id="models">
     <option disabled selected value="Модель"/>
 </datalist>
+                </div>
 
-
+                <div class="one-row-admin-panel">
 <div class="name-type right-type">Ціна</div>
                <div class="ds">
-                   <input class="form-control form-item admin-panel-input" id="price-input-technic" min="1" name ="price-input" placeholder="Ціна" required type="number">
+                   <input class="form-control form-item admin-panel-input" id="price-input-technic" min="1"
+                          name="price-input" placeholder="Ціна" required type="number">
 
-                <div class="currency" >
+                <div class="currency">
                 <select class="form-control form-item ds admin-panel-input" id="currency-choice">
         <option>$</option>
         <option>&euro;</option>
@@ -92,21 +102,24 @@
       </select>
                     </div>
                     </div>
+                </div>
  <br>
 
-
+            <div class="one-row-admin-panel">
                 <div class="name-type">Рік</div>
                 <div class="ds">
-                <input class="form-control form-item admin-panel-input" max="2020" min="1950" placeholder="Рік випуску" required
+                <input class="form-control form-item admin-panel-input" max="2020" min="1950" placeholder="Рік випуску"
+                       required
                        type="number" name="year-input" id="year-technic-input">
                 </div>
+            </div>
                 <div class="form-group">
                 <label for="description">Опис</label>
                 <textarea class="form-control" id="description" name="description" rows="6"></textarea>
             </div>
 
                <div id="fileUploadForm" class="uploader__box js-uploader__box l-center-box">
-  <form id="fileUploadForm" >
+  <form id="fileUploadForm">
       <div class="uploader__contents">
           <label class="button button--secondary" for="fileinput">Додати фото</label>
           <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">
@@ -118,8 +131,8 @@
 
              </span>
             <div class="signup-btn-container">
-                <button class="btn btn-primary btn-small" id="add-btn" onclick="addTechnicToDB()">Додати</button>
-                <button class="btn btn-danger btn-small" data-dismiss="modal"
+                <button class="btn btn-primary btn-small " id="add-btn" onclick="addTechnicToDB()">Додати</button>
+                <button class="btn btn-danger btn-small" id="cancel-modal-admin-panel"data-dismiss="modal"
                         onclick="document.getElementById('addTechnicModel').style.display='none'">
                     Скасувати
                 </button>
