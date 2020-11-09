@@ -4,6 +4,7 @@ var container_num = 1;
 var values = require('../values.js');
 var API_URL = values.url;
 var file_uploader = require('blueimp-file-upload');
+let jquery_ui = require('jquery-ui');
 var type = 'tech';
 
 //multiple = new MultipleSelect();
@@ -498,8 +499,8 @@ $(function(){
                 " <td class=\"mark\">"+item.marks_of_technics_name+"</td>" +
                 " <td class=\"model\">"+item.model+"</td>" +
                 " <td class=\"price\">"+item.price+"</td>" +
-                " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit\"></i></button></td>" + //onclick='deleteTechnic(this)'
-                "<td class=\"delete-btn delete-btn-technic\"><button class=\"btn btn-secondary\" onclick='openRemoveModalTechnic(this)'><i class=\"fa fa-remove\"></i></button></td>" +
+                " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" + //onclick='deleteTechnic(this)'
+                "<td class=\"delete-btn delete-btn-technic\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openRemoveModalTechnic(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
                 "</tr>"
             $("#allTechnics tbody").append(el
             );
@@ -534,8 +535,8 @@ $(function(){
                 " <td class=\"price\">"+item.price+"</td>" +
                 " <td class=\"code\">"+item.vendor_code+"</td>" +
                 " <td class=\"amount\">"+item.amount+"</td>" +
-                " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit\"></i></button></td>" +
-                "<td class=\"delete-btn\"><button class=\"btn btn-secondary\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove\"></i></button></td>" +
+                " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
+                "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
                 "</tr>"
             );
         });
@@ -552,8 +553,8 @@ function productBuildTableRow(id) {
         " <td class=\"price\">"+"45"+"</td>" +
         " <td class=\"code\">"+"KM342342i"+"</td>" +
         " <td class=\"amount\">"+"9000"+"</td>" +
-        " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit\"></i></button></td>" +
-        "<td class=\"delete-btn\"><button class=\"btn btn-secondary\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove\"></i></button></td>" +
+        " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
+        "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
         "</tr>";
 
     return ret;
@@ -1191,3 +1192,75 @@ function hideModal(){
          }
         return false;
  }
+
+
+ // $(".uploader__file-list__item").each(function(i) {
+ //     var item = $(this);
+ //     var item_clone = item.clone();
+ //     item.data("clone", item_clone);
+ //     var position = item.position();
+ //     item_clone
+ //         .css({
+ //             left: position.left,
+ //             top: position.top,
+ //             visibility: "hidden"
+ //         })
+ //         .attr("data-pos", i+1);
+ //
+ //     $("#cloned.uploader__file-list__items").append(item_clone);
+ // });
+ //
+ // $(".js-uploader__file-list").sortable({
+ //
+ //     axis: "y",
+ //     revert: true,
+ //     scroll: false,
+ //     placeholder: "sortable-placeholder",
+ //     cursor: "move",
+ //
+ //     start: function(e, ui) {
+ //         ui.helper.addClass("exclude-me");
+ //         $(".js-uploader__file-list .uploader__file-list__item:not(.exclude-me)")
+ //             .css("visibility", "hidden");
+ //         ui.helper.data("clone").hide();
+ //         $(".cloned.uploader__file-list__items .uploader__file-list__item").css("visibility", "visible");
+ //     },
+ //
+ //     stop: function(e, ui) {
+ //         $(".js-uploader__file-list .uploader__file-list__item.exclude-me").each(function() {
+ //             var item = $(this);
+ //             var clone = item.data("clone");
+ //             var position = item.position();
+ //
+ //             clone.css("left", position.left);
+ //             clone.css("top", position.top);
+ //             clone.show();
+ //
+ //             item.removeClass("exclude-me");
+ //         });
+ //
+ //         $(".js-uploader__file-list .uploader__file-list__item").each(function() {
+ //             var item = $(this);
+ //             var clone = item.data("clone");
+ //
+ //             clone.attr("data-pos", item.index());
+ //         });
+ //
+ //         $(".js-uploader__file-list .uploader__file-list__item").css("visibility", "visible");
+ //         $(".cloned.uploader__file-list__items .uploader__file-list__item").css("visibility", "hidden");
+ //     },
+ //
+ //     change: function(e, ui) {
+ //         $(".js-uploader__file-list .uploader__file-list__item:not(.exclude-me)").each(function() {
+ //             var item = $(this);
+ //             var clone = item.data("clone");
+ //             clone.stop(true, false);
+ //             var position = item.position();
+ //             clone.animate({
+ //                 left: position.left,
+ //                 top: position.top
+ //             }, 200);
+ //         });
+ //     }
+ //
+ // });

@@ -3,32 +3,32 @@
 
     <!-- Another variation with a button -->
     <span class="input-group  col1">
-            <input type="text" class="form-control mysearch" placeholder="Пошук" onkeyup="filterSelect(2)"/>
+            <input type="text" class="form-control mysearch search-admin-panel" placeholder="Пошук" onkeyup="filterSelect(2)"/>
             <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" onclick="openAddEquipmentModel()">
+                <button class="btn btn-secondary btn-admin-header" type="button" onclick="openAddEquipmentModel()">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </span>
 
     <span class="col2">
-        <button class="btn btn-secondary" type="button" onclick="openAddEquipmentModel()">
+        <button class="btn btn-secondary btn-admin-header" type="button" onclick="openAddEquipmentModel()">
             <i class="fa fa-plus"></i>
         </button>
         </span>
 </div>
 
 <div class=" myTable table-responsive-md" id="allEquipments">
-    <table class="table  table-striped table-hover table-bordered">
+    <table class="table  table-striped table-hover table-bordered equipments-table">
         <thead class="thead-dark">
         <tr>
-            <th>#</th>
+            <th class="id">#</th>
             <th>Назва</th>
             <th>Ціна</th>
             <th>Код</th>
             <th>Кількість</th>
-            <th id="">Редагувати</th>
-            <th>Видалити</th>
+            <th id="">Ред</th>
+            <th>Вид</th>
 
         </tr>
         </thead>

@@ -3,17 +3,17 @@
 
     <!-- Another variation with a button -->
     <span class="input-group  col1">
-            <input class="form-control mysearch" placeholder="Пошук" type="text" onkeyup="
+            <input class="form-control mysearch search-admin-panel" placeholder="Пошук" type="text" onkeyup="
             filterSelect(1)">
             <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" >
+                <button class="btn btn-secondary btn-admin-header" type="button" >
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </span>
 
     <span class="col2">
-        <button class="btn btn-secondary" onclick="openAddTechnicModel()" type="button">
+        <button class="btn btn-secondary btn-admin-header" onclick="openAddTechnicModel()" type="button">
             <i class="fa fa-plus"></i>
         </button>
         </span>
@@ -21,16 +21,16 @@
 
 
 <div class="table-responsive-md" id ="allTechnics">
-    <table class="table  table-hover table-bordered">
+    <table class="table  table-hover table-bordered technics-table">
         <thead class="thead-dark">
         <tr>
-            <th id="id">#</th>
+            <th id="id" class="id">#</th>
             <th>Тип</th>
             <th>Марка</th>
             <th>Модель</th>
             <th>Ціна</th>
-            <th>Редагувати</th>
-            <th>Видалити</th>
+            <th>Ред</th>
+            <th>Вид</th>
 
         </tr>
         </thead>
