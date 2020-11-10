@@ -280,6 +280,10 @@ const getDeviceType = () => {
 };
 
 exports.openSubscribeModal = function(){
+    $('.one-social-item-modal').on('click', function() {
+        createCookie('visited', 'yes', 30);
+    });
+
     let device = getDeviceType();
     if(device == "mobile" || device == "tablet") {
         let cookie = getCookie('visited');
@@ -288,7 +292,7 @@ exports.openSubscribeModal = function(){
             // $('#messageModal').on('shown.bs.modal', function(e) {
             $('#user_info').css("display", "none");
             $('#myForm').css("display", "none");
-            createCookie('visited', 'yes', 2);
+            createCookie('visited', 'yes', 7);
         }
 
     }
@@ -299,7 +303,7 @@ exports.openSubscribeModal = function(){
             // $('#messageModal').on('shown.bs.modal', function(e) {
             $('#user_info').css("display", "none");
             $('#myForm').css("display", "none");
-            createCookie('visited', 'yes', 2);
+            createCookie('visited', 'yes', 7);
         }
     });
 }
