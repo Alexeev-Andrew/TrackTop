@@ -616,6 +616,12 @@ h6 {
   font-size: 0.9em;
   padding: 0.5em; }
 
+.ui-state-highlight {
+  height: 60px;
+  line-height: 1.2em;
+background: #c2b0cc
+}
+
 
 @media screen and (max-width: 500px) {
     .uploader__file-list__text {
@@ -625,4 +631,7 @@ h6 {
       max-height: 100px;
       max-width: 100px;
     }
+  .ui-state-highlight {
+    height: 110px;
+  }
 }

@@ -11,7 +11,7 @@
                 furtherInstructionsCopy: 'Your can also drop more files, or',
                 selectButtonCopy: 'Select Files',
                 secondarySelectButtonCopy: 'Select More Files',
-                dropZone: $(this),
+                //dropZone: $(this),
                 fileTypeWhiteList: ['jpg', 'png', 'jpeg', 'gif', 'pdf'],
                 badFileTypeMessage: 'Sorry, we\'re unable to accept this type of file.',
                 ajaxUrl: '/ajax/upload',
@@ -39,7 +39,7 @@
                     ' multiple class="js-uploader__file-input uploader__file-input">' +
                     '<label for="secondaryfileinput' + index + '" style="cursor: pointer;" class="js-uploader__file-label uploader__file-label uploader__file-label--secondary">' +
                     options.secondarySelectButtonCopy + '</label>'),
-                fileList: $('<ul class="js-uploader__file-list uploader__file-list"></ul>'),
+                fileList: $('<ul class="js-uploader__file-list uploader__file-list ui-sortable" id="sortable1"></ul>'),
                 contentsContainer: $('<div class="js-uploader__contents uploader__contents"></div>'),
                 furtherInstructions: $('<p class="js-uploader__further-instructions uploader__further-instructions uploader__hide">' + options.furtherInstructionsCopy + '</p>')
             };
@@ -68,11 +68,11 @@
 
             function bindUIEvents () {
                 // handle drag and drop
-                options.dropZone.on('dragover dragleave', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-                options.dropZone.on('drop', selectFilesHandler);
+                // options.dropZone.on('dragover dragleave', function (e) {
+                //     e.preventDefault();
+                //     e.stopPropagation();
+                // });
+                // options.dropZone.on('drop', selectFilesHandler);
 
                 // hack for being able selecting the same file name twice
                 dom.selectButton.on('click', function () { this.value = null; });
@@ -87,20 +87,20 @@
                 dom.uploaderBox.on('click', '.js-upload-remove-button', removeItemHandler);
 
                 // expose handlers for testing
-                if (options.testMode) {
-                    options.dropZone.on('uploaderTestEvent', function (e) {
-                        switch (e.functionName) {
-                        case 'selectFilesHandler':
-                            selectFilesHandler(e);
-                            break;
-                        case 'uploadSubmitHandler':
-                            uploadSubmitHandler(e);
-                            break;
-                        default:
-                            break;
-                        }
-                    });
-                }
+                // if (options.testMode) {
+                //     options.dropZone.on('uploaderTestEvent', function (e) {
+                //         switch (e.functionName) {
+                //         case 'selectFilesHandler':
+                //             selectFilesHandler(e);
+                //             break;
+                //         case 'uploadSubmitHandler':
+                //             uploadSubmitHandler(e);
+                //             break;
+                //         default:
+                //             break;
+                //         }
+                //     });
+                // }
             }
 
             function addItem (file) {
@@ -112,7 +112,7 @@
 
                 state.listIndex++;
 
-                var listItem = $('<li class="uploader__file-list__item" data-index="' + id + '"></li>');
+                var listItem = $('<li class="uploader__file-list__item ui-sortable-handle" data-index="' + id + '"></li>');
                 var thumbnailContainer = $('<span class="uploader__file-list__thumbnail"></span>');
                 var thumbnail = $('<img class="thumbnail"><i class="fa fa-spinner fa-spin uploader__icon--spinner"></i>');
                 var removeLink = $('<span class="uploader__file-list__button"><button class="uploader__icon-button js-upload-remove-button fa fa-times" data-index="' + id + '"></button></span>');
@@ -206,6 +206,12 @@
                     for (var i = 0; i < files.length; i++) {
                         addItem(files[i]);
                     }
+
+                    $( "#sortable1" ).sortable({
+                        placeholder: "ui-state-highlight"
+                    });
+                    $( "#sortable1" ).disableSelection();
+
                 }
                 renderControls();
             }
