@@ -67,6 +67,8 @@ function configureEndpoints(app) {
     app.post('/api/getequipmentsbyid', api.get_equipment_by_id);
 
     app.post('/addUserFormSubmit', api.addUserSubmitFnc);
+    app.post('/api/addPhone', api.addPhone);
+
 
 
 

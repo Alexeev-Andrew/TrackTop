@@ -185,6 +185,7 @@ sendMessage_My = function (i) {
         if (document.getElementsByClassName("type_header").length!=0) message += "Стосовно: " + document.getElementsByClassName("type_header")[0].innerText + "\n";
         message += text;
         console.log(message);
+        require("../API").addPhone(phone, name);
         client.sendMessage("-327577485", message, {
             disable_web_page_preview: true,
             disable_notification: false,

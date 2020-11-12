@@ -209,6 +209,10 @@ exports.updateClient = function(id,info,callback) {
     backendPost("/api/update_user",{id: id, info: info},callback);
 }
 
+exports.addPhone = function(phone,name,callback) {
+    backendPost("/api/addPhone",{phone: phone, name: name},callback);
+}
+
 exports.updateReview = function(id,info,callback) {
     backendPost("/api/update_review",{id: id, info: info},callback);
 }

@@ -116,6 +116,10 @@ exports.insert_emails = function(email,callback){
         connection.query("INSERT INTO tracktop.emails SET ?", {email:email}, callback);
 }
 
+exports.insert_client_phones = function(phone, name, callback){
+    connection.query("INSERT INTO tracktop.client_phones SET ?", {phone:phone,name:name}, callback);
+}
+
 //select methods
 
 exports.get_id = function (table_name, name , callback) {

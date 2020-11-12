@@ -58,17 +58,41 @@
     margin-right: 0 !important;
   }
 
+  .newsLetterContainer-footer-border {
+    width: 95%!important;
+  }
+
 }
 
 
 .newsLetterInputContainer {
-  max-height: 56px;
-  height: 56px;
+  max-height: min-content;
+}
+
+.newsLetterInputContainer-modal {
+  padding-bottom: 80px;
+}
+
+.form-modal-subscribe {
+  margin-top: -20px;
+}
+
+.formButtonInlineButton-subscribe-modal {
+  margin-top: 20px!important;
 }
 
 .newsLetterContainer {
   padding: 24px 16px 0;
   font-family: "Human BBY", Arial, sans-serif;
+}
+
+.newsLetterContainer-footer-border {
+  border: 2px solid lightgrey;
+  border-radius: 10px;
+  margin: auto;
+  max-width: 500px;
+  width: auto;
+  box-shadow: -3px 3px 20px #d2d2d2;
 }
 
 .title_subsc, .signedUpMessageTitle_3JaS_ {
@@ -83,9 +107,6 @@
   margin-bottom: 8px;
 }
 
-.newsLetterInputContainer {
-  max-height: 56px;
-}
 
 .formInlineContainer {
   max-width: 500px;
@@ -159,6 +180,7 @@
   margin-top: 22px;
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
+  border-radius: 0 10px 10px 0;
 }
 
 .regular_sub {
@@ -193,7 +215,7 @@
   height: 48px;
   padding: 12px;
   border: 1px solid rgb(173, 173, 173);
-  border-radius: 2px;
+  border-radius: 10px 0 0 10px;
   text-overflow: ellipsis;
 }
 
@@ -206,7 +228,7 @@
   outline: none;
 }
 
-#error-msg {
+#error-msg, #error-msg-modal{
   display: none;
   color: #cd504c;
 }

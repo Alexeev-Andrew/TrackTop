@@ -1,5 +1,5 @@
 <div class="footer footer-sub" style="">
-    <div class="newsLetterContainer"><div class="title_subsc">Будьте першими!</div><div class="subTitle_subs">Підпишіться, щоб залишатися в курсі усіх новин!</div>
+    <div class="newsLetterContainer newsLetterContainer-footer-border"><div class="title_subsc">Будьте першими!</div><div class="subTitle_subs">Підпишіться, щоб залишатися в курсі усіх новин!</div>
         <div class="newsLetterInputContainer">
 
             <form method="POST" id="ajax_form" action="" style="display: none;">
@@ -15,7 +15,7 @@
                             <div id="error-msg" data-automation="email-address-input-inline-error-msg">Введіть дійсну е-пошту</div></div></div>
 
                     <button id="subscribeEmail"  class="button_sub secondary_sub formButtonInlineButton regular_sub" type="button" data-automation="subscribe-newsletter-button">
-                        <span class="content_sub" tabindex="-1">Підписатись</span></button>
+                        <span class="content_sub" tabindex="-1">Гаразд</span></button>
                 </div></form>
         </div>
     </div>
@@ -93,7 +93,7 @@
     <a id="slibotph" href="#" onclick="document.getElementById('slibotph').style.display='none';document.getElementById('stbotph').style.display='block';document.getElementById('pop_up_bl').classList.remove('float_btn_r');return false;" style="display: none;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle2" style="transform-origin: center;"><div class="img-circleblock2" style="transform-origin: center;"></div></div></a>
     <div id="content1" style="display: none;">
         <div id="mssgresbox">
-            <form method="post" action="" id="formMain" name="">
+            <form onsubmit="return false;" id="formMain" name="">
                 <label for="tele_phone_call" id="labtelcal">Приклад: +380979361952 </label>
                 <input id="tele_phone_call" type="tel" name="tele_phone_call" onkeyup="if(this.value.length >= 7) document.getElementById('butcall').disabled = false; else document.getElementById('butcall').disabled = true;" placeholder="Ваш номер"  autocomplete="off"/>
                 <input id="butcall" type="button" class="sendNumberButton" value="" onclick=""  disabled/>

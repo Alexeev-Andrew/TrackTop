@@ -74,7 +74,7 @@ opacity: .1;}}
 #labtelcal{font-size:9px;line-height:9px;color:#63cff6;bottom:22px;right:80px;position:absolute;}
 #butcall{font-size:0;vertical-align: middle;width:44px;height:44px;line-height:44px;margin:0;background:#eff8fd url(../images/arr.png) no-repeat 9px 8px;border:3px solid #91d7f9;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
 #butcall:hover{cursor:pointer;-moz-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); transform: rotate(360deg);}
-#mssgresbox{color:#29AEE3;font-size:20px;text-align:center;vertical-align: middle;line-height:80px;}
+#mssgresbox{color:white;font-size:20px;text-align:center;vertical-align: middle;line-height:80px;}
 #pop_up_bl{position:fixed;right:10px;bottom:25px;z-index:7998;max-height:120px;max-width:425px;font-family: 'Open Sans', sans-serif;}
  a#setcookieph{background: rgb(250, 240, 254) url(../images/close.png) center -24px no-repeat;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;display:block;position:absolute;top:10px;right:0;width:20px;height:20px;z-index:7999;-webkit-transition:all 0ms;-o-transition:all 0ms;-moz-transition:all 0ms;transition:all 0ms}
  a#setcookieph:hover{background: rgb(254, 251, 221) url(../images/close.png) center -24px no-repeat;cursor:pointer;}

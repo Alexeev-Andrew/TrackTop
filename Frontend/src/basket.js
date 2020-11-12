@@ -61,6 +61,7 @@ exports.initialiseBasket = function(){
          let phone = $("#tele_phone_call").val();
          let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val();
          if(phone.length == 16) {
+             require("./API").addPhone(phone);
              client.sendMessage("-327577485", text, {
                  disable_web_page_preview: true,
                  disable_notification: false
