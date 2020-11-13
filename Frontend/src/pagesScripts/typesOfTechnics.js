@@ -33,21 +33,32 @@ function showTypes(list) {
 
 exports.initializeTypes = function(){
 
-    var l=[];
-
-    require("../API").getTypes(function (err,data) {
-        if(data.error) console.log(data.error);
-
-        l.push( {
-            photo_location: 'equipment.jpg',//'http://localhost:5050/images/photo1.jpg'
-            name: 'Запчастини',
-            url: API_URL+"/category_equipments"
-        });
-        data.data.forEach(function(item){
-            item.url=API_URL+"/technics?type="+item.name;
-            l.push(item)
-        });
-        showTypes(l);
+    $(".typeDiv").click(function () {
+        let next = this.innerText.trim();
+        if(next =="Запчастини")
+            document.location.href = API_URL+"/category_equipments";
+        else {
+            localStorage.setItem('currentMarkOfTechnics', "");
+            localStorage.setItem('currentTypeOfTechnics', next);
+            document.location.href = API_URL+"/technics?type=" + next;
+        }
     });
+
+    // var l=[];
+    //
+    // require("../API").getTypes(function (err,data) {
+    //     if(data.error) console.log(data.error);
+    //
+    //     l.push( {
+    //         photo_location: 'equipment.jpg',//'http://localhost:5050/images/photo1.jpg'
+    //         name: 'Запчастини',
+    //         url: API_URL+"/category_equipments"
+    //     });
+    //     data.data.forEach(function(item){
+    //         item.url=API_URL+"/technics?type="+item.name;
+    //         l.push(item)
+    //     });
+    //     showTypes(l);
+    // });
 
 }

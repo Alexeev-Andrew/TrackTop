@@ -125,16 +125,25 @@ openEditTechnicModal = function(cell) {
             $('.js-uploader__further-instructions').removeClass("uploader__hide");
 
             $('.js-uploader__contents').addClass("uploader__hide");
-           // console.log(data.data);
+           console.log(data.data);
 
-            data.data.forEach(function(item) {
-                getFileObject("/images/technics/" + item.file_name , function (fileObject) {
-                    //console.log(fileObject.size);
-                    $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
-                        " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
-                })
-            }
-            );
+
+           for(let i=0;i< data.data.length;i++) {
+               let item = data.data[i];
+               getFileObject("/images/technics/" + item.file_name , function (fileObject) {
+                   //console.log(fileObject.size);
+                   $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
+                       " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
+               })
+           }
+            // data.data.forEach(function(item) {
+            //     getFileObject("/images/technics/" + item.file_name , function (fileObject) {
+            //         //console.log(fileObject.size);
+            //         $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
+            //             " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
+            //     })
+            // }
+            // );
         }
     }
     require("../API").getTechnicsImagesById(id,callback1);
