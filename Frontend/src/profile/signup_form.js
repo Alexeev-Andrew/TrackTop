@@ -6,6 +6,8 @@ function openSignUpForm() {
 var Templates = require('../Templates');
 
 var $reviews =   $('#reviews');
+var values = require('../values.js');
+var API_URL = values.url;
 
 
 exports.initializeLogin = function(){
@@ -287,15 +289,31 @@ exports.openSubscribeModal = function(){
 
     let device = getDeviceType();
     if(device == "mobile" || device == "tablet") {
-        let cookie = getCookie('visited');
-        if ('' == cookie) {
-            $('#subscribeModal').modal('show');
-            // $('#messageModal').on('shown.bs.modal', function(e) {
-            $('#user_info').css("display", "none");
-            $('#myForm').css("display", "none");
-            createCookie('visited', 'yes', 7);
-        }
 
+
+            $(window).scroll(function() {
+
+                let offset = 700;
+
+                if($(".technics") && $(".technics").children().length <= 4) offset = 500;
+                //console.log(offset)
+
+                if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - $(".descr_bottom").height() -  $("#hide_desc").height() -$(".footer-sub").height()  - offset) {
+                    let cookie = getCookie('visited');
+                    let href = document.location.href.toString();
+                    while (href.endsWith("#") || href.endsWith("/")) {
+                        href = href.substring(0, href.length-1);
+                    }
+                    //console.log(document.location.href + "  \n" + API_URL)
+                    if ('' == cookie && href!= API_URL) {
+                        $('#subscribeModal').modal('show');
+                        // $('#messageModal').on('shown.bs.modal', function(e) {
+                        $('#user_info').css("display", "none");
+                        $('#myForm').css("display", "none");
+                        createCookie('visited', 'yes', 7);
+                    }
+                }
+            });
     }
     $('body').on('mouseleave', function() {
         let cookie = getCookie('visited');

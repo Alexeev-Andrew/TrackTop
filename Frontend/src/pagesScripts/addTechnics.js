@@ -218,7 +218,7 @@ function showEquipments(list , className , filter) {
     $(window).scroll(function() {
         let next = equipments_showed+10 ;
         //if(list.length> equipments_showed && )
-        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - $("#hide_desc").height() - 500 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
+        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - $("#hide_desc").height() -$(".footer-sub").height()  - 500 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
             // ajax call get data from server and append to the div
             //console.log("ida");
             for(let i =equipments_showed+1 ; i<next;i ++) {
