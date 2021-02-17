@@ -416,8 +416,9 @@ exports.initializeModels = function () {
     localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
 
     let l = [];
-    let str = "<ul>"
-    let param = document.location.href.toString().split("/");
+    let str = "<ul style='margin-top: 10px'>";
+    let loc = document.location.href.toString();
+    let param = loc.split("/");
     let mark = (param[param.length-1].replace("%20"," "));
     while (mark.includes("%20")) mark = mark.replace("%20"," ");
     //initializeBreadcrumbMarks(mark);
@@ -426,11 +427,12 @@ exports.initializeModels = function () {
             if (data.error) console.log(data.error);
             data.data.forEach(function (item) {
                 l.push({model: item.model, mark: mark});
-                str+="<li> Запчастини до комбайна " + mark + " " + item.model + "</li>"
+                let model_location = loc.endsWith('/') ? loc + item.model : loc + '/' + item.model;
+                str+="<li class='font-sm'><a href='" + model_location + "'><p>Запчастини до комбайна " + mark + " " + item.model + "</p></a></li>"
             })
             showModels(l);
             //if(data.data.length > 0 )initializeBreadcrumbMarks(mark);
-            $('#text_models').append("Ми пропонуємо: " + str + "</ul>");
+            $('#text_models').append("<br> Ми пропонуємо: " + str + "</ul>");
 
         }
 
