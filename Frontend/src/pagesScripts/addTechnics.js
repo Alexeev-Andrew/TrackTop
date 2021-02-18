@@ -18,7 +18,7 @@ function initilizebreadcrumbEquipmentCategory(){
         $("#breadcrumb").empty();
         let curCategory = localStorage.getItem('current_category_equipments');
         let curType = eq[curCategory] ? eq[curCategory] : curCategory;
-        console.log(eq[curCategory]);
+        //console.log(eq[curCategory]);
 
         if ($(window).width() < 500 && (document.referrer != "" && document.referrer != document.location.href)) {
             $("#breadcrumb").addClass("breadcrumb-mobile");
@@ -114,7 +114,7 @@ function showTechnics(list) {
         return;
     }
     function showOne(type) {
-        console.log(type);
+        //console.log(type);
         type.url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name+ '&number_id='+type.id;
         var html_code = Templates.technicInList({technic: type});
         var $node = $(html_code);
@@ -168,6 +168,8 @@ exports.initializeTechnics = function(){
             l.push(item)
         });
         showTechnics(l);
+        let images = document.querySelectorAll(".lazy");
+        lazyload(images);
     }
 
 
@@ -227,6 +229,7 @@ function showEquipments(list , className , filter) {
                     showOneEquipment(list[i] , className);
                 }
             }
+            lazyLoad();
         }
     });
 }
@@ -270,6 +273,7 @@ exports.initializeEquipments = function(){
                        equipmentsByCategory = data.data;
 
                        filterSelectionEquipments();
+                       lazyLoad();
                    }
 
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
@@ -324,6 +328,7 @@ exports.initializeEquipments = function(){
                         //console.log(data.data);
                         equipmentsByCategory = data.data;
                         filterSelectionEquipments();
+                        lazyLoad();
                     }
 
                 }
@@ -400,7 +405,7 @@ function showMarks(list) {
         mark.url = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
         var html_code = Templates.oneMark({mark: mark});
         var $node = $(html_code);
-        console.log(mark);
+        //console.log(mark);
 
         $node.click(function () {
             //localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
@@ -503,6 +508,12 @@ let eq = {
     "Запчастини до тракторів":"Трактори",
     "Запчастини до сівалок":"Сівалки",
     "Запчастини до пресів-підбирачів":"Преси-підбирачі"
+}
+
+lazyLoad = function() {
+    let images = document.querySelectorAll(".lazy");
+    //console.log(images)
+    lazyload(images);
 }
 
 

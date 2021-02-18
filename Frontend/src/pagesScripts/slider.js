@@ -51,7 +51,9 @@ exports.initialize = function(dataset,alt){
         l.push(item)
     });
     showImages(l,alt);
-
+     let images = document.querySelectorAll(".lazy");
+     //console.log(images)
+    lazyload(images);
     // require("../API").getTechnicsImagesById({type: tp1,model: tp.model, mark: tp.mark},callback);
 }
 

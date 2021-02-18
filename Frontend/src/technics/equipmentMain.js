@@ -41,7 +41,7 @@ function  initialize() {
             // var tech = JSON.parse(localStorage.getItem('currTechnic'));
 
             let equipment = JSON.parse(localStorage.getItem('currEquipment'));
-            console.log(equipment);
+            //console.log(equipment);
             // var isTech = equipment==null ? false : true;
             require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 

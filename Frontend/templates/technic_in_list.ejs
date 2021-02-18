@@ -1,6 +1,6 @@
 <div class="oneTechnic">
     <div class="thumbnail" style="height: 100%; margin: 0px;">
-        <img class="" src="/images/technics/<%= technic.main_photo_location %>"
+        <img class="lazy" src="https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>" data-src="/images/technics/<%= technic.main_photo_location %>"
              <%if(technic.type_name.trim()=="Преси-підбирачі") {%>alt="Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>"
         <%} else if(technic.type_name=="Сівалки"){%> alt="Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>"
         <% } else if (technic.type_name=="Жатки"){%> alt="Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>"

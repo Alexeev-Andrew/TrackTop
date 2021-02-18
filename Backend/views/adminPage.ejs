@@ -55,6 +55,20 @@
 <!-- End Google Tag Manager (noscript) -->
 
 
+<script>
+    window.onload = checkUser;
+
+    function checkUser(){
+        if(localStorage.getItem("phone") == null || localStorage.getItem("phone") === "") {
+
+        }
+        else {
+            console.log("log in")
+        }
+
+    };
+</script>
+
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -95,6 +109,10 @@
         </ul>
     </div>
     <section id="main-content" class="column column-offset-20">
+
+        <% if(currPage == "check") {%>
+            ddsf
+            <% }%>
         <% if(currPage == '0') {%>
         <div class="row grid-responsive">
             <div class="column page-heading">
@@ -387,6 +405,10 @@
         <% if(currPage == '2') {%>
             <% include common/admin-panel/equipments.ejs %>
         <%}%>
+
+        <script>
+            console.log(currPage);
+        </script>
     </section>
 </div>
 <!-- jQuery JavaScript -->

@@ -1,3 +1,4 @@
+
 exports.openForm = function() {
     document.getElementById("myForm").style.display = "block";
 
@@ -65,3 +66,5 @@ exports.login = function(){
 
     });
 }
+
+

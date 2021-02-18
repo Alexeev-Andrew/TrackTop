@@ -22,6 +22,7 @@
     "express-simple-sitemap": "^1.2.2",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
+    "grunt-contrib-uglify": "^5.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
@@ -34,10 +35,12 @@
     "mysql": "^2.16.0",
     "password-hash": "^1.2.2",
     "sitemap": "^5.1.0",
+    "vanilla-lazyload": "^17.3.1",
     "zlib": "^1.0.5"
   },
   "devDependencies": {
     "express-minify-html": "^0.12.0",
-    "fancybox": "^3.0.1"
+    "fancybox": "^3.0.1",
+    "grunt-contrib-less": "^2.0.0"
   }
 }

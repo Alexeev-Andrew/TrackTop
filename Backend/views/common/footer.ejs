@@ -104,7 +104,7 @@
 
 </div>
 
-<div id="pop_up_bl" class="float_btn_r">
+<div id="pop_up_bl" class="float_btn_r" style="display: none">
     <a id="setcookieph" class="close" href="#" title="Закрити" onclick="document.getElementById('minbotph').style.display='block';document.getElementById('pop_up_bl').style.display='none'; fbq('trackCustom', 'closeCallButton'); return false;"></a>
     <a id="stbotph" href="#" onclick="console.log('2');document.getElementById('stbotph').style.display='none';document.getElementById('slibotph').style.display='block';document.getElementById('pop_up_bl').classList.remove('float_btn_r'); fbq('trackCustom', 'clickCallButton');return false;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle" style="transform-origin: center;"><div class="img-circleblock" style="transform-origin: center;"></div></div></a>
     <a id="slibotph" href="#" onclick="document.getElementById('slibotph').style.display='none';document.getElementById('stbotph').style.display='block';document.getElementById('pop_up_bl').classList.remove('float_btn_r');return false;" style="display: none;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle2" style="transform-origin: center;"><div class="img-circleblock2" style="transform-origin: center;"></div></div></a>
@@ -119,4 +119,11 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function(){
+        document.getElementById("pop_up_bl").style.display = "block";
+    });
+
+</script>
 <a id="minbotph"  href="#" onclick="document.getElementById('pop_up_bl').style.display='block';document.getElementById('minbotph').style.display='none'; fbq('trackCustom', 'clickCallButton2');return false;"><div class="call_button"></div></a>
