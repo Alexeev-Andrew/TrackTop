@@ -3,7 +3,7 @@
  */
 //let uglify = require('grunt-contrib-uglify');
 
-
+//const { minify } = require("terser");
 module.exports = function(grunt) {
     //Налаштування збірки Grunt
     var config = {
@@ -66,6 +66,21 @@ module.exports = function(grunt) {
                         dest: 'Frontend/www/assets/js/adminPanel.js'
                     }
                 },
+        // uglify: {
+        //     dist:{
+        //         files: {
+        //             // ['Frontend/www/assets/js/*.min.js', 'Frontend/www/assets/js/*.js'],}
+        //             'Frontend/www/assets/js/main.min.js':'Frontend/www/assets/js/main.js',
+        //             'Frontend/www/assets/js/technicsMain.js':'Frontend/www/assets/js/technicsMain.js',
+        //             // 'dist/js/test.min.js':'Frontend/www/assets/js/equipmentsMain.js',
+        //             // 'dist/js/test.min.js':'Frontend/www/assets/js/equipmentsByCategory.js',
+        //             // 'dist/js/test.min.js':'Frontend/www/assets/js/oneTechnicMain.js',
+        //             // 'dist/js/test.min.js':'Frontend/www/assets/js/oneEquipmentMain.js',
+        //             // 'dist/js/test.min.js':'Frontend/www/assets/js/profile_main.js',
+        //             // 'dist/js/sample.min.js':'Frontend/www/assets/js/adminPanel.js'
+        //         }
+        //     }
+        // }
 
     };
 
@@ -79,7 +94,7 @@ module.exports = function(grunt) {
             //На зміни в яких файлах реагувати
                 files: ['Frontend/src/**/*.js', 'Frontend/**/*.ejs'],
                 //Які завдання виконувати під час зміни в файлах
-                tasks: ['browserify:trackTop', 'uglify:trackTop']
+                tasks: ['browserify:trackTop']
         }
     };
 
@@ -89,12 +104,12 @@ module.exports = function(grunt) {
     grunt.initConfig(config);
 
     //Сказати які модулі необхідно виокристовувати
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.registerTask('default', ['uglify']);
+    //grunt.registerTask('default', ['uglify']);
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.registerTask('default', ['less']);
+    // grunt.registerTask('default', ['less']);
     //Список завданнь за замовчуванням
     grunt.registerTask('default',
         [
@@ -106,6 +121,7 @@ module.exports = function(grunt) {
             'browserify:adminPanel',
             'browserify:oneEquipment',
             'browserify:equipmentsByCategory',
+            'less',
             //Інші завдання які необхідно виконати
         ]
     );

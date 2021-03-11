@@ -105,8 +105,6 @@ function showTechnics(list) {
         $(".seturl").attr("href", document.location.href);
     }
 
-
-
     $technics.html("");
     if(list.length===0) {
        // $technics.append("Нічого не знайдено");
@@ -279,35 +277,34 @@ exports.initializeEquipments = function(){
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
                }
                else if(currCategory=="Запчастини до комбайнів" && !document.location.href.toString().includes("combine_details")) {
-                    let marks = [];
-                   function callback3(err,data) {
-                       if(err) console.log(err);
-                       else {
-                           //console.log(data);
-                           data.data.forEach(function (item) {
-                               if (!marks.includes(item.technic_mark))
-                                   marks.push(item.technic_mark);
-                           });
+                   // uncomment if marks change
 
-                           function callback2(err,data2) {
-                               if(err) console.log(err);
-                               else {
-                                   for( let i =0; i < marks.length;i++) {
-                                       data2.data.forEach(function (item) {
-                                           if(marks[i] == item.name)
-                                               marks[i] = {name : marks[i], logo_file : item.logo_file};
-                                       })
-                                   }
-                                   //console.log(marks);
-                                   showMarks(marks);
-                               }
-                           }
-                           require("../API").getMarks(callback2);
-                           //console.log(marks)
-
-                       }
-                   }
-                   require("../API").getModelsbyTypeMark("Комбайни",null,callback3);
+                   //  let marks = [];
+                   // function callback3(err,data) {
+                   //     if(err) console.log(err);
+                   //     else {
+                   //         data.data.forEach(function (item) {
+                   //             if (!marks.includes(item.technic_mark))
+                   //                 marks.push(item.technic_mark);
+                   //         });
+                   //
+                   //         function callback2(err,data2) {
+                   //             if(err) console.log(err);
+                   //             else {
+                   //                 for( let i =0; i < marks.length;i++) {
+                   //                     data2.data.forEach(function (item) {
+                   //                         if(marks[i] == item.name)
+                   //                             marks[i] = {name : marks[i], logo_file : item.logo_file};
+                   //                     })
+                   //                 }
+                   //                 //showMarks(marks);
+                   //             }
+                   //         }
+                   //         require("../API").getMarks(callback2);
+                   //
+                   //     }
+                   // }
+                   // require("../API").getModelsbyTypeMark("Комбайни",null,callback3);
                }
            })
         if(document.location.href.toString().includes("combine_details")) {
@@ -366,6 +363,12 @@ function showCategories(list) {
 }
 
 exports.initializeCategories = function(){
+    // delete id categories change
+    $(".oneCategory").click(function () {
+        let next = this.innerText.trim();
+        document.location.href = API_URL+"/category_equipments/category?name="+ next ;
+    });
+
     let crums = " <li>\n" +
         "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
         "            <span class=\"sr-only\">Головна</span></a>\n" +
@@ -380,16 +383,16 @@ $("#breadcrumb").append(crums);
 
 
     var l=[];
-
-    function callback(err,data) {
-        if(data.error) console.log(data.error);
-        data.data.forEach(function(item){
-            l.push(item)
-        });
-        showCategories(l);
-    }
-
-    require("../API").get_equipments_categories(callback);
+    // use if equipments categories change
+    // function callback(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     data.data.forEach(function(item){
+    //         l.push(item)
+    //     });
+    //     showCategories(l);
+    // }
+    //
+    // require("../API").get_equipments_categories(callback);
 }
 
 function showMarks(list) {
