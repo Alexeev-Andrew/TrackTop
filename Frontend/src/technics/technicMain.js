@@ -98,6 +98,14 @@ function  initialize() {
             if(type.types_of_technics_name==="Преси-підбирачі") { alt+="прес-підбирач"; type_tech = "Прес-підбирач"  }
             else if(type.types_of_technics_name==="Сівалки") {alt+="сівалку" ; type_tech ="Сівалка"}
             else if(type.types_of_technics_name==="Жатки") {alt+="жатку" ; type_tech ="Жатка"}
+            else if(type.types_of_technics_name==="Фронтальні навантажувачі") {
+                if(type.model.includes("гак") || type.model.includes("вила"))
+                type_tech =""
+                else {
+                    type_tech ="Фронтальний навантажувач";
+                    alt+="фронтальний навантажувач" ;
+                }
+            }
             else {
                 let h = type.types_of_technics_name.toString().substring(0, type.types_of_technics_name.length - 1)
                 alt += h.toLowerCase()
