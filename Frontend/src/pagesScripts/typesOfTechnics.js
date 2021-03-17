@@ -37,7 +37,7 @@ exports.initializeTypes = function(){
         let next = this.innerText.trim();
         if(next =="Запчастини")
             document.location.href = API_URL+"/category_equipments";
-        else if("Інша техніка") {
+        else if(next == "Інша техніка") {
             document.location.href = API_URL+ '/technics-without-category';
         }
         else {
