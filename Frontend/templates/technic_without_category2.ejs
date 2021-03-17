@@ -1,0 +1,28 @@
+<div class="oneTechnic">
+    <div class="thumbnail" style="margin: 0px;">
+        <img class="lazy" src="https://via.placeholder.com/440x300?text=<%= technic.name %>" data-src="/images/technics/<%= technic.main_photo_location %>"
+             alt ="Купити <%= technic.name %>">
+
+        <div class="caption">
+            <a href="<%= technic.url %>">
+                <div class="model">
+                    <h3 class="mark_" >
+                        <span class="mark_technic"><%= technic.name %></span>
+                    </h3>
+                </div>
+            </a>
+            <div class="price"><i>Ціна</i> <%= technic.price %>
+                <% if(technic.currency.toString() == "гривня") { %>
+                    грн
+                <%}%>
+
+                <% if(technic.currency.toString() == "долар") { %>
+                    $
+                <%}%>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

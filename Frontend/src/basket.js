@@ -59,7 +59,9 @@ exports.initialiseBasket = function(){
     $(".sendNumberButton").click(function () {
 
          let phone = $("#tele_phone_call").val();
-         let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val();
+         let param = getUrlParameter("type");
+         let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val() ;
+         if(param) text += "\n" + param;
          if(phone.length == 16) {
              require("./API").addPhone(phone);
              client.sendMessage("-327577485", text, {
@@ -392,6 +394,22 @@ function sendAjaxForm(result_form, ajax_form, url) {
         }
     });
 }
+
+getUrlParameter = function(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+
 
 
 

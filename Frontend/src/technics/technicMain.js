@@ -1,6 +1,7 @@
 var values = require('../values.js');
 var API_URL = values.url;
 require('fancybox')($);
+let default_photo = "default_technic.jpg"
 
 $( window ).on( "orientationchange", function( event ) {
    // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());
@@ -72,81 +73,138 @@ function initilizebreadcrumb(){
     }
 }
 
+getID = function() {
+    let url = document.location.href;
+    let split = [];
+    if(url.endsWith("/")) url = url.substring(0,url.length-1);
+    split = url.split('/');
+
+    let id = split[split.length-1];
+    return id;
+};
+
 function  initialize() {
     let param = getUrlParameter("number_id");
-    function callback5(err,data5) {
-        if(data5.error) console.log(data5.error);
-        else {
-            console.log(data5.data[0]);
-            let type = data5.data[0];
-            localStorage.setItem('currTechnic',JSON.stringify({
-                id: type.id,
-                model: type.model,
-                mark: type.marks_of_technics_name,
-                main_photo_location: type.main_photo_location,
-                price: type.price,
-                currency: type.currency,
-                amount: type.amount,
-                description: type.description
-            }));
-
-            var tech = JSON.parse(localStorage.getItem('currTechnic'));
-            localStorage.setItem("currentTypeOfTechnics" , type.types_of_technics_name);
-            initilizebreadcrumb();
-            let type_tech;
-            let alt = "Купити " ;
-            if(type.types_of_technics_name==="Преси-підбирачі") { alt+="прес-підбирач"; type_tech = "Прес-підбирач"  }
-            else if(type.types_of_technics_name==="Сівалки") {alt+="сівалку" ; type_tech ="Сівалка"}
-            else if(type.types_of_technics_name==="Жатки") {alt+="жатку" ; type_tech ="Жатка"}
-            else if(type.types_of_technics_name==="Фронтальні навантажувачі") {
-                if(type.model.includes("гак") || type.model.includes("вила"))
-                type_tech =""
-                else {
-                    type_tech ="Фронтальний навантажувач";
-                    alt+="фронтальний навантажувач" ;
-                }
-            }
+    if (param) {
+        function callback5(err, data5) {
+            if (data5.error) console.log(data5.error);
             else {
-                let h = type.types_of_technics_name.toString().substring(0, type.types_of_technics_name.length - 1)
-                alt += h.toLowerCase()
-                type_tech = h
+                console.log(data5.data[0]);
+                let type = data5.data[0];
+                localStorage.setItem('currTechnic', JSON.stringify({
+                    id: type.id,
+                    model: type.model,
+                    mark: type.marks_of_technics_name,
+                    main_photo_location: type.main_photo_location,
+                    price: type.price,
+                    currency: type.currency,
+                    amount: type.amount,
+                    description: type.description
+                }));
+
+                var tech = JSON.parse(localStorage.getItem('currTechnic'));
+                localStorage.setItem("currentTypeOfTechnics", type.types_of_technics_name);
+                initilizebreadcrumb();
+                let type_tech;
+                let alt = "Купити ";
+                if (type.types_of_technics_name === "Преси-підбирачі") {
+                    alt += "прес-підбирач";
+                    type_tech = "Прес-підбирач"
+                } else if (type.types_of_technics_name === "Сівалки") {
+                    alt += "сівалку";
+                    type_tech = "Сівалка"
+                } else if (type.types_of_technics_name === "Жатки") {
+                    alt += "жатку";
+                    type_tech = "Жатка"
+                } else if (type.types_of_technics_name === "Фронтальні навантажувачі") {
+                    if (type.model.includes("гак") || type.model.includes("вила"))
+                        type_tech = ""
+                    else {
+                        type_tech = "Фронтальний навантажувач";
+                        alt += "фронтальний навантажувач";
+                    }
+                } else {
+                    let h = type.types_of_technics_name.toString().substring(0, type.types_of_technics_name.length - 1)
+                    alt += h.toLowerCase()
+                    type_tech = h
+                }
+                alt += " " + type.marks_of_technics_name + " " + type.model + ". ";
+                $(".type_header").text(type_tech + " " + type.marks_of_technics_name + " " + type.model);
+
+                var dataset = [];
+
+                function callback(err, data) {
+                    if (data.error) console.log(data.error);
+                    data.data.forEach(function (item) {
+                        dataset.push("technics/" + item.file_name)
+                    });
+                    require('../pagesScripts/slider').initialize(dataset, alt);
+                }
+
+                require('../API').getTechnicsImagesById(tech.id, callback);
+
+                $('.order_technic').click(function () {
+
+                    // var equipment = localStorage.getItem('currEquipment');
+                    // console.log(equipment);
+                    // var isTech = equipment==null ? false : true;
+
+                    require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+
+                    require('../basket').addToCart({
+                        id: tech.id,
+                        title: tech.mark + ' ' + tech.model,
+                        price: tech.price,
+                        currency: tech.currency,
+                        icon: "technics/" + tech.main_photo_location,
+                        quantity: tech.amount,
+                        isTech: true
+                    });
+
+                    // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
+                })
             }
-            alt += " " + type.marks_of_technics_name + " " + type.model + ". ";
-            $(".type_header").text(type_tech + " " +type.marks_of_technics_name + " " + type.model);
-
-            var dataset = [];
-            function callback(err,data) {
-                if(data.error) console.log(data.error);
-                data.data.forEach(function(item){
-                    dataset.push("technics/"+item.file_name)
-                });
-                require('../pagesScripts/slider').initialize(dataset,alt);
-            }
-            require('../API').getTechnicsImagesById(tech.id,callback);
-
-            $('.order_technic').click(function(){
-
-                // var equipment = localStorage.getItem('currEquipment');
-                // console.log(equipment);
-                // var isTech = equipment==null ? false : true;
-
-                require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!",null,null,'success');
-
-                require('../basket').addToCart({
-                    id : tech.id,
-                    title: tech.mark+' '+tech.model,
-                    price: tech.price,
-                    currency: tech.currency,
-                    icon: "technics/"+tech.main_photo_location,
-                    quantity: tech.amount,
-                    isTech : true
-                });
-
-                // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
-            })
         }
+        require('../API').getTechnicsById(param, callback5);
     }
-    require('../API').getTechnicsById(param,callback5);
+
+    else {
+        let id = getID();
+        function callback4(err,data5) {
+            if(data5.error) console.log(data5.error);
+            else {
+                let loader = data5.data[0];
+
+                let alt = "Купити " + loader.name;
+                //$(".type_header").text(type_tech + " " +loader.marks_of_technics_name + " " + loader.model);
+
+                var dataset = [];
+                let photos = JSON.parse(loader.photos);
+                //console.log(photos)
+                if(photos == null || photos == undefined) {
+                    photos = []
+                }
+                if(photos.length == 0)
+                    photos.push(default_photo);
+
+                photos.forEach(function(item) {
+                    dataset.push("technics/"+item)
+                });
+                if(dataset.length === 0) {
+                    dataset.push("technics/"+default_photo)
+                }
+                require('../pagesScripts/slider').initialize(dataset,alt);
+                let editor = require('../pagesScripts/loader').none_editor("view-editor");
+                let cont = JSON.parse(data5.data[0].description,function (key, value) {
+                    if(typeof value === 'string')
+                        value = value.replace("/n/","\n");
+                    return value
+                });
+                editor.setContents(cont);
+            }
+        }
+        require('../API').getTechnicsWithoutCategoryById(id,callback4);
+    }
 
 
 }

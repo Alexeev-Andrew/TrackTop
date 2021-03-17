@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="assets/less/adminPanel/milligram.min.css">
 
     <!-- Main Styles -->
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/less/adminPanel/styles.css">
     <link rel="stylesheet" href="assets/less/adminPanel/admin-panelscreen.less">
 
@@ -102,6 +103,8 @@
         <ul>
             <li><a id='technic_menu'>Техніка</a></li>
             <li><a id="equipments_menu">Запчастини</a></li>
+            <li><a id="technics_without_category_menu">Техніка без категорії</a></li>
+
 <!--            <li><a href="#widgets">Типи техніки</a></li>-->
 <!--            <li><a href="#forms">Марки</a></li>-->
 <!--            <li><a href="#alerts"> Моделі</a></li>-->
@@ -405,6 +408,9 @@
         <% if(currPage == '2') {%>
             <% include common/admin-panel/equipments.ejs %>
         <%}%>
+            <% if(currPage == '3') {%>
+                <% include common/admin-panel/technics_without_category.ejs %>
+            <%}%>
 
         <script>
             console.log(currPage);
@@ -420,6 +426,8 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>
 
 <!--Bootsrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

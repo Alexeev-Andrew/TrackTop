@@ -10,6 +10,18 @@ exports.profile = function(req, res) {
     });
 };
 
+
+exports.technics_without_category = function(req, res) {
+            res.render('technicsPage', {
+                pageTitle: 'Купити сг техніку Львівська область | TrackTop',
+                description : "Купити сільгосптехніку техніку! Сільгосптехніка бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
+                photo_location :"",
+                types:null,
+                mark:null
+            });
+};
+
+
 exports.technics = function(req, res) {
     let type = req.query.type;
     let photo_location = null;
@@ -23,42 +35,43 @@ exports.technics = function(req, res) {
                         photo_location = i.photo_location;
                     }
                 })
-            }
-            if(req.query.type == "Жатки")
-                res.render('technicsPage', {
-                    pageTitle: req.query.type +" кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
-                    description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
-                    types: req.query.type,
-                    mark: req.query.mark,
-                    photo_location :photo_location
-                });
-            if(req.query.type == "Фронтальні навантажувачі")
-                res.render('technicsPage', {
-                    pageTitle: req.query.type +" на МТЗ, Т-40, Т25 (Польща)",
-                    description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
-                    types: req.query.type,
-                    mark: req.query.mark,
-                    photo_location :photo_location
-                });
-            else if (req.query.type)
-                res.render('technicsPage', {
-                    pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type +" | TrackTop",
-                    description: req.query.type + " бу. Великий вибір сг техніки. Купуй "+ req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
-                    types: req.query.type,
-                    mark: req.query.mark,
-                    photo_location :photo_location
-                });
-            else {
-                res.render('technicsPage', {
-                    pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-                    description : "У нас ви можете купити сг техніку "  + req.query.mark + "! Сільгосптехніка " + req.query.mark  + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
-                    types: req.query.type,
-                    mark: req.query.mark,
-                    photo_location :photo_location
-                });
+
+                if (req.query.type == "Фронтальні навантажувачі")
+                    res.render('technicsPage', {
+                        pageTitle: req.query.type + " на МТЗ, Т-40, Т25 (Польща)",
+                        description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
+                        types: req.query.type,
+                        mark: req.query.mark,
+                        photo_location: photo_location
+                    });
+                else if (req.query.type == "Жатки") {
+                    console.log(req.query.type + " " + photo_location)
+                    res.render('technicsPage', {
+                        pageTitle: req.query.type + " кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
+                        description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                        types: req.query.type,
+                        mark: req.query.mark,
+                        photo_location: photo_location
+                    });
+                } else if (req.query.type)
+                    res.render('technicsPage', {
+                        pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type + " | TrackTop",
+                        description: req.query.type + " бу. Великий вибір сг техніки. Купуй " + req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
+                        types: req.query.type,
+                        mark: req.query.mark,
+                        photo_location: photo_location
+                    });
+                else {
+                    res.render('technicsPage', {
+                        pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
+                        description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка " + req.query.mark + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44",
+                        types: req.query.type,
+                        mark: req.query.mark,
+                        photo_location: photo_location
+                    });
+                }
             }
         }
-
 };
 
 exports.category = function(req, res) {
@@ -125,6 +138,38 @@ exports.models = function(req, res) {
                 photo_location : photo_location
             });
         }
+
+};
+
+
+exports.technic_without_category = function(req, res) {
+    var id = req.params.id;
+
+    require('./db').get_technics_without_category_by_id(id,
+
+        function (error,data) {
+
+            if(error) {
+                console.log("Error! ", error.sqlMessage);
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+
+                if(data.length>0) {
+                    let technic = data[0];
+                            res.render('oneTechnicWithoutCategoryPage', {
+                                pageTitle: technic.name + " | Корчин, Львівська область",
+                                name: technic.name,
+                                description: "Купити "  + technic.name + " Дзвоніть ☎ (097)-837-87-72",
+                                technic: technic
+                            });
+                }
+            }
+        });
+
 
 };
 

@@ -3,7 +3,7 @@
 @pr1: 5px;
 @pb1: 5px;
 
-.technics {
+.technics, .technics-without-category {
   width                : 100%;
   display              : grid;
   padding              : 15px 10%;
@@ -216,7 +216,7 @@
   .price {
     font-size: 1.5rem!important;
   }
-  .technics {
+  .technics, .technics-without-category{
     width                : 100%;
     display              : grid;
     padding              : 3% 10%;
@@ -256,7 +256,7 @@
 
 
 @media (max-width:350px) {
-  .technics {
+  .technics, .technics-without-category{
     margin-left: 0px !important;
     grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
   }

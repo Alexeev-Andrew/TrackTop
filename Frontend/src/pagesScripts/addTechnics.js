@@ -5,6 +5,8 @@ var $equipments =   $('.equipments');
 var $categories =   $('.categories');
 var $marks =   $('.marks');
 var $models =   $('.models');
+var $technicsWithoutCategory   =   $('.technics-without-category');
+
 
 var equipmentsByCategory = [];
 
@@ -76,6 +78,58 @@ function initializeBreadcrumbMarks(mark) {
 
 
 }
+
+function showTechnicsWithoutCategory(list) {
+
+        let crums = " <li>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "            <span class=\"sr-only\">Головна</span></a>\n" +
+            "    </li>\n";
+            crums +=
+                " <li class='current'>\n" +
+                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+                "            <span>" + 'Техніка' + "</span></a>\n" +
+                "    </li>\n";
+        $("#breadcrumb").append(crums);
+        let a = ($(".seturl").length - 1);
+        $(".seturl").attr("href", document.location.href);
+
+    $technicsWithoutCategory.html("");
+    if(list.length === 0) {
+        // $technics.append("Нічого не знайдено");
+        $(".nothing_found").css("display","block");
+        return;
+    }
+    function showOne(type) {
+        //console.log(type);
+        type.url = API_URL+"/technics-without-category/"+type.id;
+        let main_photo_location = JSON.parse(type.photos)[0];
+        type.main_photo_location = main_photo_location ? main_photo_location : "default_technic.jpg"
+
+        var html_code = Templates.technicWithoutCategory({technic: type});
+        var $node = $(html_code);
+
+        $node.click(function () {
+
+            localStorage.setItem('currentTypeOfTechnics', "Без категорії");
+
+            localStorage.setItem('currTechnic',JSON.stringify({
+                id: type.id,
+                main_photo_location: type.main_photo_location,
+                price: type.price,
+                currency: type.currency,
+                amount: type.amount,
+                description: type.description
+            }));
+            document.location.href = API_URL+"/technics-without-category/"+type.id
+        });
+
+        $technicsWithoutCategory.append($node);
+    }
+
+    list.forEach(showOne);
+}
+
 
 function showTechnics(list) {
 
@@ -170,18 +224,31 @@ exports.initializeTechnics = function(){
         lazyload(images);
     }
 
+    function callback2(err,data) {
+        if(data.error) console.log(data.error);
+        data.data.forEach(function(item){
+            l.push(item)
+        });
+        showTechnicsWithoutCategory(l);
+        let images = document.querySelectorAll(".lazy");
+        lazyload(images);
+    }
+
 
         if (/type=([^&]+)/.exec(document.location.href)) {
             require("../API").getTechnicsByType({type: tp1}, callback);
             localStorage.setItem('currentTypeOfTechnics',tp1);
             //console.log("type");
         }
-        else if(tp1){
+        else if(tp1 != "Інша техніка"){
             tp1 = tp1.substr(tp1.indexOf('и')+2);
             //console.log(tp1);
             require("../API").getTechnicsByType({mark: tp1}, callback);
             localStorage.setItem('currentMarkOfTechnics',tp1);
             //console.log("mark");
+        }
+        else if(tp1 === "Інша техніка") {
+            require("../API").getTechnicsWithoutCategory(callback2);
         }
         else {
             require("../API").getTechnics(callback);

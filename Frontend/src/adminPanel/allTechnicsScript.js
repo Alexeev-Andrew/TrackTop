@@ -11,7 +11,7 @@ var type = 'tech';
 openAddTechnicModel = function () {
 
     type = 'tech';
-    document.getElementById('addTechnicModel').style.display='block';
+    document.getElementById('addTechnicModelWithoutCategory').style.display='block';
     // $('#addTechnicModel').style.display='block';
     $("#add-btn").text("Додати");
 
@@ -80,7 +80,7 @@ getModels = function() {
 }
 
 openEditTechnicModal = function(cell) {
-    $('#addTechnicModel').modal('show');
+    $('#addTechnicModelWithoutCategory').modal('show');
     type = 'tech';
    // console.log(cell);
     var row = $(cell).parents("tr");
@@ -654,7 +654,7 @@ addTechnicToDB = function () {
                                 }
 
                                 require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback);
-                                $('#addTechnicModel').css("display", "none");
+                                $('#addTechnicModelWithoutCategory').css("display", "none");
                             }
 
                             require("../API").addMarkTechnic({name: mark}, callback4);
@@ -669,7 +669,7 @@ addTechnicToDB = function () {
                             }
 
                             require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback9);
-                            $('#addTechnicModel').css("display", "none");
+                            $('#addTechnicModelWithoutCategory').css("display", "none");
                         }
                     }
 
@@ -1094,6 +1094,9 @@ $(function(){
     $('#equipments_menu').click(function(){
         openTab(2);
     });
+    $('#technics_without_category_menu').click(function(){
+        openTab(3);
+    });
     var options = {
         submitButtonCopy: 'Upload Selected Files',
         instructionsCopy: 'Drag and Drop, or',
@@ -1158,12 +1161,27 @@ $(function(){
 
  var getFileBlob = function (url, cb) {
      var xhr = new XMLHttpRequest();
-     xhr.open("GET", url);
-     xhr.responseType = "blob";
-     xhr.addEventListener('load', function() {
-         cb(xhr.response);
-     });
-     xhr.send();
+     xhr.open("GET", url, false);
+     try {
+         xhr.send();
+         if (xhr.status != 200) {
+             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`);
+         } else {
+             let res = xhr.response;
+             cb(xhr.response);
+             //alert(xhr.response);
+         }
+     } catch(err) { // для отлова ошибок используем конструкцию try...catch вместо onerror
+         alert("Запрос не удался");
+     }
+
+     // var xhr = new XMLHttpRequest();
+     // xhr.open("GET", url);
+     // xhr.responseType = "blob";
+     // xhr.addEventListener('load', function() {
+     //     cb(xhr.response);
+     // });
+     // xhr.send();
  };
 
  var blobToFile = function (blob, name) {
@@ -1273,3 +1291,262 @@ function hideModal(){
  //     }
  //
  // });
+
+
+
+
+ /// technics without category
+
+
+ let editor = require('../pagesScripts/loader').admin_editor("admin-editor");
+
+
+ openAddTechnicWithoutCategoryModel = function () {
+     type = 'tech';
+     document.getElementById('addTechnicModelWithoutCategory').style.display='block';
+     $("#add-btn").text("Додати");
+     loaderFormClear();
+ }
+
+
+ openEditTechnicWithoutCategoryModal = function(cell) {
+     $('#addTechnicModelWithoutCategory').modal('show');
+     type = 'tech';
+     var row = $(cell).parents("tr");
+     var cols = row.children("td");
+     var id  = $(cols[0]).text();
+     localStorage.setItem("currId", id);
+     //console.log(id);
+     var s = $(cols[1]).text();
+     $("#name_loader").val("");
+     $("#price-input-technic").val($(cols[4]).text());
+
+     function callback(err,data) {
+         if (err) {
+             console.log(err);
+         }
+         else {
+             let cont = JSON.parse(data.data[0].description,function (key, value) {
+                 if(typeof value === 'string')
+                     value = value.replace("/n/","\n");
+                 return value
+             });
+             //console.log(cont);
+
+             editor.setContents(cont);
+             $('#name_loader').val(data.data[0].name);
+             $("#price-input-technic").val(data.data[0].price);
+             //$("#description").val(data.data[0].description);
+             let cur = data.data[0].currency;
+             if(cur == "долар")  $("#currency-choice").val("$");
+             else if(cur == "євро")  $("#currency-choice").val("€");
+             else  $("#currency-choice").val("грн");
+
+             let photos = JSON.parse(data.data[0].photos);
+             localStorage.setItem("photo_arr", data.data[0].photos);
+             $('.uploader__file-list').empty();
+             $('.js-uploader__submit-button').removeClass("uploader__hide");
+             $('.js-uploader__further-instructions').removeClass("uploader__hide");
+             $('.js-uploader__contents').addClass("uploader__hide");
+             let string_add = "";
+             if(photos!= null && photos!= undefined)
+                 for(let i=0;i< photos.length;i++) {
+                     let item = photos[i];
+                     getFileObject("/images/technics/" + item , function (fileObject) {
+
+                         string_add="<li class=\"uploader__file-list__item\" data-index=\"" + i +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
+                             " ></span><span class=\"uploader__file-list__text\"> " + item + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + i +  "\""+ "></button></span></li>"
+                         $('.uploader__file-list').append(string_add);
+                     })
+                 }
+         }
+     }
+     require("../API").getTechnicsWithoutCategoryById(id,callback);
+     $("#add-btn").text("Оновити");
+
+ }
+
+ openRemoveModalTechnicWithoutCategory = function(cell){
+     $('#myModal').modal("toggle");
+     let row = $(cell).parents("tr");
+     let cols = row.children("td");
+     let id  = $(cols[0]).text();
+     $('#modal-btn-delete').click(function() {
+
+         function callback1(err,data1) {
+             if (err) {
+                 console.log(err);
+             }
+             else {
+                 // let photos = JSON.parse(data1.data[0].photos);
+                 // if(photos!= null && photos!= undefined) {
+                 //    // deleteFile(photos);
+                 //     fs.unlink("yabluna.png", (err) => {
+                 //         if (err) {
+                 //             console.error(err)
+                 //             return
+                 //         }
+                 //     })
+                 //     // try {
+                 //     //     fs.unlink("yabluna.png")
+                 //     //     //file removed
+                 //     // } catch(err) {
+                 //     //     console.error(err)
+                 //     // }
+                 // }
+                 function callback(err,data) {
+                     if( err) {
+                         Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                     }
+                     else {
+                         $(cell).parents("tr").remove();
+                         $('#myModal').modal("hide");
+                     }
+                 }
+                 require("../API").deleteTechnicsWithoutCategoryByID(id,callback);
+             }
+         }
+         require("../API").getTechnicsWithoutCategoryById(id,callback1);
+
+
+     });
+     //
+
+
+ }
+
+ $(function(){
+     function callback(err,data) {
+         data.data.forEach(function(item){
+
+             let el;
+
+             if (item.sold) el += "<tr class='rowTechnic soldTechnic'>"; else {
+                 el+="<tr class='rowTechnic'>";
+             }
+             el+= "<td class=\"id\">"+item.id+"</td>" +
+                 "<td class=\"type\">"+
+                 // item.name
+                 item.name
+                 +
+                 "</td>" +
+                 " <td class=\"price\">"+item.price+"</td>" +
+                 " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditTechnicWithoutCategoryModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" + //onclick='deleteTechnic(this)'
+                 "<td class=\"delete-btn delete-btn-technic\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openRemoveModalTechnicWithoutCategory(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
+                 "</tr>"
+             $("#allTechnicsWithoutCategory tbody").append(el
+             );
+         });
+     }
+     require("../API").getTechnicsWithoutCategory(callback);
+ });
+
+ addTechnicWithoutCategoryToDB = function () {
+
+     let loader_name = $('#name_loader').val().trim();
+     let price = $("input[type=number][name=price-input]").val().trim();
+     function replacer(key, value) {
+         // Фільтрація властивостей
+         if(typeof value === 'string')
+             value = value.toString().replace("\n","/n/");
+         return value;
+     }
+
+     let json_desc = JSON.stringify(editor.getContents(),replacer);
+     let currency = $('#currency-choice').children("option:selected").val();
+     // ..todo photos
+     let add_update = $("#add-btn").text();
+     //json_desc = json_desc.replace("\n","/n/")
+
+     let loader = {
+         name: loader_name,
+         price: price,
+         description: json_desc,
+         currency:"гривня"
+     }
+     if (currency == '$') loader.currency = "долар";
+     if (currency == '€') loader.currency = "євро";
+
+     if(add_update=="Додати") {
+
+         if (checkInputLoader()) {
+             let photos = getPhotos();
+             console.log(photos);
+             console.log(loader)
+             loader.photos = getPhotos().length > 0 ? JSON.stringify(getPhotos()) : JSON.stringify(["default_technic.jpg"])
+             function callback1(err, data){
+                 if(err) console.log(err)
+                 else {
+                     console.log("success");
+                     alert("Додано")
+                 }
+             }
+             require("../API").addTehnicWithoutCategory(loader, callback1);
+         } else {
+             alert("Невірні дані !!!");
+         }
+     }
+     else {
+         var id  = localStorage.getItem("currId");
+         let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
+         let newPhotos = getPhotos();
+         console.log(newPhotos)
+
+         let photos_to_add = [];
+
+         //
+         // for( let i =0; i < newPhotos.length;i++) {
+         //     let a = newPhotos[i].val.trim();
+         //     if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
+         //     newPhotos[i] = a;
+         //
+         // }
+         //
+         // for( let i =0; i < photo_arr.length;i++) {
+         //     if (!newPhotos.includes(photo_arr[i].file_name)) {
+         //         // to do    delete photo from server
+         //     }
+         // }
+
+         loader.photos = newPhotos.length > 0 ? JSON.stringify(newPhotos) : JSON.stringify(["default_technic.jpg"])
+         console.log(loader)
+         function callback5(err,data1) {
+             if( err) {
+                 console.log(err);
+             }
+             else {
+                 alert("Товар оновлено!");
+             }
+         }
+         require("../API").updateTechnicWithoutCategory(id,loader,callback5)
+     }
+
+ }
+
+ function checkInputLoader() {
+     let loader_name = $('#name_loader').val().trim();
+     let price = $("input[type=number][name=price-input]").val().trim();
+     //
+     // if(loader_name.isNullOrEmpty
+     //     || producer.isNullOrEmpty() || country_producer.isNullOrEmpty() || price.isNullOrEmpty())
+     //     return false;
+     // else
+     return true;
+ }
+
+ function loaderFormClear() {
+     $("#producer").val("");
+     $("#country-producer").val("");
+     editor.deleteText(0,editor.getLength())
+     $("#price-input-technic").val("");
+     $("#year-technic-input").val("");
+     $('#name_loader').val("Фронтальний навантажувач");
+
+     $('.uploader__file-list').empty();
+// class="js-uploader__contents uploader__contents uploader__hide"
+     $('.uploader__contents').removeClass("uploader__hide");
+     $('.js-uploader__further-instructions').addClass("uploader__hide");
+
+     $('.js-uploader__submit-button').addClass("uploader__hide");
+ }
+

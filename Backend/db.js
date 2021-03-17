@@ -24,6 +24,11 @@ exports.insert_tehnic = function(tehnic,callback){
     connection.query("INSERT INTO tracktop.technics SET ?", tehnic, callback);
 }
 
+exports.insert_tehnic_without_category = function(tehnic,callback){
+    console.log(tehnic)
+    connection.query("INSERT INTO tracktop.technics_without_category SET ?", tehnic, callback);
+}
+
 exports.insert_review = function(review,callback){
     connection.query("INSERT INTO tracktop.reviews SET ?", review, callback);
 }
@@ -237,12 +242,21 @@ exports.get_technics_by_country = function(country,callback){
 }
 
 
+exports.get_technics_without_category = function(callback){
+    connection.query("SELECT * from tracktop.technics_without_category",callback);
+}
+
 exports.get_technics = function(callback){
     connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price,technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date, technics.sold, technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (tracktop.technics INNER JOIN tracktop.types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN tracktop.marks_of_technics on technics.mark_id = marks_of_technics.id order by technics.id desc",callback);
 }
 
 exports.get_technics_by_id = function(id,callback){
     connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price,technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date,technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (tracktop.technics INNER JOIN tracktop.types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN tracktop.marks_of_technics on technics.mark_id = marks_of_technics.id where technics.id='"+id+"'",callback);
+}
+
+exports.get_technics_without_category_by_id = function(id,callback){
+    console.log(id)
+    connection.query("SELECT * from tracktop.technics_without_category where id = '"+id +"'",callback);
 }
 
 
@@ -281,6 +295,10 @@ exports.get_equipments_categories = function(callback){
 
 exports.delete_technics = function(id,callback){
     connection.query("DELETE FROM tracktop.technics WHERE tracktop.technics.id = "+ id,callback);
+}
+
+exports.delete_technic_without_category_id = function(id,callback) {
+    connection.query("DELETE FROM tracktop.technics_without_category WHERE id = "+ id,callback);
 }
 
 exports.delete_types_of_technics = function(id,callback){
@@ -386,6 +404,10 @@ exports.update_type_of_technic = function(id,type,callback){
 
 exports.update_technic = function(id,technic,callback){
     connection.query("UPDATE tracktop.technics SET ? Where id = ? ", [technic,id],callback);
+}
+
+exports.update_technic_without_category = function(id,technic,callback){
+    connection.query("UPDATE tracktop.technics_without_category SET ? Where id = ? ", [technic,id],callback);
 }
 
 exports.update_review = function(id,review,callback){

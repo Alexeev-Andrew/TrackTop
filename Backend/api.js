@@ -32,6 +32,31 @@ exports.addTehnic = function(req, res) {
 
 };
 
+exports.addTehnicWithoutCategory = function(req, res) {
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+
+    db.insert_tehnic_without_category(info,callback);
+
+};
+
+
 exports.addReview = function(req, res) {
     var db = require('./db');
     var info = req.body;
@@ -500,6 +525,30 @@ exports.get_marks_of_technics = function (req,res) {
 }
 
 
+exports.getTechnicsWithoutCategory = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.get_technics_without_category(callback);
+}
+
+
+
 exports.get_technics = function (req,res) {
     var db = require('./db');
 
@@ -702,6 +751,31 @@ exports.get_technics_im_by_id = function (req,res) {
     }
     db.get_technic_im_by_id(req.body.id, callback);
 }
+
+
+
+exports.get_technics_without_category_by_id = function (req,res) {
+    var db = require('./db');
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+    db.get_technics_without_category_by_id(req.body.id, callback);
+}
+
 
 exports.get_technic_by_id = function (req,res) {
     var db = require('./db');
@@ -963,6 +1037,32 @@ exports.update_review = function(req,res){
 
 }
 
+
+exports.update_technic_without_category = function(req,res){
+    var db = require('./db');
+    var info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true
+            });
+        }
+    }
+
+    db.update_technic_without_category(info.id,info.info,callback);
+
+}
+
+
 exports.update_technic = function(req,res){
     var db = require('./db');
     var info = req.body;
@@ -1011,6 +1111,29 @@ exports.update_equipment = function(req,res){
     db.update_equipments(info.id,info.info,callback);
     console.log("id =  " + info.id + " info = " + info.info);
 }
+
+exports.delete_technic_without_category_by_id = function(req,res){
+        var db = require('./db');
+        var info = req.body;
+
+        function callback(error,data){
+            if(error) {
+                console.log("Error! ", error.sqlMessage);
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+                console.log("Success! ", data);
+                res.send({
+                    success: true
+                });
+            }
+        }
+
+        db.delete_technic_without_category_id(info.id,callback);
+    }
 
 exports.delete_technic_by_id = function(req,res){
     var db = require('./db');
