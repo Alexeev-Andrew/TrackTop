@@ -330,11 +330,15 @@ exports.equipmentsByModel = function(req, res) {
                 error: error.sqlMessage
             });
         } else {
+            let page = req.query.page;
+            if(!page) page = 1;
+            console.log("page = "+ page)
             res.render('categoryPage', {
                 pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
                 description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
                 name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
                 data: data.data,
+                page: page,
                 mark : req.params.mark,
                 model : req.params.model,
                 photo_location : null

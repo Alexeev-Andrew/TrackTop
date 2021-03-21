@@ -184,11 +184,9 @@ function  initialize() {
                 if(photos == null || photos == undefined) {
                     photos = []
                 }
-                if(photos.length == 0)
-                    photos.push(default_photo);
-
+                if(photos.length != 0)
                 photos.forEach(function(item) {
-                    dataset.push("technics/"+item)
+                    dataset.push("technics/"+item.val)
                 });
                 if(dataset.length === 0) {
                     dataset.push("technics/"+default_photo)

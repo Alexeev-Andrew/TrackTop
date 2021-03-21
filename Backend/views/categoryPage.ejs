@@ -91,6 +91,9 @@
         <div id="hide_desc" style="display: none">
         </div>
                 <% } else if(name.toString().startsWith("Запчастини до комбайна")) {%>
+                        <ul id="pagination" class="pagination justify-content-center" style="padding-left: 10%">
+                        </ul>
+                    <% if(page == 1){ %>
                     <div id="hide_desc" class="descr_bottom">
                         <h4><i>Запчастини до зернозбирального комбайна <%= mark %> <%= model %>.</i> </h4>
                         На нашому сайті ви знайде майже всі ходові <%= name.toString().toLowerCase() %>. Якщо ж запчастини немає на
@@ -103,7 +106,8 @@
                         Ми постараємось допомогти вам вирішити проблему.
                         </p>
                     </div>
-        <% } %>
+                    <% } %>
+                <% } %>
         <% }else{ %>
             <div class="marks"><div class="oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <div class="thumbnail thumbnail-marks">

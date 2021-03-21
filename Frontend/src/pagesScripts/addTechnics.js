@@ -13,6 +13,7 @@ var equipmentsByCategory = [];
 var values = require('../values.js');
 var API_URL = values.url;
 
+let equipments_per_page = 12;
 var equipments_showed = 0;
 
 function initilizebreadcrumbEquipmentCategory(){
@@ -103,7 +104,7 @@ function showTechnicsWithoutCategory(list) {
     function showOne(type) {
         //console.log(type);
         type.url = API_URL+"/technics-without-category/"+type.id;
-        let main_photo_location = JSON.parse(type.photos)[0];
+        let main_photo_location = JSON.parse(type.photos)[0].val;
         type.main_photo_location = main_photo_location ? main_photo_location : "default_technic.jpg"
 
         var html_code = Templates.technicWithoutCategory({technic: type});
@@ -257,46 +258,88 @@ exports.initializeTechnics = function(){
 
 
 
-function showEquipments(list , className , filter) {
-    if(className == "equipments")
-    $equipments.html("");
-    else if(className == "searchedEquipments")
+function showEquipments(list , className , per_page, filter) {
+    $(".search").css("display", "none");
+    if (className == "equipments")
+        $equipments.html("");
+    else if (className == "searchedEquipments")
         $searchedEquipments.html("");
-    if(list.length===0  && filter.toString().trim()=="") {
+    if (list.length === 0 && filter.toString().trim() == "") {
         //TODO: templ for empty result
         $("#nothing_found").text("Категорія поки не запонена. Напишіть нам або подзвоніть, щоб зробити замовлення");
-        $("#description_technic_equipment").css("display","block");
+        $("#description_technic_equipment").css("display", "block");
         return;
-    }
-    else if(list.length===0 ) {
+    } else if (list.length === 0) {
         //TODO: templ for empty result
 
-        $("#description_technic_equipment").css("display","block");
+        $("#description_technic_equipment").css("display", "block");
         return;
     }
+    let paginataion = $("#pagination");
+    paginataion.empty();
+    let pagination_pages = "";
+    let cur_page = "";
+    cur_page = getUrlParameter("page");
+    if (!cur_page) cur_page = 1;
+    let max_pages = Math.ceil(list.length / per_page);
+    // console.log(max_pages)
+    //let model = getModelEquipments()
+    let url = document.location.href.toString();
+    if (url.includes("?page")) url = url.substring(0, url.indexOf("?page"));
+    if (max_pages > 1) {
+        pagination_pages += '<li class="page-item ';
+        if (cur_page == 1) pagination_pages += ' disabled';
+        pagination_pages += '"><a class="page-link" href="';
+        if(cur_page == 2) pagination_pages += url
+        else if (cur_page > 2) pagination_pages += (url + '?page=' + (cur_page - 1))
+        else pagination_pages += "#"
+        pagination_pages += '" aria-label="Previous" ><span aria-hidden="true">&laquo;</span></a></li>'
 
-    for(let i =0 ; i< 10;i ++) {
+
+    for (let i = 1; i <= max_pages; i++) {
+        let cur_url = url;
+        if (i != 1) cur_url += '?page=' + i;
+        pagination_pages += '<li class="page-item';
+        if (cur_page == i)
+            pagination_pages += ' active';
+        pagination_pages += '"><a class="page-link" href="' + cur_url + '">' + i + '</a></li>';
+    }
+    pagination_pages += '<li class="page-item'
+
+    if (cur_page == max_pages) pagination_pages += ' disabled';
+    pagination_pages += '"><a class="page-link" href="';
+    let next_page = parseInt(cur_page) + 1;
+    if (cur_page != max_pages) pagination_pages += (url + '?page=' + next_page)
+    else pagination_pages += "#"
+    pagination_pages += '" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
+
+    paginataion.append(pagination_pages)
+
+}
+
+
+    for(let i = (cur_page-1)*per_page ; i< cur_page*per_page;i ++) {
         if(list.length> i) {
             equipments_showed = i;
             showOneEquipment(list[i] , className);
         }
     }
     let k = equipments_showed;
-    $(window).scroll(function() {
-        let next = equipments_showed+10 ;
-        //if(list.length> equipments_showed && )
-        if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - $("#hide_desc").height() -$(".footer-sub").height()  - 500 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
-            // ajax call get data from server and append to the div
-            //console.log("ida");
-            for(let i =equipments_showed+1 ; i<next;i ++) {
-                if(list.length> i ) {
-                    equipments_showed = i;
-                    showOneEquipment(list[i] , className);
-                }
-            }
-            lazyLoad();
-        }
-    });
+    // $(window).scroll(function() {
+    //     let next = equipments_showed+10 ;
+    //     //if(list.length> equipments_showed && )
+    //     if($(window).scrollTop() > $(document).height() - $(window).height() - $(".footer").height() - $("#hide_desc").height() -$(".footer-sub").height()  - 500 && filter==document.getElementById("searchEquipments").value.toLowerCase()) {
+    //         // ajax call get data from server and append to the div
+    //         //console.log("ida");
+    //         for(let i =equipments_showed+1 ; i<next;i ++) {
+    //             if(list.length> i ) {
+    //                 equipments_showed = i;
+    //                 showOneEquipment(list[i] , className);
+    //             }
+    //         }
+    //         lazyLoad();
+    //     }
+    // });
 }
 
 function showOneEquipment(type , className) {
@@ -337,7 +380,7 @@ exports.initializeEquipments = function(){
                        if(data.error) console.log(data.error);
                        equipmentsByCategory = data.data;
 
-                       filterSelectionEquipments();
+                       filterSelectionEquipments(data.data.length);
                        lazyLoad();
                    }
 
@@ -375,11 +418,12 @@ exports.initializeEquipments = function(){
                }
            })
         if(document.location.href.toString().includes("combine_details")) {
-            let param = document.location.href.toString().split("/");
-            let model = (param[param.length-1].replace("%20"," "));
-            //$("#breadcrumb").empty();
-            while (model.includes("%20")) model = model.replace("%20"," ");
+                let model = getModelEquipments()
                 //console.log(model);
+            // let param = document.location.href.toString().split("/");
+            //     param.slice(0,param.length-1)
+            // let model = (param[param.length-1].replace("%20"," "));
+            // let base_url =
                 require("../API").getEquipmentsByModal(model, callback2);
 
 
@@ -391,7 +435,7 @@ exports.initializeEquipments = function(){
                     } else {
                         //console.log(data.data);
                         equipmentsByCategory = data.data;
-                        filterSelectionEquipments();
+                        filterSelectionEquipments(equipments_per_page);
                         lazyLoad();
                     }
 
@@ -536,7 +580,7 @@ function showModels(list) {
     list.forEach(showOneMark);
 }
 
-filterSelectionEquipments = function() {
+filterSelectionEquipments = function(per_page) {
     let input = document.getElementById("searchEquipments");
     if(input) {
         let filter = input.value.toLowerCase();
@@ -553,7 +597,7 @@ filterSelectionEquipments = function() {
                 list.push(equipmentsByCategory[i]);
             }
         }
-        showEquipments(list, "equipments", filter);
+        showEquipments(list, "equipments", per_page, filter);
     }
 }
 
@@ -580,10 +624,30 @@ let eq = {
     "Запчастини до пресів-підбирачів":"Преси-підбирачі"
 }
 
+getModelEquipments = function() {
+    let param = document.location.href.toString().split("/");
+    let model = (param[param.length-1].replace("%20"," "));
+    if(model.includes("?page")) model = model.substring(0,model.indexOf("?page"));
+    if(model.includes("#")) model = model.substring(0,model.indexOf("#"))
+    //$("#breadcrumb").empty();
+    while (model.includes("%20")) model = model.replace("%20"," ");
+    return model;
+}
+
 lazyLoad = function() {
     let images = document.querySelectorAll(".lazy");
     //console.log(images)
     lazyload(images);
+}
+
+
+
+$(".pagination-next-page").click(function () {
+    let next = this.innerText.trim();
+    document.location.href = API_URL+"/category_equipments/category?name="+ next ;
+});
+openPage = function(base_url, page,) {
+    document.location.href= base_url + "?page="+ page;
 }
 
 
