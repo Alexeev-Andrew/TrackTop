@@ -18,6 +18,7 @@ function configureEndpoints(app) {
     var pages = require('./pages');
     var api = require('./api');
     var db = require('./db');
+    let per_page = 12;
 
     db.connect();
 
@@ -146,6 +147,20 @@ function configureEndpoints(app) {
                         smStream.write({ url: '/technic?model='+item.model + "&mark=" + item.marks_of_technics_name + "&type=" + item.types_of_technics_name + "&number_id=" + item.id,  changefreq: 'daily', priority: 0.7 })
                     });
                 }
+
+                function callback9(err, data) {
+                    if (data) {
+                        data.forEach(function (item) {
+                            smStream.write({
+                                url: '/technics-without-category/' + item.id,
+                                changefreq: 'daily',
+                                priority: 0.7
+                            })
+                        });
+                    }
+                }
+                db.get_technics_without_category(callback9)
+
                 smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
                 smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
@@ -153,6 +168,8 @@ function configureEndpoints(app) {
                 smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Жатки',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics?type=Фронтальні%20навантажувачі',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/technics-without-category',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/category_equipments/category/combine_details/Massey%20Ferguson',  changefreq: 'daily', priority: 0.7 })
                 smStream.write({ url: '/category_equipments/category/combine_details/Claas',  changefreq: 'daily', priority: 0.7 })
@@ -180,8 +197,24 @@ function configureEndpoints(app) {
                                                 changefreq: 'daily',
                                                 priority: 0.7
                                             })
+                                            function callback8(err, data8) {
+                                                if(data8 && data8.length > per_page) {
+                                                    let pages = Math.ceil(data8.length / per_page)
+                                                    for(let i = 2; i<=pages;i++) {
+                                                        smStream.write({
+                                                            url: '/category_equipments/category/combine_details/' + mark_item +"/" + item.model+"?page=" + i,
+                                                            changefreq: 'daily',
+                                                            priority: 0.7
+                                                        })
+                                                    }
+                                                }
+                                            }
+                                            db.get_equipments_by_model(item.model,callback8)
+
                                         });
                                     }
+
+
                                     if(mark_item == marks[marks.length-1]) {
                                         function callback5(err, data5) {
                                             if (data5) {
