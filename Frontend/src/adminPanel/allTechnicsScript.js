@@ -6,6 +6,8 @@ var API_URL = values.url;
 var file_uploader = require('blueimp-file-upload');
 let jquery_ui = require('jquery-ui');
 var type = 'tech';
+ let default_photo = "default_technic.jpg"
+
 
 //multiple = new MultipleSelect();
 openAddTechnicModel = function () {
@@ -1342,8 +1344,21 @@ function hideModal(){
              else if(cur == "євро")  $("#currency-choice").val("€");
              else  $("#currency-choice").val("грн");
 
+
              let photos = JSON.parse(data.data[0].photos);
-             localStorage.setItem("photo_arr", data.data[0].photos);
+             let dataset = [];
+             if(photos == null) {
+                 photos = []
+             }
+             if(photos.length != 0)
+                 photos.forEach(function(item) {
+                     dataset.push("technics/"+item.val)
+                 });
+             if(dataset.length === 0) {
+                 dataset.push("technics/"+default_photo)
+             }
+             photos = dataset
+             localStorage.setItem("photo_arr", JSON.stringify(dataset));
              $('.uploader__file-list').empty();
              $('.js-uploader__submit-button').removeClass("uploader__hide");
              $('.js-uploader__further-instructions').removeClass("uploader__hide");
