@@ -164,7 +164,8 @@ exports.technic_without_category = function(req, res) {
                                 pageTitle: technic.name + " | Корчин, Львівська область",
                                 name: technic.name,
                                 description: "Купити "  + technic.name + " Дзвоніть ☎ (097)-837-87-72",
-                                technic: technic
+                                technic: technic,
+                                photo_location : JSON.parse(technic.photos)[0].val
                             });
                 }
             }
