@@ -63,6 +63,43 @@
   cursor: pointer!important;
 }
 
+.h1-main-page {
+  font-family: "Avenir Next", "Avenir", "Open Sans", "Roboto", Arial, sans-serif, "Goudy Bookletter 1911", sans-serif;
+  text-align: center;
+}
+
+.h1-main-page h1 {
+  font-size: 1.5em;
+}
+
+
+@media (max-width: 500px) {
+  .h1-main-page {
+    margin-top: -35px;
+    padding:       0 20px 0 50px
+  }
+}
+
+@media (max-width: 375px) {
+  .typesOfTechnic {
+    padding              : 3% 25px;
+    grid-gap             : 40px;
+  }
+  .typeDiv {
+    height: 200px;
+  }
+
+}
+
+@media (max-width: 350px) {
+  .typesOfTechnic {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    padding              : 3% 20px;
+  }
+  .typeDiv {
+    height: 190px;
+  }
+}
 
 @media (max-width: 320px) {
   .typesOfTechnic {

@@ -18,7 +18,19 @@
   position: fixed;
   top : 0;
   width           : 100%;
-  z-index:        1000;
+  z-index:        8002;
+}
+
+#header-mobile-phone {
+  display: none;
+  text-align: center;
+  /* justify-content: space-between; */
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  width: 100%;
+  z-index: 8002;
 }
 
 .header a,
@@ -116,4 +128,29 @@
   background-color: #ddddddad;
   font-size: 14px!important;
   display: block;
+}
+
+
+@media (max-width:500px) {
+
+  #header-mobile-phone {
+    display: block;
+  }
+
+  .header {
+    top: 20px;
+    height: 50px;
+  }
+
+  #logo {
+    width: 120px;
+    height: 42px;
+  }
+
+  #user_photo {
+    margin: 10px 10px 5px 5px;
+    height: 35px;
+    width: 35px;
+  }
+
 }
