@@ -261,7 +261,8 @@ function configureEndpoints(app) {
     app.use(express.static(path.join(__dirname, '../Frontend/www')));
     app.use('/images',express.static(path.join(__dirname, '../Backend/res/images')));
     app.use(robots(__dirname + '/robots.txt'));
-    app.use(express.static('static'));
+    app.use(express.static(path.join(__dirname, '../static')));
+    //app.use(express.static('static'));
 
 }
 
