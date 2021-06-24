@@ -264,6 +264,10 @@ exports.get_client_by_phone = function(phone,callback){
     connection.query("SELECT * FROM tracktop.clients WHERE phone_number ='" + phone + "'",callback);
 }
 
+exports.get_client_by_id = function(id,callback){
+    connection.query("SELECT * FROM tracktop.clients WHERE id ='" + id + "'",callback);
+}
+
 exports.get_equipments = function(callback){
     connection.query("SELECT * FROM tracktop.equipments",callback);
 }

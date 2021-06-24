@@ -12,7 +12,19 @@ var robots = require('express-robots-txt');
 //const sitemap = require('express-simple-sitemap');
 const { SitemapStream, streamToPromise } = require('sitemap')
 const { createGzip } = require('zlib')
-let sitemap
+let sitemap;
+const https = require('https');
+const fs = require('fs');
+// Certificate
+// const privateKey = fs.readFileSync('/etc/letsencrypt/live/tracktop.com.ua/privkey.pem', 'utf8');
+// const certificate = fs.readFileSync('/etc/letsencrypt/live/tracktop.com.ua/cert.pem', 'utf8');
+// const ca = fs.readFileSync('/etc/letsencrypt/live/tracktop.com.ua/chain.pem', 'utf8');
+//
+// const credentials = {
+//     key: privateKey,
+//     cert: certificate,
+//     ca: ca
+// };
 
 function configureEndpoints(app) {
     var pages = require('./pages');

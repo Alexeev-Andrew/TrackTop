@@ -39,6 +39,7 @@ exports.deleteInfoFromLocalStorage = function() {
     localStorage.removeItem("settlement");
     localStorage.removeItem("surname");
     localStorage.removeItem("photo");
+    localStorage.clear();
     require("./user_form").isLogged();
 }
 
