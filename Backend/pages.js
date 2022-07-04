@@ -355,6 +355,12 @@ exports.about = (req, res) => {
     })
 }
 
+exports.test = (req, res) => {
+    res.render('test', {
+        pageTitle: 'Про компанію TrackTop'
+    })
+}
+
 exports.sitemap = (req, res) => {
     res.render('sitemap', {
         pageTitle: 'Карта сайту магазину сг техніки TrackTop | Львівська область'
@@ -366,10 +372,21 @@ exports.reviews = (req, res) => {
     })
 }
 
-exports.adminPanel = (req, res) => {
+exports.basket = (req, res) => {
+    res.render('basket', {
+        pageTitle:  "Корзина | TrackTop" ,
+        description :  "Корзина | Магазин до комбайнів",
+    });
+}
 
+exports.purchases = (req, res) => {
+    res.render('purchases', {
+    })
+}
+
+exports.adminPanel = (req, res) => {
     res.render('adminPage', {
         pageTitle: 'admin panel',
-        currPage:  req.query.page || "check"
+        currPage:  req.query.page || "check",
     })
 }

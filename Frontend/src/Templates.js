@@ -14,3 +14,4 @@ exports.oneReview = ejs.compile(fs.readFileSync('./Frontend/templates/one_review
 exports.equipmentCategory = ejs.compile(fs.readFileSync('./Frontend/templates/category.ejs', "utf8"));
 exports.oneMark = ejs.compile(fs.readFileSync('./Frontend/templates/one-mark.ejs', "utf8"));
 exports.oneModel = ejs.compile(fs.readFileSync('./Frontend/templates/one-model.ejs', "utf8"));
+exports.oneOrder = ejs.compile(fs.readFileSync('./Frontend/templates/one-model.ejs', "utf8"));

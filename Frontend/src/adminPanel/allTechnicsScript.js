@@ -5,9 +5,14 @@ var values = require('../values.js');
 var API_URL = values.url;
 var file_uploader = require('blueimp-file-upload');
 let jquery_ui = require('jquery-ui');
-var type = 'tech';
- let default_photo = "default_technic.jpg"
+let notify = require('../pagesScripts/notify');
+let type = 'tech';
+let default_photo = "default_technic.jpg"
+let files2 = [];
 
+ // require("../API").deleteFile("./2.jpg",function (err,data) {
+ //     if(err) console.log(err)
+ // })
 
 //multiple = new MultipleSelect();
 openAddTechnicModel = function () {
@@ -16,7 +21,7 @@ openAddTechnicModel = function () {
     document.getElementById('addTechnicModelWithoutCategory').style.display='block';
     // $('#addTechnicModel').style.display='block';
     $("#add-btn").text("Додати");
-
+    $("#technic_url").hide()
     technicFormClear();
     $('.uploader__file-list').empty();
 // class="js-uploader__contents uploader__contents uploader__hide"
@@ -83,29 +88,36 @@ getModels = function() {
 
 openEditTechnicModal = function(cell) {
     $('#addTechnicModelWithoutCategory').modal('show');
-    type = 'tech';
+    //type = 'tech';
    // console.log(cell);
-    var row = $(cell).parents("tr");
-    var cols = row.children("td");
-    var id  = $(cols[0]).text();
+
+    let row = $(cell).parents("tr");
+    let cols = row.children("td");
+    let id  = $(cols[0]).text();
     localStorage.setItem("currId", id);
     //console.log(id);
-    var s = $(cols[1]).text();
+    let type = $(cols[1]).text();
     //children("button")[0]).data("id");
     //$("#type_technics").val($(cols[1]).text());
-    $("#type_technics").append(new Option(s, s,true,true));
+    $("#type_technics").append(new Option(type, type,true,true));
     $('#type_technics').prop("disabled", true);
     $("#mark-choice").val($(cols[2]).text());
-    $("#model-choice").val($(cols[3]).text());
-    $("#mark-choice").prop("disabled", true);
+    let model = $("#model-choice").val($(cols[3]).text());
+    let mark = $("#mark-choice").prop("disabled", true);
     $("#model-choice").prop("disabled", true);
     $("#price-input-technic").val($(cols[4]).text());
+    console.log(model)
+    console.log(mark)
+    console.log(type)
 
     function callback(err,data) {
         if (err) {
             console.log(err);
         }
         else {
+            $("#technic_url").attr("href",API_URL + "/technic?model=" + model.val() + "&mark=" + mark.val() + "&type=" + type + "&number_id=" + id)
+
+            //http://tracktop.com.ua/technic?model=186&mark=Massey%20Ferguson&type=%D0%9A%D0%BE%D0%BC%D0%B1%D0%B0%D0%B9%D0%BD%D0%B8&number_id=229
             $("#description").val(data.data[0].description);
             $("#year-technic-input").val(data.data[0].production_date);
             let cur = data.data[0].currency;
@@ -120,32 +132,42 @@ openEditTechnicModal = function(cell) {
             console.log(err);
         }
         else {
-            localStorage.setItem("photo_arr", JSON.stringify(data.data));
+            localStorage.setItem("photo_arr", data.data);
             $('.uploader__file-list').empty();
 
             $('.js-uploader__submit-button').removeClass("uploader__hide");
             $('.js-uploader__further-instructions').removeClass("uploader__hide");
 
             $('.js-uploader__contents').addClass("uploader__hide");
-           console.log(data.data);
+           // console.log(data.data);
 
+            let im = [];
+            try {
+                im = JSON.parse(data.data);
+                for(let i=0;i< im.length;i++) {
+                    let item = im[i];
+                    getFileObject("/images/technics/" + item , function (fileObject) {
+                        //console.log(fileObject.size);
+                        $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
+                            "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
+                            " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+                            item.id +  "\""+ "></button></li>")
+                    })
+                }
+                photosMakeSortable();
+                // data.data.forEach(function(item) {
+                //     getFileObject("/images/technics/" + item.file_name , function (fileObject) {
+                //         //console.log(fileObject.size);
+                //         $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
+                //             " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
+                //     })
+                // }
+                // );
+            }
+            catch(e) {
+                // forget about it :)
+            }
 
-           for(let i=0;i< data.data.length;i++) {
-               let item = data.data[i];
-               getFileObject("/images/technics/" + item.file_name , function (fileObject) {
-                   //console.log(fileObject.size);
-                   $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
-                       " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
-               })
-           }
-            // data.data.forEach(function(item) {
-            //     getFileObject("/images/technics/" + item.file_name , function (fileObject) {
-            //         //console.log(fileObject.size);
-            //         $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item.file_name + "\"" +
-            //             " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
-            //     })
-            // }
-            // );
         }
     }
     require("../API").getTechnicsImagesById(id,callback1);
@@ -173,6 +195,17 @@ openRemoveModalTechnic = function(cell){
     });
      // todo if btn sold is clicked - delete images and attribute sold
 
+    $('#modal-btn-sold').click(function() {
+        function callback2(err,data2) {
+            if( err) {
+                Notify("Помилка! Не вдалось виконати.",null,null,'success');
+            }
+            else {
+                $('#myModal').modal("hide");
+            }
+        }
+        require("../API").updateTechnic(id,{sold: true},callback2)
+    });
 
 }
 
@@ -186,38 +219,15 @@ deleteEquipment = function(cell) {
     console.log(id);
     var conf =confirm ("Ви впевнені, що хочете видалити?");
     if(conf) {
-        // set attribute to "sold" or delete from db
-
-        function callback3(err,data3) {
-            if( err) {
-                console.log(err);
-            }
+        function callback(err,data) {
+            if(err) console.log(err);
             else {
-                function callback2(err,data) {
-                    if( err) {
-                        //Notify("Помилка! Не вдалось видалити.",null,null,'success');
-                        console.log(err);
-                    }
-                    else {
-                        function callback(err,data) {
-                            if(err) console.log(err);
-                            else {
-                                $(cell).parents("tr").remove();
-                            }
-                        }
-                        require("../API").deleteEquipmentsByID(id,callback)
-
-                    }
-                }
-                require("../API").deleteEquipmentsModelsByID(id,callback2)
+                $(cell).parents("tr").remove();
+                // hide modal not sure correct model
+                $('#myModal').modal("hide");
             }
         }
-
-
-        require("../API").delete_images_by_equipment_id(id,callback3);
-
-
-
+        require("../API").deleteEquipmentsByID(id,callback)
     }
 
 }
@@ -288,6 +298,7 @@ openAddEquipmentModel = function () {
     $('#type_technics').prop("disabled", true);
     // $('#multiple-select-container-'+container_num).css("display", "none");
     equipmentFormClear();
+    $("#equipment_url").hide()
 
     $('#type_technics').children().remove();
     $('#type_technics').append('<option selected value="Тип" disabled>Тип</option>');
@@ -319,9 +330,9 @@ openEditEquipmentModal = function(cell) {
     $('#addEquipmentModel').modal('show');
     // console.log(cell);
     type = 'eq';
-    var row = $(cell).parents("tr");
-    var cols = row.children("td");
-    var id  = $(cols[0]).text();
+    let row = $(cell).parents("tr");
+    let cols = row.children("td");
+    let id  = $(cols[0]).text();
     console.log(id);
     localStorage.setItem("currEquipmentId",id);
     //children("button")[0]).data("id");
@@ -336,6 +347,8 @@ openEditEquipmentModal = function(cell) {
     $('#model-choice').prop("disabled", true);
     $('#multiple-select-container-'+(container_num-1)).remove();
     $('#multiple-select-container-'+(container_num)).remove();
+
+
 
     // function callback1(err,data) {
     //     if(err) console.log(err);
@@ -352,6 +365,8 @@ openEditEquipmentModal = function(cell) {
             console.log(err);
         }
         else {
+            let equipment = data.data[0];
+
             let categories = [];
 
             function callback2(err,data2) {
@@ -373,6 +388,9 @@ openEditEquipmentModal = function(cell) {
                         $('#categories_modal').prop("disabled",true);
                     }
                     ///
+
+                    $("#equipment_url").attr("href",API_URL + "/equipment?name=" + data.data[0].name + "&id=" + id )
+
                     $("#description").val(data.data[0].description);
                     $("#state-choice").val(data.data[0].state);
                     let cur = data.data[0].currency;
@@ -444,12 +462,10 @@ openEditEquipmentModal = function(cell) {
             require("../API").get_equipments_categories(callback2);
 
             /// to do photo for equipment
-            function callback1(err,data) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    localStorage.setItem("photo_arr", JSON.stringify(data.data));
+
+                    let images = JSON.parse(equipment.images);
+                    console.log(images)
+                    localStorage.setItem("photo_arr", equipment.images);
                     $('.uploader__file-list').empty();
 
                     $('.js-uploader__submit-button').removeClass("uploader__hide");
@@ -458,17 +474,22 @@ openEditEquipmentModal = function(cell) {
                     $('.js-uploader__contents').addClass("uploader__hide");
                     // console.log(data.data);
 
-                    data.data.forEach(function(item){
-                            getFileObject("/images/equipments/" + item.file_name , function (fileObject) {
-                                //console.log(fileObject.size);
-                                $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item.id +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/equipments/" + item.file_name + "\"" +
-                                    " ></span><span class=\"uploader__file-list__text\"> " + item.file_name + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + item.id +  "\""+ "></button></span></li>")
-                            })
-                        }
-                    );
+            try {
+                for(let i=0;i< images.length;i++) {
+                    let item = images[i];
+                    getFileObject("/images/equipments/" + item , function (fileObject) {
+                        //console.log(fileObject.size);
+                        $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item +  "\"" +
+                            "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/equipments/" + item + "\"" +
+                            " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+                            item.id +  "\""+ "></button></li>")
+                    })
                 }
             }
-            require("../API").getEquipmentImagesById(id,callback1);
+            catch(e) {
+                // forget about it :)
+            }
+
             ///
 
         }
@@ -556,20 +577,39 @@ $(function(){
     require("../API").getEquipments(callback);
 });
 
-function productBuildTableRow(id) {
-    var ret =
-        "<tr class='rowEquipment'>" +
-        "<td class=\"id\">"+id+"</td>" +
-        "<td class=\"name\">"+"Комбайн"+"</td>" +
-        " <td class=\"price\">"+"45"+"</td>" +
-        " <td class=\"code\">"+"KM342342i"+"</td>" +
-        " <td class=\"amount\">"+"9000"+"</td>" +
-        " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
-        "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
-        "</tr>";
+function productBuildTableRow(item) {
+    let el;
 
-    return ret;
+    if (item.sold) el += "<tr class='rowTechnic soldTechnic'>"; else {
+        el+="<tr class='rowTechnic'>";
+    }
+    el+= "<td class=\"id\">"+item.id+"</td>" +
+        "<td class=\"type\">"+item.type+"</td>" +
+        " <td class=\"mark\">"+item.mark+"</td>" +
+        " <td class=\"model\">"+item.model+"</td>" +
+        " <td class=\"price\">"+item.price+"</td>" +
+        " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" + //onclick='deleteTechnic(this)'
+        "<td class=\"delete-btn delete-btn-technic\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openRemoveModalTechnic(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
+        "</tr>"
+
+    return el;
 }
+
+ function productBuildEquipmentTableRow(item) {
+     let el;
+
+     el += "<tr class='rowEquipment'>" +
+     "<td class=\"id\">"+item.id+"</td>" +
+     "<td class=\"name\">"+item.name+"</td>" +
+     " <td class=\"price\">"+item.price+"</td>" +
+     " <td class=\"code\">"+item.vendor_code+"</td>" +
+     " <td class=\"amount\">"+item.amount+"</td>" +
+     " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
+     "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
+     "</tr>"
+
+     return el;
+ }
 
 filterSelect = function(i) {
     var input =  document.getElementsByClassName("mysearch")[0];
@@ -625,18 +665,37 @@ addTechnicToDB = function () {
         currency: "долар",
         description: description,
     }
-    if (currency == 'грн') technic.currency = "гривня";
-    if (currency == '€') technic.currency = "євро";
+
+    let table_row = {
+        type: selectedType,
+        mark: mark,
+        model:model,
+        price: price,
+        production_date: year,
+        currency: "долар",
+}
+
+    if (currency == 'грн') {
+        table_row.currency = "євро";
+        technic.currency = "гривня";
+    }
+
+    if (currency == '€') {
+        table_row.currency = "євро";
+        technic.currency = "євро";
+    }
+
+    console.log(files2)
 
     if(add_update=="Додати") {
 
         if (checkInputTechnic()) {
-            technic.main_photo_location =  getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg";
 
             function callback1(err, data) {
 
                 if (err) console.log(err);
                 else {
+
                     technic.type_id = (data.data[0].id);
 
                     function callback2(err, data) {
@@ -649,13 +708,33 @@ addTechnicToDB = function () {
                                 function callback(err, data) {
                                     if (err) console.log(err);
                                     else {
-                                        console.log("success");
+                                        let files = getFiles() || [];
+                                        console.log(files)
+                                        if(files.length > 0) {
+                                            let data = new FormData();
+                                            for (let i = 0; i < files.length; i++) {
+                                                data.append('uploadFile[]', files[i]);
+                                            }
+                                            data.append("insertId", data.data.insertId)
+                                            require('../API').uploadTechnicPhoto_(data, function (err, data) {
+                                                    if (err || data.error)
+                                                        console.log(err || data.error);
+                                                    else {
+                                                        require('../pagesScripts/notify').Notify("Оголошення додано.", null, null, 'success');
+
+                                                        table_row.id = data.data.insertId;
+                                                        let row = productBuildTableRow(table_row)
+                                                        $("#allTechnics tbody").prepend(row);
+                                                    }
+                                                }
+                                            )
+                                        }
                                        // $('#addTechnicModel').modal('hide');
                                     }
                                     //$('#addTechnicModel').modal('hide');
                                 }
 
-                                require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback);
+                                require("../API").addTehnic({technic:technic}, callback);
                                 $('#addTechnicModelWithoutCategory').css("display", "none");
                             }
 
@@ -663,15 +742,41 @@ addTechnicToDB = function () {
                         } else {
                             technic.mark_id = data.data[0].id;
 
-                            function callback9(err, data) {
+                            function callback9(err, data9) {
                                 if (err) console.log(err);
                                 else {
-                                    console.log("sfdsdf");
+                                    table_row.id = data9.data.insertId;
+
+                                    let files = getFiles() || [];
+                                    console.log(files)
+                                    if(files.length > 0) {
+                                        let data = new FormData();
+                                        for (let i = 0; i < files.length; i++) {
+                                            data.append('uploadFile[]', files[i]);
+                                        }
+                                        data.append("insertId", data9.data.insertId)
+                                        require('../API').uploadTechnicPhoto_(data, function (err, data) {
+                                                if (err || data.error)
+                                                    console.log(err || data.error);
+                                                else {
+
+                                                }
+                                            }
+                                        )
+                                    }
+
+                                    $('#addTechnicModelWithoutCategory').css("display", "none");
+                                    require('../pagesScripts/notify').Notify("Оголошення успішно додано!", null, null, "success")
+                                    let row = productBuildTableRow(table_row)
+                                    $("#allTechnics tbody").prepend(row);
                                 }
                             }
 
-                            require("../API").addTehnic({technic:technic, photos: getPhotos()}, callback9);
-                            $('#addTechnicModelWithoutCategory').css("display", "none");
+                            require("../API").addTehnic({technic:technic}, callback9);
+                            // //$('#addTechnicModelWithoutCategory').css("display", "none");
+                            // require("../notify").Notify("Оголошення успішно додано!", null, null, "success")
+                            // let row = productBuildTableRow(table_row)
+                            // $("#allTechnics tbody").prepend(row);
                         }
                     }
 
@@ -686,43 +791,70 @@ addTechnicToDB = function () {
         }
     }
     else {
-        var id  = localStorage.getItem("currId");
+
+        // update technic
+
+        let id  = localStorage.getItem("currId");
+        technic.id = id;
+
+
         let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
         let photo_arr_names = [];
+
+
         photo_arr.forEach(function (item) {
             photo_arr_names.push(item.file_name);
         })
-        technic.id = id;
-        let newPhotos = getPhotos();
-        let photos_to_add = [];
-        for( let i =0; i < newPhotos.length;i++) {
-            let a = newPhotos[i].val.trim();
-            if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
-            newPhotos[i] = a;
+        let newPhotos = getFilesUpload() || [];
+        let allFileNames = getActualFileNames() || [];
 
-        }
 
-        for( let i =0; i < photo_arr.length;i++) {
-            if (!newPhotos.includes(photo_arr[i].file_name)) {
-                //console.log(photo_arr[i]);
-                function callback8(err, data){
-                    if(err) console.log(err)
-                    else {
-                        console.log("success")
-                    }
+        //console.log(newPhotos);
+            let data = new FormData();
+            for (let i = 0; i < newPhotos.length; i++) {
+                data.append('uploadFile[]', newPhotos[i]);
+            }
+
+            data.append("insertId", id)
+            data.append("sorted_list", JSON.stringify(allFileNames));
+            data.append("old_list", JSON.stringify(photo_arr));
+
+            require('../API').updateTechnicPhoto_(data, function (err, data) {
+                    if (err || data.error)
+                        console.log(err || data.error);
+                    else {}
                 }
-                require("../API").delete_oneImageTechnic_by_id(photo_arr[i].id,callback8)
-                // to do    delete photo from server
-            }
-        }
-        function callback11(err, data){
-            if(err) console.log(err)
-            else {
-                console.log("success")
-                console.log(data);
-            }
-        }
-        require("../API").addImagesTechnic( photos_to_add, id ,callback11)
+            )
+
+        // let photos_to_add = [];
+        // for( let i =0; i < newPhotos.length;i++) {
+        //     let a = newPhotos[i].val.trim();
+        //     if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
+        //     newPhotos[i] = a;
+        //
+        // }
+        //
+        // for( let i =0; i < photo_arr.length;i++) {
+        //     if (!newPhotos.includes(photo_arr[i].file_name)) {
+        //         //console.log(photo_arr[i]);
+        //         function callback8(err, data){
+        //             if(err) console.log(err)
+        //             else {
+        //                 console.log("success")
+        //             }
+        //         }
+        //         require("../API").delete_oneImageTechnic_by_id(photo_arr[i].id,callback8)
+        //         // to do    delete photo from server
+        //     }
+        // }
+        // function callback11(err, data){
+        //     if(err) console.log(err)
+        //     else {
+        //         console.log("success")
+        //         console.log(data);
+        //     }
+        // }
+        // require("../API").addImagesTechnic( photos_to_add, id ,callback11)
 
         function callback(err,data) {
             if( err) {
@@ -732,19 +864,19 @@ addTechnicToDB = function () {
             else {
                 technic.mark_id = data.data[0].mark_id;
                 technic.type_id = data.data[0].type_id;
-                if (!newPhotos.includes(data.data[0].main_photo_location)) {
-                    technic.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
-                }
+                // if (!newPhotos.includes(data.data[0].main_photo_location)) {
+                //     technic.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
+                // }
                 function callback5(err,data1) {
                     if( err) {
                         console.log(err);
-                        // Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                        require('../pagesScripts/notify').Notify("Помилка. Не вдалось оновити!", null, null, "danger")
                     }
                     else {
                        // $('#addTechnicModel').modal('toggle');
                         //console.log("data = "+ data);
-                        alert("Товар оновлено!");
-                        // Notify("Товар успішно оновлено!",null,null,'success');
+                        $('#addTechnicModelWithoutCategory').modal('toggle');
+                        require('../pagesScripts/notify').Notify("Оголошення успішно оновлено!", null, null, "success")
                     }
                 }
                 require("../API").updateTechnic(id,technic,callback5)
@@ -801,17 +933,17 @@ function checkInputEquipment() {
 }
 
 addEquipmentToDB = function () {
-    var name = $('#name-equipment').val();
-    var code = $("#equipment-code").val();
-    var price = $("input[type=number][name=price-input]").val();
-    var currency = $('#currency-choice').children("option:selected").val();
-    var state = $('#state-choice').children("option:selected").val();
-    var amount = $("#equipment-amount").val();
-    var description = $("textarea[name=description]").val();
+    let name = $('#name-equipment').val();
+    let code = $("#equipment-code").val();
+    let price = $("input[type=number][name=price-input]").val();
+    let currency = $('#currency-choice').children("option:selected").val();
+    let state = $('#state-choice').children("option:selected").val();
+    let amount = $("#equipment-amount").val();
+    let description = $("textarea[name=description]").val();
     let category = $("#categories_modal").val();
-    var selectedType = $('#type_technics').children("option:selected").val();
-    var mark = $("#mark-choice").val();
-    var models = $("#model-choice").val();
+    let selectedType = $('#type_technics').children("option:selected").val();
+    let mark = $("#mark-choice").val();
+    let models = $("#model-choice").val();
     // console.log(name);
     // console.log(code);
     // console.log(price);
@@ -838,7 +970,6 @@ addEquipmentToDB = function () {
     if(add_update_btn=="Додати") {
 
         if (checkInputEquipment()) {
-            equipment.main_photo_location =  getPhotos().length > 0 ? getPhotos()[0].val : "default_technic.jpg"
 
             function callback5(err, data5) {
                 if (err) console.log(err);
@@ -851,7 +982,7 @@ addEquipmentToDB = function () {
                         //console.log(data.data);
                        // console.log(data.data[0]);
                         let insertedid = data.data.insertId;
-                         console.log(data.data.insertId);
+                         //console.log(data.data.insertId);
                         let model_id = null;
 
                         if (category == "Запчастини до комбайнів") {
@@ -889,10 +1020,31 @@ addEquipmentToDB = function () {
                             require("../API").getModels(callback2);
                         }
 
+                        let files = getFiles() || [];
+                        console.log(files)
+                        if(files.length > 0) {
+                            let data = new FormData();
+                            for (let i = 0; i < files.length; i++) {
+                                data.append('uploadFile[]', files[i]);
+                            }
+                            data.append("insertId", insertedid)
+                            require('../API').uploadEquipmentPhoto_(data, function (err, data) {
+                                    if (err || data.error)
+                                        console.log(err || data.error);
+                                }
+                            )
+                        }
+
+                        $('#addEquipmentModel').css("display", "none");
+
+                        equipment.id = insertedid;
+                        let row = productBuildEquipmentTableRow(equipment);
+                        $("#allEquipments tbody").prepend(row);
+                        notify.Notify("Оголошення додано.", null, null, 'success');
                     }
 
-                    require("../API").addEquipment({equipment:equipment, photos: getPhotos()}, callback);
-                    $('#addEquipmentModel').css("display", "none");
+                    require("../API").addEquipment({equipment:equipment}, callback);
+                    //$('#addEquipmentModel').css("display", "none");
                 }
             }
             require("../API").get_equipments_categories(callback5);
@@ -910,96 +1062,132 @@ addEquipmentToDB = function () {
                 //// in process
                 equipment.id = curId;
                 let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
+
                 let photo_arr_names = [];
                 photo_arr.forEach(function (item) {
                     photo_arr_names.push(item.file_name);
                 })
-                let newPhotos = getPhotos();
-                let photos_to_add = [];
-                for( let i =0; i < newPhotos.length;i++) {
-                    let a = newPhotos[i].val.trim();
-                    if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
-                    newPhotos[i] = a;
 
+                let newPhotos = getFilesUpload() || [];
+                let allFileNames = getActualFileNames() || [];
+
+
+                //console.log(newPhotos);
+                let data = new FormData();
+                for (let i = 0; i < newPhotos.length; i++) {
+                    data.append('uploadFile[]', newPhotos[i]);
                 }
 
-                for( let i =0; i < photo_arr.length;i++) {
-                    if (!newPhotos.includes(photo_arr[i].file_name)) {
-                        //console.log(photo_arr[i]);
-                        function callback8(err, data){
-                            if(err) console.log(err)
-                            else {
-                                console.log("success")
-                            }
-                        }
-                        require("../API").delete_oneImageEquipment_by_id(photo_arr[i].id,callback8)
-                        // to do    delete photo from server
+                data.append("insertId", curId)
+                data.append("sorted_list", JSON.stringify(allFileNames));
+                data.append("old_list", JSON.stringify(photo_arr));
+
+                require('../API').updateEquipmentPhoto_(data, function (err, data) {
+                        if (err || data.error)
+                            console.log(err || data.error);
+                        else {}
                     }
-                }
-                function callback11(err, data){
-                    if(err) console.log(err)
-                    else {
-                        console.log("success")
-                        console.log(data);
-                    }
-                }
-                require("../API").addImagesEquipment( photos_to_add, curId ,callback11);
+                )
 
-                /// to do .. delete from db equip
-                let old_models = JSON.parse(localStorage.getItem("models_old"));
-                let new_models = [];
 
-                function callback12(err, data12) {
-                    if (err) console.log(err);
-                    else {
-                        models.forEach(function (item_model) {
-                            data12.data.forEach(function (item) {
-                                if (item.model == item_model) {
-                                    model_id = item.id;
-                                    new_models.push({equipment_id: parseInt(curId), model_id: model_id});
-                                }
+                // let photo_arr_names = [];
+                // photo_arr.forEach(function (item) {
+                //     photo_arr_names.push(item.file_name);
+                // })
+                // let newPhotos = getPhotos();
+                // let photos_to_add = [];
+                // for( let i =0; i < newPhotos.length;i++) {
+                //     let a = newPhotos[i].val.trim();
+                //     if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
+                //     newPhotos[i] = a;
+                //
+                // }
+                //
+                // for( let i =0; i < photo_arr.length;i++) {
+                //     if (!newPhotos.includes(photo_arr[i].file_name)) {
+                //         //console.log(photo_arr[i]);
+                //         function callback8(err, data){
+                //             if(err) console.log(err)
+                //             else {
+                //                 console.log("success")
+                //             }
+                //         }
+                //         require("../API").delete_oneImageEquipment_by_id(photo_arr[i].id,callback8)
+                //         // to do    delete photo from server
+                //     }
+                // }
+                // function callback11(err, data){
+                //     if(err) console.log(err)
+                //     else {
+                //         console.log("success")
+                //         console.log(data);
+                //     }
+                // }
+                // require("../API").addImagesEquipment( photos_to_add, curId ,callback11);
+
+
+
+                if (category == "Запчастини до комбайнів") {
+
+                    /// to do .. delete from db equip
+                    let old_models = JSON.parse(localStorage.getItem("models_old"));
+                    let new_models = [];
+
+                    function callback12(err, data12) {
+                        if (err) console.log(err);
+                        else {
+                            models.forEach(function (item_model) {
+                                data12.data.forEach(function (item) {
+                                    if (item.model == item_model) {
+                                        model_id = item.id;
+                                        new_models.push({equipment_id: parseInt(curId), model_id: model_id});
+                                    }
+                                });
                             });
-                        });
-                        console.log(new_models);
-                        new_models.forEach(function (item) {
-                            if(!old_models.includes(item)) {
-                                function callback3(err, data) {
-                                    if (err) console.log(err);
-                                    else {
-                                        //$('#addEquipmentModel').modal('hide');
+                            console.log(new_models);
+                            new_models.forEach(function (item) {
+                                if (!old_models.includes(item)) {
+                                    function callback3(err, data) {
+                                        if (err) console.log(err);
+                                        else {
+                                            //$('#addEquipmentModel').modal('hide');
+                                        }
                                     }
-                                }
 
-                                require("../API").addEquipmentsModels(item, callback3);
-                            }
-                        })
+                                    require("../API").addEquipmentsModels(item, callback3);
+                                }
+                            })
                             console.log(old_models);
-                        for(let i = 0;i < old_models.length;i++) {
-                            if(!include(old_models[i], new_models)) {
-                                console.log(include(old_models[i], new_models) + " old " +  old_models[i]);
-                                function callback13(err, data) {
-                                    if (err) console.log(err);
-                                    else {
-                                        //$('#addEquipmentModel').modal('hide');
-                                    }
-                                }
+                            for (let i = 0; i < old_models.length; i++) {
+                                if (!include(old_models[i], new_models)) {
+                                    console.log(include(old_models[i], new_models) + " old " + old_models[i]);
 
-                                require("../API").deleteEquipmentsModelsByIDS(old_models[i].equipment_id, old_models[i].model_id,callback13);
+                                    function callback13(err, data) {
+                                        if (err) console.log(err);
+                                        else {
+                                            //$('#addEquipmentModel').modal('hide');
+                                        }
+                                    }
+
+                                    require("../API").deleteEquipmentsModelsByIDS(old_models[i].equipment_id, old_models[i].model_id, callback13);
+                                }
                             }
                         }
                     }
-                }
-                require("../API").getModels(callback12);
 
+                    require("../API").getModels(callback12);
+                }
                 ////
 
                 function callback5(err, data5) {
                     if (err) console.log(err);
                     else {
                         equipment.id_category = data5.data[0].id_category;
-                        if (!newPhotos.includes(data5.data[0].main_photo_location)) {
-                            equipment.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
-                        }
+
+                        // if (!newPhotos.includes(data5.data[0].main_photo_location)) {
+                        //     equipment.main_photo_location = newPhotos.length> 0 ? newPhotos[0] : "default_technic.jpg";
+                        // }
+
                         //console.log(eq);
                         function callback6(err, data6) {
                             if (err) console.log(err);
@@ -1020,9 +1208,7 @@ addEquipmentToDB = function () {
     //     productBuildTableRow(102));
 }
 
-function updateTechnic (technic) {
 
-}
 
 
 function technicFormClear() {
@@ -1074,16 +1260,103 @@ function uploadPhoto(){
     })
 }
 /*не корректный */
-function getPhotos(){
-    var arrCheck = [];
-    $('.uploader__file-list li .uploader__file-list__text').each(function(idx, item) {
-        var ert = {
-            val: $(this, item).text()
-        };
-        arrCheck.push(ert);
-    });
-    return arrCheck;
-}
+// function getPhotos(){
+//     var arrCheck = [];
+//     $('.uploader__file-list li .uploader__file-list__text').each(function(idx, item) {
+//         var ert = {
+//             val: $(this, item).text()
+//         };
+//         arrCheck.push(ert);
+//     });
+//     return arrCheck;
+// }
+
+ $(document).on('input','#fileinput0', function (event) {
+     //console.log(event.target.files)
+     files2 = files2.concat(Array.from(event.target.files))
+     //console.log(files)
+ });
+
+ $(document).on('input','#secondaryfileinput0', function (event) {
+     //console.log(event.target.files)
+     files2 = files2.concat(Array.from(event.target.files))
+     //console.log(files)
+ });
+
+ function getFiles() {
+     //let files1 = Array.from($('#fileinput0').prop('files'));
+     //let files2 = Array.from($('#secondaryfileinput0').prop('files'));
+     //let files = files1.concat(files2);
+     let filesNames = [];
+     // let files_slice = $.map(files, function (item) {
+     //     return item.name
+     // })
+     $('#sortable1 li').each(function(i)
+     {
+         filesNames.push($(this).data('src-file')); // This is your rel value
+     });
+     // check for method update technic/equipment
+     let list_return = [];
+     filesNames.forEach(function (item) {
+         for (let i = 0; i < files2.length; i++) {
+
+             let file_input = files2[i];
+
+             if (item == cleanName(file_input.name)) {
+                 list_return.push(file_input);
+                 break;
+             }
+         }
+     })
+     return list_return || [];
+     //return filesNames;
+ }
+
+
+ function getFilesUpload() {
+     let filesNames = [];
+
+     $('#sortable1 li').each(function(i)
+     {
+         let src = $(this).data('src-file');
+         let type = $(this).data('type');
+         if(type === "new")
+         filesNames.push(src);
+     });
+     // check for method update technic/equipment
+     let list_return = [];
+     filesNames.forEach(function (item) {
+         for (let i = 0; i < files2.length; i++) {
+
+             let file_input = files2[i];
+
+             if (item == cleanName(file_input.name)) {
+                 list_return.push(file_input);
+                 break;
+             }
+         }
+     })
+     return list_return || [];
+     //return filesNames;
+ }
+
+ function getActualFileNames() {
+     let filesNames = [];
+
+     $('#sortable1 li').each(function(i)
+     {
+         let type = $(this).data('type');
+         filesNames.push({src: $(this).data('src-file'), type: type});
+     });
+
+     return filesNames;
+ }
+
+
+ function cleanName (name) {
+     name = name.replace(/\s+/gi, '-'); // Replace white space with dash
+     return name;//name.replace(/[^a-zA-Z0-9.\-]/gi, ''); // Strip any special characters
+ }
 
 function uploadphotoToModal() {
     $('.uploader__file-list').append();
@@ -1110,7 +1383,7 @@ $(function(){
         badFileTypeMessage: 'Sorry, we\'re unable to accept this type of file.',
         testMode: false
     };
-    $('#fileUploadForm').uploader(options);
+    $('#fileUploadForm').uploader();
 
     $('.uploadButton').click(function(){
         addTechnicToDB();
@@ -1127,34 +1400,39 @@ $(function(){
         })*/
     });
 
-    $('#fileinput0').change(function (event) {
-        for(var i=0;i<event.target.files.length;i++)
-            if(type=='tech')
-                require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-                    if(err || data.error)
-                    console.log(err||data.error);
-                });
-            else
-                require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
-                    if(err || data.error)
-                        console.log(err||data.error);
-                })
-    })
-
-    $('#secondaryfileinput0').change(function (event) {
-        for(var i=0;i<event.target.files.length;i++)
-            if(type=='tech')
-                require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-                    if(err || data.error)
-                    console.log(err||data.error);
-                });
-            else
-                require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
-                    if(err || data.error)
-                        console.log(err||data.error);
-                })
-
-    })
+    // $('#fileinput0').change(function (event) {
+    //     for(var i=0;i<event.target.files.length;i++)
+    //         //files.push(event.target.files[i])
+    //         if(type=='tech') {
+    //             console.log(event.target.files[i])
+    //             require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
+    //                 if(err || data.error)
+    //                     console.log(err||data.error);
+    //             });
+    //         }
+    //
+    //         else
+    //             require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
+    //                 if(err || data.error)
+    //                     console.log(err||data.error);
+    //             })
+    // })
+    //
+    // $('#secondaryfileinput0').change(function (event) {
+    //     for(var i=0;i<event.target.files.length;i++)
+    //         if(type=='tech')
+    //             require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
+    //                 if(err || data.error)
+    //                 console.log(err||data.error);
+    //                 console.log(event.target.files[i])
+    //             });
+    //         else
+    //             require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
+    //                 if(err || data.error)
+    //                     console.log(err||data.error);
+    //             })
+    //
+    // })
 
 
 
@@ -1346,34 +1624,38 @@ function hideModal(){
 
 
              let photos = JSON.parse(data.data[0].photos);
+
              let dataset = [];
              if(photos == null) {
                  photos = []
              }
-             if(photos.length != 0)
-                 photos.forEach(function(item) {
-                     dataset.push("technics/"+item.val)
-                 });
-             if(dataset.length === 0) {
-                 dataset.push("technics/"+default_photo)
-             }
-             photos = dataset
-             localStorage.setItem("photo_arr", JSON.stringify(dataset));
+             console.log(photos)
+
+             // if(photos.length != 0)
+             //     photos.forEach(function(item) {
+             //         dataset.push("technics/"+item.val)
+             //     });
+             // if(dataset.length === 0) {
+             //     dataset.push("technics/"+default_photo)
+             // }
+             // photos = dataset;
+             // localStorage.setItem("photo_arr", JSON.stringify(dataset));
              $('.uploader__file-list').empty();
              $('.js-uploader__submit-button').removeClass("uploader__hide");
              $('.js-uploader__further-instructions').removeClass("uploader__hide");
              $('.js-uploader__contents').addClass("uploader__hide");
-             let string_add = "";
-             if(photos!= null && photos!= undefined)
-                 for(let i=0;i< photos.length;i++) {
-                     let item = photos[i];
-                     getFileObject("/images/technics/" + item , function (fileObject) {
 
-                         string_add="<li class=\"uploader__file-list__item\" data-index=\"" + i +  "\"" + "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
-                             " ></span><span class=\"uploader__file-list__text\"> " + item + " </span><span class=\"uploader__file-list__size\">"+ Math.round(fileObject.size/1024) + " Kb"   + "</span><span class=\"uploader__file-list__button\"><button class=\"uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" + i +  "\""+ "></button></span></li>"
-                         $('.uploader__file-list').append(string_add);
-                     })
-                 }
+             for(let i=0;i< photos.length;i++) {
+                 let item = photos[i];
+                 getFileObject("/images/technics/" + item , function (fileObject) {
+                     //console.log(fileObject.size);
+                     $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
+                         "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
+                         " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+                         item.id +  "\""+ "></button></li>")
+                 })
+             }
+
          }
      }
      require("../API").getTechnicsWithoutCategoryById(id,callback);
@@ -1485,15 +1767,35 @@ function hideModal(){
      if(add_update=="Додати") {
 
          if (checkInputLoader()) {
-             let photos = getPhotos();
-             console.log(photos);
              console.log(loader)
-             loader.photos = getPhotos().length > 0 ? JSON.stringify(getPhotos()) : JSON.stringify(["default_technic.jpg"])
-             function callback1(err, data){
+
+             //loader.photos = getPhotos().length > 0 ? JSON.stringify(getPhotos()) : JSON.stringify(["default_technic.jpg"])
+             function callback1(err, data1){
                  if(err) console.log(err)
                  else {
+
+                     console.log(data1.data.insertId)
+                     let id = data1.data.insertId;
                      console.log("success");
-                     alert("Додано")
+                     let files = getFiles() || [];
+
+                     if(files.length > 0) {
+                         let data = new FormData();
+                         for (let i = 0; i < files.length; i++) {
+                             data.append('uploadFile[]', files[i]);
+                         }
+                         data.append("insertId", id)
+
+                         data.append("type", "withoutCategoryTechnics")
+                         require('../API').uploadTechnicPhoto_(data, function (err, data) {
+                                 if (err || data.error)
+                                     console.log(err || data.error);
+                                 else {
+
+                                 }
+                             }
+                         )
+                     }
                  }
              }
              require("../API").addTehnicWithoutCategory(loader, callback1);
@@ -1502,10 +1804,13 @@ function hideModal(){
          }
      }
      else {
-         var id  = localStorage.getItem("currId");
+         // Оновлення фото не відбуваються
+
+
+         let id  = localStorage.getItem("currId");
          let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
-         let newPhotos = getPhotos();
-         console.log(newPhotos)
+         //let newPhotos = getPhotos();
+         //console.log(newPhotos)
 
          let photos_to_add = [];
 
@@ -1523,7 +1828,7 @@ function hideModal(){
          //     }
          // }
 
-         loader.photos = newPhotos.length > 0 ? JSON.stringify(newPhotos) : JSON.stringify(["default_technic.jpg"])
+         //loader.photos = newPhotos.length > 0 ? JSON.stringify(newPhotos) : JSON.stringify(["default_technic.jpg"])
          console.log(loader)
          function callback5(err,data1) {
              if( err) {
@@ -1563,5 +1868,10 @@ function hideModal(){
      $('.js-uploader__further-instructions').addClass("uploader__hide");
 
      $('.js-uploader__submit-button').addClass("uploader__hide");
+ }
+
+ function photosMakeSortable() {
+     $('ul.sorter').amigoSorter();
+     //$('.list.parent').sortable({container: '.list', nodes: ':not(.list span)'});
  }
 

@@ -213,14 +213,22 @@ exports.initializeTechnics = function(){
     let tp1 = $(".type_header").text().trim();
     let tp = localStorage.getItem('currentTypeOfTechnics');
     let mrk = localStorage.getItem('currentMarkOfTechnics');
-
+    let sold_technics = [];
 
     function callback(err,data) {
         if(data.error) console.log(data.error);
+
         data.data.forEach(function(item){
-            l.push(item)
+            if(item.sold) {
+                sold_technics.push(item)
+            }
+            else {
+                l.push(item)
+            }
         });
-        showTechnics(l);
+
+
+        showTechnics(l.concat(sold_technics));
         let images = document.querySelectorAll(".lazy");
         lazyload(images);
     }

@@ -1,3 +1,6 @@
+let values = require('../values.js');
+let API_URL = values.url;
+
 exports.isLogged = function () {
     var name = localStorage.getItem('name');
     var surname = localStorage.getItem('surname');
@@ -13,9 +16,12 @@ exports.isLogged = function () {
         if(photo_location==null) {
             $('#user_photo').attr("src", "assets/images/avatar.png");
         }
-       else  $('#user_photo').attr("src", "http://tracktop.com.ua/images/users_photos/"+photo_location);
+       else  $('#user_photo').attr("src", API_URL + "/images/users_photos/"+photo_location);
         $('#login').css("display", "none");
         $('#signup').css("display", "none");
+
+        // hide error non login user
+        $("#logged-user-err").css("display","none")
     }
     else {
         $('#user_photo').css("display","none");

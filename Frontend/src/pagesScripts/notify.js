@@ -1,8 +1,10 @@
-exports.Notify = function(text, callback, close_callback, style) {
+exports.Notify = function(text, callback, close_callback, style,seconds) {
 
 
     // 4 types  :  danger, warning, info, success (default is warning)
-    var time = '20000';
+    let time = "2000";
+    if(seconds) time = seconds * 1000;
+
     var $container = $('#notifications');
     var icon = '<i class="fa fa-info-circle " aria-hidden="true"></i>';
 
@@ -13,7 +15,7 @@ exports.Notify = function(text, callback, close_callback, style) {
     $('<a>',{
         text: '×',
         class: 'button close',
-        style: 'padding-left: 10px;',
+        style: 'margin-left: 10px;',
         href: '#',
         click: function(e){
             e.preventDefault()

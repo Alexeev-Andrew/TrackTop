@@ -1,8 +1,125 @@
 var authService = require('./authentification/AuthService');
+const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
+const schedule = require('node-schedule');
+const sharp = require('sharp')
+let uniqid = require('uniqid');
+let db = require('./db');
+let helper = require('./helper');
+
+
+// const job = schedule.scheduleJob('28 13 * * *', function(){
+//     console.log('The answer to life, the universe, and everything!');
+//     sendEmail("mikehorbach1999@gmail.com", "tracktopshop@gmail.com\n" , "tracktop.com.ua")
+// });
+
+
+function convertImagetoJSON() {
+    let technics;
+    var db = require('./db');
+    db.connect()
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+        }
+        else {
+            technics = data;
+            for(let i = 0; i < technics.length; i ++ ) {
+                function callback2(error2, data2) {
+                    let images = [];
+                    for( let y = 0; y < data2.length; y++) {
+                        images.push(data2[y].file_name);
+                    }
+
+                    technics[i].images = JSON.stringify(images);
+                    db.update_technic(technics[i].id, technics[i])
+                }
+                db.get_technic_im_by_id( technics[i].id, callback2)
+            }
+        }
+    }
+    db.get_technics_simple(callback)
+}
+
+convertImagetoJSON()
+
+function convertImageEquipmentstoJSON() {
+    let technics;
+    var db = require('./db');
+    db.connect()
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+        }
+        else {
+            technics = data;
+            console.log(data)
+            for(let i = 0; i < technics.length; i ++ ) {
+                function callback2(error2, data2) {
+                    let images = [];
+
+                    console.log(data2)
+                    for( let y = 0; y < data2.length; y++) {
+                        images.push(data2[y].file_name);
+                    }
+
+                    technics[i].images = JSON.stringify(images);
+                    db.update_equipments(technics[i].id, technics[i])
+                }
+                db.get_equipment_im_by_id(technics[i].id, callback2)
+            }
+        }
+    }
+    db.get_equipments(callback)
+}
+
+convertImageEquipmentstoJSON()
+
+// const asyncSaveImageToDB = async (file_name) => {
+//     try {
+//         const image = sharp('./Backend/res/images/technics/'+file_name);
+//         image
+//             .metadata()
+//             .then(function(metadata) {
+//                 let height = metadata.height;
+//                 let width = metadata.width;
+//                 let orientation = metadata.orientation;
+//                 console.log(orientation)
+//                 if(height > 500)
+//                     image.resize({height:500});
+//                 let il = image.clone();
+//                 //let bytes = (getFilesizeInBytes(file_location));
+//                 //console.log(getFilesizeInBytes(file_location))
+//                 //if(bytes > 1024)
+//                     image
+//                         // .resize(Math.round(metadata.width / 2))
+//                         .composite([{ input: 'logo.png', gravity: 'southeast' }])
+//                         .webp()
+//                         .toFile('./Backend/res/images/placeholders/' + file_name, function(err) {
+//                         });;
+//
+//                 il
+//                     .resize({height:200})
+//                     .webp()
+//                     .toFile('./Backend/res/images/placeholders/small' + file_name, function(err) {
+//                     });;
+//
+//             })
+//             .then(function(data) {
+//                 // data contains a WebP image half the width and height of the original JPEG
+//             });
+//
+//         console.log("success");
+//         // save image to database here
+//         return image;
+//     } catch (e) {
+//         console.warn(e);
+//     }
+// };
+
 
 exports.addTehnic = function(req, res) {
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
 
     function callback(error,data){
         if(error) {
@@ -13,17 +130,23 @@ exports.addTehnic = function(req, res) {
             });
         }
         else {
-            console.log("Success! ", data);
-            function callback(error,data){
-                if(error) {
-                    console.log("Error! ", error.sqlMessage);
-                    res.send({
-                        success: true,
-                        data: data
-                    });
-                }
-            }
-            db.insert_technic_photos(info.photos,data.insertId, callback);
+            res.send({
+                success: true,
+                data: data
+            });
+
+            //sendEmail("mikehorbach1999@gmail.com", "tracktop@tracktop.com.ua" , "tracktop.com.ua")
+            // console.log("Success! ", data);
+            // function callback(error,data){
+            //     if(error) {
+            //         console.log("Error! ", error.sqlMessage);
+            //         res.send({
+            //             success: true,
+            //             data: data
+            //         });
+            //     }
+            // }
+            // db.insert_technic_photos(info.photos,data.insertId, callback);
 
         }
     }
@@ -31,6 +154,47 @@ exports.addTehnic = function(req, res) {
     db.insert_tehnic(info.technic,callback);
 
 };
+
+//sendEmail("best8games@gmail.com")
+
+//send email function
+function sendEmail(_to, _link) {
+    console.log(process.env.password)
+    // var transporter = nodemailer.createTransport({
+    //     service: "gmail",
+    //     auth: {
+    //         user: "mikehorbach1999@gmail.com",
+    //         pass: "Mihamiha_0058"
+    //     }
+    // });
+    let transporter = nodemailer.createTransport({
+        host: "mail.tracktop.com.ua",
+        port: 587,
+        secure: false,
+        auth: {
+            user: "tracktop@tracktop.com.ua",
+            pass: "Mihamiha_123",
+        },
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false,
+        },
+    });
+    let clientUrl = `tracktop.com.ua`;
+    var mailOptions = {
+        from: "tracktop@tracktop.com.ua",
+        to: _to,
+        subject: "You have been Invited to Awesome App",
+        html: `<p> Your invitation link is: <a href='http://tracktop.com.ua'> http://tracktop.com.ua</a> <img src="http://tracktop.com.ua/images/technics/изображение_viber_2021-06-23_00-09-15-1.jpg">`
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            return console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+}
 
 exports.addTehnicWithoutCategory = function(req, res) {
     var db = require('./db');
@@ -83,8 +247,7 @@ exports.addReview = function(req, res) {
 };
 
 exports.addEquipment = function(req, res) {
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
 
     function callback(error,data){
         if(error) {
@@ -96,16 +259,6 @@ exports.addEquipment = function(req, res) {
                 success: true,
                 data: data
             });
-            function callback1(error,data2){
-                if(error) {
-                    console.log("Error! ", error.sqlMessage);
-                    // res.send({
-                    //     success: true,
-                    //     error: error.sqlMessage
-                    // });
-                }
-            }
-            db.insert_equipment_photos(info.photos,data.insertId, callback1);
 
         }
     }
@@ -357,16 +510,14 @@ exports.sign_in = function(req, res) {
             });
         }
         else {
-            // console.log("Success! ", data);
-            // console.log("Passw ", info.password);
-            // console.log("PasswH ", require('./hash').md5(info.password));
-            // console.log("Passw ", data[0].hash);
-
             if(!(data[0]==null) && require('./hash').md5(info.password) === data[0].hash){
+                let token = authService.generateToken(data[0]);
+                //res.json(token);
+                res.cookie("jwt", token, {secure: true, httpOnly: true})
                 res.send({
                     success: true,
                     data: {
-                        // token: authService.generateToken(data[0]),
+                        token: token,
                         id: require('./hash').md5(""+data[0].id),
                         surname: data[0].surname,
                         name: data[0].name,
@@ -561,7 +712,7 @@ exports.get_technics = function (req,res) {
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -674,7 +825,7 @@ exports.get_technics_by_tp = function (req,res) {
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -742,14 +893,14 @@ exports.get_technics_im_by_id = function (req,res) {
             });
         }
         else {
-            console.log("Success! ", data);
+            console.log("Success! ", data[0].images);
             res.send({
                 success: true,
-                data: data
+                data: data[0].images
             });
         }
     }
-    db.get_technic_im_by_id(req.body.id, callback);
+    db.get_technic_images_by_id(req.body.id, callback);
 }
 
 
@@ -841,7 +992,7 @@ exports.get_equipment_im_by_id = function (req,res) {
             });
         }
     }
-    db.get_equipment_im_by_id(req.body.id, callback);
+    db.get_equipment_images_by_id(req.body.id, callback);
 }
 
 exports.get_review = function (req,res) {
@@ -894,25 +1045,82 @@ var fs = require("fs"),
     multiparty = require('multiparty');
 
 exports.upload_user_photo = function (req,res) {
-    upload_photo(req,res,'users_photos');
+    upload_photo(req,res,'users_photos', "add");
 
 }
-exports.upload_technic_photo = function (req,res) {
-    upload_photo(req,res,'technics');
+
+exports.update_user_photo = function (req,res) {
+    upload_photo(req,res,'users_photos', "update");
 
 }
+
 exports.upload_equipment_photo = function (req,res) {
-    upload_photo(req,res,'equipments');
-
+    upload_photo(req,res,'equipments', "add");
 }
 
+exports.upload_technic_photo = function (req,res) {
+    upload_photo(req,res,'technics', "add");
+}
 
-function upload_photo(req,res,path){
+exports.update_technic_photo = function (req,res) {
+    upload_photo(req,res,'technics', "update");
+}
+
+exports.update_equipment_photo = function (req,res) {
+    upload_photo(req,res,'equipments', "update");
+}
+
+const asyncSaveImageToDB = async (oldpath, file_name, type) => {
+    try {
+        const image = sharp(oldpath);
+        image
+            .metadata()
+            .then(function(metadata) {
+                let height = metadata.height;
+                let width = metadata.width;
+                let orientation = metadata.orientation;
+                if(height > 500)
+                    image.resize({height:500});
+
+                //let bytes = (getFilesizeInBytes(file_location));
+                //console.log(getFilesizeInBytes(file_location))
+                //if(bytes > 1024)
+                image
+                // .resize(Math.round(metadata.width / 2))
+                    .composite([{ input: 'logo.png', gravity: 'southeast' }])
+                    .ensureAlpha(0.5)
+                    .webp()
+                    .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
+                    });;
+
+
+
+            })
+            .then(function(data) {
+                // data contains a WebP image half the width and height of the original JPEG
+            });
+
+        console.log("success");
+        // save image to database here
+        return image;
+    } catch (e) {
+        console.warn(e);
+    }
+};
+
+
+
+function upload_photo(req,res,path,action){
+
+
     var form = new multiparty.Form();
     var uploadFile = {uploadPath: '', type: '', size: 0};
-    var maxSize = 2 * 1024 * 1024; //2MB
-    var supportMimeTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+    var maxSize = 10 * 1024 * 1024; //10MB
+    var supportMimeTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
     var errors = [];
+    let file_names = []
+    let insertId;
+
 
     form.on('error', function(err){
         if(fs.existsSync(uploadFile.path)) {
@@ -939,41 +1147,258 @@ function upload_photo(req,res,path){
     });
 
     // при поступление файла
-    form.on('part', function(part) {
-        console.log(part.byteCount);
-        console.log(part);
+    form.on('part', function(err, fields, files) {
+
+        //console.log(part.byteCount);
+        console.log(fields);
+        console.log(files)
+        console.log(typeof fields);
+
         //читаем его размер в байтах
-        uploadFile.size = part.byteCount;
+        //uploadFile.size = part.byteCount;
         //читаем его тип
         uploadFile.type = part.headers['content-type'];
         //путь для сохранения файла
-        uploadFile.path = './Backend/res/images/'+path+'/' + part.filename;
-
-        //проверяем размер файла, он не должен быть больше максимального размера
-        if(uploadFile.size > maxSize) {
-            errors.push('File size is ' + uploadFile.size + '. Limit is' + (maxSize / 1024 / 1024) + 'MB.');
-        }
-
-        //проверяем является ли тип поддерживаемым
-        if(supportMimeTypes.indexOf(uploadFile.type) == -1) {
-            errors.push('Unsupported mimetype ' + uploadFile.type);
-        }
-
-        //если нет ошибок то создаем поток для записи файла
-        if(errors.length == 0) {
-            var out = fs.createWriteStream(uploadFile.path);
-            part.pipe(out);
-        }
-        else {
-            console.log(errors);
-            //пропускаем
-            //вообще здесь нужно как-то остановить загрузку и перейти к onclose
-            part.resume();
-        }
+        //uploadFile.path = './Backend/res/images/'+path+'/' + part.filename;
+        //
+        // //проверяем размер файла, он не должен быть больше максимального размера
+        // if(uploadFile.size > maxSize) {
+        //     errors.push('File size is ' + uploadFile.size + '. Limit is' + (maxSize / 1024 / 1024) + 'MB.');
+        // }
+        //
+        // //проверяем является ли тип поддерживаемым
+        // if(supportMimeTypes.indexOf(uploadFile.type) == -1) {
+        //     errors.push('Unsupported mimetype ' + uploadFile.type);
+        // }
+        //
+        // //если нет ошибок то создаем поток для записи файла
+        // if(errors.length == 0) {
+        //     var out = fs.createWriteStream(uploadFile.path);
+        //     part.pipe(out);
+        //     console.log(uploadFile.path)
+        //     out.on('finish', () => {
+        //         console.log('/images/technics/' + part.filename)
+        //         asyncSaveImageToDB(part.filename).then(r => console.log(''))
+        //     });
+        // }
+        // else {
+        //     console.log(errors);
+        //     //пропускаем
+        //     //вообще здесь нужно как-то остановить загрузку и перейти к onclose
+        //     part.resume();
+        // }
     });
 
     // парсим форму
-    form.parse(req);
+    form.parse(req, function(err, fields, files) {
+        console.log("d")
+        console.log(fields)
+        insertId = fields.insertId[0];
+
+
+        files = files['uploadFile[]'];
+        if(!files) files = []
+        console.log("files to insert")
+        console.log( files)
+        for(let i = 0; i < files.length;i++) {
+            let file = files[i];
+            uploadFile.type = file.headers['content-type'];
+            // //путь для сохранения файла
+            uploadFile.path = './Backend/res/images/'+path+'/' + file.originalFilename;
+            //
+            // //проверяем размер файла, он не должен быть больше максимального размера
+            if(uploadFile.size > maxSize) {
+                errors.push('File size is ' + uploadFile.size + '. Limit is' + (maxSize / 1024 / 1024) + 'MB.');
+            }
+            //
+            // //проверяем является ли тип поддерживаемым
+            if(supportMimeTypes.indexOf(uploadFile.type) == -1) {
+                errors.push('Unsupported mimetype ' + uploadFile.type);
+            }
+            //
+            // //если нет ошибок то создаем поток для записи файла
+            if(errors.length == 0) {
+
+                let oldpath = file.path;
+                // save to array and write to db
+                // update ads with this photos
+                let newpath = uniqid()
+                file_names.push(newpath+".webp")
+
+                asyncSaveImageToDB(oldpath, newpath, path).then(r => console.log(''))
+
+                // fs.copyFile(oldpath, newpath, function (err) {
+                //     if (err) throw err;
+                // });
+
+                // fs.rename(oldpath, newpath, function (err) {
+                //     if (err) throw err;
+                //     res.write('File uploaded and moved!');
+                //     res.end();
+                // });
+
+                // let out = fs.createWriteStream(uploadFile.path);
+                // file.pipe(out);
+                // out.on('finish', () => {
+                //     console.log('/images/technics/' + file.filename)
+                //     asyncSaveImageToDB(file.filename).then(r => console.log(''))
+                // });
+            }
+            else {
+                console.log(errors);
+                //пропускаем
+                //вообще здесь нужно как-то остановить загрузку и перейти к onclose
+                file.resume();
+            }
+
+        }
+        if(action == "add") {
+            if (file_names.length > 0) {
+
+                switch (path) {
+                    case "technics" :
+
+                        // check if technics without category
+                        if(fields.type) {
+                            let type = fields.type[0]
+
+                            if(type === "withoutCategoryTechnics") {
+                                db.update_technic_without_category(insertId, {
+                                    photos: JSON.stringify(file_names),
+                                })
+                            }
+                        }
+                        else {
+                            // technic with category
+                            db.update_technic(insertId, {
+                                images: JSON.stringify(file_names),
+                                main_photo_location : file_names[0]
+                            }, function (err, data) {
+                            });
+                        }
+
+                        break;
+                    case "equipments" :
+                        db.update_equipments(insertId, {
+                            images: JSON.stringify(file_names),
+                            main_photo_location : file_names[0]
+                        }, function (err, data) {
+                        });
+                        break;
+                    case "users_photos" :
+
+                        db.update_client_by_phone(insertId, {
+                            photo_location : file_names[0]
+                        }, function (err, data) {
+                        });
+                        break;
+
+                }
+
+                // console.log("add")
+                 console.log(file_names)
+            }
+        }
+
+        else if(action === "update") {
+            let to_update = []; // merged file names to update
+            //console.log(fields);
+
+            let old_files = JSON.parse(fields.old_list[0]);
+            let sorted_list = JSON.parse(fields.sorted_list[0]);
+            //console.log(sorted_list)
+
+            let j = 0;
+
+            for(let i = 0; i< sorted_list.length; i++) {
+
+                if(sorted_list[i].type === "old") {
+                    to_update.push(sorted_list[i].src)
+                }
+                else {
+                    if(j < file_names.length)
+                    to_update.push(file_names[j++])
+                }
+                //
+                // if(!old_files.includes(sorted_list[i])) {
+                //     if(j < file_names.length) {
+                //         console.log("here " + file_names.length)
+                //         sorted_list[i] = file_names[j];
+                //         j++;
+                //     }
+                // }
+            }
+
+            console.log(to_update)
+
+            let el = {images : JSON.stringify(to_update)}
+            if (to_update.length > 0) {
+                el.main_photo_location = to_update[0];
+            }
+            else {
+                el.main_photo_location = "";
+            }
+                switch (path) {
+                    case "technics" :
+                        db.update_technic(insertId, el, function (err, data) {
+                        });
+                        break;
+                    case "equipments" :
+                        db.update_equipments(insertId, el, function (err, data) {
+                        });
+                        break;
+
+                }
+
+
+
+
+            // db.get_ad_by_id(insertId, function (err, data) {
+            //     let ad = data[0];
+            //     //console.log(ad.image_placeholder);
+            //     let ad_insert = {
+            //         images: JSON.stringify(sorted_list)
+            //     }
+            //     ad_insert.image_placeholder = ad.image_placeholder;
+            //
+            //     if (sorted_list.length > 0) {
+            //
+            //         if (ad.image_placeholder != sorted_list[0]) {
+            //             savePlaceholder("./Backend/res/images/technics/" + sorted_list[0], sorted_list[0]).then(r => console.log(""));
+            //             if (ad.image_placeholder) {
+            //                 let arr_temp_delete = []
+            //                 arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
+            //                 deleteFiles(arr_temp_delete)
+            //             }
+            //             ad_insert.image_placeholder = sorted_list[0];
+            //         }
+            //     }
+            //     else if (ad.image_placeholder) {
+            //         let arr_temp_delete = []
+            //         arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
+            //         deleteFiles(arr_temp_delete);
+            //         ad_insert.image_placeholder = "";
+            //     }
+            //
+            //     db.update_ad_by_id(insertId, ad_insert, function (err, data) {
+            //         if(err) console.log(err)
+            //         else {
+            //             console.log(data)
+            //         }
+            //     });
+            //
+            //     // delete old_files
+            //     let files_to_delete = [];
+            //     old_files.forEach(function (item) {
+            //         if(!sorted_list.includes(item)) {
+            //             files_to_delete.push("./Backend/res/images/technics/"+ item)
+            //         }
+            //     })
+            //     deleteFiles(files_to_delete)
+            // })
+
+        }
+    })
 }
 
 exports.update_user = function(req,res){
@@ -1064,9 +1489,59 @@ exports.update_technic_without_category = function(req,res){
 
 
 exports.update_technic = function(req,res){
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
+    // if technic is sold we have to delete images except first
+    if(info && info.info.sold) {
+        function callback5(error,data5){
+            if(error) {
+                console.log("Error! ", error.sqlMessage);
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+                //console.log("Success! ", data);
+                let images = JSON.parse(data5[0].images);
+                if(images.length > 0) {
+                    let first_image = images[0];
 
+                    let newpath = helper.getFileName(first_image) + "-sold";
+
+                    console.log(newpath)
+
+                    helper.SaveImageToDB(first_image, newpath, "technics", function (err, data) {
+                        //console.log(data)
+                        let newpath_witFormat = newpath + "." + data.format;
+                        info.info.images = JSON.stringify(Array.of(newpath_witFormat))
+                        info.info.main_photo_location = newpath_witFormat;
+                        //console.log(info)
+                        update_tehnic_helper(res, info, images)
+
+
+                    }).then(r => {
+                        console.log("''''''")
+                        // set images field, set main_photo field
+
+                    });
+
+                }
+
+
+            }
+        }
+        db.get_technics_by_id(info.id, callback5);
+
+    }
+
+    else {
+        update_tehnic_helper(res, info)
+    }
+
+
+}
+
+update_tehnic_helper = function(res, info, images) {
     function callback(error,data){
         if(error) {
             console.log("Error! ", error.sqlMessage);
@@ -1076,15 +1551,19 @@ exports.update_technic = function(req,res){
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
+
             res.send({
                 success: true
             });
+
+            if(images) {
+                //helper.deleteFiles("./Backend/res/images/technics/", images)
+            }
         }
     }
 
     db.update_technic(info.id,info.info,callback);
-
 }
 
 
@@ -1116,98 +1595,234 @@ exports.delete_technic_without_category_by_id = function(req,res){
         var db = require('./db');
         var info = req.body;
 
-        function callback(error,data){
-            if(error) {
-                console.log("Error! ", error.sqlMessage);
-                res.send({
-                    success: true,
-                    error: error.sqlMessage
-                });
-            }
+        function callback1(err1, data1) {
+            if (err1) console.log(err1);
             else {
-                console.log("Success! ", data);
-                res.send({
-                    success: true
-                });
+
+                let photos = JSON.parse(data1[0].photos);
+                if(photos && photos.length > 0)
+                    photos.forEach(function (item) {
+                        let file_path = "./Backend/res/images/technics/"+ item.val;
+                        if(fs.existsSync(file_path)) {
+                            fs.unlinkSync(file_path);
+                        }
+                        else {
+                            console.log("file not exist")
+                        }
+
+                    })
+
+
+                function callback(error, data) {
+                    if (error) {
+                        console.log("Error! ", error.sqlMessage);
+                        res.send({
+                            success: true,
+                            error: error.sqlMessage
+                        });
+                    } else {
+                        console.log("Success! ", data);
+                        res.send({
+                            success: true
+                        });
+                    }
+                }
+
+                db.delete_technic_without_category_id(info.id, callback);
             }
         }
 
-        db.delete_technic_without_category_id(info.id,callback);
-    }
+        db.get_technics_without_category_by_id(info.id, callback1)
+}
 
 exports.delete_technic_by_id = function(req,res){
     var db = require('./db');
     var info = req.body;
 
-    function callback1(error,data1){
-        if(error) {
-            console.log("Error! ", error.sqlMessage);
+    // function callback3(error,data3) {
+    //     if(error) console.log(error)
+    //     else {
+    //             if(data3 && data3.length > 0)
+    //             data3.forEach(function (item) {
+    //                 let file_path = "./Backend/res/images/technics/"+ item.file_name;
+    //                 if(fs.existsSync(file_path)) {
+    //                     fs.unlinkSync(file_path);
+    //                 }
+    //                 else {
+    //                     //console.log("file not exist")
+    //                 }
+    //
+    //             })
+    //
+    //         function callback1(error, data1) {
+    //             if (error) {
+    //                 console.log("Error! ", error.sqlMessage);
+    //
+    //                 res.send({
+    //                     success: true,
+    //                     error: error.sqlMessage
+    //                 });
+    //             } else {
 
-            res.send({
-                success: true,
-                error: error.sqlMessage
-            });
-        }
+    function callback5(error,data5) {
+        if(error) console.log(error)
         else {
-            function callback2(error,data2){
-                if(error) {
+            // console.log(data5[0].images)
+            if( data5 && data5[0]) {
+
+            function callback2(error, data2) {
+                if (error) {
                     console.log("Error! ", error.sqlMessage);
                     res.send({
                         success: true,
                         error: error.sqlMessage
                     });
-                }
-                else {
-                    function callback(error,data){
-                        if(error) {
-                            console.log("Error! ", error.sqlMessage);
+                } else {
+                    function callback(error, data) {
+                        if (error) {
+                            //console.log("Error! ", error.sqlMessage);
                             res.send({
                                 success: true,
                                 error: error.sqlMessage
                             });
-                        }
-                        else {
-                            console.log("Success! ", data);
+                        } else {
+
+                            helper.deleteFiles("./Backend/res/images/technics/", JSON.parse(data5[0].images))
+
+                            // if(data3 && data3.length > 0)
+                            //     data3.forEach(function (item) {
+                            //         let file_path = "./Backend/res/images/technics/"+ item.file_name;
+                            //         if(fs.existsSync(file_path)) {
+                            //             fs.unlinkSync(file_path);
+                            //         }
+                            //         else {
+                            //             //console.log("file not exist")
+                            //         }
+                            //
+                            //     })
                             res.send({
                                 success: true
                             });
                         }
                     }
 
-                    db.delete_technics(info.id,callback);
+                    db.delete_technics(info.id, callback);
                 }
             }
-            db.delete_check_technics_by_technic_id(info.id,callback2)
+
         }
-    }
 
-    db.delete_images_by_technic_id(info.id,callback1);
+                    db.delete_check_technics_by_technic_id(info.id, callback2)
+                }
+            }
+
+            db.get_technics_by_id(info.id, callback5);
+    //             }
+    //         }
+    //
+    //         db.delete_images_by_technic_id(info.id, callback1);
+    //     }
+    // }
+    // db.get_technic_images_by_id(info.id,callback3)
+
+}
 
 
+exports.deleteFiles = function(req,res){
+    let files = req.body;
+    console.log(files);
+    files.forEach(fs.unlink)
+}
+
+exports.deleteFile = function(req,res) {
+    let file = req.body;
+    console.log(file);
+    fs.unlink(file, (err => {
+        if (err) {
+            console.log(err);
+            res.send({
+                success: true,
+                error: err
+            });
+        }
+        else {
+            console.log("\nDeleted file: example_file.txt");
+            res.send({success:true})
+        }
+    }));
 }
 
 exports.delete_equipments_by_id = function(req,res){
     var db = require('./db');
     var info = req.body;
 
-    function callback(error,data){
-        if(error) {
-            console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
-                error: error.sqlMessage
-            });
-        }
+
+    function callback3(error,data3) {
+        if(error) console.log(error)
         else {
-            console.log("Success! ", data);
-            res.send({
-                success: true
-            });
+            if (data3 && data3.length > 0)
+                data3.forEach(function (item) {
+                    let file_path = "./Backend/res/images/equipments/" + item.file_name;
+                    if (fs.existsSync(file_path)) {
+                        console.log("unlink")
+                        fs.unlinkSync(file_path);
+                    } else {
+                        console.log("file not exist")
+                    }
+
+                })
+
+            function callback4(err4, data4) {
+                if (err4) console.log(err4)
+                else {
+
+                    function callback1(error, data1) {
+                        if (error) {
+                            console.log("Error! ", error.sqlMessage);
+
+                            res.send({
+                                success: true,
+                                error: error.sqlMessage
+                            });
+                        } else {
+                            function callback2(error, data2) {
+                                if (error) {
+                                    console.log("Error! ", error.sqlMessage);
+                                    res.send({
+                                        success: true,
+                                        error: error.sqlMessage
+                                    });
+                                } else {
+                                    function callback(error, data) {
+                                        if (error) {
+                                            console.log("Error! ", error.sqlMessage);
+                                            res.send({
+                                                success: true,
+                                                error: error.sqlMessage
+                                            });
+                                        } else {
+                                            console.log("Success! ", data);
+                                            res.send({
+                                                success: true
+                                            });
+                                        }
+                                    }
+
+                                    db.delete_equipments(info.id, callback);
+                                }
+                            }
+
+                            db.delete_check_technics_by_technic_id(info.id, callback2)
+                        }
+                    }
+
+                    db.delete_images_by_equipment_id(info.id, callback1);
+                }
+            }
+            db.delete_equipments_models(info.id, callback4)
         }
     }
-
-    // ..todo delete images
-    db.delete_equipments(info.id,callback);
+    db.get_equipment_images_by_id(info.id,callback3)
 
 }
 
@@ -1444,3 +2059,11 @@ exports.addPhone = function (req, res)
     db.insert_client_phones(req.body.phone, req.body.name, callback);
 
 }
+
+exports.adminPanel = function(req,res){
+    res.render('adminPage', {
+        pageTitle: 'admin panel',
+        currPage:  req.query.page || "check",
+    })
+}
+

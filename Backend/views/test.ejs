@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Panel</title>
+    <meta name="robots" content="none" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700" rel="stylesheet">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KS45HK4');</script>
+    <!-- End Google Tag Manager -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/less/all.less" rel="stylesheet/less" type="text/css"/>
+    <!-- LESS JavaScript компілятор -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="assets/libs/file-uploader/styles.imageuploader.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/photo-sortable/theme-default.css">
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/multiple-select-js@latest/dist/css/multiple-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/multiple-select-js@latest/dist/js/multiple-select.js"></script>
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="assets/less/adminPanel/normalize.css">
+
+    <!-- Milligram CSS minified -->
+    <link rel="stylesheet" href="assets/less/adminPanel/milligram.min.css">
+
+    <!-- Main Styles -->
+<!--    <link href="/assets/libs/photo-sortable/draganddrop.css" rel="stylesheet">-->
+
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/less/adminPanel/styles.css">
+    <link rel="stylesheet" href="assets/less/adminPanel/admin-panelscreen.less">
+
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<ul class="js-uploader__file-list uploader__file-list ui-sortable sorter" id="sortable1"><li class="uploader__file-list__item" data-index="485"><span class="uploader__file-list__thumbnail"><img class="thumbnail" src="/images/technics/reach_truck01_2.jpg"></span> <button onclick="console.log('delete click')" class="delete uploader__icon-button js-upload-remove-button fa fa-times" data-index="485">x</button></li><li class="uploader__file-list__item" data-index="486"><span class="uploader__file-list__thumbnail"><img class="thumbnail" src="/images/technics/reach_truck02_2.jpg"></span> <button onclick="console.log('delete click')" class="delete uploader__icon-button js-upload-remove-button fa fa-times" data-index="486"></button></li><li class="uploader__file-list__item" data-index="487"><span class="uploader__file-list__thumbnail"><img class="thumbnail" src="/images/technics/reach_truck03_2.jpg"></span> <button onclick="console.log('delete click')" class="delete uploader__icon-button js-upload-remove-button fa fa-times" data-index="487"></button></li></ul><div class="js-uploader__contents uploader__contents uploader__hide"><p class="js-uploader__instructions uploader__instructions">Перетягніть або</p><input style="height: 0; width: 0;" id="fileinput0" type="file" accept="image/png, image/jpeg, image/webp" multiple="" class="js-uploader__file-input uploader__file-input"><label for="fileinput0" style="cursor: pointer;" class="js-uploader__file-label uploader__file-label">Вибрати файли</label></div>
+
+<!--<script src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>-->
+<!--<script src="/assets/libs/photo-sortable/amigo-sorter.min.js"></script>-->
+
+<script src="/assets/libs/photo-sortable/amigo-sorter.js"></script>
+
+
+<script>
+    $('ul.sorter').amigoSorter();
+</script>
+<!--<script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>-->
+
+<!--Bootsrap JavaScript -->
+
+<script src="/assets/libs/file-uploader/jquery.imageuploader.js"></script>
+
+
+
+<script src="/assets/js/adminPanel.js"></script>
+<!--<script src="../../node_modules/blueimp-file-upload/js/jquery.fileupload.js"></script>-->
+</body>
+</html>

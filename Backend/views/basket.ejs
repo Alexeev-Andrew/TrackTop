@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="uk">
+    <meta name="robots" content="noindex nofollow none" />
+    <meta charset="UTF-8">
+    <meta name="description" content="<%= description %>" />
+    <link rel="shortcut icon"  type="images/x-icon" href="/assets/images/favicon.ico" >
+    <title><%= pageTitle %></title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="/assets/less/basket-all.less" />
+    <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="<%= description %>"/>
+    <meta property="og:locale" content="uk_UA">
+
+</head>
+
+<body>
+<div class="wrapper">
+
+    <% include common/header.ejs %>
+
+    <div id="main" class="no-left-panel">
+        <!-- Create the toolbar container -->
+        <div class="wrapper-main-page">
+
+            <h1 class="h1_main">Кошик</h1>
+
+            <div id="basket-empty">
+                <span>Кошик порожній</span>
+                <div class="to-main-page-from-basket">
+                    <button type="button" class="btn btn-warning btn-lg btn-to-main-page-from-basket"><a href="/">На головну</a></button>
+                </div>
+            </div>
+            <div id="basket-not-empty">
+
+                <span class="labelOrderDelete" role="button">Очистити</span>
+
+                <div id="basketColumn" class="sidenav secondColumn">
+
+<!--                <div class="orderLabel">-->
+<!--                    <span class="labelOrder"><b>Замовлення</b></span>-->
+<!--                    <span class="label label-warning amountOfBoughtPizz">0</span>-->
+<!--                    <span class="labelOrderDelete" role="button">Очистити</span>-->
+<!--                </div>-->
+
+                <div class="container buyList">
+
+                </div>
+
+                <div class="endOrderLabel">
+                    <span class="sumLabel"><b>Сума замовлення</b></span>
+                    <span class="amountLabel"><b>0 грн</b></span>
+                    <div class="buttonOrderDiv">
+                        <button type="button" class="btn btn-warning btn-lg btn-block orderButton">Замовити</button>
+                    </div>
+                    <div id="logged-user-err">
+                    <div class="basket-logged-user-err">Замовлення можуть здійснювати лише зареєстровані користувачі</div>
+                    <div id="basket-logged-user-register" class="basket-logged-user-err "><i>Зареєструватись</i></div>
+
+                        <div id="basket-logged-user-log-in" class="basket-logged-user-err "><i>Увійти</i></div>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+
+<script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+    <!--Bootsrap JavaScript -->
+    <script async type="text/javascript" src="/assets/js/main.js"> </script>
+<script>
+
+</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
+    <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
+</div>
+
+</body>
+
+</html>

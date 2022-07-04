@@ -10,6 +10,7 @@ function  initialize() {
             console.log(data5.error);
         }
 
+        let equipment = data5.data[0];
         localStorage.setItem('currEquipment',JSON.stringify({
             id: data5.data[0].id,
             name: data5.data[0].name,
@@ -22,18 +23,13 @@ function  initialize() {
         let alt;
         if (data5.data[0].description) alt = "Купити " + data5.data[0].description ;
         else alt = "Купити " + data5.data[0].name ;
-        function callback(err, data) {
-            if (data.error) {
-                console.log(data.error);
-                return;
-            }
-            data.data.forEach(function (item) {
-                dataset.push("equipments/" + item.file_name)
-            });
-            require('../pagesScripts/slider').initialize(dataset, alt);
-        }
 
-        require('../API').getEquipmentImagesById(id, callback);
+        let dataset = [];
+        let im = JSON.parse(equipment.images);
+        im.forEach(function (item) {
+            dataset.push("equipments/" + item)
+        });
+        require('../pagesScripts/slider').initialize(dataset, alt);
 
 
         $('.order_equipment').click(function () {
@@ -45,13 +41,14 @@ function  initialize() {
             // var isTech = equipment==null ? false : true;
             require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
-            require('../basket').addToCart({
+            require('../basketPage').addToCart({
                 id: equipment.id,
                 title: equipment.name,
                 price: equipment.price,
                 currency: equipment.currency,
                 icon: equipment.main_photo_location,
-                quantity: equipment.amount,
+                quantity: 1,
+                url: document.location.href,
                 isTech: false
             });
         })

@@ -40,6 +40,7 @@ exports.login = function(){
                         alert( "Невірний пароль" );
                     }
                     else if(!(data.data[0]==null)){
+                        console.log(data.data[0].token)
                         localStorage.setItem('status',true);
                         localStorage.setItem('id',data.data[0].id);
                         localStorage.setItem('name',data.data[0].name);
@@ -51,6 +52,8 @@ exports.login = function(){
                         require('./user_form').isLogged();
                     }
                     else if(!(data==null)){
+                        console.log(data.data.token)
+                        localStorage.access_token = data.data.token;
                         localStorage.setItem('status',true);
                         localStorage.setItem('id',data.data.id);
                         localStorage.setItem('name',data.data.name);
@@ -60,6 +63,7 @@ exports.login = function(){
                         localStorage.setItem('photo',data.data.photo_location);
                         require('./login_form').closeForm();
                         require('./user_form').isLogged();
+                        require("../API").toAdminPanel({'token': data.data.token })
                     }
 
         });

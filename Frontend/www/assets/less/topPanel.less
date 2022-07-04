@@ -98,6 +98,23 @@
   display: flex;
 }
 
+#basketBtn {
+  position: relative;
+}
+
+.circle-basket {
+  display: none;
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  top: -4px;
+  font-size: 10px;
+  right: -2px;
+  z-index: 100000;
+  color: white;
+  background: #bb0707;
+  border-radius: 5px;
+}
 
 #user_photo {
   display      : none;
@@ -134,7 +151,8 @@
 @media (max-width:500px) {
 
   #header-mobile-phone {
-    display: block;
+    display: inline-flex;
+    justify-content: space-evenly;
   }
 
   .header {

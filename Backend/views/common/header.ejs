@@ -3,7 +3,12 @@
 <div id="header-mobile-phone">
     <a href="tel:380676462244">
         (067) 646-22-44
-    </a></div>
+    </a>
+    <a href="tel:380679223397">
+        (067) 922-33-97
+    </a>
+</div>
+
 <div class="header">
     <div class='header-left'>
         <img id="logo" src="/assets/images/logo-tracktop.png" alt='This is a logo image'>
@@ -20,7 +25,9 @@
         <div class="header-right">
             <div class="mess-bask" style="display: flex;">
                 <a id="writeMessageMainPage" onclick="openMessageModal(); fbq('trackCustom', 'openMessageModal');" ><i class="fas fa-envelope icons"></i></a>
-                <a id="basketBtn"  onclick="fbq('trackCustom', 'openBasket');" class='basketBtn'><i class="fa fa-shopping-basket icons"></i></a>
+                <a id="basketBtn"  onclick="fbq('trackCustom', 'openBasket');" class='basketBtn'><i class="fa fa-shopping-basket icons"></i>
+                    <span class="circle-basket"></span>
+                </a>
             </div>
             <div class="log-sign">
                 <a id="login"  onclick="fbq('trackCustom', 'Login');" display="none"><i class="fas fa-door-open icons"></i></a>
@@ -47,7 +54,7 @@
     <form class="form-container">
 
         <div class="menu_item">
-            <label class="menu_item" id="full_name">Name<b></b></label>
+            <label class="menu_item" id="full_name">Ім`я<b></b></label>
         </div>
 
         <div class="menu_item">
@@ -57,9 +64,9 @@
         <div class="menu_item edit-profile">
             <label><b>Редагувати профіль</b></label><br>
         </div>
-        <div class="menu_item purchase_history">
-            <label>Історія покупок</label>
-        </div>
+<!--        <div class="menu_item purchase_history">-->
+<!--            <a href="/purchases"><label>Історія покупок</label></a>-->
+<!--        </div>-->
         <button type="button" class="btn" id="exit_btn">Вийти</button>
     </form>
 </div>

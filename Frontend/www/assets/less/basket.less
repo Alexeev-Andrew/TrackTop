@@ -1,30 +1,263 @@
-@heightTopBot: @heightTopPanel;
-@heightBottom: @heightTopPanel*1.7;
+//@heightTopBot: @heightTopPanel;
+//@heightBottom: @heightTopPanel*1.7;
+//
+//.sidenav {
+//  height     : 100%;
+//  width      : @WidthRightPanel;
+//  //width    :@WidthRightPanel;
+//  position   : fixed;
+//  top        : 0;
+//  right      : @WidthRightPanel*(-1);
+//  overflow-x : hidden;
+//  transition : 0.5s;
+//  padding-top: 60px;
+//
+//  background : white;
+//  border-left: 0.5px solid #c4c4c4;
+//  box-shadow : rgba(0, 0, 0, .2) -3px 3px 10px;
+//  z-index    : 8010;
+//
+//  .basketCloseBtn {
+//    position   : absolute;
+//    top        : -10px;
+//    right      : 10px;
+//    font-size  : 36px;
+//    margin-left: 50px;
+//    z-index    : 8100;
+//  }
+//
+//  a {
+//    color: #d9534f;
+//  }
+//
+//  a:hover {
+//    color          : #b92c28;
+//    text-decoration: none;
+//  }
+//
+//}
+//
+////a:hover {
+////  background: #786b59; /* Цвет фона под ссылкой */
+////  color     : #ffe; /* Цвет ссылки */
+////}
+//
+//#main {
+//  transition: margin-left .5s;
+//  padding   : 16px 0px;
+//}
+//
+//@media screen and (max-height: 450px) {
+//  .sidenav {
+//    padding-top: 15px;
+//  }
+//
+//  .sidenav a {
+//    font-size: 18px;
+//  }
+//}
+//
+//.orderLabel {
+//  padding-top: @heightTopBot/3;
+//  position   : absolute;
+//  box-sizing : content-box;
+//  width      : 100%;
+//  height     : @heightTopBot;
+//  top        : 0;
+//  text-align : center;
+//
+//
+//  .labelOrder {
+//    font-size  : 20px;
+//    font-weight: 700;
+//    line-height: 17px;
+//  }
+//
+//  .labelOrderDelete {
+//    color           : #fcf8e3;
+//    margin-left     : 10px;
+//    margin-right    : 60px;
+//    padding         : 5px;
+//    /* margin-top   : 5px; */
+//    float           : right;
+//    font-size       : 12px;
+//    line-height     : 11px;
+//    font-weight     : 400;
+//    background-color: #999;
+//    border-radius   : 5px;
+//  }
+//
+//}
+//
+//.endOrderLabel {
+//  padding   : 10px;
+//  position  : absolute;
+//  bottom    : 0;
+//  height    : @heightBottom;
+//  width     : 100%;
+//  border-top: 1px solid rgba(0, 0, 0, .1);
+//
+//  .sumLabel {
+//    font-weight: 700;
+//    font-size  : 15px;
+//  }
+//
+//  .amountLabel {
+//    font-weight: 700;
+//    font-size  : 20px;
+//    float      : right;
+//  }
+//
+//  .buttonOrderDiv {
+//
+//    padding: 20px;
+//
+//    .orderButton {
+//      width           : 100%;
+//      left            : 50px;
+//      border-color    : darken(@mainColor, 5%);
+//      background-color: lighten(@mainColor, 2%);
+//    }
+//
+//    .orderButton:hover {
+//      background-color: darken(@mainColor, 1%);
+//    }
+//
+//  }
+//
+//}
+//
+//.buyList {
+//  position       : absolute;
+//  text-overflow-y: scroll;
+//  background     : #F5F5F5;
+//  width          : 100%;
+//  top            : @heightTopBot;
+//  bottom         : 0px;
+//  margin-bottom  : @heightBottom;
+//  padding        : 0 !important;
+//  overflow-y     : scroll;
+//  overflow-x     : hidden;
+//
+//  .myOrder {
+//    position     : relative;
+//    height       : 120px;
+//    padding      : 10px;
+//    border-bottom: 1px solid rgba(0, 0, 0, .1);
+//    position     : relative;
+//    overflow     : hidden;
+//    box-sizing   : border-box;
+//
+//
+//    .image-control {
+//      display        : flex;
+//      justify-content: space-between;
+//    }
+//
+//    p {
+//      margin: 0px;
+//    }
+//
+//    .centerAlign {
+//      text-align: center;
+//    }
+//
+//    .imgInOrder {
+//      width        : 120px;
+//      height       : 68px;
+//      max-width    : 120px;
+//      border-width : 1px;
+//      border-color : #999;
+//      border-style : ridge;
+//      border-radius: 5px;
+//    }
+//
+//    .order-title {
+//      color    : darken(@mainColor, 3%);
+//      font-size: 20px;
+//    }
+//
+//    .orderCharacteristics {
+//      margin: 6px 0 8px;
+//
+//      .orderWeightIcon {
+//        margin-left: 10px;
+//      }
+//    }
+//
+//    .price {
+//      margin-right: 10px;
+//      font-size   : 14px;
+//      font-weight : 700;
+//    }
+//
+//    .order-count {
+//      font-size  : 14px;
+//      font-weight: 700;
+//    }
+//
+//    .btn-circle {
+//      width        : 30px;
+//      height       : 30px;
+//      padding      : 6px 0;
+//      font-size    : 12px;
+//      line-height  : 1.428571429;
+//      border-radius: 15px;
+//      text-align   : center;
+//    }
+//
+//    .plus {
+//      background-image: linear-gradient(to bottom, #5cb85c 0, #419641 100%);
+//      border-color    : #398439;
+//    }
+//
+//    .plus:hover {
+//      background-image: linear-gradient(to bottom, #5bb65b 0, #397a39 100%);
+//    }
+//
+//    .minus {
+//      background-image: linear-gradient(to bottom, #d9534f 0, #c12e2a 100%);
+//      border-color    : #b92c28;
+//    }
+//
+//    .minus:hover {
+//      background-image: linear-gradient(to bottom, #cd504c 0, #b22d29 100%);
+//    }
+//
+//    .btn-circle:last-child {
+//      margin-left      : 20px;
+//      color            : darken(@mainColor, 3%);
+//      text-shadow      : 0 1px 0 #fff;
+//      box-shadow       : inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+//      background-repeat: repeat-x;
+//      background-image : linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+//    }
+//
+//    .btn-circle:hover:last-child {
+//      background-image: linear-gradient(to bottom, #d7d7d7 0, #d7d7d7 100%);
+//    }
+//  }
+//}
+//
+//.margR {
+//  margin-right: @WidthRightPanel;
+//}
+//
+//.widthR {
+//  right: 0;
+//}
+
+
+@basket-width: 640px;
 
 .sidenav {
-  height     : 100%;
-  width      : @WidthRightPanel;
-  //width    :@WidthRightPanel;
-  position   : fixed;
-  top        : 0;
-  right      : @WidthRightPanel*(-1);
+  max-width: @basket-width;
+  margin: auto;
   overflow-x : hidden;
-  transition : 0.5s;
-  padding-top: 60px;
-
   background : white;
-  border-left: 0.5px solid #c4c4c4;
-  box-shadow : rgba(0, 0, 0, .2) -3px 3px 10px;
-  z-index    : 8010;
-
-  .basketCloseBtn {
-    position   : absolute;
-    top        : -10px;
-    right      : 10px;
-    font-size  : 36px;
-    margin-left: 50px;
-    z-index    : 8100;
-  }
+  border: 0.5px solid #c4c4c4;
+  box-shadow : -3px 3px 20px #d2d2d2;
+  margin-bottom: 20px;
 
   a {
     color: #d9534f;
@@ -37,6 +270,35 @@
 
 }
 
+#logged-user-err {
+  display: none;
+}
+
+.basket-logged-user-err {
+  color: red;
+  text-align: center;
+}
+#basket-logged-user-register , #basket-logged-user-log-in{
+  color: #1d252c;
+  font-weight: 600;
+  padding: 5px;
+}
+
+#basket-logged-user-register:hover , #basket-logged-user-log-in:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#basket-empty {
+  display: none;
+  text-align: center;
+  margin: auto;
+}
+
+#basket-not-empty {
+  display: none;
+}
+
 //a:hover {
 //  background: #786b59; /* Цвет фона под ссылкой */
 //  color     : #ffe; /* Цвет ссылки */
@@ -44,7 +306,6 @@
 
 #main {
   transition: margin-left .5s;
-  padding   : 16px 0px;
 }
 
 @media screen and (max-height: 450px) {
@@ -73,48 +334,50 @@
     line-height: 17px;
   }
 
-  .labelOrderDelete {
-    color           : #fcf8e3;
-    margin-left     : 10px;
-    margin-right    : 60px;
-    padding         : 5px;
-    /* margin-top   : 5px; */
-    float           : right;
-    font-size       : 12px;
-    line-height     : 11px;
-    font-weight     : 400;
-    background-color: #999;
-    border-radius   : 5px;
-  }
+}
 
+.labelOrderDelete {
+  color           : #fcf8e3;
+  padding         : 5px;
+  /* margin-top   : 5px; */
+  font-size       : 12px;
+  line-height     : 11px;
+  font-weight     : 400;
+  background-color: #999;
+  border-radius   : 5px;
+  width: 100px;
+  margin: auto;
+  display: grid;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .endOrderLabel {
   padding   : 10px;
-  position  : absolute;
   bottom    : 0;
-  height    : @heightBottom;
-  width     : 100%;
   border-top: 1px solid rgba(0, 0, 0, .1);
 
   .sumLabel {
     font-weight: 700;
     font-size  : 15px;
+    margin-left: 20px;
   }
 
   .amountLabel {
     font-weight: 700;
     font-size  : 20px;
     float      : right;
+    margin-right: 20px;
   }
 
   .buttonOrderDiv {
 
-    padding: 20px;
+    padding: 10px 20px;
 
     .orderButton {
-      width           : 100%;
-      left            : 50px;
+      min-width: 200px;
+      width           : 70%;
+      margin: auto;
       border-color    : darken(@mainColor, 5%);
       background-color: lighten(@mainColor, 2%);
     }
@@ -128,20 +391,16 @@
 }
 
 .buyList {
-  position       : absolute;
   text-overflow-y: scroll;
   background     : #F5F5F5;
   width          : 100%;
-  top            : @heightTopBot;
-  bottom         : 0px;
-  margin-bottom  : @heightBottom;
   padding        : 0 !important;
   overflow-y     : scroll;
   overflow-x     : hidden;
 
   .myOrder {
     position     : relative;
-    height       : 120px;
+    height       : auto;
     padding      : 10px;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     position     : relative;
@@ -165,6 +424,7 @@
     .imgInOrder {
       width        : 120px;
       height       : 68px;
+      object-fit   : cover;
       max-width    : 120px;
       border-width : 1px;
       border-color : #999;
@@ -174,7 +434,7 @@
 
     .order-title {
       color    : darken(@mainColor, 3%);
-      font-size: 20px;
+      font-size: 16px;
     }
 
     .orderCharacteristics {
@@ -245,4 +505,25 @@
 
 .widthR {
   right: 0;
+}
+
+#main {
+  text-align: center;
+  margin-top: @heightTopPanel+5px;
+}
+.no-left-panel {
+  margin-left: 0px!important;
+}
+
+.to-main-page-from-basket {
+
+}
+
+.btn-to-main-page-from-basket {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 20px;
+  border-radius: 10px;
+  border-color: #d47b0d;
+  background-color: #f18e13;
 }

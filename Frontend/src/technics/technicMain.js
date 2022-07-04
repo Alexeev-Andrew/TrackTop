@@ -131,17 +131,30 @@ function  initialize() {
                 alt += " " + type.marks_of_technics_name + " " + type.model + ". ";
                 $(".type_header").text(type_tech + " " + type.marks_of_technics_name + " " + type.model);
 
-                var dataset = [];
+                let dataset = [];
+                let im = JSON.parse(type.images);
+                im.forEach(function (item) {
+                    dataset.push("technics/" + item)
+                });
+                require('../pagesScripts/slider').initialize(dataset, alt);
 
-                function callback(err, data) {
-                    if (data.error) console.log(data.error);
-                    data.data.forEach(function (item) {
-                        dataset.push("technics/" + item.file_name)
-                    });
-                    require('../pagesScripts/slider').initialize(dataset, alt);
-                }
-
-                require('../API').getTechnicsImagesById(tech.id, callback);
+                // function callback(err, data) {
+                //     if (data.error) console.log(data.error);
+                //     let im = [];
+                //     try {
+                //         im = JSON.parse(data.data);
+                //         im.forEach(function (item) {
+                //             dataset.push("technics/" + item)
+                //         });
+                //     }
+                //     catch(e) {
+                //         // forget about it :)
+                //     }
+                //
+                //
+                // }
+                //
+                // require('../API').getTechnicsImagesById(tech.id, callback);
 
                 $('.order_technic').click(function () {
 
@@ -149,17 +162,22 @@ function  initialize() {
                     // console.log(equipment);
                     // var isTech = equipment==null ? false : true;
 
-                    require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+                    require('../pagesScripts/notify').Notify("Товар додано. Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
-                    require('../basket').addToCart({
+                    let href = document.location.href;
+                    require('../basketPage').addToCart({
                         id: tech.id,
                         title: tech.mark + ' ' + tech.model,
                         price: tech.price,
                         currency: tech.currency,
                         icon: "technics/" + tech.main_photo_location,
-                        quantity: tech.amount,
+                        quantity: 1,
+                        url: href,
+                        url1:"sd",
                         isTech: true
                     });
+
+                    //console.log(document.location.href)
 
                     // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
                 })

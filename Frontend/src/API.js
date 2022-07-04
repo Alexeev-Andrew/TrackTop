@@ -5,10 +5,20 @@ var API_URL = values.url;
 
 
 function backendGet(url, callback, data) {
+    let data_copy = data;
+    if(!data)  {
+        data_copy = {};
+        data_copy.token = ""
+    }
+    console.log(data_copy.token)
+
     $.ajax({
         url: API_URL + url,
         type: 'GET',
         data: data,
+        headers: {
+            "authorization": 'Bearer ' + data_copy.token
+        },
         success: function(data){
             callback(null, data);
         },
@@ -18,10 +28,13 @@ function backendGet(url, callback, data) {
     })
 }
 
-function backendPost(url, data, callback) {
+function backendPost(url, data, callback, token) {
     $.ajax({
         url: API_URL + url,
         type: 'POST',
+        headers: {
+            "authorization": 'Bearer ' + token
+        },
         contentType : 'application/json',
         data: JSON.stringify(data),
         success: function(data){
@@ -48,6 +61,15 @@ function backendPostFiles(url, data, callback) {
             callback(new Error("Ajax Failed"));
         }
     })
+}
+
+exports.deleteFiles = function(files,callback){
+    backendPost("/api/delete-files/", files, callback);
+}
+
+exports.deleteFile = function(file_location, callback) {
+    backendPost("/api/delete-file/", file_location, callback);
+    // fs.unlink(file_location, callback);
 }
 
 exports.addTehnic = function(tehnic, callback) {
@@ -111,6 +133,10 @@ exports.sign_in = function(phone, callback) {
 
 exports.getTypes = function(callback) {
     backendGet("/api/gettypes/", callback);
+};
+
+exports.toAdminPanel = function(data) {
+    backendGet("/admin-panel7913", null, data );
 };
 
 exports.getMarks = function(callback) {
@@ -200,9 +226,12 @@ exports.getEquipmentImagesById = function(id,callback) {
     backendPost("/api/getequipmentim/", {id: id}, callback);
 };
 
-exports.uploadUserPhoto = function(photo,callback){
+exports.uploadUserPhoto = function(photo, id, callback){
     var data = new FormData();
-    data.append('uploadFile', photo);
+    data.append('uploadFile[]', photo);
+    data.append('insertId', id);
+
+
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
@@ -211,6 +240,7 @@ exports.uploadTechnicPhoto = function(photo,callback){
     data.append('uploadFile', photo);
     backendPostFiles("/api/upload_technic_photo/", data, callback);
 };
+
 exports.uploadEquipmentPhoto = function(photo,callback){
     var data = new FormData();
     data.append('uploadFile', photo);
@@ -253,6 +283,22 @@ exports.deleteTechnicsWithoutCategoryByID = function(id,callback) {
 // exports.deleteUserPhotoDB = function(id,callback) {
 //     backendPost("/api/delete_user_photo_db",{id: id},callback);
 // }
+
+exports.uploadTechnicPhoto_ = function(form,callback){
+    backendPostFiles("/api/upload_technic_photo/", form, callback);
+};
+
+exports.updateTechnicPhoto_ = function(form,callback){
+    backendPostFiles("/api/update_technic_photo/", form, callback);
+};
+
+exports.uploadEquipmentPhoto_ = function(form,callback){
+    backendPostFiles("/api/upload_equipment_photo/", form, callback);
+};
+
+exports.updateEquipmentPhoto_ = function(form,callback){
+    backendPostFiles("/api/update_equipment_photo/", form, callback);
+};
 
 exports.deleteEquipmentsByID = function(id,callback) {
     backendPost("/api/delete_equipments_by_id",{id: id},callback);

@@ -4,6 +4,8 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 const minifyHTML = require('express-minify-html');
+const cookieParser = require('cookie-parser')
+
 
 var isAuth = require('./authentification/isAuth.js');
 var roleRequired = require('./authentification/RoleRequired.js');
@@ -72,7 +74,8 @@ function configureEndpoints(app) {
     app.post('/api/getequipmentsbycategoryid', api.getequipmentsbycategoryid);
     app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
     app.post('/api/getequipmentsbymodal', api.getequipmentsbymodal);
-
+    app.post('/api/delete-files', api.deleteFiles);
+    app.post('/api/delete-file', api.deleteFile);
 
     app.post('/api/signin',  api.sign_in);
 
@@ -101,7 +104,12 @@ function configureEndpoints(app) {
 
     app.post('/api/update_technic_without_category', api.update_technic_without_category);
     app.post('/api/update_technic', api.update_technic);
+    app.post('/api/update_technic_photo', api.update_technic_photo);
+
     app.post('/api/update_equipment', api.update_equipment);
+    app.post('/api/update_equipment_photo', api.update_equipment_photo);
+
+
     app.post('/api/delete_technic_by_id', api.delete_technic_by_id);
     app.post('/api/delete_technic_without_category_by_id', api.delete_technic_without_category_by_id);
 
@@ -136,6 +144,9 @@ function configureEndpoints(app) {
     app.get('/about', pages.about);
     app.get('/sitemap', pages.sitemap);
     app.get('/reviews', pages.reviews);
+    app.get('/purchases', pages.purchases);
+    app.get('/basket', pages.basket);
+    app.get('/test', pages.test);
 
 
     // app.use(sitemap({
@@ -267,7 +278,7 @@ function configureEndpoints(app) {
         }
     })
 
-    app.get('/admin-panel7913', /*isAuth, attachCurrentUser, roleRequired.requiredRole('admin'),*/ pages.adminPanel);
+    app.get('/admin-panel7913', /*isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole('admin'),*/ api.adminPanel);
     // app.get("/.well-known/acme-challenge/dUyRDhJZ0HlGDcm6tVe_JwWItIxNyMox6LqknnQvyGk")
     //Якщо не підійшов жоден url, тоді повертаємо файли з папки www
     app.use(express.static(path.join(__dirname, '../Frontend/www')));
@@ -310,6 +321,7 @@ function startServer(port) {
     //Розбір POST запитів
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    app.use(cookieParser())
 
     //Налаштовуємо сторінки
     configureEndpoints(app);

@@ -1,18 +1,31 @@
-var Templates = require('../Templates');
+let Templates = require('../Templates');
 
-var $images =   $('.slider__wrapper');
+let $images =   $('.slider__wrapper');
+
+
+require('dotenv').config();
+let url_base = '';
+
+function initialize() {
+    if(process.env.DEBUG) url_base = process.env.DEBUG_URL_BASE;
+    else {
+        url_base = process.env.URL_BASE;
+    }
+
+}
 
 
 function showImages(list,alt) {
+    initialize();
 
     $images.html("");
 
     let i = 1;
 
     function showOne(type) {
-        var html_code = Templates.oneImage({image: type , alt :alt+" фото - "+ i});
+        let html_code = Templates.oneImage({image: type, base: url_base, alt :alt+" фото - "+ i});
 
-        var $node = $(html_code);
+        let $node = $(html_code);
 
         $images.append($node);
         i++;

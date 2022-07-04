@@ -1,19 +1,16 @@
-/*
- * ©2016 Quicken Loans Inc. All rights reserved.
- */
-/* global jQuery FormData FileReader */
+let max_file_size = 1048576 * 10; // 10mb
 (function ($) {
     $.fn.uploader = function (options, testMode) {
         return this.each(function (index) {
             options = $.extend({
                 submitButtonCopy: 'Upload Selected Files',
-                instructionsCopy: 'Drag and Drop, or',
+                instructionsCopy: 'Перетягніть або',
                 furtherInstructionsCopy: 'Your can also drop more files, or',
-                selectButtonCopy: 'Select Files',
-                secondarySelectButtonCopy: 'Select More Files',
+                selectButtonCopy: 'Вибрати файли',
+                secondarySelectButtonCopy: 'Завантажити фото',
                 //dropZone: $(this),
-                fileTypeWhiteList: ['jpg', 'png', 'jpeg', 'gif', 'pdf'],
-                badFileTypeMessage: 'Sorry, we\'re unable to accept this type of file.',
+                fileTypeWhiteList: ['jpg', 'png', 'jpeg', 'webp'],
+                badFileTypeMessage: 'Вибачте, файли даного типу не підтримуються',
                 ajaxUrl: '/ajax/upload',
                 testMode: false
             }, options);
@@ -32,16 +29,16 @@
                     options.submitButtonCopy + '<i class="js-uploader__icon fa fa-upload uploader__icon"></i></button>'),
                 instructions: $('<p class="js-uploader__instructions uploader__instructions">' +
                     options.instructionsCopy + '</p>'),
-                selectButton: $('<input style="height: 0; width: 0;" id="fileinput' + index + '" type="file" multiple class="js-uploader__file-input uploader__file-input">' +
+                selectButton: $('<input style="height: 0; width: 0;" id="fileinput' + index + '" type="file" accept="image/png, image/jpeg, image/webp" multiple class="js-uploader__file-input uploader__file-input">' +
                     '<label for="fileinput' + index + '" style="cursor: pointer;" class="js-uploader__file-label uploader__file-label">' +
                     options.selectButtonCopy + '</label>'),
-                secondarySelectButton: $('<input style="height: 0; width: 0;" id="secondaryfileinput' + index + '" type="file"' +
+                secondarySelectButton: $('<input style="height: 0; width: 0;" id="secondaryfileinput' + index + '" type="file" accept="image/png, image/jpeg, image/webp"' +
                     ' multiple class="js-uploader__file-input uploader__file-input">' +
                     '<label for="secondaryfileinput' + index + '" style="cursor: pointer;" class="js-uploader__file-label uploader__file-label uploader__file-label--secondary">' +
                     options.secondarySelectButtonCopy + '</label>'),
-                fileList: $('<ul class="js-uploader__file-list uploader__file-list ui-sortable" id="sortable1"></ul>'),
+                fileList: $('<ul class="js-uploader__file-list uploader__file-list ui-sortable sorter" id="sortable1"></ul>'),
                 contentsContainer: $('<div class="js-uploader__contents uploader__contents"></div>'),
-                furtherInstructions: $('<p class="js-uploader__further-instructions uploader__further-instructions uploader__hide">' + options.furtherInstructionsCopy + '</p>')
+                furtherInstructions: $('<p class="js-uploader__further-instructions uploader__further-instructions uploader__hide"></p>')
             };
 
             // empty out whatever is in there
@@ -62,7 +59,7 @@
                 dom.uploaderBox
                     .append(dom.fileList)
                     .append(dom.contentsContainer)
-                    .append(dom.submitButton)
+                    //.append(dom.submitButton)
                     .after(dom.furtherInstructions);
             }
 
@@ -104,29 +101,37 @@
             }
 
             function addItem (file) {
-                var fileName = cleanName(file.name);
-                var fileSize = file.size;
-                var id = state.listIndex;
-                var sizeWrapper;
-                var fileNameWrapper = $('<span class="uploader__file-list__text">' + fileName + '</span>');
+                let fileName = cleanName(file.name);
+                let fileSize = file.size;
+                let id = state.listIndex;
+                let sizeWrapper;
+                let fileNameWrapper = $('<span class="uploader__file-list__text">' + fileName + '</span>');
 
                 state.listIndex++;
 
-                var listItem = $('<li class="uploader__file-list__item ui-sortable-handle" data-index="' + id + '"></li>');
-                var thumbnailContainer = $('<span class="uploader__file-list__thumbnail"></span>');
-                var thumbnail = $('<img class="thumbnail"><i class="fa fa-spinner fa-spin uploader__icon--spinner"></i>');
-                var removeLink = $('<span class="uploader__file-list__button"><button class="uploader__icon-button js-upload-remove-button fa fa-times" data-index="' + id + '"></button></span>');
+                let listItem = $(`<li class="uploader__file-list__item ui-sortable-handle" data-index="${id}" data-src-file="${fileName}" data-type="new"></li>`);
+                let thumbnailContainer = $('<span class="uploader__file-list__thumbnail"></span>');
+                let thumbnail = $('<img class="thumbnail"><i class="fa fa-spinner fa-spin uploader__icon--spinner"></i>');
+                let removeLink = $('<button onclick=\"preventDefault(); console.log(\'delete click\')\"class="delete uploader__icon-button js-upload-remove-button fa fa-times" data-index="' + id + '"></button>');
 
                 // validate the file
                 if (options.fileTypeWhiteList.indexOf(getExtension(file.name).toLowerCase()) !== -1) {
                     // file is ok, add it to the batch
-                    state.fileBatch.push({file: file, id: id, fileName: fileName, fileSize: fileSize});
-                    sizeWrapper = $('<span class="uploader__file-list__size">' + formatBytes(fileSize) + '</span>');
-                } else {
-                    // file is not ok, only add it to the dom
-                    sizeWrapper = $('<span class="uploader__file-list__size"><span class="uploader__error">' + options.badFileTypeMessage + '</span></span>');
-                }
+                    console.log(fileSize)
+                    if(fileSize > max_file_size) {
+                        console.log("dtkbr ");
+                        return;
+                    }
+                    else {
+                        state.fileBatch.push({file: file, id: id, fileName: fileName, fileSize: fileSize});
+                        //sizeWrapper = $('<span class="uploader__file-list__size">' + formatBytes(fileSize) + '</span>');
+                    }
 
+                } else {
+                    alert(options.badFileTypeMessage)
+                    // file is not ok, only add it to the dom
+                    // sizeWrapper = $('<span class="uploader__file-list__size"><span class="uploader__error">' + options.badFileTypeMessage + '</span></span>');
+                }
                 // create the thumbnail, if you can
                 if (window.FileReader && file.type.indexOf('image') !== -1) {
                     var reader = new FileReader();
@@ -146,8 +151,8 @@
                 listItem.append(thumbnailContainer);
 
                 listItem
-                    .append(fileNameWrapper)
-                    .append(sizeWrapper)
+                    //.append(fileNameWrapper)
+                    //.append(sizeWrapper)
                     .append(removeLink);
 
                 dom.fileList.append(listItem);
@@ -173,7 +178,7 @@
             }
 
             function cleanName (name) {
-                //name = name.replace(/\s+/gi, '-'); // Replace white space with dash
+                name = name.replace(/\s+/gi, '-'); // Replace white space with dash
                 return name;//name.replace(/[^a-zA-Z0-9.\-]/gi, ''); // Strip any special characters
             }
 
@@ -181,6 +186,8 @@
                 if (state.fileBatch.length !== 0) {
                     var data = new FormData();
                     for (var i = 0; i < state.fileBatch.length; i++) {
+                        console.log(state.fileBatch[i].fileSize)
+                        if( !state.fileBatch[i].fileSize > 20480000)
                         data.append('files[]', state.fileBatch[i].file, state.fileBatch[i].fileName);
                     }
                     $.ajax({
@@ -195,9 +202,9 @@
             }
 
             function selectFilesHandler (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+                 e.preventDefault();
+                 e.stopPropagation();
+                console.log('ks here')
                 if (!state.isUploading) {
                     // files come from the input or a drop
                     var files = e.target.files || e.dataTransfer.files || e.dataTransfer.getData;
@@ -207,10 +214,7 @@
                         addItem(files[i]);
                     }
 
-                    $( "#sortable1" ).sortable({
-                        placeholder: "ui-state-highlight"
-                    });
-                    $( "#sortable1" ).disableSelection();
+                    $('ul.sorter').amigoSorter();
 
                 }
                 renderControls();
@@ -233,6 +237,7 @@
 
                 if (!state.isUploading) {
                     var removeIndex = $(e.target).data('index');
+                    // get file name here to delete
                     removeItem(removeIndex);
                     $(e.target).parent().remove();
                 }
@@ -250,6 +255,17 @@
                 }
                 // remove from the DOM
                 dom.fileList.find('li[data-index="' + id + '"]').remove();
+            }
+
+            function getFileList() {
+                let files_dom = dom.fileList;
+                files_dom.forEach(function (item) {
+                    console.log()
+                })
+                dom.fileList.find('li[data-src-file="' + id + '"]').remove();
+
+                return ;
+
             }
         });
     };

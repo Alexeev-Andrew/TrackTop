@@ -2,6 +2,7 @@ var Templates = require('./Templates');
 
 var basil = require('basil.js');
 basil = new basil();
+const fetch = require('node-fetch');
 
 const { TelegramClient } = require('messaging-api-telegram');
 
@@ -12,6 +13,55 @@ const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0Ywo
 var phone = "380345452323"
 var text = "Покупець: Горбач Михайло\n" +
     "телефон:"+phone+"\n Замовлення\n";
+
+
+
+
+
+// fetch.Request
+// fetch('http://example.com/movies.json')
+//     .then((response) => {
+//         return response.json();
+//     })
+//     .then((data) => {
+//         console.log(data);
+//     });
+function sendMessage(text) {
+    // const options = {
+    //     method: 'POST',
+    //     headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //         chat_id :"-327577485",
+    //         text: text,
+    //         parse_mode: 'HTML',
+    //         disable_web_page_preview: false,
+    //         disable_notification: false,
+    //         reply_to_message_id: null
+    //     })
+    // };
+    //
+    // fetch('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage', options)
+    // .then(response => response.json())
+    // .then(response => console.log(response))
+    // .catch(err => console.error(err));
+
+    $.ajax({
+        url:'https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage',
+        method:'POST',
+        data:{chat_id:"-327577485",
+            text:text,
+            parse_mode: 'HTML',
+            disable_web_page_preview: false,
+            disable_notification: false,
+            reply_to_message_id: null},
+        success:function(){
+            alert('your message has been sent!');
+        }
+    });
+}
 
 
 function openNav() {
@@ -60,13 +110,13 @@ exports.initialiseBasket = function(){
 
          let phone = $("#tele_phone_call").val();
          let param = getUrlParameter("type");
-         let text = 'Передзвоніть мені, будь ласка, на ' + $("#tele_phone_call").val() ;
+         let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val() ;
          if(param) text += "\n" + param;
          if(phone.length == 16) {
              require("./API").addPhone(phone);
              client.sendMessage("-327577485", text, {
                  disable_web_page_preview: true,
-                 disable_notification: false
+                 disable_notification: false,
              });
              document.getElementById('slibotph').style.display='none';
              document.getElementById('content1').style.width='300px';
@@ -108,15 +158,17 @@ function addToCart(tech) {
         allPrice += tech.price;
        // tech.
         amountOfOrders += 1;
-        Cart.push({
-            id: tech.id,
-            title: tech.title,
-            price: tech.price,
-            currency: tech.currency,
-            icon: tech.icon,
-            quantity: 1,
-            isTech: tech.isTech
-        });
+        Cart.push(tech
+        //     {
+        //     id: tech.id,
+        //     title: tech.title,
+        //     price: tech.price,
+        //     currency: tech.currency,
+        //     icon: tech.icon,
+        //     quantity: 1,
+        //     isTech: tech.isTech
+        // }
+        );
     }
     flag=true;
     //Оновити вміст кошика на сторінці
@@ -170,20 +222,45 @@ function initialiseCart() {
 
                 var order = "Замовлення\n";
                 for (let i = 0; i < Cart.length; i++) {
+                    let currency = ""
+                    //if (Cart[i].currency== "")
+                    if (Cart[i].url) {
+                        //console.log(Cart[i].url)
+                            //order += "<strong>id:</strong> <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>";
+                        //order += "<a href=\"http://www.example.com/\">inline URL</a>"
+                        let url2 = "id: <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>" + "\n";
+                        //let url = "<a href=\""+ "http://tracktop.com.ua/technic?model=975&mark=John%20Deere&type=%D0%9A%D0%BE%D0%BC%D0%B1%D0%B0%D0%B9%D0%BD%D0%B8&number_id=222" + "\"> " + Cart[i].id + "</a>" +"\n";
+
+                        order += url2
+                        //order += url
+
+                        // order += '<a href="'+ Cart[i].url + '"> ' + Cart[i].id + '</a> \n';
+                        //order += "<a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a> \n";
+
+                        //order += `id товару: [${Cart[i].id}](${Cart[i].url})` + "\n";
+                        //order += `id : [${Cart[i].id}](http://www.example.com)` + "\n";
+                        //order += `id : [dsf}](http://www.example.com)` + "\n";
+
+                        //order += `id : [${Cart[i].id}](${Cart[i].url})` + "\n";
+                        //order += "id товару: " + "<a href='" + Cart[i].url + "'>"+ Cart[i].id +"</a>" + "\n";
+
+                    }
                     order += "назва: " + Cart[i].title + "\n";
-                    order += "ціна: " + Cart[i].price + "\n";
+                    order += "ціна: " + Cart[i].price + Cart[i].currency + "\n";
                     order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                     //order+=Cart[i].currency+")\n";
                 }
                 //console.log(order);
                // removeAll();
                 alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
-                var today = getCurrentDate();
-                var message = user_info + "\n" + order;
-                client.sendMessage("-327577485", message, {
-                    disable_web_page_preview: true,
-                    disable_notification: false,
-                });
+                let today = getCurrentDate();
+                let message = user_info + "\n" + order;
+                sendMessage(message)
+                // client.sendMessage("-327577485", message, {
+                //     disable_web_page_preview: true,
+                //     disable_notification: false,
+                //     parse_mode: "HTML"
+                // });
 
                 /////////////////////////////////////////
 
@@ -308,6 +385,15 @@ function updateCart() {
     $amount.append(amountOfOrders);
     $allPrice.html("");
     $allPrice.append(allPrice);
+
+    if(Cart.length>0) {
+        $('.circle-basket').text(Cart.length)
+        $('.circle-basket').css("display", "block");
+    }
+    else {
+        $('.circle-basket').text("0")
+        $('.circle-basket').css("display", "none");
+    }
 
     function showOne(cart_item) {
         if(cart_item.isTech)

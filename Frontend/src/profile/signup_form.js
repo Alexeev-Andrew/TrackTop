@@ -1,5 +1,6 @@
 var modal = document.getElementById('id01');
 var model_message = document.getElementById('messageModal');
+
 function openSignUpForm() {
     modal.style.display='block';
 }
@@ -504,3 +505,19 @@ initializeReviews = function(){
     });
 
 }
+
+
+openSignUpFormBasket = function() {
+    $('#myForm').css("display", "none");
+    openSignUpForm();
+    addClient();
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+exports.openSignUpFormBasket = openSignUpFormBasket

@@ -7,7 +7,7 @@ $(function(){
         document.location.href = API_URL;
     })
 
-    require('./basket').initialiseBasket();
+    require('./basketPage').initialiseBasket();
 
     $('#login').click(function() {
         require('./profile/login_form').openForm();

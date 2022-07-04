@@ -424,12 +424,19 @@ textarea {
   background-color: #ffb8c3; }
 
 .icon-button, .uploader__icon-button {
+  padding: 0;
+  margin:0;
   background: transparent;
   border: 0;
-  color: #d2d2d2; }
+  color: #d2d2d2;
+  position: absolute;
+  top: -10px;
+  right: 0;
+z-index: 100}
 
 .icon-button:hover, .uploader__icon-button:hover {
-  color: #424242; }
+  color: red;
+  background: transparent;}
 
 * {
   box-sizing: border-box; }
@@ -460,18 +467,18 @@ body {
   color: #ff3264; }
 
 .file-list, .uploader__file-list {
-  list-style-type: none;
-  width: 100%;
-  padding: 0;
-  margin: 0; }
+  display: grid;
+  padding: 15px 10%;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  grid-template-rows: auto;
+}
 
 .file-list__item, .uploader__file-list__item {
   display: table;
   padding: 0.5em;
-  width: 100%; }
+  position: relative;
+   }
 
-.file-list__item:nth-child(2n), .uploader__file-list__item:nth-child(2n) {
-  background-color: #fff5f7; }
 
 .file-list__thumbnail, .uploader__file-list__thumbnail,
 .file-list__text,
@@ -508,11 +515,10 @@ body {
   margin: 1em; }
 
 .thumbnail {
-  max-height: 50px;
-  max-width: 50px;
-  height: auto;
-  width: auto;
-  padding: 0.2em; }
+  object-fit: cover;
+  height: 80px;
+  width: 80px;
+}
 
 body {
   font-family: "Source Sans Pro", sans-serif;
@@ -584,6 +590,8 @@ h6 {
   box-shadow: -2px 2px 20px #d2d2d2;
   text-align: center;
   transition: all 0.5s;
+  padding: 1em;
+  min-height: 150px;
   margin-bottom: 1em; }
 
 @keyframes appear {
@@ -595,7 +603,7 @@ h6 {
     opacity: 1; } }
 
 .uploader__contents {
-  padding: 3em;
+  /*padding: 3em;*/
   margin-top: 0;
   opacity: 1;
   transition: all 0.4s; }
@@ -622,14 +630,25 @@ h6 {
 background: #c2b0cc
 }
 
+.uploader__file-list__text, .uploader__file-list__size {
+  display: none;
+}
 
 @media screen and (max-width: 500px) {
     .uploader__file-list__text {
       display: none;
     }
+
+  .file-list, .uploader__file-list {
+    display: grid;
+    padding: 15px 10%;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    grid-template-rows: auto;
+  }
     .uploader__file-list__thumbnail > img {
-      max-height: 100px;
-      max-width: 100px;
+      max-height: 70px;
+      max-width: 70px;
+      width:50px;
     }
   .ui-state-highlight {
     height: 110px;
