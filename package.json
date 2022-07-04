@@ -19,7 +19,7 @@
     "doka": "^0.1.0",
     "ejs": "^2.4.1",
     "express": "^4.16.2",
-    "express-jwt": "^5.3.3",
+    "express-jwt": "^6.0.0",
     "express-robots-txt": "^0.4.1",
     "express-simple-sitemap": "^1.2.2",
     "grunt": "^0.4.5",
