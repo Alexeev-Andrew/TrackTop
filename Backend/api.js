@@ -2,7 +2,7 @@ var authService = require('./authentification/AuthService');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const schedule = require('node-schedule');
-const sharp = require('sharp')
+//const sharp = require('sharp')
 let uniqid = require('uniqid');
 let db = require('./db');
 let helper = require('./helper');
@@ -1071,41 +1071,41 @@ exports.update_equipment_photo = function (req,res) {
 }
 
 const asyncSaveImageToDB = async (oldpath, file_name, type) => {
-    try {
-        const image = sharp(oldpath);
-        image
-            .metadata()
-            .then(function(metadata) {
-                let height = metadata.height;
-                let width = metadata.width;
-                let orientation = metadata.orientation;
-                if(height > 500)
-                    image.resize({height:500});
-
-                //let bytes = (getFilesizeInBytes(file_location));
-                //console.log(getFilesizeInBytes(file_location))
-                //if(bytes > 1024)
-                image
-                // .resize(Math.round(metadata.width / 2))
-                    .composite([{ input: 'logo.png', gravity: 'southeast' }])
-                    .ensureAlpha(0.5)
-                    .webp()
-                    .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
-                    });;
-
-
-
-            })
-            .then(function(data) {
-                // data contains a WebP image half the width and height of the original JPEG
-            });
-
-        console.log("success");
-        // save image to database here
-        return image;
-    } catch (e) {
-        console.warn(e);
-    }
+    // try {
+    //     const image = sharp(oldpath);
+    //     image
+    //         .metadata()
+    //         .then(function(metadata) {
+    //             let height = metadata.height;
+    //             let width = metadata.width;
+    //             let orientation = metadata.orientation;
+    //             if(height > 500)
+    //                 image.resize({height:500});
+    //
+    //             //let bytes = (getFilesizeInBytes(file_location));
+    //             //console.log(getFilesizeInBytes(file_location))
+    //             //if(bytes > 1024)
+    //             image
+    //             // .resize(Math.round(metadata.width / 2))
+    //                 .composite([{ input: 'logo.png', gravity: 'southeast' }])
+    //                 .ensureAlpha(0.5)
+    //                 .webp()
+    //                 .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
+    //                 });;
+    //
+    //
+    //
+    //         })
+    //         .then(function(data) {
+    //             // data contains a WebP image half the width and height of the original JPEG
+    //         });
+    //
+    //     console.log("success");
+    //     // save image to database here
+    //     return image;
+    // } catch (e) {
+    //     console.warn(e);
+    // }
 };
 
 
