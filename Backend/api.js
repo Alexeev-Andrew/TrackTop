@@ -159,7 +159,7 @@ exports.addTehnic = function(req, res) {
 
 //send email function
 function sendEmail(_to, _link) {
-    console.log(process.env.password)
+    //console.log(process.env.password)
     // var transporter = nodemailer.createTransport({
     //     service: "gmail",
     //     auth: {
