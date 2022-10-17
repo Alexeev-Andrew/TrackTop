@@ -387,11 +387,12 @@ function updateCart() {
     $allPrice.append(allPrice);
 
     if(Cart.length>0) {
+        console.log("len" + Cart.length)
         $('.circle-basket').text(Cart.length)
         $('.circle-basket').css("display", "block");
     }
     else {
-        $('.circle-basket').text("0")
+        $('.circle-basket').text("")
         $('.circle-basket').css("display", "none");
     }
 

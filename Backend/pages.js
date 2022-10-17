@@ -70,6 +70,8 @@ exports.technics = function(req, res) {
                         photo_location: photo_location
                     });
                 }
+
+
             }
         }
 };
@@ -120,6 +122,12 @@ exports.category = function(req, res) {
                     photo_location: photo_location
                 });
             }
+            // not found
+            else {
+                res.render('404_error_template', {
+                    title: 'Сторінки не знайдено!',
+                })
+            }
         }
 
     }
@@ -167,6 +175,12 @@ exports.technic_without_category = function(req, res) {
                                 technic: technic,
                                 photo_location : JSON.parse(technic.photos)[0].val
                             });
+                }
+                // not found
+                else {
+                    res.render('404_error_template', {
+                        title: 'Сторінки не знайдено!',
+                    })
                 }
             }
         });
@@ -236,6 +250,12 @@ exports.technic = function(req, res) {
                     });
                 }
             }
+            // not found
+            else {
+                res.render('404_error_template', {
+                    title: 'Сторінки не знайдено!',
+                })
+            }
         }
     });
 
@@ -298,6 +318,13 @@ exports.equipment = function(req, res) {
                         ///
                     });
                 }
+            }
+
+            // not found
+            else {
+                res.render('404_error_template', {
+                    title: 'Сторінки не знайдено!',
+                })
             }
         }
     });
@@ -381,6 +408,18 @@ exports.basket = (req, res) => {
 
 exports.purchases = (req, res) => {
     res.render('purchases', {
+    })
+}
+
+exports.error_404 = (req, res) => {
+    res.render('404_error_template', {
+        title: 'Сторінки не знайдено!',
+    })
+}
+
+exports.thank_you = (req, res) => {
+    res.render('Thank-You', {
+        title: 'Дякуємо за замовлення!',
     })
 }
 

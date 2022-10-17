@@ -119,6 +119,11 @@ exports.addClient = function(client, callback) {
 exports.addCheck = function(check, callback) {
     backendPost("/api/addcheck/", check, callback);
 };
+
+exports.addOrder = function(order, callback) {
+    backendPost("/api/addorder/", order, callback);
+};
+
 exports.addCheck_equipment = function(check_equipment, callback) {
     backendPost("/api/addcheckequipment/", check_equipment, callback);
 };
@@ -175,6 +180,14 @@ exports.getClientbyPhone = function(phone,callback) {
 
 exports.getTechnics = function(callback) {
     backendGet("/api/gettechnics/", callback);
+};
+
+exports.getOrdersByClientPhone = function(phone,callback) {
+    backendGet("/api/getordersbyclient/", callback, {phone:phone});
+};
+
+exports.getOrderById = function(id,callback) {
+    backendGet("/api/getorderbyid/", callback, {id:id});
 };
 
 exports.getEquipments = function(callback) {

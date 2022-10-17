@@ -1,35 +1,61 @@
-<div class="myOrder">
+<div class="oneOrder"  data-order="<%= order.order%>">
 
-    <p class="centerAlign">
-        <span class="order-title"><%= technic.title%> </span>
-    </p>
-    <div class="image-control">
-        <div style="display: flex; flex-direction: column;">
-            <div class="orderCharacteristics">
-                <span class="price"><%=technic.price %> <% if(technic.currency.toString() == "гривня") { %>
-                        грн
-                    <%}%>
-                    <% if(technic.currency.toString() == "долар") { %>
-                        $
-                    <%}%>
-                    <% if(technic.currency.toString() == "євро") { %>
-                        €
-                    <%}%></span>
-            </div>
-            <div class="price-box">
-                <div class="minus btn btn-xs btn-danger btn-circle">
-                    <i class="glyphicon glyphicon-minus"></i>
-                </div>
-                <span class="label order-count" style="color:black;"><span class=""
-                        style="display:none">x</span><%= technic.quantity %></span>
-                <div class="plus btn btn-xs btn-success btn-circle">
-                    <i class="glyphicon glyphicon-plus "></i>
-                </div>
-                <div class="removeButton count-clear btn btn-xs btn-default btn-circle">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </div>
-            </div>
+    <div class="order-container-flex">
+
+        <div class="order-decoration"></div>
+
+        <div>
+            <p class="">
+                <span class="order-title"># <%= order.id%> </span>
+            </p>
         </div>
-        <img class="imgInOrder" src="/images/<%=technic.icon%>">
+
+        <div>
+            <p class="centerAlign">
+                <span class="order-label">Дата</span>
+            </p>
+            <p class="centerAlign">
+                <span class="order-title"><%= new Date(order.purchase_date).toLocaleDateString()%> </span>
+            </p>
+        </div>
+
+        <div>
+            <p class="centerAlign">
+                <span class="order-label">Сума</span>
+            </p>
+            <p class="centerAlign">
+                <span class="order-title"><%= order.total%> </span>
+            </p>
+        </div>
+
+        <div>
+                    <img class="imgInOrder" src="/images/equipments/default_technic.jpg">
+        </div>
+
+        <div class="open-modal">
+            <i class="fas fa-solid fa-arrow-down"></i>
+        </div>
+
+
     </div>
+
+<!--    <div class="image-control">-->
+<!--        <div style="display: flex; flex-direction: column;">-->
+<!--            <div class="orderCharacteristics">-->
+<!--            </div>-->
+<!--            <div class="price-box">-->
+<!--                <div class="minus btn btn-xs btn-danger btn-circle">-->
+<!--                    <i class="glyphicon glyphicon-minus"></i>-->
+<!--                </div>-->
+<!--                <span class="label order-count" style="color:black;"><span class=""-->
+<!--                <div class="plus btn btn-xs btn-success btn-circle">-->
+<!--                    <i class="glyphicon glyphicon-plus "></i>-->
+<!--                </div>-->
+<!--                <div class="removeButton count-clear btn btn-xs btn-default btn-circle">-->
+<!--                    <i class="glyphicon glyphicon-remove"></i>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <img class="imgInOrder" src="/images/=order.icon>">-->
+<!--    </div>-->
 </div>

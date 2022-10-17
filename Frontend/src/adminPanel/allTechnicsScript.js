@@ -394,9 +394,7 @@ openEditEquipmentModal = function(cell) {
                     $("#description").val(data.data[0].description);
                     $("#state-choice").val(data.data[0].state);
                     let cur = data.data[0].currency;
-                    if(cur == "долар")  $("#currency-choice").val("$");
-                    if(cur == "євро")  $("#currency-choice").val("€");
-                    if(cur == "гривня")  $("#currency-choice").val("грн");
+                    $("#currency-choice").val(cur)
 
 
                     if($("#categories_modal").val() == "Запчастини до комбайнів") {
@@ -463,7 +461,7 @@ openEditEquipmentModal = function(cell) {
 
             /// to do photo for equipment
 
-                    let images = JSON.parse(equipment.images);
+                    let images = JSON.parse(equipment.images) || [];
                     console.log(images)
                     localStorage.setItem("photo_arr", equipment.images);
                     $('.uploader__file-list').empty();
@@ -676,7 +674,7 @@ addTechnicToDB = function () {
 }
 
     if (currency == 'грн') {
-        table_row.currency = "євро";
+        table_row.currency = "гривня";
         technic.currency = "гривня";
     }
 
@@ -798,10 +796,10 @@ addTechnicToDB = function () {
         technic.id = id;
 
 
-        let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
+        let photo_arr = JSON.parse(localStorage.getItem("photo_arr")) || [];
         let photo_arr_names = [];
 
-
+        console.log(photo_arr)
         photo_arr.forEach(function (item) {
             photo_arr_names.push(item.file_name);
         })
@@ -958,13 +956,14 @@ addEquipmentToDB = function () {
         amount:amount,
         price:price,
         vendor_code:code,
-        currency:"долар",
+        currency:currency,
         state:state,
         id_category:1,
         description:description,
     };
-    if(currency=="€") equipment.currency="євро";
-    if(currency=="грн") equipment.currency="гривня";
+
+    // if(currency=="€") equipment.currency="євро";
+    // if(currency=="грн") equipment.currency="гривня";
 
 
     if(add_update_btn=="Додати") {
@@ -1061,7 +1060,7 @@ addEquipmentToDB = function () {
 
                 //// in process
                 equipment.id = curId;
-                let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
+                let photo_arr = JSON.parse(localStorage.getItem("photo_arr")) || [];
 
                 let photo_arr_names = [];
                 photo_arr.forEach(function (item) {

@@ -257,7 +257,7 @@
   background : white;
   border: 0.5px solid #c4c4c4;
   box-shadow : -3px 3px 20px #d2d2d2;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 
   a {
     color: #d9534f;
@@ -311,6 +311,7 @@
 @media screen and (max-height: 450px) {
   .sidenav {
     padding-top: 15px;
+    margin-bottom: 0px;
   }
 
   .sidenav a {
@@ -352,6 +353,14 @@
   margin-bottom: 10px;
 }
 
+.order-comment {
+  padding: 15px 0;
+}
+
+.price-box {
+  margin-top: 8px;
+}
+
 .endOrderLabel {
   padding   : 10px;
   bottom    : 0;
@@ -359,7 +368,7 @@
 
   .sumLabel {
     font-weight: 700;
-    font-size  : 15px;
+    font-size  : 18px;
     margin-left: 20px;
   }
 
@@ -388,6 +397,24 @@
 
   }
 
+}
+
+.scroll-box {
+  max-height: 80vh;
+  overflow-y: auto;
+  max-width: 660px;
+  margin: auto;
+}
+
+.scroll-box::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
 .buyList {
@@ -462,13 +489,13 @@
       padding      : 6px 0;
       font-size    : 12px;
       line-height  : 1.428571429;
-      border-radius: 15px;
+      border-radius: 4px;
       text-align   : center;
     }
 
     .plus {
-      background-image: linear-gradient(to bottom, #5cb85c 0, #419641 100%);
-      border-color    : #398439;
+      background-image: linear-gradient(to bottom, #b6fdb6 0, #6db56d 100%);
+      border-color: #5fd35f;
     }
 
     .plus:hover {
@@ -476,15 +503,13 @@
     }
 
     .minus {
-      background-image: linear-gradient(to bottom, #d9534f 0, #c12e2a 100%);
-      border-color    : #b92c28;
+      background-image: linear-gradient(to bottom, #f5b5b3 0, #c77370 100%);
+      border-color: #cf706e;
     }
 
-    .minus:hover {
-      background-image: linear-gradient(to bottom, #cd504c 0, #b22d29 100%);
-    }
-
-    .btn-circle:last-child {
+    .removeButton {
+      padding: 5px;
+      width: auto;
       margin-left      : 20px;
       color            : darken(@mainColor, 3%);
       text-shadow      : 0 1px 0 #fff;
@@ -493,9 +518,22 @@
       background-image : linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
     }
 
-    .btn-circle:hover:last-child {
-      background-image: linear-gradient(to bottom, #d7d7d7 0, #d7d7d7 100%);
+    .minus:hover {
+      background-image: linear-gradient(to bottom, #cd504c 0, #b22d29 100%);
     }
+    //
+    //.btn-circle:last-child {
+    //  margin-left      : 20px;
+    //  color            : darken(@mainColor, 3%);
+    //  text-shadow      : 0 1px 0 #fff;
+    //  box-shadow       : inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+    //  background-repeat: repeat-x;
+    //  background-image : linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+    //}
+    //
+    //.btn-circle:hover:last-child {
+    //  background-image: linear-gradient(to bottom, #d7d7d7 0, #d7d7d7 100%);
+    //}
   }
 }
 
@@ -527,3 +565,7 @@
   border-color: #d47b0d;
   background-color: #f18e13;
 }
+
+
+
+

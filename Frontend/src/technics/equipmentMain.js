@@ -3,18 +3,19 @@ require('fancybox')($);
 function  initialize() {
     let id =   getUrlParameter("id");
 
-    let dataset = [];
-
     function callback5(err,data5) {
         if (data5.error) {
             console.log(data5.error);
         }
 
         let equipment = data5.data[0];
+        console.log(equipment)
+
         localStorage.setItem('currEquipment',JSON.stringify({
-            id: data5.data[0].id,
+            id: id,
             name: data5.data[0].name,
             main_photo_location: data5.data[0].main_photo_location,
+            price_uah: data5.data[0].price_uah,
             price: data5.data[0].price,
             currency: data5.data[0].currency,
             amount: data5.data[0].amount,
@@ -26,6 +27,9 @@ function  initialize() {
 
         let dataset = [];
         let im = JSON.parse(equipment.images);
+        if(!im) {
+            im = ["default_technic.jpg"];
+        }
         im.forEach(function (item) {
             dataset.push("equipments/" + item)
         });
@@ -42,8 +46,9 @@ function  initialize() {
             require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
             require('../basketPage').addToCart({
-                id: equipment.id,
+                id: id,
                 title: equipment.name,
+                price_uah: equipment.price_uah,
                 price: equipment.price,
                 currency: equipment.currency,
                 icon: equipment.main_photo_location,
@@ -67,7 +72,7 @@ $(function(){
         document.location.href = "http://tracktop.com.ua/";
     })
 
-    require('../basket').initialiseBasket();
+    require('../basketPage').initialiseBasket();
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();
@@ -85,6 +90,8 @@ $(function(){
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
+        document.location.href = API_URL;
+
     })
 
 

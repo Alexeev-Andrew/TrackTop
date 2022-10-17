@@ -10,7 +10,7 @@ $(function(){
     // var $name = $('#name_value')[0];
     // var $phone_value = $('#phone_value')[0];
     // var $password_value = $('#password_value')[0];
-    // var $password_confirm_value = $('#password_confirm_value')[0];
+    // var $password_confirm_value = $exit_btn('#password_confirm_value')[0];
     // var $location_value = $('#location_value')[0];
     // var $location_post_office_value = $('#location_post_office_value')[0];
     // var $post_office_number_value = $('#post_office_number_value')[0];
@@ -37,17 +37,20 @@ $(function(){
         document.location.href = API_URL+"/profile";
     })
 
-    require('../basket').initialiseBasket();
+    require('../basketPage').initialiseBasket();
 
     // added
     $('#exit_btn').click(function() {
+        logout()
+    })
+
+    let logout = function( ) {
         require('./user_form').deleteInfoFromLocalStorage();
         require('./user_form').isLogged();
         $('#user_info').css("display", "none");
-        if(document.location.href == API_URL+"/profile") {
-            document.location.href = API_URL;
-        }
-    })
+
+        document.location.href = API_URL;
+    }
 
     $('.toMainPageBtn').click(function() {
             document.location.href = API_URL;

@@ -64,7 +64,11 @@ module.exports = function(grunt) {
                     adminPanel: {
                         src: 'Frontend/src/adminPanel/allTechnicsScript.js',
                         dest: 'Frontend/www/assets/js/adminPanel.js'
-                    }
+                    },
+                    ordersPage: {
+                    src: 'Frontend/src/profile/orders.js',
+                    dest: 'Frontend/www/assets/js/orders.js'
+                }
                 },
         // uglify: {
         //     dist:{
@@ -121,6 +125,7 @@ module.exports = function(grunt) {
             'browserify:adminPanel',
             'browserify:oneEquipment',
             'browserify:equipmentsByCategory',
+            'browserify:ordersPage',
             'less',
             //Інші завдання які необхідно виконати
         ]

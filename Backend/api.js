@@ -2,10 +2,65 @@ var authService = require('./authentification/AuthService');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const schedule = require('node-schedule');
-//const sharp = require('sharp')
+const sharp = require('sharp')
 let uniqid = require('uniqid');
 let db = require('./db');
 let helper = require('./helper');
+let axios = require('axios');
+
+let CUR_RATES = [];
+
+db.connect()
+
+function initialaize() {
+    async function callback(error, data) {
+        if (error) {
+            // get currency and set to db
+            await initializeCurrencyRate()
+        } else {
+            CUR_RATES = JSON.parse(data[0].info);
+            console.log("rates")
+            console.log(CUR_RATES)
+        }
+    }
+
+    db.get_currency_last(callback);
+}
+
+initializeCurrencyRate = async function () {
+    try {
+        let response = await axios.get("https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5", {
+            headers: {
+                Accept: 'application/json'
+            },
+            timeout: 30000
+        })
+            .then(resp => {
+                if (resp.data) {
+                    let rates = resp.data;
+                    //console.log(rates);
+                    if (rates) {
+
+                        CUR_RATES = rates;
+                        let currency_rate = {
+                            info: JSON.stringify(rates),
+                            date: new Date()
+                        }
+                        //console.log(currency_rate)
+
+                        db.insert_currency_rate(currency_rate, function (err, data) {
+                            console.log(err)
+                        })
+                    }
+                }
+            })
+
+    } catch (e) {
+        console.log(e.message)
+    }
+}
+
+initialaize()
 
 
 // const job = schedule.scheduleJob('28 13 * * *', function(){
@@ -41,12 +96,11 @@ function convertImagetoJSON() {
     db.get_technics_simple(callback)
 }
 
-convertImagetoJSON()
+//convertImagetoJSON()
 
 function convertImageEquipmentstoJSON() {
     let technics;
-    var db = require('./db');
-    db.connect()
+
     function callback(error,data){
         if(error) {
             console.log("Error! ", error.sqlMessage);
@@ -73,7 +127,106 @@ function convertImageEquipmentstoJSON() {
     db.get_equipments(callback)
 }
 
-convertImageEquipmentstoJSON()
+//convertImageEquipmentstoJSON()
+
+
+function convertPriceEquipment() {
+    let equipments;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+        }
+        else {
+            equipments = data;
+            console.log(data)
+            for(let i = 0; i < equipments.length; i ++ ) {
+
+                switch (equipments[i].currency) {
+                    case "гривня" :
+                        equipments[i].currency = 'uah'
+                        break;
+                    case "долар" :
+                        equipments[i].currency = 'usd'
+                        break;
+                    case "євро" :
+                        equipments[i].currency = 'eur'
+                        break;
+
+                }
+
+                 db.update_equipments(equipments[i].id, equipments[i])
+
+            }
+        }
+    }
+    db.get_equipments(callback)
+}
+
+//convertPriceEquipment()
+
+priceconvert = async function () {
+    let rates = CUR_RATES;
+    console.log(rates);
+    if(rates) {
+                    let equipments;
+
+                    function callback(error,data){
+                        if(error) {
+                            console.log("Error! ", error.sqlMessage);
+                        }
+                        else {
+                            equipments = data;
+                            //console.log(data)
+                            for(let i = 0; i < equipments.length; i ++ ) {
+
+                                let currency = equipments[i].currency;
+
+
+                                if(currency.toUpperCase() === "UAH") {
+                                    equipments[i].price_uah = equipments[i].price;
+                                }
+                                else {
+                                    for(let j = 0; j < rates.length; j++) {
+                                        let rate = rates[j];
+
+                                        if(currency.toUpperCase() === rate.ccy)  {
+                                            equipments[i].price_uah = equipments[i].price * rate.sale;
+                                            console.log(equipments[i].price_uah)
+                                            break;
+                                            //console.log(rate)
+                                            //console.log(rate.sale)
+                                        }
+
+                                    }
+                                }
+
+
+                                // switch (equipments[i].currency) {
+                                //     case "uah" :
+                                //         equipments[i].currency = 'uah'
+                                //         break;
+                                //     case "usd" :
+                                //         equipments[i].currency = 'usd'
+                                //         break;
+                                //     case "eur" :
+                                //         equipments[i].currency = 'eur'
+                                //         break;
+                                //
+                                // }
+                                //
+                                 db.update_equipments(equipments[i].id, equipments[i])
+
+                            }
+                        }
+                    }
+                    db.get_equipments(callback);
+
+                }
+
+}
+
+priceconvert()
 
 // const asyncSaveImageToDB = async (file_name) => {
 //     try {
@@ -263,6 +416,13 @@ exports.addEquipment = function(req, res) {
         }
     }
 
+    let equipment = info.equipment;
+
+    let price_uah = convertPriceToUAH(equipment.price, equipment.currency)
+
+    console.log("ua" + price_uah)
+    equipment.price_uah = price_uah;
+
     db.insert_equipment(info.equipment,callback);
 
 };
@@ -442,6 +602,35 @@ exports.addCheck = function(req, res) {
     db.insert_check(info,callback);
 
 };
+
+exports.addOrder = function(req, res) {
+    let info = req.body;
+
+    function callback(error,data){
+        if(error) {
+            console.log("Error! ", error.sqlMessage);
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            });
+        }
+        else {
+            console.log("Success! ", data);
+            res.send({
+                success: true,
+                data: data
+            });
+        }
+    }
+
+    //console.log(info)
+    info.order_array = JSON.stringify(info.order_array)
+    // console.log(info)
+
+    db.insert_order(info,callback);
+
+};
+
 
 exports.addCheckEquipment = function(req, res) {
     var db = require('./db');
@@ -652,8 +841,6 @@ exports.get_types_of_technics = function (req,res) {
 }
 
 exports.get_marks_of_technics = function (req,res) {
-    var db = require('./db');
-
 
     function callback(error,data){
         if(error) {
@@ -1041,6 +1228,71 @@ exports.get_user_information = function (req,res) {
 }
 
 
+exports.get_client_orders_by_phone = function (req,res) {
+    let info = req.query;
+
+    function callback2(error2,data2) {
+        if (error2) {
+            res.send({
+                success: true,
+                error: error.sqlMessage
+            })
+        } else {
+            console.log(data2)
+            let client_id = data2[0].id;
+            function callback(error, data) {
+                if (error) {
+                    //console.log("Error! ", error.sqlMessage);
+                    res.send({
+                        success: true,
+                        error: error.sqlMessage
+                    });
+                } else {
+                    //console.log("Success! ", data);
+                    res.send({
+                        success: true,
+                        data: data
+                    });
+                }
+            }
+
+            db.get_all_orders_by_client_id(client_id, callback);
+
+        }
+    }
+    db.get_client_by_phone(info.phone, callback2)
+}
+
+exports.get_one_order_by_id = function (req,res) {
+    let info = req.query;
+
+            function callback(error, data) {
+                if (error) {
+                    //console.log("Error! ", error.sqlMessage);
+                    res.send({
+                        success: true,
+                        error: error.sqlMessage
+                    });
+                } else {
+                    //console.log("Success! ", data);
+                    //console.log(data[0].order)
+                    data.order_array = Array.from(JSON.parse(data[0].order_array))
+                    //console.log(data.order)
+                    //console.log(typeof data.order)
+
+                    res.send({
+                        success: true,
+                        data: data
+                    });
+                }
+            }
+
+            db.get_one_order_by_id(info.id, callback);
+
+}
+
+
+
 var fs = require("fs"),
     multiparty = require('multiparty');
 
@@ -1071,41 +1323,41 @@ exports.update_equipment_photo = function (req,res) {
 }
 
 const asyncSaveImageToDB = async (oldpath, file_name, type) => {
-    // try {
-    //     const image = sharp(oldpath);
-    //     image
-    //         .metadata()
-    //         .then(function(metadata) {
-    //             let height = metadata.height;
-    //             let width = metadata.width;
-    //             let orientation = metadata.orientation;
-    //             if(height > 500)
-    //                 image.resize({height:500});
-    //
-    //             //let bytes = (getFilesizeInBytes(file_location));
-    //             //console.log(getFilesizeInBytes(file_location))
-    //             //if(bytes > 1024)
-    //             image
-    //             // .resize(Math.round(metadata.width / 2))
-    //                 .composite([{ input: 'logo.png', gravity: 'southeast' }])
-    //                 .ensureAlpha(0.5)
-    //                 .webp()
-    //                 .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
-    //                 });;
-    //
-    //
-    //
-    //         })
-    //         .then(function(data) {
-    //             // data contains a WebP image half the width and height of the original JPEG
-    //         });
-    //
-    //     console.log("success");
-    //     // save image to database here
-    //     return image;
-    // } catch (e) {
-    //     console.warn(e);
-    // }
+    try {
+        const image = sharp(oldpath);
+        image
+            .metadata()
+            .then(function(metadata) {
+                let height = metadata.height;
+                let width = metadata.width;
+                let orientation = metadata.orientation;
+                if(height > 500)
+                    image.resize({height:500});
+
+                //let bytes = (getFilesizeInBytes(file_location));
+                //console.log(getFilesizeInBytes(file_location))
+                //if(bytes > 1024)
+                image
+                // .resize(Math.round(metadata.width / 2))
+                    .composite([{ input: 'logo.png', gravity: 'southeast' }])
+                    .ensureAlpha(0.5)
+                    .webp()
+                    .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
+                    });;
+
+
+
+            })
+            .then(function(data) {
+                // data contains a WebP image half the width and height of the original JPEG
+            });
+
+        console.log("success");
+        // save image to database here
+        return image;
+    } catch (e) {
+        console.warn(e);
+    }
 };
 
 
@@ -1568,8 +1820,7 @@ update_tehnic_helper = function(res, info, images) {
 
 
 exports.update_equipment = function(req,res){
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
 
     function callback(error,data){
         if(error) {
@@ -1587,8 +1838,18 @@ exports.update_equipment = function(req,res){
         }
     }
 
+    if(info.info.price && info.info.currency) {
+
+        let price_uah = convertPriceToUAH(info.info.price, info.info.currency)
+
+        console.log("ua" + price_uah)
+        info.info.price_uah = price_uah;
+    }
+
+
+
     db.update_equipments(info.id,info.info,callback);
-    console.log("id =  " + info.id + " info = " + info.info);
+    //console.log("id =  " + info.id + " info = " + info.info);
 }
 
 exports.delete_technic_without_category_by_id = function(req,res){
@@ -2066,4 +2327,35 @@ exports.adminPanel = function(req,res){
         currPage:  req.query.page || "check",
     })
 }
+
+
+convertPriceToUAH = function(value, currency){
+    console.log(currency)
+    let price_return = value;
+    if(currency.toUpperCase() === "UAH") {
+        price_return = value;
+    }
+    else {
+        let rates = CUR_RATES;
+
+        console.log(rates);
+
+        for(let j = 0; j < rates.length; j++) {
+            let rate = rates[j];
+
+            if(currency.toUpperCase() === rate.ccy)  {
+                console.log("here")
+                price_return = value * rate.sale;
+                console.log(price_return)
+                break;
+            }
+
+        }
+    }
+
+    console.log("sdss")
+
+    return price_return
+}
+
 

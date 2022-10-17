@@ -23,14 +23,15 @@
 
                         <% } else {%>
                               <div class="price"> <% } %>
-                        <div class="price_equipment"><i>Ціна</i></div> <span class="equipment_info"><%= equipment.price %>
-                            <% if(equipment.currency.toString() == "гривня") { %>
-                                грн
-                            <%}%>
+                        <div class="price_equipment"><i>Ціна</i></div> <span class="equipment_info"><%= equipment.price_uah %> грн
 
-                            <% if(equipment.currency.toString() == "долар") { %>
-                                $
-                            <%}%>
+                                      <!--                            <% if(equipment.currency.toString() == "гривня") { %>-->
+<!--                                грн-->
+<!--                            <%}%>-->
+
+<!--                            <% if(equipment.currency.toString() == "долар") { %>-->
+<!--                                $-->
+<!--                            <%}%>-->
                             </span>
                         </div>
 

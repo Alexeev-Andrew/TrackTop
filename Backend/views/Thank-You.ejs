@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="uk">
+    <meta name="robots" content="none, noindex, nofollow">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon"  type="images/x-icon" href="/assets/images/favicon.ico" >
+    <title><%= title %></title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+    <!-- LESS основний файл -->
+    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+
+</head>
+
+<body>
+<div class="wrapper">
+
+    <% include common/header.ejs %>
+
+
+    <% include common/left_panel.ejs %>
+
+    <div id="main" style="padding: 30px 0">
+        <div style="text-align: center; font-size: 32px">Дякуємо за замовлення!</div>
+        <div style="text-align: center">Найближчим часом ми з Вами зв'яжемось.</div>
+
+        <div style="text-align: center">
+            <button class="to_catalog_btn" onclick="document.location.href='/'">На головну</button>
+        </div>
+
+    </div>
+
+
+    <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+    <!--Bootsrap JavaScript -->
+    <script async type="text/javascript" src="/assets/js/main.js"> </script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
+    <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
+    <% include common/footer.ejs %>
+</div>
+</body>
+
+</html>

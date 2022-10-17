@@ -4,9 +4,7 @@
     </p>
     <div class="image-control">
         <div style="display: flex; flex-direction: column;">
-            <div class="orderCharacteristics">
-                <span class="price"><%=equipment.price %> <%= equipment.currency %></span>
-            </div>
+
             <div class="price-box">
                 <div class="minus btn btn-xs btn-danger btn-circle">
                     <i class="glyphicon glyphicon-minus"></i>
@@ -16,9 +14,13 @@
                 <div class="plus btn btn-xs btn-success btn-circle">
                     <i class="glyphicon glyphicon-plus "></i>
                 </div>
-                <div class="removeButton count-clear btn btn-xs btn-default btn-circle">
-                    <i class="glyphicon glyphicon-remove"></i>
+                <div class="removeButton count-clear btn btn-xs btn-default">
+                    Видалити
                 </div>
+            </div>
+            <div class="orderCharacteristics">
+                <span>Ціна: </span>
+                <span class="price"><%=equipment.price_uah %> грн</span>
             </div>
         </div>
         <img class="imgInOrder" src="/images/equipments/<%=equipment.icon%>">

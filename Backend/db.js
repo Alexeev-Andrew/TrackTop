@@ -66,6 +66,14 @@ exports.insert_check = function(check,callback){
     connection.query("INSERT INTO tracktop.checks SET ?", check, callback);
 }
 
+exports.insert_order = function(order,callback){
+    connection.query("INSERT INTO tracktop.orders SET ?", order, callback);
+}
+
+exports.insert_currency_rate = function(currency,callback){
+    connection.query("INSERT INTO tracktop.currency SET ?", currency, callback);
+}
+
 // inserts
 
 exports.insert_check_equipments = function(check_equipments,callback){
@@ -138,6 +146,10 @@ exports.get_types_of_technics = function(callback){
 
 exports.get_marks_of_technics = function(callback){
     connection.query("SELECT * FROM tracktop.marks_of_technics",callback);
+}
+
+exports.get_currency_last = function(callback){
+    connection.query("SELECT * FROM tracktop.currency WHERE id=(SELECT max(id) FROM tracktop.currency)",callback);
 }
 
 exports.get_reviews = function(callback){
@@ -308,13 +320,12 @@ exports.get_equipments_categories = function(callback){
     connection.query("SELECT * FROM tracktop.equipments_categories", callback);
 }
 
-exports.get_all_orders_by_client_id = function(callback){
-    connection.query("SELECT * FROM tracktop.checks inner join tracktop.check_equipments on checks.id = check_equipments.check_id", callback);
+exports.get_all_orders_by_client_id = function(id, callback){
+    connection.query("SELECT * FROM tracktop.orders where orders.client_id = " + id + " order by orders.purchase_date desc", callback);
 }
 
 exports.get_one_order_by_id = function(id,callback) {
-    connection.query("SELECT * FROM tracktop.checks inner join tracktop.check_equipments on checks.id = equipments_models.model_id inner join tracktop.equipments on equipments.id = equipments_models.equipment_id inner join ( select name as mark_name, mark_name_ukr from tracktop.marks_of_technics) s on models.technic_mark = s.mark_name where "+
-        "model = \'" + model + "\'", callback);
+    connection.query("SELECT * FROM tracktop.orders where orders.id = " + id , callback);
 }
 
 // delete operations

@@ -10,7 +10,7 @@ $(function(){
         document.location.href = API_URL;
     })
 
-    require('../basket').initialiseBasket();
+    require('../basketPage').initialiseBasket();
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();
@@ -28,6 +28,8 @@ $(function(){
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
+        document.location.href = API_URL;
+
     })
 
     require('../profile/signup_form').initializeLogin();

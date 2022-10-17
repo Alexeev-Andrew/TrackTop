@@ -41,7 +41,8 @@
 
                 <span class="labelOrderDelete" role="button">Очистити</span>
 
-                <div id="basketColumn" class="sidenav secondColumn">
+                <div class="scroll-box">
+                    <div id="basketColumn" class="sidenav secondColumn">
 
 <!--                <div class="orderLabel">-->
 <!--                    <span class="labelOrder"><b>Замовлення</b></span>-->
@@ -49,16 +50,28 @@
 <!--                    <span class="labelOrderDelete" role="button">Очистити</span>-->
 <!--                </div>-->
 
+                    <div class="endOrderLabel">
+
+                        <span class="sumLabel"><b>Сума замовлення</b></span>
+                        <span class="amountLabel"><b>0 грн</b></span>
+                    </div>
                 <div class="container buyList">
+
 
                 </div>
 
                 <div class="endOrderLabel">
-                    <span class="sumLabel"><b>Сума замовлення</b></span>
-                    <span class="amountLabel"><b>0 грн</b></span>
+
+                    <div class="order-comment">
+                        <label for="description">Коментар до замовлення</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" maxlength="140"></textarea>
+                    </div>
+
                     <div class="buttonOrderDiv">
                         <button type="button" class="btn btn-warning btn-lg btn-block orderButton">Замовити</button>
                     </div>
+
+
                     <div id="logged-user-err">
                     <div class="basket-logged-user-err">Замовлення можуть здійснювати лише зареєстровані користувачі</div>
                     <div id="basket-logged-user-register" class="basket-logged-user-err "><i>Зареєструватись</i></div>
@@ -68,6 +81,7 @@
                     </div>
                 </div>
             </div>
+                </div>
             </div>
 
         </div>

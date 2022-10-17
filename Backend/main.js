@@ -54,6 +54,7 @@ function configureEndpoints(app) {
     app.post('/api/addequipmentsmodels/', api.addEquipmentsModels);
     app.post('/api/addclient/', api.addClient);
     app.post('/api/addcheck/', api.addCheck);
+    app.post('/api/addorder/', api.addOrder);
     app.post('/api/addcheckequipment/', api.addCheckEquipment);
     app.post('/api/addchecktechnic/', api.addCheckTechnic);
     app.post('/api/addimagestechnic/', api.addImagesTechnic);
@@ -70,6 +71,11 @@ function configureEndpoints(app) {
     app.get('/api/getmodels', api.get_models);
     app.get('/api/getreview', api.get_review);
     app.get('/api/getreviews', api.get_reviews);
+    app.get('/api/getordersbyclient', api.get_client_orders_by_phone);
+    app.get('/api/getorderbyid', api.get_one_order_by_id);
+
+
+
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
     app.post('/api/getequipmentsbycategoryid', api.getequipmentsbycategoryid);
     app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
@@ -142,10 +148,12 @@ function configureEndpoints(app) {
     app.get('/category_equipments/category', pages.category);
     app.get('/equipment', pages.equipment);
     app.get('/about', pages.about);
+    app.get('/error-404', pages.error_404);
     app.get('/sitemap', pages.sitemap);
     app.get('/reviews', pages.reviews);
     app.get('/purchases', pages.purchases);
     app.get('/basket', pages.basket);
+    app.get('/thank-you', pages.thank_you);
     app.get('/test', pages.test);
 
 
@@ -278,7 +286,7 @@ function configureEndpoints(app) {
         }
     })
 
-    app.get('/admin-panel7913', /*isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole('admin'),*/ api.adminPanel);
+    app.get('/admin-panel7913', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole('admin'), api.adminPanel);
     // app.get("/.well-known/acme-challenge/dUyRDhJZ0HlGDcm6tVe_JwWItIxNyMox6LqknnQvyGk")
     //Якщо не підійшов жоден url, тоді повертаємо файли з папки www
     app.use(express.static(path.join(__dirname, '../Frontend/www')));

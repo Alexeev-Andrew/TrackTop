@@ -1,0 +1,45 @@
+<div class="oneOrder">
+
+    <div class="order-container-flex">
+
+        <div>
+            <img class="imgInOrder" src="/images/equipments/default_technic.jpg">
+        </div>
+
+        <div>
+            <p class="">
+                <span class="order-title"><%= position.title%> </span>
+            </p>
+        </div>
+
+        <div>
+            <p class="centerAlign">
+                <span class="order-label">Ціна</span>
+            </p>
+            <p class="centerAlign">
+                <span class="order-title"><%= position.price_uah%> </span>
+            </p>
+        </div>
+
+        <div>
+            <p class="centerAlign">
+                <span class="order-label">Кількість</span>
+            </p>
+            <p class="centerAlign">
+                <span class="order-title"><%= position.quantity%> </span>
+            </p>
+        </div>
+
+        <div>
+            <p class="centerAlign">
+                <span class="order-label">Сума</span>
+            </p>
+            <p class="centerAlign">
+                <span class="order-title"><%= position.price_uah * position.quantity %> </span>
+            </p>
+        </div>
+
+
+    </div>
+
+</div>

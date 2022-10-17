@@ -3,10 +3,24 @@ let Templates = require('./Templates');
 let basil = require('basil.js');
 basil = new basil();
 const values = require('./values')
+const API_URL = values.url;
+
 const { TelegramClient } = require('messaging-api-telegram');
 
 // get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
 const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM');
+
+
+let allPrice = 0;
+let amountOfOrders = 0;
+
+let Cart = [];
+
+let $cart = $(".buyList");
+let flag=true;
+
+let $amount = $(".amountOfBoughtPizz");
+let $allPrice = $(".amountLabel");
 
 
 function sendMessage(text, success_delivery_text) {
@@ -54,9 +68,6 @@ exports.initialiseBasket = function(){
         //openNav();
     })
 
-    $('.basketCloseBtn').click(function () {
-        closeNav();
-    })
 
     $('#subscribeEmail').click(function () {
         let email = document.getElementById("email").value;
@@ -98,29 +109,29 @@ exports.initialiseBasket = function(){
 
 
 
-var allPrice = 0;
-var amountOfOrders = 0;
-
-var Cart = [];
-
-var $cart = $(".buyList");
-var flag=true;
-
 function addToCart(tech) {
+    Cart = basil.get('orders');
+
+    allPrice = basil.get('price');
+    amountOfOrders = basil.get('amountOfOrders');
+
 
     Cart.forEach(function(cart_item){
-        if(cart_item.title==tech.title) {
+
+
+        if(cart_item.id === tech.id) {
+
             cart_item.quantity += 1;
-            allPrice += tech.price;
+            allPrice += tech.price_uah;
             amountOfOrders += 1;
             flag=false;
             return;
         }
     });
     if(flag){
-        allPrice += tech.price;
-       // tech.
+        allPrice += tech.price_uah;
         amountOfOrders += 1;
+
         Cart.push(tech);
     }
     flag=true;
@@ -131,7 +142,7 @@ function addToCart(tech) {
 function removeFromCart(cart_item) {
 
     if(Cart.indexOf(cart_item)!=-1) {
-        allPrice -= (cart_item.price)*cart_item.quantity;
+        allPrice -= (cart_item.price_uah)*cart_item.quantity;
         amountOfOrders -= cart_item.quantity;
         delete Cart[Cart.indexOf(cart_item)];
     }
@@ -142,18 +153,24 @@ function removeFromCart(cart_item) {
     updateCart();
 }
 
-var $amount = $(".amountOfBoughtPizz");
-var $allPrice = $(".amountLabel");
+
 
 function initialiseCart() {
-    var savedOrders = basil.get('amountOfOrders');
+    let savedOrders = basil.get('amountOfOrders');
+    //if(!savedOrders) savedOrders = 0;
     if(savedOrders>0){
         Cart = basil.get('orders');
+        console.log(Cart)
+       // if(!Cart) Cart = []
+
         Cart = Cart.filter(function(x) {
             return x !== undefined && x !== null;
         });
         allPrice = basil.get('price');
+        console.log(allPrice)
         amountOfOrders = basil.get('amountOfOrders');
+        console.log(amountOfOrders)
+
     }
 
     $(".orderButton").click(function () {
@@ -170,6 +187,9 @@ function initialiseCart() {
 
                 var user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
 
+                console.log(Cart)
+                console.log(Cart[0])
+
                 var order = "Замовлення\n";
                 for (let i = 0; i < Cart.length; i++) {
                     let currency = ""
@@ -180,15 +200,17 @@ function initialiseCart() {
                         order += url2
                     }
                     order += "назва: " + Cart[i].title + "\n";
-                    order += "ціна: " + Cart[i].price + Cart[i].currency + "\n";
+                    order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
                     order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                 }
-                //console.log(order);
-                // removeAll();
+                console.log(order);
+                 //removeAll();
                 // alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
                 let today = getCurrentDate();
                 let message = user_info + "\n" + order;
-                sendMessage(message, "Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось." )
+
+                //uncomment later
+                //sendMessage(message, "Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось." )
 
                 /////////////////////////////////////////
 
@@ -198,36 +220,41 @@ function initialiseCart() {
                 var check_id;
                 var newCheck = {
                     client_id: id,
+                    total: allPrice,
                     purchase_date: today,
-                    purchase_status: 0
+                    order_array: Cart
                 };
                 var check_technic;
                 function callback(error,data){
-                    console.log(data);
                     if(data.error) {
                         console.log(data.error);
                     }
                     else if(!(data.data[0]==null)){
                         id = data.data[0].id;
-                        // console.log(id);
-                        newCheck.client_id=id;
+                         console.log(123);
+
+                        newCheck.client_id = id;
+
+                        console.log(newCheck)
+                        console.log(Cart)
+                        console.log(typeof Cart)
+                        //console.log(JSON.stringify(Cart))
+
+                        // require("./API").addOrder(order, function(err, data) {
+                        //     if(err) console.log(err)
+                        // })
                         // console.log(newCheck);
+
+
                         addCheck(newCheck,function (check_id) {
-                            console.log("return "+check_id);
-                            addCheckEquipments(check_id);
+                            document.location.href = API_URL + "/thank-you";
+                            //addCheckEquipments(check_id);
                         });
+                        removeAll();
+
 
                     }
-                    else if(!(data==null)){
-                        id = data.data.id;
-                        // console.log(id);
-                        newCheck.client_id=id;
-                        // console.log(newCheck);
-                        addCheck(newCheck,function (check_id) {
-                            console.log("return "+check_id);
-                            addCheckEquipments(check_id);
-                        });
-                    }
+
                 }
                 require("./API").getClientbyPhone(phone,callback);
 
@@ -251,7 +278,7 @@ function initialiseCart() {
     $amount.html("");
     $amount.append(amountOfOrders);
     $allPrice.html("");
-    $allPrice.append(allPrice);
+    $allPrice.append(allPrice + " грн");
     $(".labelOrderDelete").click(function(){
         Cart.forEach(removeFromCart);
     });
@@ -259,7 +286,7 @@ function initialiseCart() {
 }
 
 function addCheck(check,callback) {
-    require("./API").addCheck(check, function (err, data) {
+    require("./API").addOrder(check, function (err, data) {
         if (data.error) console.log(data.error);
         else {
             console.log("data = "+data.insertId);
@@ -303,9 +330,12 @@ function updateCart() {
     $amount.html("");
     $amount.append(amountOfOrders);
     $allPrice.html("");
-    $allPrice.append(allPrice);
+    $allPrice.append(allPrice + " грн");
 
     if(Cart.length>0) {
+        console.log("len" + Cart.length)
+
+        $('.circle-basket').text(Cart.length)
         $('#basket-not-empty').css("display", "block");
         $('#basket-empty').css("display", "none");
         $('.circle-basket').css("display", "block");
@@ -314,6 +344,7 @@ function updateCart() {
     else {
         $('#basket-empty').css("display", "block");
         $('#basket-not-empty').css("display", "none");
+        $('.circle-basket').text("")
         $('.circle-basket').css("display", "none");
     }
 
@@ -327,7 +358,7 @@ function updateCart() {
         $node.find(".plus").click(function(){
             //Збільшуємо кількість замовлених піц
             cart_item.quantity += 1;
-            allPrice += cart_item.price;
+            allPrice += cart_item.price_uah;
             amountOfOrders += 1;
             //Оновлюємо відображення
             updateCart();
@@ -337,7 +368,7 @@ function updateCart() {
             //Збільшуємо кількість замовлених піц
             if(cart_item.quantity>1){
                 cart_item.quantity -= 1;
-                allPrice -= cart_item.price;
+                allPrice -= cart_item.price_uah;
                 amountOfOrders -= 1;
             }
             else removeFromCart(cart_item);
@@ -352,6 +383,12 @@ function updateCart() {
     }
 
     Cart.forEach(showOne);
+
+    console.log(Cart)
+
+    console.log(allPrice)
+    console.log(amountOfOrders);
+
     basil.set("orders",Cart);
     basil.set("price",allPrice);
     basil.set("amountOfOrders",amountOfOrders);

@@ -1,0 +1,159 @@
+@import "Const/constants";
+
+* {box-sizing: border-box;}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  font-weight: normal;
+  height: 100%;
+}
+
+#main {
+  text-align: center;
+  margin-top: @heightTopPanel+5px;
+}
+
+@import "topPanel";
+@import "login_form";
+@import "sigup_form";
+@import "leftMenu";
+@import "notifications";
+
+
+#orders-empty {
+  display: none;
+}
+
+.orders {
+  max-width: 680px;
+  margin: auto;
+  overflow-x: hidden;
+  background: white;
+  //border: 0.5px solid #c4c4c4;
+  //box-shadow: -3px 3px 10px #d2d2d2;
+  margin-bottom: 20px;
+}
+
+.oneOrder {
+  height: auto;
+  padding: 10px;
+  background: #fbfaf7;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-bottom:  15px;
+}
+
+.oneOrder:last-child {
+  margin-bottom: 0px;
+}
+
+.order-container-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.order-decoration {
+  background-color: #1f6074;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  height: 100%;
+  width: 8px;
+  border-radius: 50px;
+  transition: all .2s ease-in-out;
+}
+
+.order-label {
+  font-size: 14px;
+  color: #9d8f8f;
+}
+
+.order-title {
+  font-size: 16px;
+}
+
+.open-modal{
+  font-size:16px;
+}
+
+.open-modal:hover{
+  cursor: pointer;
+}
+
+
+.imgInOrder {
+  width        : 80px;
+  height       : 60px;
+  object-fit   : cover;
+  max-width    : 120px;
+  border-style : ridge;
+  border-radius: 5px;
+}
+
+.modal-order-comment-section {
+  display: none;
+}
+
+.text-title {
+  font-size: 16px;
+}
+#text-order-id {
+  font-size: 14px;
+}
+
+.modal-order-date, .modal-order-total {
+  font-weight: 700;
+}
+
+.modal-order-comment {
+  padding: 10px;
+  background-color: #f3f1f1;
+}
+
+.modal-content {
+  width: 640px;
+}
+
+.scroll-box {
+  max-height: 80vh;
+  overflow-y: auto;
+  max-width: 700px;
+  margin: auto;
+}
+
+.scroll-box::-webkit-scrollbar, .modal-order-container::-webkit-scrollbar-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb, .modal-order-container::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.scroll {
+  overflow-y: hidden;
+}
+
+.modal-order-container {
+  height: auto;
+  max-height: 75vh;
+  overflow-y: scroll;
+}
+
+
+@media (max-width:500px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+
+
+

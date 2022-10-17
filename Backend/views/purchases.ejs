@@ -11,7 +11,8 @@
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />
+    <link rel="stylesheet/less" type="text/css" href="/assets/less/order-all.less" />
+    <script src="https://cdn.jsdelivr.net/npm/less@4" ></script>
 
 </head>
 
@@ -19,7 +20,6 @@
 <div class="wrapper">
 
     <% include common/header.ejs %>
-    <% include common/left_panel.ejs %>
 
     <div id="main">
         <!-- Create the toolbar container -->
@@ -27,37 +27,17 @@
 
             <h1 class="h1_main">Усі замовлення</h1>
 
-            <div id="basket-empty">
+            <div id="orders-empty">
                 <span>У Вас ще немає замовлень</span>
             </div>
             <div id="basket-not-empty">
 
-            <div id="basketColumn" class="sidenav secondColumn">
+            <div id="basketColumn" class="scroll-box container-orders">
 
-<!--                <div class="orderLabel">-->
-<!--                    <span class="labelOrder"><b>Замовлення</b></span>-->
-<!--                    <span class="label label-warning amountOfBoughtPizz">0</span>-->
-<!--                    <span class="labelOrderDelete" role="button">Очистити</span>-->
-<!--                </div>-->
-
-                <div class="container orders">
+                <div class="orders">
 
                 </div>
 
-                <div class="endOrderLabel">
-                    <span class="sumLabel"><b>Сума замовлення</b></span>
-                    <span class="amountLabel"><b>0 грн</b></span>
-                    <div class="buttonOrderDiv">
-                        <button type="button" class="btn btn-warning btn-lg btn-block orderButton">Замовити</button>
-                    </div>
-                    <div id="logged-user-err">
-                    <div class="basket-logged-user-err">Замовлення можуть здійснювати лише зареєстровані користувачі</div>
-                    <div id="basket-logged-user-register" class="basket-logged-user-err "><i>Зареєструватись</i></div>
-
-                        <div id="basket-logged-user-log-in" class="basket-logged-user-err "><i>Увійти</i></div>
-
-                    </div>
-                </div>
             </div>
             </div>
 
@@ -71,7 +51,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 
     <!--Bootsrap JavaScript -->
-    <script async type="text/javascript" src="/assets/js/main.js"> </script>
+    <script async type="text/javascript" src="/assets/js/orders.js"> </script>
 <script>
 
 </script>
@@ -79,6 +59,54 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
     <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
+</div>
+
+<div class="modal scroll" id="oneOrderModal">
+
+    <form class="modal-content modal-content-admin-panel" onsubmit='return false'>
+        <div class="header-signup">
+            <div class="left">
+                <span class="text-uppercase text-title">Замовлення</span>
+                <span id="text-order-id">#</span>
+
+            </div>
+            <div class="right">
+                <div class="fa fa-remove popup-close link" data-dismiss="modal"
+                     onclick="document.getElementById('addTechnicModelWithoutCategory').style.display='none'" title="Закрити"></div>
+            </div>
+        </div>
+        <div class="container scroll">
+
+            <div>
+                <span>Від: </span>
+                <span class="modal-order-date"></span>
+
+            </div>
+
+            <div class="modal-order-container">
+                <div class="orders-list-modal">
+                    <!--positions in order here-->
+                </div>
+            </div>
+
+
+            <span class="modal-order-comment-section">
+
+                <div class="form-group">
+                <label for="description">Коментар до замовлення</label>
+                    <div class="modal-order-comment"></div>
+                </div>
+
+             </span>
+
+            <div>
+                <span>Разом: </span>
+                <span class="modal-order-total"></span>
+
+            </div>
+        </div>
+
+    </form>
 </div>
 </body>
 

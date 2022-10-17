@@ -104,7 +104,7 @@
         <div class="information">
             <!--
     <table>
-        <tr><th><i><span class="header_type">Ціна</span></i></th><td><%= equipment.price %>  <% if(equipment.currency.toString() == "гривня") { %>
+        <tr><th><i><span class="header_type">Ціна</span></i></th><td><%= equipment.price_uah %>  <% if(equipment.currency.toString() == "гривня") { %>
                     грн
                 <%}%>
 
@@ -117,13 +117,16 @@
 !-->
 
             <div class="row_info"><i><span class="header_type">Ціна</span></i><span class="type_description">
-                    <%= equipment.price %> <% if(equipment.currency.toString() == "гривня") { %>
-                    грн
-                    <%}%>
+                    <%= equipment.price_uah %> грн
 
-                <% if(equipment.currency.toString() == "долар") { %>
-                    $
-                    <%}%> </span></div>
+<!--                    <% if(equipment.currency.toString() == "uah") { %>-->
+<!--                    грн-->
+<!--                    <%}%>-->
+
+<!--                <% if(equipment.currency.toString() == "usd") { %>-->
+<!--                    $-->
+<!--                    <%}%> -->
+                </span></div>
 
 
             <div class="row_info float_left"><i><span class="header_type">В наявності</span></i>  <% if(equipment.amount) { %><span class="type_description">Так
