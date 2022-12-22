@@ -29,7 +29,7 @@
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "jquery.ui.widget": "^1.10.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "messaging-api-telegram": "^0.7.11",
     "morgan": "^1.9.1",
     "multiparty": "^4.2.1",
