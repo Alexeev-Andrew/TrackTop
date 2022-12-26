@@ -96,7 +96,7 @@ function convertImagetoJSON() {
     db.get_technics_simple(callback)
 }
 
-//convertImagetoJSON()
+convertImagetoJSON()
 
 function convertImageEquipmentstoJSON() {
     let technics;
@@ -127,7 +127,7 @@ function convertImageEquipmentstoJSON() {
     db.get_equipments(callback)
 }
 
-//convertImageEquipmentstoJSON()
+convertImageEquipmentstoJSON()
 
 
 function convertPriceEquipment() {
