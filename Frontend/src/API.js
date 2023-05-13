@@ -141,7 +141,7 @@ exports.getTypes = function(callback) {
 };
 
 exports.toAdminPanel = function(data) {
-    backendGet("/admin-panel7913", null, data );
+    backendGet("/admin-panel", null, data );
 };
 
 exports.getMarks = function(callback) {

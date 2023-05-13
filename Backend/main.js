@@ -286,7 +286,7 @@ function configureEndpoints(app) {
         }
     })
 
-    app.get('/admin-panel7913', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.adminPanel);
+    app.get('/admin-panel', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.adminPanel);
     // app.get("/.well-known/acme-challenge/dUyRDhJZ0HlGDcm6tVe_JwWItIxNyMox6LqknnQvyGk")
     //Якщо не підійшов жоден url, тоді повертаємо файли з папки www
     app.use(express.static(path.join(__dirname, '../Frontend/www')));

@@ -174,7 +174,7 @@ function convertPriceEquipment() {
 
 priceconvert = async function () {
     let rates = CUR_RATES;
-    console.log(rates);
+    //console.log(rates);
     if(rates) {
         let equipments;
 
@@ -283,7 +283,7 @@ exports.addTehnic = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -351,7 +351,7 @@ function sendEmail(_to, _link) {
         if (error) {
             return console.log(error);
         } else {
-            console.log("Email sent: " + info.response);
+            //console.log("Email sent: " + info.response);
         }
     });
 }
@@ -362,7 +362,7 @@ exports.addTehnicWithoutCategory = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -387,14 +387,14 @@ exports.addReview = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -411,10 +411,10 @@ exports.addEquipment = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -440,21 +440,20 @@ exports.addEquipmentsModels = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
             });
         }
     }
-console.log("info = " + info);
     db.insert_equipments_models(info,callback);
 
 };
@@ -465,14 +464,14 @@ exports.addMarkTechnics = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+           // console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -490,14 +489,14 @@ exports.addModel = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -515,14 +514,14 @@ exports.addImagesTechnic = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success ");
+            //console.log("Success ");
             res.send({
                 success: true,
                 data: data
@@ -539,14 +538,14 @@ exports.addImagesEquipment = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success ");
+            //console.log("Success ");
             res.send({
                 success: true,
                 data: data
@@ -565,14 +564,14 @@ exports.addClient = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -591,14 +590,14 @@ exports.addCheck = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -615,14 +614,14 @@ exports.addOrder = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -646,14 +645,14 @@ exports.addCheckEquipment = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -673,14 +672,14 @@ exports.addCheckTechnic = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -747,14 +746,14 @@ exports.get_models_by_type_mark = function(req,res) {
     var db = require('./db');
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -769,14 +768,14 @@ exports.get_models = function(req,res) {
     var db = require('./db');
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -791,14 +790,14 @@ exports.get_reviews = function(req,res) {
     var db = require('./db');
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -813,14 +812,14 @@ exports.get_id = function(req,res) {
     var db = require('./db');
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -836,14 +835,14 @@ exports.get_types_of_technics = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -858,14 +857,14 @@ exports.get_marks_of_technics = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -882,14 +881,14 @@ exports.getTechnicsWithoutCategory = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -906,7 +905,7 @@ exports.get_technics = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -975,7 +974,7 @@ exports.getequipmentswithmodels = function (req,res) {
     // console.log(req.body);
     function callback(error,data){
         if(error) {
-            console.log("Error! some ", error.sqlMessage);
+            //console.log("Error! some ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -997,7 +996,7 @@ exports.getequipmentsbymodal = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! some ", error.sqlMessage);
+            //console.log("Error! some ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -1019,7 +1018,7 @@ exports.get_technics_by_tp = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage

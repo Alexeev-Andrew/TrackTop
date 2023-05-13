@@ -1061,7 +1061,7 @@ function equipmentFormClear() {
 
 
 function openTab(value){
-    document.location.href = API_URL+"/admin-panel7913?page="+value;
+    document.location.href = API_URL+"/admin-panel?page="+value;
 }
 
 function uploadPhoto(){
