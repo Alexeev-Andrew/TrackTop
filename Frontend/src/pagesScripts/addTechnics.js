@@ -36,7 +36,7 @@ function initilizebreadcrumbEquipmentCategory(){
             $("#breadcrumb").empty();
         } else {
             let crums = " <li>\n" +
-                "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+                "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
                 "            <span class=\"sr-only\">Головна</span></a>\n" +
                 "    </li>\n";
             crums +=
@@ -83,7 +83,7 @@ function initializeBreadcrumbMarks(mark) {
 function showTechnicsWithoutCategory(list) {
 
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
             crums +=
@@ -140,7 +140,7 @@ function showTechnics(list) {
     if (curType == null && curMark == null) {} else {
 
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
         if (curType) crums +=
@@ -489,7 +489,7 @@ exports.initializeCategories = function(){
     });
 
     let crums = " <li>\n" +
-        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+        "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
         "            <span class=\"sr-only\">Головна</span></a>\n" +
         "    </li>\n";
     crums +=

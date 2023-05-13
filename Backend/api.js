@@ -1345,7 +1345,7 @@ const asyncSaveImageToDB = async (oldpath, file_name, type) => {
                 let width = metadata.width;
                 let orientation = metadata.orientation;
                 if(height > 500)
-                    image.resize({height:500});
+                    image.resize({height:700});
 
                 //let bytes = (getFilesizeInBytes(file_location));
                 //console.log(getFilesizeInBytes(file_location))
@@ -1363,7 +1363,7 @@ const asyncSaveImageToDB = async (oldpath, file_name, type) => {
                 // data contains a WebP image half the width and height of the original JPEG
             });
 
-        console.log("success");
+        //console.log("success");
         // save image to database here
         return image;
     } catch (e) {

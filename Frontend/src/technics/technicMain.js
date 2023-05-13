@@ -41,7 +41,7 @@ function initilizebreadcrumb(){
     }
     else {
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
         if (curType) {
