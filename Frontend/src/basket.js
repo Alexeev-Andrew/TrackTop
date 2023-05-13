@@ -2,7 +2,6 @@ var Templates = require('./Templates');
 
 var basil = require('basil.js');
 basil = new basil();
-const fetch = require('node-fetch');
 
 const { TelegramClient } = require('messaging-api-telegram');
 

@@ -1,38 +1,79 @@
-var db = require('../db');
+let db = require('../db');
 const jwt = require('jsonwebtoken');
+const authService = require("./AuthService");
 
-exports.attachCurrentUser = function(req, res, next) {
+
+exports.attachCurrentUser = async function (req, res, next) {
     let accessToken = req.cookies.jwt
+    let refresh_token = req.cookies.refresh_token;
 
-    //if there is no token stored in cookies, the request is unauthorized
-    if (!accessToken){
-        return res.status(403).send()
-    }
+    if (!accessToken) {
+        if (!refresh_token) {
+            return res.status(401).send()
+        } else {
 
-    let payload
-    try{
-        payload = jwt.verify(accessToken, 'secret_$rsf@fsdioensa24sg,2')
-        console.log(payload)
-        console.log(payload.phone_number)
-        function callback(error,data) {
-            if (error){
-                return res.status(401).end(error.sqlMessage);
-            }
-            else {
-                console.log(data)
-                console.log("data" + data[0])
-                req.currentUser = data[0];
-                if(req.currentUser)
-                    return next();
-                else
-                    return res.status(401).end('User not found');
+            try {
+
+                let payload = jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET);
+
+                if (payload && payload.data && payload.data.phone) {
+                    db.get_client_by_phone(payload.data.phone,callback);
+                    function callback(err, data) {
+                        let user;
+                        if (!err && data) user = data[0]
+                        if(!user) {
+                            return res.status(401).send()
+                        }
+                        else {
+                            req.currentUser = user;
+                            let token = authService.generateToken(user);
+                            let refresh_token = authService.generateRefreshToken(user);
+                            res.cookie("jwt", token, {maxAge: 60000 * 60 * 24}) // 60000 is 1 min
+                            res.cookie("phone", user.phone_number, {maxAge: 60000 * 60 * 24})
+                            res.cookie("refresh_token", refresh_token, {maxAge: 60000 * 60 * 24 * 30}) // 60000 is 1 min
+                            next()
+                        }
+                    }
+                } else {
+                    return res.status(401).send()
+                }
+
+            } catch (e) {
+                return res.status(401).send()
+
             }
         }
-        db.get_client_by_phone(payload.data.phone_number,callback);
-    }
-    catch(e){
-        //if an error occured return request unauthorized error
-        return res.status(401).send()
+    } else {
+
+        let payload
+        try {
+
+            payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+            if (payload) {
+                db.get_client_by_phone(payload.data.phone,callback2);
+                function callback2(err, data) {
+                    let user;
+                    if (!err && data) user = data[0]
+
+                    if (!user) {
+                        res.cookie("jwt", null, {maxAge: -1}) // 60000 is 1 min
+                        res.cookie("phone", null, {maxAge: -1})
+                        res.cookie("refresh_token", null, {maxAge: -1}) // 60000 is 1 min
+                        return res.status(401).send()
+                    }
+                    else {
+                        req.currentUser = user;
+                        next();
+                    }
+                }
+            } else {
+                return res.status(401).send()
+            }
+
+        } catch (e) {
+            return res.status(401).send()
+        }
     }
 
 }

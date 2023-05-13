@@ -1,4 +1,3 @@
-var authService = require('./authentification/AuthService');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const schedule = require('node-schedule');
@@ -7,10 +6,14 @@ let uniqid = require('uniqid');
 let db = require('./db');
 let helper = require('./helper');
 let axios = require('axios');
+let authService = require('./authentification/AuthService');
 
 let CUR_RATES = [];
 
 db.connect()
+
+//let currency_map = {"usd" : "долар", "uah" : "гривня", "eur" : "євро"};
+
 
 function initialaize() {
     async function callback(error, data) {
@@ -19,9 +22,11 @@ function initialaize() {
             await initializeCurrencyRate()
         } else {
             CUR_RATES = JSON.parse(data[0].info);
-            console.log("rates")
-            console.log(CUR_RATES)
+            //console.log("rates")
+            //console.log(CUR_RATES)
         }
+
+        await priceconvert()
     }
 
     db.get_currency_last(callback);
@@ -49,24 +54,28 @@ initializeCurrencyRate = async function () {
                         //console.log(currency_rate)
 
                         db.insert_currency_rate(currency_rate, function (err, data) {
-                            console.log(err)
+                            //console.log(err)
                         })
                     }
                 }
             })
 
     } catch (e) {
-        console.log(e.message)
+        //console.log(e.message)
     }
 }
+
+//initializeCurrencyRate();
+
 
 initialaize()
 
 
-// const job = schedule.scheduleJob('28 13 * * *', function(){
-//     console.log('The answer to life, the universe, and everything!');
-//     sendEmail("mikehorbach1999@gmail.com", "tracktopshop@gmail.com\n" , "tracktop.com.ua")
-// });
+const job = schedule.scheduleJob('0 8 * * *', async function () {
+    await initializeCurrencyRate()
+    //console.log('The answer to life, the universe, and everything!');
+    //sendEmail("mikehorbach1999@gmail.com", "tracktopshop@gmail.com\n" , "tracktop.com.ua")
+});
 
 
 function convertImagetoJSON() {
@@ -96,23 +105,23 @@ function convertImagetoJSON() {
     db.get_technics_simple(callback)
 }
 
-convertImagetoJSON()
+//convertImagetoJSON()
 
 function convertImageEquipmentstoJSON() {
     let technics;
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
         }
         else {
             technics = data;
-            console.log(data)
+            //console.log(data)
             for(let i = 0; i < technics.length; i ++ ) {
                 function callback2(error2, data2) {
                     let images = [];
 
-                    console.log(data2)
+                    //console.log(data2)
                     for( let y = 0; y < data2.length; y++) {
                         images.push(data2[y].file_name);
                     }
@@ -127,7 +136,7 @@ function convertImageEquipmentstoJSON() {
     db.get_equipments(callback)
 }
 
-convertImageEquipmentstoJSON()
+//convertImageEquipmentstoJSON()
 
 
 function convertPriceEquipment() {
@@ -141,21 +150,19 @@ function convertPriceEquipment() {
             equipments = data;
             console.log(data)
             for(let i = 0; i < equipments.length; i ++ ) {
-
+                let cur;
                 switch (equipments[i].currency) {
                     case "гривня" :
-                        equipments[i].currency = 'uah'
+                        cur = 'uah'
                         break;
                     case "долар" :
-                        equipments[i].currency = 'usd'
+                        cur = 'usd'
                         break;
                     case "євро" :
-                        equipments[i].currency = 'eur'
+                        cur = 'eur'
                         break;
-
                 }
-
-                 db.update_equipments(equipments[i].id, equipments[i])
+                 db.update_equipments(equipments[i].id, {currency: cur})
 
             }
         }
@@ -169,64 +176,64 @@ priceconvert = async function () {
     let rates = CUR_RATES;
     console.log(rates);
     if(rates) {
-                    let equipments;
+        let equipments;
 
-                    function callback(error,data){
-                        if(error) {
-                            console.log("Error! ", error.sqlMessage);
-                        }
-                        else {
-                            equipments = data;
-                            //console.log(data)
-                            for(let i = 0; i < equipments.length; i ++ ) {
+        function callback(error,data){
+            if(error) {
+                console.log("Error! ", error.sqlMessage);
+            }
+            else {
+                equipments = data;
+                //console.log(data)
+                for(let i = 0; i < equipments.length; i ++ ) {
 
-                                let currency = equipments[i].currency;
+                    let currency = equipments[i].currency;
+                    //console.log(currency)
+                    if(currency.toUpperCase() === "UAH") {
+                        equipments[i].price_uah = equipments[i].price;
+                    }
+                    else {
+                        for(let j = 0; j < rates.length; j++) {
+                            let rate = rates[j];
 
-
-                                if(currency.toUpperCase() === "UAH") {
-                                    equipments[i].price_uah = equipments[i].price;
-                                }
-                                else {
-                                    for(let j = 0; j < rates.length; j++) {
-                                        let rate = rates[j];
-
-                                        if(currency.toUpperCase() === rate.ccy)  {
-                                            equipments[i].price_uah = equipments[i].price * rate.sale;
-                                            console.log(equipments[i].price_uah)
-                                            break;
-                                            //console.log(rate)
-                                            //console.log(rate.sale)
-                                        }
-
-                                    }
-                                }
-
-
-                                // switch (equipments[i].currency) {
-                                //     case "uah" :
-                                //         equipments[i].currency = 'uah'
-                                //         break;
-                                //     case "usd" :
-                                //         equipments[i].currency = 'usd'
-                                //         break;
-                                //     case "eur" :
-                                //         equipments[i].currency = 'eur'
-                                //         break;
-                                //
-                                // }
-                                //
-                                 db.update_equipments(equipments[i].id, equipments[i])
-
+                            if(currency.toUpperCase() == rate.ccy)  {
+                                equipments[i].price_uah = equipments[i].price * rate.sale;
+                                break;
+                                //console.log(rate)
+                                //console.log(rate.sale)
                             }
+
                         }
                     }
-                    db.get_equipments(callback);
+
+                    //console.log(equipments[i].price_uah)
+
+
+                    // switch (equipments[i].currency) {
+                    //     case "uah" :
+                    //         equipments[i].currency = 'uah'
+                    //         break;
+                    //     case "usd" :
+                    //         equipments[i].currency = 'usd'
+                    //         break;
+                    //     case "eur" :
+                    //         equipments[i].currency = 'eur'
+                    //         break;
+                    //
+                    // }
+                    //
+                     db.update_equipments(equipments[i].id, equipments[i])
 
                 }
+            }
+        }
+        db.get_equipments(callback);
+
+    }
 
 }
 
-priceconvert()
+//priceconvert()
 
 // const asyncSaveImageToDB = async (file_name) => {
 //     try {
@@ -420,7 +427,7 @@ exports.addEquipment = function(req, res) {
 
     let price_uah = convertPriceToUAH(equipment.price, equipment.currency)
 
-    console.log("ua" + price_uah)
+    //console.log("ua" + price_uah)
     equipment.price_uah = price_uah;
 
     db.insert_equipment(info.equipment,callback);
@@ -692,7 +699,7 @@ exports.sign_in = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -702,7 +709,14 @@ exports.sign_in = function(req, res) {
             if(!(data[0]==null) && require('./hash').md5(info.password) === data[0].hash){
                 let token = authService.generateToken(data[0]);
                 //res.json(token);
-                res.cookie("jwt", token, {secure: true, httpOnly: true})
+                //res.cookie("jwt", token, {secure: true, httpOnly: true})
+                //let token = authService.generateToken(user);
+                let refresh_token = authService.generateRefreshToken(data[0]);
+                //res.json(token);
+                res.cookie("jwt", token, {maxAge: 60000 * 60 * 24}) // 60000 is 1 min
+                res.cookie("phone", data[0].phone_number, {maxAge: 60000 * 60 * 24})
+                res.cookie("refresh_token", refresh_token, {maxAge: 60000 * 60 * 24 * 30}) // 60000 is 1 min
+
                 res.send({
                     success: true,
                     data: {
@@ -914,14 +928,14 @@ exports.get_equipments_categories = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -937,14 +951,14 @@ exports.get_equipments = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -957,8 +971,8 @@ exports.get_equipments = function (req,res) {
 
 exports.getequipmentswithmodels = function (req,res) {
     var db = require('./db');
-    console.log(req.body.id);
-    console.log(req.body);
+    // console.log(req.body.id);
+    // console.log(req.body);
     function callback(error,data){
         if(error) {
             console.log("Error! some ", error.sqlMessage);
@@ -968,7 +982,7 @@ exports.getequipmentswithmodels = function (req,res) {
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -990,7 +1004,7 @@ exports.getequipmentsbymodal = function (req,res) {
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1028,14 +1042,14 @@ exports.getequipmentsbycategoryid = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1073,14 +1087,14 @@ exports.get_technics_im_by_id = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data[0].images);
+            //console.log("Success! ", data[0].images);
             res.send({
                 success: true,
                 data: data[0].images
@@ -1097,14 +1111,14 @@ exports.get_technics_without_category_by_id = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1120,14 +1134,14 @@ exports.get_technic_by_id = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1142,14 +1156,14 @@ exports.get_equipment_by_id = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1165,14 +1179,14 @@ exports.get_equipment_im_by_id = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1187,14 +1201,14 @@ exports.get_review = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1210,14 +1224,14 @@ exports.get_user_information = function (req,res) {
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1343,9 +1357,7 @@ const asyncSaveImageToDB = async (oldpath, file_name, type) => {
                     .ensureAlpha(0.5)
                     .webp()
                     .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
-                    });;
-
-
+                    });
 
             })
             .then(function(data) {
@@ -1378,7 +1390,7 @@ function upload_photo(req,res,path,action){
         if(fs.existsSync(uploadFile.path)) {
             //если загружаемый файл существует удаляем его
             fs.unlinkSync(uploadFile.path);
-            console.log('error');
+            //console.log('error');
         }
     });
 
@@ -1402,9 +1414,9 @@ function upload_photo(req,res,path,action){
     form.on('part', function(err, fields, files) {
 
         //console.log(part.byteCount);
-        console.log(fields);
-        console.log(files)
-        console.log(typeof fields);
+        // console.log(fields);
+        // console.log(files)
+        // console.log(typeof fields);
 
         //читаем его размер в байтах
         //uploadFile.size = part.byteCount;
@@ -1443,15 +1455,15 @@ function upload_photo(req,res,path,action){
 
     // парсим форму
     form.parse(req, function(err, fields, files) {
-        console.log("d")
-        console.log(fields)
+        //console.log("d")
+        //console.log(fields)
         insertId = fields.insertId[0];
 
 
         files = files['uploadFile[]'];
         if(!files) files = []
-        console.log("files to insert")
-        console.log( files)
+        //console.log("files to insert")
+        //console.log( files)
         for(let i = 0; i < files.length;i++) {
             let file = files[i];
             uploadFile.type = file.headers['content-type'];
@@ -1497,7 +1509,7 @@ function upload_photo(req,res,path,action){
                 // });
             }
             else {
-                console.log(errors);
+                //console.log(errors);
                 //пропускаем
                 //вообще здесь нужно как-то остановить загрузку и перейти к onclose
                 file.resume();
@@ -1548,7 +1560,7 @@ function upload_photo(req,res,path,action){
                 }
 
                 // console.log("add")
-                 console.log(file_names)
+                 //console.log(file_names)
             }
         }
 
@@ -1581,7 +1593,7 @@ function upload_photo(req,res,path,action){
                 // }
             }
 
-            console.log(to_update)
+            //console.log(to_update)
 
             let el = {images : JSON.stringify(to_update)}
             if (to_update.length > 0) {
@@ -1659,14 +1671,14 @@ exports.update_user = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -1675,7 +1687,7 @@ exports.update_user = function(req,res){
 
     db.get_client_by_phone(info.info.phone_number,function(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -1696,14 +1708,14 @@ exports.update_review = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -1721,14 +1733,14 @@ exports.update_technic_without_category = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -1746,7 +1758,7 @@ exports.update_technic = function(req,res){
     if(info && info.info.sold) {
         function callback5(error,data5){
             if(error) {
-                console.log("Error! ", error.sqlMessage);
+                //console.log("Error! ", error.sqlMessage);
                 res.send({
                     success: true,
                     error: error.sqlMessage
@@ -1760,7 +1772,7 @@ exports.update_technic = function(req,res){
 
                     let newpath = helper.getFileName(first_image) + "-sold";
 
-                    console.log(newpath)
+                    //console.log(newpath)
 
                     helper.SaveImageToDB(first_image, newpath, "technics", function (err, data) {
                         //console.log(data)
@@ -1824,14 +1836,14 @@ exports.update_equipment = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -1842,7 +1854,7 @@ exports.update_equipment = function(req,res){
 
         let price_uah = convertPriceToUAH(info.info.price, info.info.currency)
 
-        console.log("ua" + price_uah)
+        //console.log("ua" + price_uah)
         info.info.price_uah = price_uah;
     }
 
@@ -1868,7 +1880,7 @@ exports.delete_technic_without_category_by_id = function(req,res){
                             fs.unlinkSync(file_path);
                         }
                         else {
-                            console.log("file not exist")
+                            //console.log("file not exist")
                         }
 
                     })
@@ -1876,13 +1888,13 @@ exports.delete_technic_without_category_by_id = function(req,res){
 
                 function callback(error, data) {
                     if (error) {
-                        console.log("Error! ", error.sqlMessage);
+                        //console.log("Error! ", error.sqlMessage);
                         res.send({
                             success: true,
                             error: error.sqlMessage
                         });
                     } else {
-                        console.log("Success! ", data);
+                        //console.log("Success! ", data);
                         res.send({
                             success: true
                         });
@@ -1933,7 +1945,7 @@ exports.delete_technic_by_id = function(req,res){
 
             function callback2(error, data2) {
                 if (error) {
-                    console.log("Error! ", error.sqlMessage);
+                    //console.log("Error! ", error.sqlMessage);
                     res.send({
                         success: true,
                         error: error.sqlMessage
@@ -1991,23 +2003,23 @@ exports.delete_technic_by_id = function(req,res){
 
 exports.deleteFiles = function(req,res){
     let files = req.body;
-    console.log(files);
+    //console.log(files);
     files.forEach(fs.unlink)
 }
 
 exports.deleteFile = function(req,res) {
     let file = req.body;
-    console.log(file);
+    //console.log(file);
     fs.unlink(file, (err => {
         if (err) {
-            console.log(err);
+            //console.log(err);
             res.send({
                 success: true,
                 error: err
             });
         }
         else {
-            console.log("\nDeleted file: example_file.txt");
+            //console.log("\nDeleted file: example_file.txt");
             res.send({success:true})
         }
     }));
@@ -2025,10 +2037,10 @@ exports.delete_equipments_by_id = function(req,res){
                 data3.forEach(function (item) {
                     let file_path = "./Backend/res/images/equipments/" + item.file_name;
                     if (fs.existsSync(file_path)) {
-                        console.log("unlink")
+                        //console.log("unlink")
                         fs.unlinkSync(file_path);
                     } else {
-                        console.log("file not exist")
+                        //console.log("file not exist")
                     }
 
                 })
@@ -2039,7 +2051,7 @@ exports.delete_equipments_by_id = function(req,res){
 
                     function callback1(error, data1) {
                         if (error) {
-                            console.log("Error! ", error.sqlMessage);
+                           // console.log("Error! ", error.sqlMessage);
 
                             res.send({
                                 success: true,
@@ -2048,7 +2060,7 @@ exports.delete_equipments_by_id = function(req,res){
                         } else {
                             function callback2(error, data2) {
                                 if (error) {
-                                    console.log("Error! ", error.sqlMessage);
+                                    //console.log("Error! ", error.sqlMessage);
                                     res.send({
                                         success: true,
                                         error: error.sqlMessage
@@ -2056,13 +2068,13 @@ exports.delete_equipments_by_id = function(req,res){
                                 } else {
                                     function callback(error, data) {
                                         if (error) {
-                                            console.log("Error! ", error.sqlMessage);
+                                            //console.log("Error! ", error.sqlMessage);
                                             res.send({
                                                 success: true,
                                                 error: error.sqlMessage
                                             });
                                         } else {
-                                            console.log("Success! ", data);
+                                            //console.log("Success! ", data);
                                             res.send({
                                                 success: true
                                             });
@@ -2093,14 +2105,14 @@ exports.delete_equipments_models_by_ids = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2115,14 +2127,14 @@ exports.delete_equipments_models_by_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2137,14 +2149,14 @@ exports.delete_images_by_technic_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2160,14 +2172,14 @@ exports.delete_imageTechnic_by_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2183,14 +2195,14 @@ exports.delete_imageEquipment_by_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2206,14 +2218,14 @@ exports.delete_check_technics_by_technic_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2229,14 +2241,14 @@ exports.delete_images_by_equipment_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2252,14 +2264,14 @@ exports.delete_check_equipments_by_equipment_id = function(req,res){
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true
             });
@@ -2276,14 +2288,14 @@ exports.addUserSubmitFnc = function (req, res)
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -2302,14 +2314,14 @@ exports.addPhone = function (req, res)
 
     function callback(error,data){
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            console.log("Success! ", data);
+            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -2330,7 +2342,7 @@ exports.adminPanel = function(req,res){
 
 
 convertPriceToUAH = function(value, currency){
-    console.log(currency)
+    //console.log(currency)
     let price_return = value;
     if(currency.toUpperCase() === "UAH") {
         price_return = value;
@@ -2338,22 +2350,21 @@ convertPriceToUAH = function(value, currency){
     else {
         let rates = CUR_RATES;
 
-        console.log(rates);
+        //console.log(rates);
 
         for(let j = 0; j < rates.length; j++) {
             let rate = rates[j];
 
             if(currency.toUpperCase() === rate.ccy)  {
-                console.log("here")
+                //console.log("here")
                 price_return = value * rate.sale;
-                console.log(price_return)
+                //console.log(price_return)
                 break;
             }
 
         }
     }
 
-    console.log("sdss")
 
     return price_return
 }

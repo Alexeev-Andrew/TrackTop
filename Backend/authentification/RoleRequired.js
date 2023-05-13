@@ -1,6 +1,10 @@
-exports.requiredRole = function(requiredRole) {
+exports.requiredRole = function(requiredRoles) {
+    // requiredRoles is array
     return (req, res, next) => {
-        if (req.currentUser.role === requiredRole) {
+        console.log(req.currentUser)
+        console.log(req.currentUser.role)
+
+        if (requiredRoles.includes(req.currentUser.role)) {
             return next();
         } else {
             return res.status(401).send('Action not allowed');
