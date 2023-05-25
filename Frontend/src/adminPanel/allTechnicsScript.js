@@ -711,7 +711,7 @@ addTechnicToDB = function () {
                                         if(files.length > 0) {
                                             let data = new FormData();
                                             for (let i = 0; i < files.length; i++) {
-                                                data.append('uploadFile[]', files[i]);
+                                                data.append('uploadFile', files[i]);
                                             }
                                             data.append("insertId", data.data.insertId)
                                             require('../API').uploadTechnicPhoto_(data, function (err, data) {
@@ -750,7 +750,7 @@ addTechnicToDB = function () {
                                     if(files.length > 0) {
                                         let data = new FormData();
                                         for (let i = 0; i < files.length; i++) {
-                                            data.append('uploadFile[]', files[i]);
+                                            data.append('uploadFile', files[i]);
                                         }
                                         data.append("insertId", data9.data.insertId)
                                         require('../API').uploadTechnicPhoto_(data, function (err, data) {
@@ -810,14 +810,17 @@ addTechnicToDB = function () {
         //console.log(newPhotos);
             let data = new FormData();
             for (let i = 0; i < newPhotos.length; i++) {
-                data.append('uploadFile[]', newPhotos[i]);
+                data.append('uploadFile', newPhotos[i]);
             }
 
             data.append("insertId", id)
             data.append("sorted_list", JSON.stringify(allFileNames));
-            data.append("old_list", JSON.stringify(photo_arr));
+            data.append("old_files", JSON.stringify(photo_arr));
+            console.log(allFileNames)
+            console.log(photo_arr)
 
-            require('../API').updateTechnicPhoto_(data, function (err, data) {
+
+        require('../API').updateTechnicPhoto_(data, function (err, data) {
                     if (err || data.error)
                         console.log(err || data.error);
                     else {}
@@ -1020,11 +1023,11 @@ addEquipmentToDB = function () {
                         }
 
                         let files = getFiles() || [];
-                        console.log(files)
+                        console.log("id= " + insertedid)
                         if(files.length > 0) {
                             let data = new FormData();
                             for (let i = 0; i < files.length; i++) {
-                                data.append('uploadFile[]', files[i]);
+                                data.append('uploadFile', files[i]);
                             }
                             data.append("insertId", insertedid)
                             require('../API').uploadEquipmentPhoto_(data, function (err, data) {
@@ -1074,12 +1077,12 @@ addEquipmentToDB = function () {
                 //console.log(newPhotos);
                 let data = new FormData();
                 for (let i = 0; i < newPhotos.length; i++) {
-                    data.append('uploadFile[]', newPhotos[i]);
+                    data.append('uploadFile', newPhotos[i]);
                 }
 
                 data.append("insertId", curId)
                 data.append("sorted_list", JSON.stringify(allFileNames));
-                data.append("old_list", JSON.stringify(photo_arr));
+                data.append("old_files", JSON.stringify(photo_arr));
 
                 require('../API').updateEquipmentPhoto_(data, function (err, data) {
                         if (err || data.error)
@@ -1273,13 +1276,13 @@ function uploadPhoto(){
  $(document).on('input','#fileinput0', function (event) {
      //console.log(event.target.files)
      files2 = files2.concat(Array.from(event.target.files))
-     //console.log(files)
+     console.log(files2)
  });
 
  $(document).on('input','#secondaryfileinput0', function (event) {
      //console.log(event.target.files)
      files2 = files2.concat(Array.from(event.target.files))
-     //console.log(files)
+     console.log(files2)
  });
 
  function getFiles() {
@@ -1345,7 +1348,9 @@ function uploadPhoto(){
      $('#sortable1 li').each(function(i)
      {
          let type = $(this).data('type');
-         filesNames.push({src: $(this).data('src-file'), type: type});
+         filesNames.push($(this).data('src-file'));
+         //filesNames.push({src: $(this).data('src-file'), type: type});
+
      });
 
      return filesNames;
@@ -1781,7 +1786,7 @@ function hideModal(){
                      if(files.length > 0) {
                          let data = new FormData();
                          for (let i = 0; i < files.length; i++) {
-                             data.append('uploadFile[]', files[i]);
+                             data.append('uploadFile', files[i]);
                          }
                          data.append("insertId", id)
 

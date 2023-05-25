@@ -1310,28 +1310,29 @@ var fs = require("fs"),
     multiparty = require('multiparty');
 
 exports.upload_user_photo = function (req,res) {
-    upload_photo_new(req,res,'users_photos', "add");
+    upload_photo(req,res,'users_photos', "add");
 
 }
 
 exports.update_user_photo = function (req,res) {
-    upload_photo_new(req,res,'users_photos', "update");
+    upload_photo(req,res,'users_photos', "update");
+
 }
 
 exports.upload_equipment_photo = function (req,res) {
-    upload_photo_new(req,res,'equipments', "add");
+    upload_photo(req,res,'equipments', "add");
 }
 
 exports.upload_technic_photo = function (req,res) {
-    upload_photo_new(req,res,'technics', "add");
+    upload_photo(req,res,'technics', "add");
 }
 
 exports.update_technic_photo = function (req,res) {
-    upload_photo_new(req,res,'technics', "update");
+    upload_photo(req,res,'technics', "update");
 }
 
 exports.update_equipment_photo = function (req,res) {
-    upload_photo_new(req,res,'equipments', "update");
+    upload_photo(req,res,'equipments', "update");
 }
 
 const asyncSaveImageToDB = async (oldpath, file_name, type) => {
@@ -1405,7 +1406,7 @@ const asyncSaveBufferToDB = async (fileBuffer, file_name, type) => {
 function upload_photo_new(req,res,path,action){
 
     let {insertId} = req.body;
-    let files = req.files || Array.of(req.file);
+    let files = req.files;
 
     if (!files) files = []
 
@@ -1421,76 +1422,62 @@ function upload_photo_new(req,res,path,action){
 
     if (action == "add") {
         if (file_names.length > 0) {
-            switch (path) {
-                case "technics" : {
-                    db.update_technic(insertId, {
-                        images: JSON.stringify(file_names),
-                        main_photo_location: file_names[0]
-                    }, function (err, data) {
-                        res.json({success: true, "files" :file_names})
-                    });
-                    break;
-                }
-                case "equipments" : {
-                    db.update_equipments(insertId, {
-                        images: JSON.stringify(file_names),
-                        main_photo_location: file_names[0]
-                    }, function (err, data) {
-                        res.json({success: true, "files" :file_names})
-                    });
-                    break;
-                }
-                case "users_photos" : {
-                    db.update_client_by_phone(insertId, {
-                        photo_location: file_names[0]
-                    }, function (err, data) {
-                        res.json({success: true, "files" :file_names})
-                    });
-                    break;
-                }
-            }
+
+             db.update_ad_by_id(insertId, {
+                images: JSON.stringify(file_names),
+                image_placeholder: file_names[0]
+            });
+            res.json({success: true, "files" :file_names})
+
         }
     }
     else if (action == "update") {
         let {old_files,sorted_list } = req.body;
-
         old_files = JSON.parse(old_files) || [];
         sorted_list = JSON.parse(sorted_list) || [];;
         //console.log(old_files)
 
+        //console.log(typeof old_files)
         let j = 0;
         for (let i = 0; i < sorted_list.length; i++) {
             if (!old_files.includes(sorted_list[i])) {
                 if (j < file_names.length) {
+                    //console.log("here " + file_names.length)
                     sorted_list[i] = file_names[j];
                     j++;
                 }
             }
         }
 
-        let to_insert = {
+        let [[ad]] =  db.get_ad_by_id(insertId);
+
+        //console.log(sorted_list)
+
+        let ad_insert = {
             images: JSON.stringify(sorted_list)
         }
+        ad_insert.image_placeholder = ad.image_placeholder;
 
         if (sorted_list.length > 0) {
-            to_insert.main_photo_location = sorted_list[0]
-        } else {
-            to_insert.main_photo_location = ""
+
+            if (ad.image_placeholder != sorted_list[0]) {
+                savePlaceholder("./Backend/res/images/technics/" + sorted_list[0], sorted_list[0]).then();
+                if (ad.image_placeholder) {
+                    let arr_temp_delete = []
+                    arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
+                    deleteFiles(arr_temp_delete)
+                }
+                ad_insert.image_placeholder = sorted_list[0];
+            }
+        } else if (ad.image_placeholder) {
+            let arr_temp_delete = []
+            arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
+            deleteFiles(arr_temp_delete);
+            ad_insert.image_placeholder = "";
         }
 
-        switch (path) {
-            case "technics" :
-                db.update_technic(insertId, to_insert, function (err, data) {
-                    res.json({success: true, "files" :file_names})
-                });
-                break;
-            case "equipments" :
-                db.update_equipments(insertId, to_insert, function (err, data) {
-                    res.json({success: true, "files" :file_names})
-                });
-                break;
-        }
-
+         db.update_ad_by_id(insertId, ad_insert);
+        res.json({success: true, "files" :file_names})
 
         // delete old_files
         // let files_to_delete = [];
@@ -1517,37 +1504,79 @@ function upload_photo(req,res,path,action){
     let insertId;
 
 
-    // form.on('error', function(err){
-    //     if(fs.existsSync(uploadFile.path)) {
-    //         //если загружаемый файл существует удаляем его
-    //         fs.unlinkSync(uploadFile.path);
-    //         //console.log('error');
-    //     }
-    // });
+    form.on('error', function(err){
+        if(fs.existsSync(uploadFile.path)) {
+            //если загружаемый файл существует удаляем его
+            fs.unlinkSync(uploadFile.path);
+            //console.log('error');
+        }
+    });
 
-    // form.on('close', function() {
-    //     //если нет ошибок и все хорошо
-    //     if(errors.length == 0) {
-    //         //сообщаем что все хорошо
-    //         console.log("ok end")
-    //         //res.send({status: 'ok', text: 'Success'});
-    //     }
-    //     else {
-    //         if(fs.existsSync(uploadFile.path)) {
-    //             //если загружаемый файл существует удаляем его
-    //             fs.unlinkSync(uploadFile.path);
-    //         }
-    //         //сообщаем что все плохо и какие произошли ошибки
-    //         res.send({status: 'bad', errors: errors});
-    //     }
-    // });
+    form.on('close', function() {
+        //если нет ошибок и все хорошо
+        if(errors.length == 0) {
+            //сообщаем что все хорошо
+            console.log("ok end")
+            //res.send({status: 'ok', text: 'Success'});
+        }
+        else {
+            if(fs.existsSync(uploadFile.path)) {
+                //если загружаемый файл существует удаляем его
+                fs.unlinkSync(uploadFile.path);
+            }
+            //сообщаем что все плохо и какие произошли ошибки
+            res.send({status: 'bad', errors: errors});
+        }
+    });
 
+    // при поступление файла
+    form.on('part', function(err, fields, files) {
+
+        //console.log(part.byteCount);
+        console.log(fields);
+        console.log(files)
+        console.log(typeof fields);
+
+        //читаем его размер в байтах
+        //uploadFile.size = part.byteCount;
+        //читаем его тип
+        uploadFile.type = part.headers['content-type'];
+        //путь для сохранения файла
+        //uploadFile.path = './Backend/res/images/'+path+'/' + part.filename;
+        //
+        // //проверяем размер файла, он не должен быть больше максимального размера
+        // if(uploadFile.size > maxSize) {
+        //     errors.push('File size is ' + uploadFile.size + '. Limit is' + (maxSize / 1024 / 1024) + 'MB.');
+        // }
+        //
+        // //проверяем является ли тип поддерживаемым
+        // if(supportMimeTypes.indexOf(uploadFile.type) == -1) {
+        //     errors.push('Unsupported mimetype ' + uploadFile.type);
+        // }
+        //
+        // //если нет ошибок то создаем поток для записи файла
+        // if(errors.length == 0) {
+        //     var out = fs.createWriteStream(uploadFile.path);
+        //     part.pipe(out);
+        //     console.log(uploadFile.path)
+        //     out.on('finish', () => {
+        //         console.log('/images/technics/' + part.filename)
+        //         asyncSaveImageToDB(part.filename).then(r => console.log(''))
+        //     });
+        // }
+        // else {
+        //     console.log(errors);
+        //     //пропускаем
+        //     //вообще здесь нужно как-то остановить загрузку и перейти к onclose
+        //     part.resume();
+        // }
+    });
 
     // парсим форму
     form.parse(req, function(err, fields, files) {
         console.log(err)
         console.log(fields)
-        insertId = fields.insertId[0];
+        //insertId = fields.insertId[0];
 
 
         files = files['uploadFile[]'];
@@ -1611,6 +1640,7 @@ function upload_photo(req,res,path,action){
 
                 switch (path) {
                     case "technics" :
+
                         // check if technics without category
                         if(fields.type) {
                             let type = fields.type[0]
@@ -1700,6 +1730,7 @@ function upload_photo(req,res,path,action){
                         db.update_equipments(insertId, el, function (err, data) {
                         });
                         break;
+
                 }
 
 

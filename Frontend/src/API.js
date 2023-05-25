@@ -10,7 +10,7 @@ function backendGet(url, callback, data) {
         data_copy = {};
         data_copy.token = ""
     }
-    console.log(data_copy.token)
+    //console.log(data_copy.token)
 
     $.ajax({
         url: API_URL + url,
@@ -241,10 +241,8 @@ exports.getEquipmentImagesById = function(id,callback) {
 
 exports.uploadUserPhoto = function(photo, id, callback){
     var data = new FormData();
-    data.append('uploadFile[]', photo);
+    data.append('uploadFile', photo);
     data.append('insertId', id);
-
-
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
@@ -298,6 +296,7 @@ exports.deleteTechnicsWithoutCategoryByID = function(id,callback) {
 // }
 
 exports.uploadTechnicPhoto_ = function(form,callback){
+    console.log(form)
     backendPostFiles("/api/upload_technic_photo/", form, callback);
 };
 

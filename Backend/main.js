@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 const minifyHTML = require('express-minify-html');
 const cookieParser = require('cookie-parser')
-
+const multer = require("multer")
+const upload = multer();
 
 var isAuth = require('./authentification/isAuth.js');
 var roleRequired = require('./authentification/RoleRequired.js');
@@ -102,18 +103,18 @@ function configureEndpoints(app) {
     // app.post('/api/gettechnicsmodelim', api.get_technics_im_by_tp_model);
     app.post('/api/gettechnicsmodelim', api.get_technics_im_by_id);
     app.post('/api/getequipmentim', api.get_equipment_im_by_id);
-    app.post('/api/upload_user_photo', api.upload_user_photo);
-    app.post('/api/upload_technic_photo', api.upload_technic_photo);
-    app.post('/api/upload_equipment_photo', api.upload_equipment_photo);
+    app.post('/api/upload_user_photo', upload.single('uploadFile'), api.upload_user_photo);
+    app.post('/api/upload_technic_photo', upload.array('uploadFile'),  api.upload_technic_photo);
+    app.post('/api/upload_equipment_photo', upload.array('uploadFile'), api.upload_equipment_photo);
     app.post('/api/update_user', api.update_user);
     app.post('/api/update_review', api.update_review);
 
     app.post('/api/update_technic_without_category', api.update_technic_without_category);
     app.post('/api/update_technic', api.update_technic);
-    app.post('/api/update_technic_photo', api.update_technic_photo);
+    app.post('/api/update_technic_photo', upload.array('uploadFile'), api.update_technic_photo);
 
     app.post('/api/update_equipment', api.update_equipment);
-    app.post('/api/update_equipment_photo', api.update_equipment_photo);
+    app.post('/api/update_equipment_photo', upload.array('uploadFile'), api.update_equipment_photo);
 
 
     app.post('/api/delete_technic_by_id', api.delete_technic_by_id);
