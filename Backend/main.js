@@ -106,7 +106,7 @@ function configureEndpoints(app) {
     app.post('/api/upload_user_photo', upload.single('uploadFile'), api.upload_user_photo);
     app.post('/api/upload_technic_photo', upload.array('uploadFile'),  api.upload_technic_photo);
     app.post('/api/upload_equipment_photo', upload.array('uploadFile'), api.upload_equipment_photo);
-    app.post('/api/update_user', api.update_user);
+    app.post('/api/update_user', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.update_user);
     app.post('/api/update_review', api.update_review);
 
     app.post('/api/update_technic_without_category', api.update_technic_without_category);
@@ -135,7 +135,7 @@ function configureEndpoints(app) {
 
     //Сторінки
     app.get('/', pages.mainPage);
-    app.get('/profile', pages.profile);
+    app.get('/profile', isAuth.authenticateToken, pages.profile);
     app.get('/technics', pages.technics);
     app.get('/technics-without-category', pages.technics_without_category);
     app.get('/technics-without-category/', pages.technics_without_category);

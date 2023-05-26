@@ -77,6 +77,9 @@ exports.updateClient = function () {
     }
 
     $('#update_user_info').click(function() {
+        console.log("here2")
+        let id = localStorage.getItem('id');
+        console.log(id)
 
         var surname = $('#surname_value').val();
         var name = $('#name_value').val();
@@ -93,11 +96,19 @@ exports.updateClient = function () {
             name: name,
             phone_number: phone_number,
             settelment: location,
-            nova_poshta_settlement:location_post_office_value,
+            nova_poshta_settlment:location_post_office_value,
             nova_poshta_number :post_office_number_value,
             hash: pas
         }
-       // var db = require("./");
+        require('../API').updateClient(id, cl,function(err){
+            if (err) {
+                console.log(err);
+                require('../pagesScripts/notify').Notify("Помилка!!!",null,null,'success');
+            }
+            else {
+                require('../pagesScripts/notify').Notify("Зміни збережено!!!",null,null,'success');
+            }
+        })
     });
 
     require("../API").getClientbyPhone(prev_phone_number,callback);

@@ -45,86 +45,100 @@
     <div class="row">
 
         <!-- left column -->
-        <div class="col-lg-4 col-xs-12">
+<!--        <div class="col-lg-4 col-xs-12">-->
+
+<!--            <div class="text-center">-->
+<!--                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">-->
+<!--                <h6>Завантажити фото</h6>-->
+<!--                <input-->
+<!--                       type="file"-->
+<!--                       id="photo_input"-->
+<!--                       accept="image/*"-->
+<!--                       class="text-center center-block well well-sm file-wrapper">-->
+<!--&lt;!&ndash;                <script>&ndash;&gt;-->
+<!--&lt;!&ndash;                    var loadFile = function(event) {&ndash;&gt;-->
+<!--&lt;!&ndash;                        var image = document.getElementById('my_avatar');&ndash;&gt;-->
+<!--&lt;!&ndash;                        image.src = URL.createObjectURL(event.target.files[0]);&ndash;&gt;-->
+<!--&lt;!&ndash;                    };&ndash;&gt;-->
+<!--&lt;!&ndash;                </script>&ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="col-lg-12 col-xs-12 text-center personal-info profile-fields-container">
 
             <div class="text-center">
                 <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">
                 <h6>Завантажити фото</h6>
                 <input
-                       type="file"
-                       id="photo_input"
-                       accept="image/*"
-                       class="text-center center-block well well-sm file-wrapper">
-<!--                <script>-->
-<!--                    var loadFile = function(event) {-->
-<!--                        var image = document.getElementById('my_avatar');-->
-<!--                        image.src = URL.createObjectURL(event.target.files[0]);-->
-<!--                    };-->
-<!--                </script>-->
+                        type="file"
+                        id="photo_input"
+                        accept="image/*"
+                        class="text-center center-block  file-wrapper">
+                <!--                <script>-->
+                <!--                    var loadFile = function(event) {-->
+                <!--                        var image = document.getElementById('my_avatar');-->
+                <!--                        image.src = URL.createObjectURL(event.target.files[0]);-->
+                <!--                    };-->
+                <!--                </script>-->
             </div>
-        </div>
-        <!-- edit form column -->
-        <div class="col-xs-1 col-lg-0"></div>
-        <div class="col-lg-8 col-xs-10 text-center personal-info profile-fields-container">
 
             <form class="form-horizontal" role="form" id="form_user_info">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Прізвище</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Прізвище</label>
+                    <div class="">
                         <input class="form-control" value="" id="surname_value" type="surname">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Ім'я</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Ім'я</label>
+                    <div class="">
                         <input class="form-control" value="" id="name_value" type="name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Телефон</label>
-                    <div class="col-lg-8">
+                    <label class=" control-label">Телефон</label>
+                    <div class="">
                         <input class="form-control" id="phone_value" value="" type="text">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Місце проживання</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Місце проживання</label>
+                    <div class="">
                         <input class="form-control" value="" id="location_value"  type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Пункт Нової Пошти</label>
-                    <div class="col-lg-8">
+                    <label class=" control-label">Пункт Нової Пошти</label>
+                    <div class="">
                         <input class="form-control" value="" id="location_post_office_value"type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Відділення Нової Пошти</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Відділення Нової Пошти</label>
+                    <div class="">
                         <input class="form-control" value="" id="post_office_number_value" type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Пароль</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Пароль</label>
+                    <div class="">
                         <input class="form-control" value="" id="password_value" type="password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Підтвердіть пароль</label>
-                    <div class="col-lg-8">
+                    <label class="control-label">Підтвердіть пароль</label>
+                    <div class="">
                         <input class="form-control" value="" id ="password_confirm_value" type="password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label"></label>
-                    <div class="col-lg-8">
+                    <label class="control-label"></label>
+                    <div class="">
                         <input class="btn btn-primary" id = "update_user_info" value="Зберегти" type="button">
                         <span></span>
-                        <input class="btn btn-default" value="Скасувати" type="reset" onclick="document.location.href='tracktop.com.ua' ">
+                        <input class="btn btn-danger" value="Скасувати" type="reset" onclick="document.location.href='tracktop.com.ua' ">
                     </div>
                 </div>
             </form>
@@ -142,6 +156,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript"  src="assets/js/profile_main.js"> </script>
 <!--font awesome-->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </body>
 </html>

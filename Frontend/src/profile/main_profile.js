@@ -84,35 +84,35 @@ $(function(){
         })
     })
 
-    $('#update_user_info').click(function(){
-
-        // var $surname = $('#surname_value')[0];
-        // var $name = $('#name_value')[0];
-        // var $phone_value = $('#phone_value')[0];
-        // var $password_value = $('#password_value')[0];
-        // var $password_confirm_value = $('#password_confirm_value')[0];
-        // var $location_value = $('#location_value')[0];
-        // var $location_post_office_value = $('#location_post_office_value')[0];
-        // var $post_office_number_value = $('#post_office_number_value')[0];
-
-        var id = localStorage.getItem('id');
-        require('../API').updateClient(id,{
-            surname: $surname.value,
-            name: $name.value,
-            phone_number: $phone_value.value,
-            settelment: $location_value.value,
-            nova_poshta_settlment: $location_post_office_value.value,
-            nova_poshta_number: $post_office_number_value.value
-        },function(err){
-            if (err) {
-                console.log(err);
-                require('../pagesScripts/notify').Notify("Помилка!!!",null,null,'success');
-            }
-            else {
-                require('../pagesScripts/notify').Notify("Зміни збережено!!!",null,null,'success');
-            }
-        })
-    })
+    // $('#update_user_info').click(function(){
+    //     console.log("here")
+    //     // var $surname = $('#surname_value')[0];
+    //     // var $name = $('#name_value')[0];
+    //     // var $phone_value = $('#phone_value')[0];
+    //     // var $password_value = $('#password_value')[0];
+    //     // var $password_confirm_value = $('#password_confirm_value')[0];
+    //     // var $location_value = $('#location_value')[0];
+    //     // var $location_post_office_value = $('#location_post_office_value')[0];
+    //     // var $post_office_number_value = $('#post_office_number_value')[0];
+    //
+    //     var id = localStorage.getItem('id');
+    //     require('../API').updateClient(id,{
+    //         surname: $surname.value,
+    //         name: $name.value,
+    //         phone_number: $phone_value.value,
+    //         settelment: $location_value.value,
+    //         nova_poshta_settlment: $location_post_office_value.value,
+    //         nova_poshta_number: $post_office_number_value.value
+    //     },function(err){
+    //         if (err) {
+    //             console.log(err);
+    //             require('../pagesScripts/notify').Notify("Помилка!!!",null,null,'success');
+    //         }
+    //         else {
+    //             require('../pagesScripts/notify').Notify("Зміни збережено!!!",null,null,'success');
+    //         }
+    //     })
+    // })
 
     require('./signup_form').initializeLogin();
     require('./login_form').login();

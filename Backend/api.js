@@ -1308,6 +1308,7 @@ exports.get_one_order_by_id = function (req,res) {
 
 var fs = require("fs"),
     multiparty = require('multiparty');
+const {md5} = require("./hash");
 
 exports.upload_user_photo = function (req,res) {
     upload_photo_new(req,res,'users_photos', "add");
@@ -1756,38 +1757,30 @@ function upload_photo(req,res,path,action){
 exports.update_user = function(req,res){
     var db = require('./db');
     var info = req.body;
+    let user = req.currentUser;
+    console.log(info)
+    let user_update = info.info
+    user_update.hash = require('./hash').md5(user_update.hash);
+
+    delete user_update["id"]
 
     function callback(error,data){
         if(error) {
-            //console.log("Error! ", error.sqlMessage);
+            console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            //console.log("Success! ", data);
+            console.log("Success! ", data);
             res.send({
                 success: true
             });
         }
     }
 
-    db.get_client_by_phone(info.info.phone_number,function(error,data){
-        if(error) {
-            //console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
-                error: error.sqlMessage
-            });
-        }
-        else {
-           // if(require('./hash').md5(""+data.id) == info.id)
-            if(!data.error)
-                db.update_client(data[0].id,info.info,callback);
-        }
-    });
-
+    db.update_client(user.id, user_update,callback);
 }
 
 exports.update_review = function(req,res){
