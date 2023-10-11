@@ -1,38 +1,42 @@
 .footer {
-  margin-left: @WidthLeftPanel;
+  //margin-left: @WidthLeftPanel;
   overflow: hidden;
-  background-color: #f1f1f1;
-  vertical-align: center;
-  padding: 20px 0 0px;
   line-height: 22px;
   margin-top: 50px;
+  color: white;
 
-  .about-cart {
-    max-width: 800px;
-    margin: auto;
-    text-align: center;
-  }
-
-  h4 {
-    font-size: 14px;
-    font-family: 'Myriad Pro Bold' !important;
-    font-weight: bold !important;
+  .footer-wrapper-background {
+    background: url("../images/footer_image_25.png");
+    vertical-align: center;
+    padding: 32px @paddingWrapperPC 0px;
   }
 
   .contacts-block {
-
-    margin-top: 10px;
+    margin-top: 20px;
     display: inline-block;
     vertical-align: top;
-    font-size: 13px;
-    a, a:visited {
-      color: #4c4c4c;
+    font-size: 14px;
+
+    a {
+      color: white;
+      text-decoration: none;
     }
 
     a:hover {
-      opacity: 0.6;
+      color: @textSubline;
       text-decoration: none;
     }
+    h3 {
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .contacts-block:first-child {
+    margin-top: 0;
   }
 
   .m-left-5 {
@@ -46,44 +50,98 @@
   }
 }
 
+.footer-main {
+  background-color: #242223;
+}
+
+.footer-menu-main-wrapper {
+  margin-bottom: 2rem;
+}
+
+.footer-socials-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-hr-line {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.50);
+;
+}
+
+.footer-menu, .footer-menu-categories, .footer-menu-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-menu-categories, .footer-menu-contacts {
+  gap: 10px;
+}
+
+.footer-menu-categories a, .footer-menu-contacts a{
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.footer-menu-contacts a {
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.subscribe_email {
+  color: black;
+  padding: 0 40px;
+}
+
+.footer-menu a{
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.footer-menu a:hover {
+  color: @textSubline;
+}
+
 .footer-sub {
   background-color: white;
 }
 
 .developer-footer {
-  font-size: 16px!important;
+  font-family: Montserrat;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.50) !important;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
   //background-color: #555555;
-  margin-top: 50px!important;
+  margin-top: 20px!important;
   //color: white;
   min-height: 50px;
   //text-shadow: 1px 1px 1px #111010;
 
-  h4 {
-
-  }
-
   a {
     margin-top: 8px!important;
-    font-size: 18px;
-    color: white!important;
-    text-shadow: 1px 1px 1px #111010;
+    font-size: 14px!important;
+    color: rgba(255, 255, 255, 0.75) !important;
     text-decoration: underline;
   }
+  h3 {
+    color: rgba(255, 255, 255, 0.50) !important;
+  }
+
 }
 
-@media (max-width:500px) {
-  .footer{
-    margin-left: 0;
-  }
-  .contacts-block {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .newsLetterContainer-footer-border {
-    width: 95%!important;
-  }
-
+.developer-footer h3 {
+  font-size: 14px!important;
+  margin: 0;
+  font-weight: 400!important;
+  text-transform: initial!important;
 }
 
 
@@ -117,21 +175,29 @@
   box-shadow: -3px 3px 20px #d2d2d2;
 }
 
-.title_subsc, .signedUpMessageTitle_3JaS_ {
+.title_subsc {
+  font-weight: 900;
+  font-size: 40px;
+}
+.signedUpMessageTitle_3JaS_ {
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   margin-bottom: 8px;
 }
 
-.subTitle_subs, .signedUpMessageSubTitle_3o69y {
+.subscribe_email_subtitle {
+  font-size: 20px;
+  font-weight: 700;
+}
+.signedUpMessageSubTitle_3o69y {
   font-size: 12px;
   margin-bottom: 8px;
 }
 
 
 .formInlineContainer {
-  max-width: 500px;
+  width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -151,66 +217,39 @@
   text-align: left;
 }
 
-.formEmailInputInlineButton {
-  -webkit-box-ordinal-group: 2;
-  -webkit-order: 1;
-  order: 1;
+.img-subscribe-footer {
+  //max-height: 560px;
+  width: 100%;
+}
+
+.input-email {
   width: 100%;
 }
 
 .button_sub {
-  -webkit-transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
-  transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
-  box-shadow: 0 0 0 4px rgba(8, 94, 185, 0);
   position: relative;
-  background: none;
+  background: @textSubline;
+  color: white;
   border: 0;
-  border-radius: 0.125rem;
   box-sizing: border-box;
-  color: #1d252c;
   cursor: pointer;
   display: inline-block;
-  font-family: "Human BBY", Arial, sans-serif;
-  font-size: 0.875rem;
+  font-size: 16px;
+  font-weight: 700;
   text-decoration: none;
   text-align: center;
   height: auto;
   line-height: 1rem;
   overflow: visible;
-  padding: 0;
-  width: auto;
-}
-
-.secondary_sub {
-  background-color: #0046be;
-  color: #fff;
-  border: none;
-}
-
-.regular_cDhX6 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.formButtonInlineButton {
-  -webkit-box-ordinal-group: 3;
-  -webkit-order: 2;
-  order: 2;
+  margin: 0;
+  margin-left: -36px;
+  padding: 0 20px;
   min-height: 48px;
-  min-width: 84px;
-  margin-top: 22px;
-  border-top-left-radius: 0px !important;
-  border-bottom-left-radius: 0px !important;
-  border-radius: 0 10px 10px 0;
+  min-width: 200px;
+  width: auto;
+  border-radius: 50px;
 }
 
-.regular_sub {
-  padding: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1;
-}
 
 .content_sub {
   display: block;
@@ -223,7 +262,6 @@
 }
 
 .input-email input {
-  font-family: "Human BBY", Arial, sans-serif;
   font-weight: 300;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -232,14 +270,34 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 700;
   line-height: 20px;
   height: 48px;
   padding: 12px;
-  border: 1px solid rgb(173, 173, 173);
-  border-radius: 10px 0 0 10px;
+  color: #000;
+  border: 1px solid #D9D9D9;
+  border-right: none!important;
+  border-radius: 50px 0 0 50px;
   text-overflow: ellipsis;
 }
+
+.input-email input::placeholder {
+  color: #D9D9D9;
+}
+
+.footer-subline {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.input-email input:focus-visible {
+  border: 1px solid #7e7e7e!important;
+  border-right: none!important;
+  outline: none;
+}
+
 
 .content_sub:active {
   outline: none;
@@ -253,4 +311,108 @@
 #error-msg, #error-msg-modal{
   display: none;
   color: #cd504c;
+  margin-top: 5px;
+}
+
+@media (max-width:1140px) {
+  .footer .footer-wrapper-background {
+    padding: 32px @paddingWrapperPC 0px;
+  }
+  .img-subscribe-footer {
+    //height: 500px;
+  }
+  .title_subsc {
+    font-size: 36px;
+  }
+}
+
+
+@media (max-width:991px) {
+
+  .footer-menu-wrapper {
+    display: none!important;
+    width: 0!important;
+  }
+
+  .title_subsc {
+    font-size: 24px;
+  }
+  .subscribe_email_subtitle {
+    font-size: 16px;
+  }
+  .footer-menu-contacts {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width:767px) {
+  .img-subscribe-footer {
+    height: 300px;
+    width: auto;
+  }
+  .subscribe_email {
+    flex-direction: column-reverse;
+  }
+  .footer-socials-logo {
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+
+@media (max-width:575px) {
+  .footer{
+    margin-left: 0;
+  }
+  .contacts-block {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .newsLetterContainer-footer-border {
+    width: 95%!important;
+  }
+
+  .formInlineContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .input-email input {
+    border-radius: 50px;
+    border-right: 1px solid #D9D9D9!important;
+  }
+
+  .button_sub {
+    width: 100%;
+    max-width: none;
+    border-radius: 50px;
+    margin-left: 0;
+  }
+
+  .subscribe_email {
+    padding: 0 @paddingWrapperMobile;
+  }
+
+  .footer-socials-logo {
+    align-items: center;
+    gap: 4px;
+  }
+
+  .footer .footer-wrapper-background {
+    padding: 32px @paddingWrapperMobile 0px;
+  }
+
+  .footer-menu-contacts a {
+    margin-left: 4px;
+    font-size: 14px;
+  }
+
+  .img-subscribe-footer {
+    height: 300px;
+    width: auto;
+  }
+
 }

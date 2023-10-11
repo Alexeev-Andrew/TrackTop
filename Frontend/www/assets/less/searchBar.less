@@ -4,9 +4,6 @@
 
 .type_header {
   text-align : center;
-  font-size  : 24px!important;
-  font-weight: 400;
-  margin-top: 10px;
 }
 .models_hint {
   text-align : center;
@@ -18,9 +15,12 @@
 }
 
 .h1_header{
-  font-style: oblique;
-  font-size  : 24px!important;
-  margin-top: -20px!important;
+  color: black;
+  font-size: 32px;
+  font-family: Mulish;
+  font-weight: 700;
+  word-wrap: break-word;
+  margin: 35px 0;
 }
 
 .no-margin-top {
@@ -45,6 +45,7 @@
 .has-search {
   position: relative;
   width   : 60%;
+  max-width: 600px;
 }
 
 .has-search .form-control {
@@ -61,6 +62,19 @@
   color         : #aaa;
 }
 
+.search-input {
+  border-radius: 40px;
+  border: 2px solid @textMuted;
+}
+
+.search-input:focus {
+  border: 2px solid @textSubline;
+  box-shadow: none;
+}
+
+.search-input::placeholder {
+  color: @textMuted;
+}
 
 
 @media screen and (max-width: 600px) {

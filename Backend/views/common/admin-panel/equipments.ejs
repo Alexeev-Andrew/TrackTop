@@ -57,15 +57,17 @@
             </div>
             <span class="form-group">
                 <span class="name-type">Назва</span>
-     <div class="ds">
-                 <input id="name-equipment" type="text" placeholder="Назва"
-                        class="form-control form-item admin-panel-input" required>
-     </div>
-                <span class="name-type right-type">Код</span>
-     <div class="ds">
-                 <input id="equipment-code" type="text" placeholder="Код"
-                        class="form-control form-item admin-panel-input">
-     </div>
+                 <div class="ds">
+                     <input id="name-equipment" type="text" placeholder="Назва"
+                                    class="form-control form-item admin-panel-input" required>
+                 </div>
+
+                <div class="name-type">К-сть</div>
+                 <div class="ds">
+                <input id="equipment-amount" type="number" placeholder="Кількість"
+                       class="form-control form-item admin-panel-input"
+                       min="0" required value="1">
+                 </div>
 <br>
 <div class="name-type">Ціна</div>
                <div class="ds">
@@ -92,17 +94,29 @@
 <!--                    </div>-->
                  </div>
                 <br>
-                <div class="name-type">К-сть</div>
-                 <div class="ds">
-<!--                <div class="">-->
-                <input id="equipment-amount" type="number" placeholder="Кількість"
-                       class="form-control form-item admin-panel-input"
-                       min="0" required value="1">
-                    <!--                <label for="mark-choice">Модель</label>-->
-<!--                </div>-->
-                 </div>
-
+                <div class="one-row-admin-panel">
+                    <div class="name-type right-type">Статус</div>
+                       <div class="ds">
+                            <select class="form-control form-item admin-panel-input" id="status">
+                                <option default selected>В наявності</option>
+                                <option>Під замовлення</option>
+                                <option>Немає в наявності</option>
+                                <option>Продано</option>
+                            </select>
+                       </div>
+                </div>
                 <br>
+
+                                <label class="mt-3" for="vendor-choice">Впишіть коди запчастини</label>
+
+                        <select class="form-control form-item admin-panel-input" placeholder="Модель"
+                                required
+                                type="text" id="vendor-choice" class="myInputClass"
+                                name="vendor_code[]" multiple="multiple">
+                            <option></option>
+                    </select>
+                <br>
+
                 <div>Категорія запчастини</div>
 
                 <div class="ds ds-mobile-full"> <select class="form-control form-item admin-panel-input" id="categories_modal"
@@ -142,7 +156,10 @@
                     </div>
                     <div class="">
                 <label for="description">Опис</label>
-                <textarea class="form-control" id="description" name="description" rows="6"></textarea>
+<!--                <textarea class="form-control" id="description" name="description" rows="6"></textarea>-->
+                    <div id="editor" name="description"></div>
+
+
             </div>
 
                 </div>

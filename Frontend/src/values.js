@@ -1,4 +1,4 @@
 module.exports = {
-     url: "http://tracktop.com.ua"
-     //url: "http://localhost:5050"
+     //url: "http://tracktop.com.ua"
+     url: "http://localhost:5050"
 }

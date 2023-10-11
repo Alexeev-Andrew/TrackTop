@@ -34,66 +34,45 @@
 <!-- End Google Tag Manager (noscript) -->
 <% include common/header.ejs %>
 
-<div>
+<div id="main">
 
-<div style="width: 165px; float: left; position: fixed;"> <button class="toMainPageBtn">На головну</button> </div>
-
-<div class="container profile-container"  id ="kkk">
-
+    <div class="narrow-wrapper padding-wrapper">
 
     <h1 class="page-header">Профіль</h1>
-    <div class="row">
+    <div class="row no-gutters">
 
-        <!-- left column -->
-<!--        <div class="col-lg-4 col-xs-12">-->
+        <div  class="left-col-fixed">
+            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">
+            <h6>Завантажити фото</h6>
+            <input
+                    type="file"
+                    id="photo_input"
+                    accept="image/*"
+                    class="text-center center-block  file-wrapper">
+            <input type="button" >
+        </div>
 
-<!--            <div class="text-center">-->
-<!--                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">-->
-<!--                <h6>Завантажити фото</h6>-->
-<!--                <input-->
-<!--                       type="file"-->
-<!--                       id="photo_input"-->
-<!--                       accept="image/*"-->
-<!--                       class="text-center center-block well well-sm file-wrapper">-->
-<!--&lt;!&ndash;                <script>&ndash;&gt;-->
-<!--&lt;!&ndash;                    var loadFile = function(event) {&ndash;&gt;-->
-<!--&lt;!&ndash;                        var image = document.getElementById('my_avatar');&ndash;&gt;-->
-<!--&lt;!&ndash;                        image.src = URL.createObjectURL(event.target.files[0]);&ndash;&gt;-->
-<!--&lt;!&ndash;                    };&ndash;&gt;-->
-<!--&lt;!&ndash;                </script>&ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="col-lg-12 col-xs-12 text-center personal-info profile-fields-container">
 
-            <div class="text-center">
-                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">
-                <h6>Завантажити фото</h6>
-                <input
-                        type="file"
-                        id="photo_input"
-                        accept="image/*"
-                        class="text-center center-block  file-wrapper">
-                <!--                <script>-->
-                <!--                    var loadFile = function(event) {-->
-                <!--                        var image = document.getElementById('my_avatar');-->
-                <!--                        image.src = URL.createObjectURL(event.target.files[0]);-->
-                <!--                    };-->
-                <!--                </script>-->
-            </div>
-
             <form class="form-horizontal" role="form" id="form_user_info">
-                <div class="form-group">
-                    <label class="control-label">Прізвище</label>
-                    <div class="">
-                        <input class="form-control" value="" id="surname_value" type="surname">
+                <div class="row no-gutters">
+                    <div class="form-group">
+                        <label class="control-label">Ім'я</label>
+                        <div class="">
+                            <input class="form-control" value="" id="name_value" type="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Прізвище</label>
+                        <div class="">
+                            <input class="form-control" value="" id="surname_value" type="surname">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Ім'я</label>
-                    <div class="">
-                        <input class="form-control" value="" id="name_value" type="name">
-                    </div>
+
+                <div class="row no-gutters">
                 </div>
+
                 <div class="form-group">
                     <label class=" control-label">Телефон</label>
                     <div class="">
@@ -143,6 +122,8 @@
                 </div>
             </form>
         </div>
+    </div>
+
     </div>
 </div>
 

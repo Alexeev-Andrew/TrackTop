@@ -14,7 +14,6 @@ function initialize() {
 
 }
 
-
 function showImages(list,alt) {
     initialize();
 

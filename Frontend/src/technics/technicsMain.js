@@ -24,7 +24,7 @@ $(function(){
         require('../profile/login_form').userInfo();
     })
 
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
@@ -40,6 +40,7 @@ $(function(){
     require('../profile/signup_form').openSubscribeModal();
 
     require('../profile/user_form').isLogged();
+    // require('../profile/signup_form').sendMessageCardHandler()
 
     $('.edit-profile').click(function(){
         document.location.href = API_URL+"/profile";

@@ -2,19 +2,36 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&&display=swap');
 
+
+@import "initialize";
+
 * {box-sizing: border-box;}
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: Mulish, sans-serif;
   font-style: normal;
   letter-spacing: 0.01em;
   font-weight: normal;
   height: 100%;
 }
 
-#main{
-  margin-top: @heightTopPanel+15px;
-  margin-left:@WidthLeftPanel
+.narrow-wrapper {
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wrapper {
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#main {
+  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  //margin-left:@WidthLeftPanel
   //padding-left: 0!important;
 }
 
@@ -35,8 +52,10 @@ body {
 @import "footer";
 @import "breadcrumbs";
 @import "float_btn.css";
-@import "phon_call.css";
+@import "phon_call.less";
+@import "pagination";
 
+@import "oneAdCommon";
 
 
 .container-fluid {
@@ -135,16 +154,15 @@ body {
 }
 
 .promote_own_business_section_button {
-  padding: 10px 25px;
-  font-weight: 600;
-  font-size: 22px;
-  background: rgba(234, 173, 21, 0.85);
+  padding: 8px 25px;
+  font-weight: 700;
+  font-size: 18px;
   color: #FFF;
   cursor: pointer;
   width: fit-content;
   border: none;
   margin-top: 10px;
-  border-radius: 8px;
+  border-radius: 50px;
 }
 
 .promote_own_business_section_button svg {
@@ -154,17 +172,323 @@ body {
 .promote_own_business_section_button:hover , .promote_own_business_section_button:focus {
   outline: none;
   text-decoration: none;
-  color: #0A0a0a;
+  //color: #0A0a0a;
 }
 
-@media (max-width: 576px) {
-  .promote_own_business_section_title {
-    font-size: 30px;
+.desc-bottom-main-page {
+  color: #FFF;
+  font-family: Mulish;
+  background: linear-gradient(77deg, #809E2A 63.85%, rgba(169, 205, 83, 0.00) 105.95%);
+}
+
+
+.right-col-desc-main-wrapper {
+  background: url("../images/tractor_main_page_background.png");
+}
+.right-col-desc-main {
+  height: 100%;
+  background: linear-gradient(77deg, #809E2A 49.85%, rgba(169, 205, 83, 0) 109.95%);
+}
+
+
+.item-site-description-line {
+  position: relative;
+}
+.item-site-description-line:before {
+    content: '';
+    width: 1px;
+    height: 40px;
+    position: absolute;
+    left: 30px;
+    top: -48px;
+    background-color: white;
+}
+
+.col-left-desc-main, .col-right-desc-main {
+  gap: 25px;
+  padding: 60px @paddingWrapperPC 60px 100px;
+}
+.col-right-desc-main {
+  padding: 60px 100px 60px @paddingWrapperPC;
+}
+
+.category-section {
+  margin: 60px auto;
+  padding: 0 @paddingWrapperPC;
+
+  h4, h3 {
+    color: #000;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: normal;
+    margin-bottom: 0;
+  }
+
+  header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 40px;
+    justify-content: space-between;
+  }
+
+  footer {
+    margin-top: 40px;
   }
 }
 
 
-@media (max-width: 576px) {
+.marks_list {
+  display: flex;
+  //width: 1240px;
+  align-items: flex-end;
+  align-content: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.one-mark-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-action-mark {
+  background: #DCDCDC;
+  color: white;
+}
+
+.technic-category-list {
+  width: 100%;
+  overflow-x: scroll;
+  display: -webkit-inline-box;
+  //gap: 20px;
+  padding: 20px;
+  margin-left: -20px;
+  margin-right: -20px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.technic-category-wrapper {
+  display: flex;
+}
+
+.technic-categories-page {
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 40px;
+  justify-content: center;
+}
+
+.technic-categories-page .technic-category-card {
+  width: 240px;
+}
+
+
+.technic-category-list::-webkit-scrollbar {
+  display: none;
+}
+
+.technic-category-card {
+  width: 196px;
+  margin-right: 20px;
+  padding: 15px 0;
+
+
+  .title {
+    color: #242223;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .action {
+    color: #DCDCDC;
+    font-size: 16px;
+    font-weight: 900;
+    display: flex;
+    flex-direction: row;
+  }
+
+  img {
+    width: 100%;
+    height: 94px;
+    object-fit: contain;
+  }
+
+}
+
+.technic-category-card:last-child {
+  margin-right: 0;
+}
+
+.technic-category-card:hover {
+  cursor: pointer;
+  border-radius: 15px;
+  background: #FFF;
+  box-shadow: 4px 4px 24px 0px rgba(177, 216, 158, 0.60);
+}
+
+.technic-categories-page-card {
+  width: 240px;
+  margin-right: 0;
+  padding: 20px;
+}
+
+.card-technic-footer {
+  padding: 20px 8px 0px 8px;
+}
+
+.card-technic-footer:hover {
+  cursor: pointer;
+
+}
+
+.button-action-category {
+  border-radius: 50px;
+  padding: 5px 13px;
+  color: #242223;
+  width: fit-content;
+  height: fit-content;
+  border: 1px solid #DCDCDC;
+}
+
+.button-action-category:hover {
+  cursor: pointer;
+  color: white;
+  background: @textSubline;
+}
+
+.desc-bottom-main-page .title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 150%; /* 24px */
+  text-transform: uppercase;
+}
+
+.title-desc {
+  margin-bottom: 15px;
+}
+
+.title-desc-left {
+  margin-bottom: 30px;
+}
+
+.main_cover {
+  position: relative;
+  //width: 100%;
+  //height: calc(100vh - 100px);
+  //background: url("../images/main_page_wrapper.jpg") center no-repeat;
+  //background-size: cover;
+}
+
+.img-main-wrapper {
+  //position: relative;
+  width: 100%;
+  object-fit: contain;
+}
+
+.page-heading-main {
+  position: absolute;
+  top: 36px;
+  padding-top: 0;
+  left: 0;
+  right: 0;
+}
+
+
+.slider_main_control_left, .slider_main_control_right {
+  padding: 10px;
+}
+
+@media (max-width: 1140px) {
+  .col-left-desc-main, .col-right-desc-main {
+    gap: 25px;
+    padding: 50px @paddingWrapperLaptop 50px 60px;
+  }
+  .col-right-desc-main {
+    padding: 50px 50px 60px @paddingWrapperLaptop;
+  }
+}
+
+
+@media (max-width: 991px) {
+
+  #main {
+    margin-top: 78px;
+  }
+
+  .page-heading-main {
+    top: 32px;
+    font-size: 18px;
+  }
+  //
+  //.main_cover {
+  //  height: 600px;
+  //  background-size: contain;
+  //}
+
+  .desc-bottom-main-page {
+    background: url("../images/tractor_main_page_background.png");
+  }
+
+  .category-section {
+    footer {
+      margin-top: 0;
+    }
+  }
+  .main-desc-wrapper {
+    background: linear-gradient(77deg, #809E2A 63.85%, rgba(169, 205, 83, 0) 105.95%);
+  }
+  .right-col-desc-main-wrapper, .right-col-desc-main {
+    background: none;
+  }
+
+  .col-left-desc-main, .col-right-desc-main {
+    gap: 20px;
+    padding: 30px 40px;
+  }
+  .desc-bottom-main-page .title {
+    font-size: 15px;
+  }
+  .item-site-description-line svg{
+    width: 40px;
+  }
+
+  .item-site-description-line:after {
+    content: '';
+    width: 1px;
+    height: 95%;
+    position: absolute;
+    left: 19px;
+    top: 60px;
+    background-color: white;
+    overflow: hidden;
+  }
+
+  .item-site-description-line:before {
+    content: '';
+    width: 1px;
+    height: 30px;
+    position: absolute;
+    left: 19px;
+    top: -25px;
+    background-color: white;
+  }
+}
+
+
+
+
+@media (max-width: 575px) {
+
+  #main {
+    margin-top: 78px;
+  }
+
+  .page-heading-main {
+    font-size: 14px;
+    top: 8px;
+  }
 
   .promote_own_business_section_title {
     font-size: 26px;
@@ -173,6 +497,13 @@ body {
     font-size: 18px;
     display: contents;
   }
+  .item-site-description-line svg{
+    width: 40px;
+  }
+
+  .technics-section {
+    gap: 25px;
+  }
 
   .h1-main-page {
     margin-top: 6px!important;
@@ -180,6 +511,51 @@ body {
 
   .wrapper-background, .promote_own_business_section {
     min-height: 230px;
+  }
+
+  .col-left-desc-main, .col-right-desc-main {
+    gap: 12px;
+    padding: 24px 16px;
+
+  }
+  .category-section {
+    padding: 0 @paddingWrapperMobile;
+    margin: @paddingWrapperLaptop 0;
+
+    h3, h4 {
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 0;
+    }
+  }
+
+  .desc-bottom-main-page .title, .desc-bottom-main-page p {
+    font-size: 14px;
+  }
+
+  .technic-categories-page-list {
+    margin: auto;
+  }
+
+  .technic-categories-page {
+    row-gap: 25px;
+    justify-content: center;
+  }
+
+  .technic-categories-page .technic-category-card {
+    width: 100%;
+  }
+
+  .technic-categories-page .title {
+    text-align: center;
+  }
+
+  .technic-categories-page .action {
+    justify-content: center;
+    align-items: baseline;
+    gap: 20px;
   }
 }
 

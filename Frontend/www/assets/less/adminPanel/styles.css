@@ -1,5 +1,5 @@
 body {
-  background: #f9f9f9;
+  background-color: #FDFDFD;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
@@ -282,7 +282,8 @@ select:focus {
   padding: 20px 3.5rem !important;
   margin-right: 12px; }
   #main-content .page-heading {
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+  text-align: center}
 
 .card {
   background: #fff;
@@ -566,6 +567,19 @@ ul .technic_menu {
 
 /**/
 
+.select2-container {
+  width: 100% !important;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+  height: 38px!important;
+  margin-bottom: 0!important;
+  line-height: 2;
+}
+
+.select2-container--classic .select2-selection--multiple .select2-selection__choice__remove, .select2-container--classic .select2-selection--multiple .select2-selection__choice {
+  margin-bottom: 0!important;
+}
 
 
 @media screen and (max-width:500px ) {

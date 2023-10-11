@@ -9,7 +9,6 @@ function  initialize() {
         }
 
         let equipment = data5.data[0];
-        console.log(equipment)
 
         localStorage.setItem('currEquipment',JSON.stringify({
             id: id,
@@ -19,7 +18,8 @@ function  initialize() {
             price: data5.data[0].price,
             currency: data5.data[0].currency,
             amount: data5.data[0].amount,
-            description: data5.data[0].description
+            description: data5.data[0].description,
+            mark: data5.data[0].mark,
         }));
         let alt;
         if (data5.data[0].description) alt = "Купити " + data5.data[0].description ;
@@ -35,10 +35,7 @@ function  initialize() {
         });
         require('../pagesScripts/slider').initialize(dataset, alt);
 
-
         $('.order_equipment').click(function () {
-
-            // var tech = JSON.parse(localStorage.getItem('currTechnic'));
 
             let equipment = JSON.parse(localStorage.getItem('currEquipment'));
             //console.log(equipment);
@@ -86,7 +83,7 @@ $(function(){
         require('../profile/login_form').userInfo();
     })
 
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");

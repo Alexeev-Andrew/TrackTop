@@ -1,33 +1,32 @@
-<div id="messageModal" class="modal">
-
-    <form class="modal-content" >
-        <div class="header-message">
-            <div class="left">
-                <span>Нове повідомлення</span>
-            </div>
-            <div class="right">
+<div id="messageModal" class="modal" data-productId="" data-productTitle="">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content container message-modal-container">
                 <div data-dismiss="modal" onclick="document.getElementById('messageModal').style.display='none'"
-                     class="fa fa-remove popup-close link" title="Закрити"></div>
+                     class="btn-close-modal" title="Закрити">
+                    <span aria-hidden="true"><i class="fa fa-close" aria-hidden="true"></i></span>
+                </div>
+            <h2 class="modal-h">
+                Нове повідомлення
+            </h2>
+            <div class="modal-header-subtext">
+                Введіть необхідні дані та опишіть своє питання
             </div>
-        </div>
 
-        <form>
-        <div class="container">
+            <form class="message-form">
 
             <input id="username_messageForm" type="text" placeholder="Ваше ім'я" name="name"
-                   class="form-control form-item" required>
+                   class="form-control form-item form-item-auth" required>
             <input id="phone_messageForm" type="text" placeholder="Номер телефону" name="phone"
-                   class="form-control form-item" required>
-
+                   class="form-control form-item form-item-auth"  required>
             <div class="form-group">
-                <label class="message-title" for="message">Текст повідомлення</label>
-                <textarea id="message" class="form-control message-textarea" required name="message" rows="6"></textarea>
+                <textarea id="message" class="form-control form-item-auth message-textarea" required name="message" rows="6" placeholder="Текст повідомлення"></textarea>
             </div>
+<!--            <div class="message-btn-container">-->
+<!--            </div>-->
+            </form>
+            <button id="messageModal" type="button" class="btn btn-green-text-white w-100" onclick="sendMessage_My(1);">Надіслати</button>
 
-            <div class="message-btn-container">
-                <button id="messageModal" type="button" class="btn small message-btn-ok" onclick="sendMessage_My(1);">Надіслати</button>
-            </div>
+
         </div>
-        </form>
-    </form>
+    </div>
 </div>

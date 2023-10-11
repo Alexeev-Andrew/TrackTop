@@ -356,6 +356,23 @@ function sendEmail(_to, _link) {
     });
 }
 
+exports.sendMessage = function (req, res) {
+
+    //console.log(req.body)
+    axios.post('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage', {
+        chat_id :"-327577485",
+        text: req.body.message,
+        parse_mode: 'HTML',
+        disable_web_page_preview: false,
+        disable_notification: false,
+        reply_to_message_id: null
+    }).then(function (response) {
+    })
+        .catch(function (error) {
+        });
+
+}
+
 exports.addTehnicWithoutCategory = function(req, res) {
     var db = require('./db');
     var info = req.body;
@@ -379,6 +396,18 @@ exports.addTehnicWithoutCategory = function(req, res) {
     db.insert_tehnic_without_category(info,callback);
 
 };
+
+function addStatus () {
+    function callback(error,data){
+        if(data) {
+            data.forEach(function (item) {
+                db.update_equipments(data)
+            })
+
+        }
+    }
+    db.get_equipments(callback);
+}
 
 
 exports.addReview = function(req, res) {
@@ -946,8 +975,6 @@ exports.get_equipments_categories = function (req,res) {
 
 
 exports.get_equipments = function (req,res) {
-    var db = require('./db');
-
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
@@ -969,9 +996,6 @@ exports.get_equipments = function (req,res) {
 
 
 exports.getequipmentswithmodels = function (req,res) {
-    var db = require('./db');
-    // console.log(req.body.id);
-    // console.log(req.body);
     function callback(error,data){
         if(error) {
             //console.log("Error! some ", error.sqlMessage);
@@ -1304,6 +1328,23 @@ exports.get_one_order_by_id = function (req,res) {
 
 }
 
+exports.is_log_in = function (req,res) {
+    let user = req.currentUser;
+    console.log(req.currentUser)
+
+    if (user) {
+        function callback(err, data) {
+            if(err) {
+                return res.send(err);
+            } else {
+                return res.send(true);
+            }
+        }
+        db.get_client_by_id(user.id, callback)
+    }
+
+}
+
 
 
 var fs = require("fs"),
@@ -1388,6 +1429,7 @@ const asyncSaveBufferToDB = async (fileBuffer, file_name, type) => {
                     .composite([{ input: 'logo.png', gravity: 'southeast' }])
                     .webp()
                     .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
+                        console.log(err)
                     });
             })
             .then(function(data) {
@@ -1417,6 +1459,7 @@ function upload_photo_new(req,res,path,action){
 
         let newpath = uniqid()
         file_names.push(newpath + ".webp")
+        console.log(file_names)
         asyncSaveBufferToDB(fileBuffer, newpath, path).then()
     }
 
@@ -2360,6 +2403,13 @@ exports.delete_check_equipments_by_equipment_id = function(req,res){
     }
 
     db.delete_check_equipments_by_equipment_id(info.id,callback);
+}
+
+exports.logout = function(req,res) {
+    res.clearCookie('jwt') ;
+    res.clearCookie('refresh_token');
+    res.clearCookie('phone');
+    res.send({success: true});
 }
 
 exports.addUserSubmitFnc = function (req, res)

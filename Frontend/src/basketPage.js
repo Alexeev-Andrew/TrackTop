@@ -5,12 +5,6 @@ basil = new basil();
 const values = require('./values')
 const API_URL = values.url;
 
-const { TelegramClient } = require('messaging-api-telegram');
-
-// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM');
-
-
 let allPrice = 0;
 let amountOfOrders = 0;
 
@@ -23,43 +17,6 @@ let $amount = $(".amountOfBoughtPizz");
 let $allPrice = $(".amountLabel");
 
 
-function sendMessage(text, success_delivery_text) {
-
-    $.ajax({
-        url:'https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage',
-        method:'POST',
-        data:{chat_id:"-327577485",
-            text:text,
-            parse_mode: 'HTML',
-            disable_web_page_preview: false,
-            disable_notification: false,
-            reply_to_message_id: null},
-        success:function(){
-            require('./pagesScripts/notify').Notify(success_delivery_text, null, null, 'success', 3);
-        }
-    });
-}
-
-
-
-function openNav() {
-    $("#basketColumn").addClass("widthR");
-    $("#main").addClass("margR");
-    $(".header").addClass("margR");
-    $("#myForm").addClass("margR");
-    if($('#user_info').css("display")=="block")
-    $("#user_info").addClass("margR");
-}
-
-function closeNav() {
-    $("#basketColumn").removeClass("widthR");
-    $("#main").removeClass("margR");
-    $(".header").removeClass("margR");
-    $("#myForm").removeClass("margR");
-    if($('#user_info').css("display")=="block")
-    $("#user_info").removeClass("margR");
-}
-
 exports.initialiseBasket = function(){
     $('.basketBtn').click(function () {
         $('#user_info').css("display", "none");
@@ -69,12 +26,22 @@ exports.initialiseBasket = function(){
     })
 
 
-    $('#subscribeEmail').click(function () {
-        let email = document.getElementById("email").value;
+    $('.btnSubscribeEmail').click(function () {
+        let email = document.getElementById("email_subscribe").value;
+        //console.log(email)
+
         if(emailIsValid(email)) {
             $("#error-msg").css("display","none");
-            writeEmail(email);
-            alert("Дякуємо за підписку!")
+            writeEmail(email, function (err, result) {
+                console.log(result)
+                if(err || result.error) {
+                    $("#error-msg").css("display","block");
+                }
+                else {
+                    alert("Дякуємо за підписку!")
+                }
+
+            });
         }
         else {
             $("#error-msg").css("display","block");
@@ -88,10 +55,8 @@ exports.initialiseBasket = function(){
          let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val();
          if(phone.length == 16) {
              require("./API").addPhone(phone);
-             client.sendMessage("-327577485", text, {
-                 disable_web_page_preview: true,
-                 disable_notification: false
-             });
+             require("./API").sendMessage({message: message }, () => {})
+
              document.getElementById('slibotph').style.display='none';
              document.getElementById('content1').style.width='300px';
              document.getElementById('content1').style.padding='0px';
@@ -178,24 +143,23 @@ function initialiseCart() {
 
             let status = localStorage.getItem("status");
             if(status) {
-                var id = localStorage.getItem("id");
+                let id = localStorage.getItem("id");
 
-                var name = localStorage.getItem("name");
-                var surname = localStorage.getItem("surname");
-                var phone = localStorage.getItem("phone");
-                var settlement = localStorage.getItem("settlement");
+                let name = localStorage.getItem("name");
+                let surname = localStorage.getItem("surname");
+                let phone = localStorage.getItem("phone");
+                let settlement = localStorage.getItem("settlement");
 
-                var user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
+                let user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
 
                 console.log(Cart)
                 console.log(Cart[0])
 
-                var order = "Замовлення\n";
+                let order = "Замовлення\n";
                 for (let i = 0; i < Cart.length; i++) {
                     let currency = ""
                     //if (Cart[i].currency== "")
                     if (Cart[i].url) {
-
                         let url2 = "id: <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>" + "\n";
                         order += url2
                     }
@@ -204,47 +168,29 @@ function initialiseCart() {
                     order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                 }
                 console.log(order);
-                 //removeAll();
-                // alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
+
                 let today = getCurrentDate();
                 let message = user_info + "\n" + order;
 
-                //uncomment later
-                //sendMessage(message, "Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось." )
-
-                /////////////////////////////////////////
+                //require("./API").sendMessage({message: message }, () => {})
 
 
-
-                var id ;
-                var check_id;
-                var newCheck = {
+                let check_id;
+                let newCheck = {
                     client_id: id,
                     total: allPrice,
                     purchase_date: today,
                     order_array: Cart
                 };
-                var check_technic;
+                let check_technic;
                 function callback(error,data){
                     if(data.error) {
                         console.log(data.error);
                     }
                     else if(!(data.data[0]==null)){
                         id = data.data[0].id;
-                         console.log(123);
 
                         newCheck.client_id = id;
-
-                        console.log(newCheck)
-                        console.log(Cart)
-                        console.log(typeof Cart)
-                        //console.log(JSON.stringify(Cart))
-
-                        // require("./API").addOrder(order, function(err, data) {
-                        //     if(err) console.log(err)
-                        // })
-                        // console.log(newCheck);
-
 
                         addCheck(newCheck,function (check_id) {
                             document.location.href = API_URL + "/thank-you";
@@ -252,13 +198,10 @@ function initialiseCart() {
                         });
                         removeAll();
 
-
                     }
 
                 }
                 require("./API").getClientbyPhone(phone,callback);
-
-                /////////////////////////////////////////
 
 
             }
@@ -289,8 +232,6 @@ function addCheck(check,callback) {
     require("./API").addOrder(check, function (err, data) {
         if (data.error) console.log(data.error);
         else {
-            console.log("data = "+data.insertId);
-            console.log("data.data = "+data.data.insertId);
              callback(data.data.insertId);
         }
     });
@@ -302,7 +243,7 @@ function addCheckEquipments(check_id) {
     for(let i =0;i<carts.length;i++) {
 
         if(carts[i].isTech) {
-            var check_technic = {
+            let check_technic = {
                 check_id : check_id,
                 technic_id: carts[i].id,
                 amount : carts[i].quantity
@@ -415,27 +356,29 @@ function emailIsValid (email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-function writeEmail(email) {
+function writeEmail(email,callback) {
     document.getElementById("email-ajax").value = email;
-    sendAjaxForm('result_form', 'ajax_form', 'action_ajax_form.php');
+    sendAjaxForm('result_form', 'ajax_form', callback);
 }
 
 
 
 
-function sendAjaxForm(result_form, ajax_form, url) {
+function sendAjaxForm(result_form, ajax_form, callback) {
+    // console.log($("#"+ajax_form).serialize())
     $.ajax({
         url:     '/addUserFormSubmit', //url страницы (action_ajax_form.php)
         type:     "POST", //метод отправки
         dataType: "html", //формат данных
         data: $("#"+ajax_form).serialize(),  // Сеарилизуем объект
         success: function(response) { //Данные отправлены успешно
-            result = $.parseJSON(response);
+            callback(null, JSON.parse(response))
             // alert("Thank you for subscribing!")
             //$('#result_form').html('Thank you!');
         },
         error: function(response) { // Данные не отправлены
-            $('#result_form').html('Ошибка. Данные не отправлены.');
+            callback(JSON.parse(response), null)
+            // $('#result_form').html('Ошибка. Данные не отправлены.');
         }
     });
 }

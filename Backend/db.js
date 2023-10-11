@@ -8,12 +8,12 @@ exports.connect = function() {
 
     connection = mysql.createConnection({
         host: 'localhost',
-        user: 'tracktop',
-        password: 'tracktop123',
-        database: "tracktop"
-        // user: 'root',
-        // password: 'Mihamiha_123',
-        // database: "tracktop2"
+        // user: 'tracktop',
+        // password: 'tracktop123',
+        // database: "tracktop"
+        user: 'root',
+        password: 'Mihamiha_123',
+        database: "tracktop2"
     });
 
     connection.connect(function(err) {
@@ -270,11 +270,11 @@ exports.get_technics_simple = function(callback){
 }
 
 exports.get_technics = function(callback){
-    connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price, technics.images, technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date, technics.sold, technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (technics INNER JOIN types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN marks_of_technics on technics.mark_id = marks_of_technics.id order by technics.id desc",callback);
+    connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price, technics.images,technics.status, technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date, technics.sold, technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (technics INNER JOIN types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN marks_of_technics on technics.mark_id = marks_of_technics.id order by technics.id desc",callback);
 }
 
 exports.get_technics_by_id = function(id,callback){
-    connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price, technics.images, technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date,technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (technics INNER JOIN types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN marks_of_technics on technics.mark_id = marks_of_technics.id where technics.id='"+id+"'",callback);
+    connection.query("SELECT technics.id, technics.mark_id , technics.type_id, technics.amount,technics.price, technics.images, technics.status,  technics.delivery_time,technics.state,technics.model,technics.reserved_amount,technics.production_date,technics.country_producer,technics.shipping_date,technics.currency,technics.main_photo_location,technics.description, types_of_technics.id as types_of_technics_id , types_of_technics.name as types_of_technics_name , photo_location , marks_of_technics.id as marks_of_technics_id,marks_of_technics.name as marks_of_technics_name FROM (technics INNER JOIN types_of_technics on technics.type_id = types_of_technics.id) INNER JOIN marks_of_technics on technics.mark_id = marks_of_technics.id where technics.id='"+id+"'",callback);
 }
 
 exports.get_technics_without_category_by_id = function(id,callback){
@@ -301,7 +301,7 @@ exports.get_equipments = function(callback){
 
 exports.get_equipment_by_id = function(id,callback){
     //connection.query("SELECT * FROM models inner join equipments_models on models.id = equipments_models.model_id inner join equipments on equipments.id = equipments_models.equipment_id where equipment_id = " + id,callback);
-    connection.query("SELECT * FROM  equipments inner join equipments_categories on  equipments.id_category = equipments_categories.id where equipments.id = " + id,callback);
+    connection.query("SELECT * from ( select * FROM  equipments where equipments.id = ? ) s inner join equipments_categories on  s.id_category = equipments_categories.id " , [id],callback);
 }
 
 exports.get_equipment_withModels_by_id = function(id,callback){

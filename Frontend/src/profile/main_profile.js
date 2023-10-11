@@ -29,31 +29,24 @@ $(function(){
         require('./login_form').closeForm();
     })
 
-    $('#user_photo').click(function() {
+    $('.log-sign').click(function() {
         require('./login_form').userInfo();
-    })
-
-    $('.edit-profile').click(function(){
-        document.location.href = API_URL+"/profile";
     })
 
     require('../basketPage').initialiseBasket();
 
     // added
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         logout()
     })
 
     let logout = function( ) {
         require('./user_form').deleteInfoFromLocalStorage();
-        require('./user_form').isLogged();
-        $('#user_info').css("display", "none");
-
         document.location.href = API_URL;
     }
 
     $('.toMainPageBtn').click(function() {
-            document.location.href = API_URL;
+        document.location.href = API_URL;
     })
 
     $('#photo_input').change(function (event) {

@@ -1,12 +1,23 @@
 exports.mainPage = function(req, res) {
-    res.render('mainPage', {
-        pageTitle: 'Магазин сг техніки Львівська область, сільгосптехніка Львів| TrackTop',
-    });
+    require('./db').get_marks_of_technics(callback);
+    let marks;
+    function callback(err, data) {
+        if(data) {
+            marks = data;
+        }
+        res.render('mainPage', {
+            pageTitle: 'Магазин сг техніки Львівська область, сільгосптехніка Львів| TrackTop',
+            marks: marks,
+            user: req.currentUser,
+        });
+    }
+
 };
 
 exports.profile = function(req, res) {
     res.render('profile', {
-        pageTitle: ''
+        pageTitle: '',
+        user: req.currentUser,
     });
 };
 
@@ -17,7 +28,8 @@ exports.technics_without_category = function(req, res) {
                 description : "Купити сільгосптехніку техніку! Сільгосптехніка бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
                 photo_location :"",
                 types:null,
-                mark:null
+                mark:null,
+                user: req.currentUser,
             });
 };
 
@@ -42,7 +54,9 @@ exports.technics = function(req, res) {
                         description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
                         types: req.query.type,
                         mark: req.query.mark,
-                        photo_location: photo_location
+                        photo_location: photo_location,
+                        user: req.currentUser,
+
                     });
                 else if (req.query.type == "Жатки") {
                     console.log(req.query.type + " " + photo_location)
@@ -51,7 +65,8 @@ exports.technics = function(req, res) {
                         description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
                         mark: req.query.mark,
-                        photo_location: photo_location
+                        photo_location: photo_location,
+                        user: req.currentUser,
                     });
                 } else if (req.query.type)
                     res.render('technicsPage', {
@@ -59,7 +74,8 @@ exports.technics = function(req, res) {
                         description: req.query.type + " бу. Великий вибір сг техніки. Купуй " + req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
                         mark: req.query.mark,
-                        photo_location: photo_location
+                        photo_location: photo_location,
+                        user: req.currentUser,
                     });
                 else {
                     res.render('technicsPage', {
@@ -67,7 +83,8 @@ exports.technics = function(req, res) {
                         description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка " + req.query.mark + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
                         mark: req.query.mark,
-                        photo_location: photo_location
+                        photo_location: photo_location,
+                        user: req.currentUser,
                     });
                 }
 
@@ -75,6 +92,29 @@ exports.technics = function(req, res) {
             }
         }
 };
+
+exports.marks = function(req, res) {
+    require('./db').get_marks_of_technics( callback);
+    function  callback(error, data) {
+        if (error) {
+            console.log("Error! ", error.sqlMessage);
+        }
+
+        let marks = data;
+        console.log(marks)
+            res.render('marks', {
+                pageTitle: req.query.type + " на МТЗ, Т-40, Т25 (Польща)",
+                description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
+                types: req.query.type,
+                mark: req.query.mark,
+                photo_location: "",
+                user: req.currentUser,
+            });
+
+
+    }
+};
+
 
 exports.category = function(req, res) {
     if (req.query.name) {
@@ -97,7 +137,8 @@ exports.category = function(req, res) {
                     pageTitle:  "Колеса до с/г техніки! Шини до спецтехніки. Корчин, Львівська область | TrackTop",
                     description: "Купити колеса/шини до сільгосптехніки та спецтехніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                     name: req.query.name,
-                    photo_location: photo_location
+                    photo_location: photo_location,
+                    user: req.currentUser,
                 });
             }
             else if(req.query.name=="Запчастини до комбайнів")
@@ -105,27 +146,31 @@ exports.category = function(req, res) {
                     pageTitle:  req.query.name + " Claas,John Deere, MF та іншої с/г техніки! Львівська область | TrackTop",
                     description: "Купити " + req.query.name + " Клаас, Джон Дір, Массей Фергюсон. Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
                     name: req.query.name,
-                    photo_location: photo_location
+                    photo_location: photo_location,
+                    user: req.currentUser,
                 });
             else if(req.query.name!="Інше")
                 res.render('categoryPage', {
                     pageTitle:  req.query.name + " та іншої с/г техніки! Корчин, Львівська область | TrackTop",
                     description: "Купити " + req.query.name + ". Вибирай запчастини до сільгосптехніки від TrackTop! Доставка по всій Україні. Дзвоніть ☎ (067)-646-22-44",
                     name: req.query.name,
-                    photo_location: photo_location
+                    photo_location: photo_location,
+                    user: req.currentUser,
                 });
             else if(req.query.name=="Інше"){
                 res.render('categoryPage', {
                     pageTitle:  "Запчастини до сільськогосподарської техніки! Корчин, Львівська область | TrackTop",
                     description: "Купити запчастини до сг техніки під замовлення. Доставка по всій Україні. Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                     name: req.query.name,
-                    photo_location: photo_location
+                    photo_location: photo_location,
+                    user: req.currentUser,
                 });
             }
             // not found
             else {
                 res.render('404_error_template', {
                     title: 'Сторінки не знайдено!',
+                    user: req.currentUser,
                 })
             }
         }
@@ -143,7 +188,8 @@ exports.models = function(req, res) {
                 pageTitle: "Запчастини " + req.params.mark+ ". Купити запчастини до комбайнів " +req.params.mark + " Львівська область| TrackTop",
                 mark: req.params.mark,
                 description: "Великий вибір запчастин до зернозбиральних комбайнів "  + req.params.mark + " по вигідній ціні! Запчастини до комбайнів "  + req.params.mark +  ".Вибирай запчастини від TrackTop! Дзвоніть ☎ (067)-646-22-44",
-                photo_location : photo_location
+                photo_location : photo_location,
+                user: req.currentUser,
             });
         }
 
@@ -173,13 +219,15 @@ exports.technic_without_category = function(req, res) {
                                 name: technic.name,
                                 description: "Купити "  + technic.name + " Дзвоніть ☎ (097)-837-87-72",
                                 technic: technic,
-                                photo_location : JSON.parse(technic.photos)[0].val
+                                photo_location : JSON.parse(technic.photos)[0].val,
+                                user: req.currentUser,
                             });
                 }
                 // not found
                 else {
                     res.render('404_error_template', {
                         title: 'Сторінки не знайдено!',
+                        user: req.currentUser,
                     })
                 }
             }
@@ -190,12 +238,10 @@ exports.technic_without_category = function(req, res) {
 
 
 exports.technic = function(req, res) {
-    var model = req.query.model;
-    var mark = req.query.mark;
-    var type = req.query.type;
-    var number_id = req.query.number_id;
-
-     console.log("model"+ model + "mark = " + mark + "type" + type + " id = "+ number_id);
+    let model = req.query.model;
+    let mark = req.query.mark;
+    let type = req.query.type;
+    let number_id = req.query.number_id;
 
     require('./db').get_technics_by_id(number_id,
 
@@ -227,7 +273,8 @@ exports.technic = function(req, res) {
                             name: mark + ' ' + model,
                             type: type_,
                             description: "Купити "  + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (093)-493-14-81",
-                            technic: data[0]
+                            technic: data[0],
+                            user: req.currentUser,
                         });
                     }
                     else {
@@ -236,7 +283,8 @@ exports.technic = function(req, res) {
                             name: mark + ' ' + model,
                             type: type_,
                             description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (093)-493-14-81",
-                            technic: data[0]
+                            technic: data[0],
+                            user: req.currentUser,
                         });
                     }
                 }
@@ -246,7 +294,8 @@ exports.technic = function(req, res) {
                         name: mark + ' ' + model,
                         type: type_,
                         description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
-                        technic: data[0]
+                        technic: data[0],
+                        user: req.currentUser,
                     });
                 }
             }
@@ -254,6 +303,7 @@ exports.technic = function(req, res) {
             else {
                 res.render('404_error_template', {
                     title: 'Сторінки не знайдено!',
+                    user: req.currentUser,
                 })
             }
         }
@@ -263,10 +313,36 @@ exports.technic = function(req, res) {
 };
 
 
+exports.categories = function(req, res) {
+    require('./db').get_types_of_technics(
+        function (error,data) {
+
+            if(error) {
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+                    res.render('categories', {
+                        pageTitle: " | Корчин, Львівська область",
+                        description: "Купити  Дзвоніть ☎ (097)-837-87-72",
+                        photo_location : "",
+                        user: req.currentUser,
+                    })
+            }
+        });
+
+
+};
+
+
 exports.equipment = function(req, res) {
    // var model = req.query.model;
 
     //console.log(req);
+
+    let vendor_code;
 
     require('./db').get_equipment_by_id(req.query.id, function (error,data) {
 
@@ -280,12 +356,20 @@ exports.equipment = function(req, res) {
         else {
 
             if(data.length>0) {
-                // console.log(data[0]+"\n");
+                let category = data[0].category_name;
+                let equipment = data[0];
+                vendor_code = JSON.parse(equipment.vendor_code) || [];
                 if(data[0].category_name != "Запчастини до комбайнів") {
                     res.render('oneEquipmentPage', {
                         equipment: data[0],
-                        title: "Купити " + data[0].name + ". " + data[0].category_name + ". Запчастини до сг техніки Львів | TrackTop",
-                        description: "Купити " + data[0].description + " | TrackTop"
+                        title: "Купити " + equipment.name + ". " + equipment.category_name + ". Запчастини до сг техніки Львів | TrackTop",
+                        description: "Купити " + equipment.description + " | TrackTop",
+                        type_technic: category,
+                        marks: null,
+                        models: null,
+                        vendor_code: vendor_code,
+                        short_description: equipment.name + " " + vendor_code.join(", "),
+                        user: req.currentUser,
                     });
                 }
                 else {
@@ -299,19 +383,28 @@ exports.equipment = function(req, res) {
                                 error: error.sqlMessage
                             });
                         } else {
-
+                            let models = [];
                             if (data.length > 0) {
-
+                                equipment = data[0]
                                 let s = "";
                                 for (let i =0; i < data.length;i ++) {
+                                    models.push(data[i].model)
                                     s += data[i].model;
                                     if(i<data.length-1) s +=",";
                                 }
 
+
                                 res.render('oneEquipmentPage', {
-                                    equipment: data[0],
-                                    title: data[0].name + " " + data[0].technic_mark + " "  + s +" | TrackTop",
-                                    description: "Купити " + data[0].name + " до комбайна " + data[0].technic_mark + " "  + s +". Запчастини до комбайнів " + "Львів | TrackTop"
+                                    equipment: equipment,
+                                    title: equipment.name + " " + equipment.technic_mark + " "  + s +" | TrackTop",
+                                    description: "Купити " + equipment.name + " до комбайна " + equipment.technic_mark + " "  + s +". Запчастини до комбайнів " + "Львів | TrackTop",
+                                    models: models,
+                                    marks: data[0].technic_mark,
+                                    type_technic: category,
+                                    vendor_code: vendor_code,
+                                    short_description: equipment.name + " " + vendor_code.join(", ") + ". Застосувається в комбайнах " +  data[0].technic_mark + " " + models.map(item => item.toString().toUpperCase()).join(", "),
+                                    user: req.currentUser,
+
                                 });
                             }
                         }
@@ -324,6 +417,7 @@ exports.equipment = function(req, res) {
             else {
                 res.render('404_error_template', {
                     title: 'Сторінки не знайдено!',
+                    user: req.currentUser,
                 })
             }
         }
@@ -338,7 +432,8 @@ exports.equipments = function(req, res) {
         pageTitle: 'Запчастини до сг техніки Львівська область | TrackTop',
         description: "У нас ви можете купити запчастини до комбайнів, тракторів, плугів, пресів та сівалок! Львів | TrackTop. Дзвоніть ☎ (067)-646-22-44",
         types: null,
-        mark: null
+        mark: null,
+        user: req.currentUser,
     });
 
 };
@@ -369,7 +464,8 @@ exports.equipmentsByModel = function(req, res) {
                 page: page,
                 mark : req.params.mark,
                 model : req.params.model,
-                photo_location : null
+                photo_location : null,
+                user: req.currentUser,
             });
         }
 
@@ -378,19 +474,22 @@ exports.equipmentsByModel = function(req, res) {
 
 exports.about = (req, res) => {
     res.render('about', {
-        pageTitle: 'Про компанію TrackTop'
+        pageTitle: 'Про компанію TrackTop',
+        user: req.currentUser,
     })
 }
 
 exports.test = (req, res) => {
     res.render('test', {
-        pageTitle: 'Про компанію TrackTop'
+        pageTitle: 'Про компанію TrackTop',
+        user: req.currentUser,
     })
 }
 
 exports.sitemap = (req, res) => {
     res.render('sitemap', {
-        pageTitle: 'Карта сайту магазину сг техніки TrackTop | Львівська область'
+        pageTitle: 'Карта сайту магазину сг техніки TrackTop | Львівська область',
+        user: req.currentUser,
     })
 }
 
@@ -403,23 +502,27 @@ exports.basket = (req, res) => {
     res.render('basket', {
         pageTitle:  "Корзина | TrackTop" ,
         description :  "Корзина | Магазин до комбайнів",
+        user: req.currentUser,
     });
 }
 
 exports.purchases = (req, res) => {
     res.render('purchases', {
+        user: req.currentUser,
     })
 }
 
 exports.error_404 = (req, res) => {
     res.render('404_error_template', {
         title: 'Сторінки не знайдено!',
+        user: req.currentUser,
     })
 }
 
 exports.thank_you = (req, res) => {
     res.render('Thank-You', {
         title: 'Дякуємо за замовлення!',
+        user: req.currentUser,
     })
 }
 
@@ -427,5 +530,6 @@ exports.adminPanel = (req, res) => {
     res.render('adminPage', {
         pageTitle: 'admin panel',
         currPage:  req.query.page || "check",
+        user: req.currentUser,
     })
 }

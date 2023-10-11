@@ -2,6 +2,13 @@
   z-index: 0;
 }
 
+#messageModal {
+  .modal-content {
+    width: 450px;
+    background: #fff;
+  }
+}
+
 button.close_ {
   height: 44px;
   width: 44px;
@@ -46,6 +53,23 @@ button.close_ {
 }
 .message-textarea {
   resize: none;
+  border: 1px solid @textMuted;
+  border-radius: 5px;
+}
+
+.message-modal-container {
+  padding: 65px;
+}
+
+.message-form {
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.message-textarea:focus {
+  border: 1px solid @textSubline !important;
 }
 
 .message-btn-ok{
@@ -59,9 +83,6 @@ button.close_ {
   background: #4c78ab;
 }
 
-.message-btn-container {
-  text-align: center;
-}
 
 .social-items-modal {
   text-decoration: none;
@@ -89,3 +110,15 @@ button.close_ {
   opacity: 0.6;
   text-decoration: none;
 }
+
+
+
+@media screen and (max-width: 575px) {
+  #messageModal .modal-content {
+    width: 100%;
+  }
+  .message-modal-container {
+    padding: 30px 20px;
+  }
+}
+

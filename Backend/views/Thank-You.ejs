@@ -9,8 +9,13 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+<!--    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />-->
 
 </head>
 
@@ -19,17 +24,21 @@
 
     <% include common/header.ejs %>
 
+    <div id="main">
+        <section class="narrow-wrapper padding-wrapper">
+            <div class="row no-gutters thank-you-wrapper">
+                <div class="col-7">
+                    <h2  class="title title-thank-you">Дякуємо!</h2>
+                    <h3 class="subtitle-thank-you">Ваше замовлення прийнято</h3>
+                    <div class="description-thank-you">Незабаром з вами зв’яжуться!</div>
+                    <button class="to_catalog_btn" onclick="document.location.href='/'">Продовжити покупки <i class="fa fa-angle-right"></i></button>
+                </div>
+                <div class="col-5">
+                    <img src="/assets/images/thank-you.png">
+                </div>
+            </div>
 
-    <% include common/left_panel.ejs %>
-
-    <div id="main" style="padding: 30px 0">
-        <div style="text-align: center; font-size: 32px">Дякуємо за замовлення!</div>
-        <div style="text-align: center">Найближчим часом ми з Вами зв'яжемось.</div>
-
-        <div style="text-align: center">
-            <button class="to_catalog_btn" onclick="document.location.href='/'">На головну</button>
-        </div>
-
+        </section>
     </div>
 
 

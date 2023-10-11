@@ -1,0 +1,72 @@
+<div id='vmenuShown' class="navbar-container vmenu">
+        <div class="menu-popup">
+                <div class="menu-popup-item">
+                        <span>Профіль</span>
+                </div>
+                <div class="menu-popup-item">
+                        <span>Корзина</span>
+                </div>
+                <div class="menu-popup-item">
+                        <span>Повідомлення</span>
+                </div>
+        </div>
+        <span class="hr-line-menu-popup"></span>
+        <div class="subscribe_email_popup">
+                <div class="subscribe_email_popup_title">
+                        Підпишіться, щоб отримувати сповіщення!
+                </div>
+                <form class="formInlineContainer">
+                        <div class="input-email">
+                                <input type="email" id="email" name="email" placeholder="Email" value="" data-automation="email-address-input">
+                        </div>
+                        <button id="subscribeEmail"  class="button_sub" type="button" data-automation="subscribe-newsletter-button">
+                                Підписатись
+                        </button>
+                </form>
+        </div>
+        <div class="popup-menu-mobile">
+                <a href="/category_equipments" class="menu-item">Запчастини</a>
+                <a href="/category_equipments" class="menu-item">Техніка</a>
+                <a href="/category_equipments" class="menu-item">Марки</a>
+                <a href="/about" class="menu-item">Про нас</a>
+        </div>
+        <div class="menu_popup_schedule_socials">
+                <div class="schedule-popup"></div>
+                <div class="socials-popup">
+                                    <span class="m-left-5">
+                <a href="https://t.me/TrackTopLviv" class="social-items fab fa-telegram" target="_blank" onclick="fbq('trackCustom', 'clickOpenTelegram');"></a>
+            </span>
+                        <span class="m-left-5">
+                <a href="https://invite.viber.com/?g2=AQB3zGXsatWLG0pH6Rf7Wb33IAjhGy7MAoMRBEByk1jDUKliZohw3FnC32CTQZKK" class="social-items fab fa-viber" target="_blank" onclick="fbq('trackCustom', 'clickOpenViber');"></a>
+            </span>
+                        <span class="m-left-5">
+                <a href="https://www.facebook.com/tracktopShop" class="social-items fab fa-facebook m-left-5" target="_blank" onclick="fbq('trackCustom', 'clickOpenFacebook');"></a>
+            </span>
+                        <span class="m-left-5">
+                <a href="https://www.instagram.com/tracktop_shop/" class="social-items fab fa-instagram m-left-5" target="_blank" onclick="fbq('trackCustom', 'clickOpenInstagram');"></a>
+            </span>
+                </div>
+        </div>
+</div>
+<div id="menuToggle">
+        <div  id="toggleMenuLeft" onclick="toggleLeftPanel()" class=""></div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+                <div class="vertical-menu">
+                        <a href="http://tracktop.com.ua" class="active">На головну</a>
+                </div>
+
+                <div class="vertical-menu vertical-menu-equipment">
+                        <a href="#" class="active">Запчастини</a>
+                </div>
+
+                <div class="vertical-menu vertical-menu-technics">
+                        <a href="#" class="active">Техніка</a>
+                </div>
+                <div class="vertical-menu vertical-menu-models">
+                        <a href="#" class="active">Марки</a>
+                </div>
+        </ul>
+</div>

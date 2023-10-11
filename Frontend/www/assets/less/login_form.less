@@ -3,10 +3,13 @@
 .form-popup {
   display: none;
   position: fixed;
-  top: @heightTopPanel+2px;
-  border: 3px solid #f1f1f1;
+  //top: 0;
+  top: @heightTopPanel+40px;
+  border-radius: 15px;
+  background            : #ffff;
   z-index: 8009;
-  right: 10px;
+  right: 20px;
+  filter: drop-shadow(4px 4px 24px rgba(177, 216, 158, 0.60));
 }
 
 /* Add styles to the form container */
@@ -51,9 +54,6 @@
   text-align: center;
 }
 
-.form-control {
-  font-size : 16px;
-}
 
 @media (max-width: 500px) {
   .form-container {

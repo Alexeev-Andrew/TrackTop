@@ -4,14 +4,117 @@
 }
 
 .about-description{
-    font-family: "Avenir Next", "Avenir", "Open Sans", "Roboto", Arial, sans-serif, "Goudy Bookletter 1911", sans-serif;
-    font-size: 18px;
-    line-height: 24px;
-    margin:50px 15%;
-    font-weight: 100;
+    padding: 60px @paddingWrapperPC;
+    background: rgba(220, 220, 220, 0.40);
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    //line-height: 150%;
     ul{
-        margin-left: 10%;
+        margin-left: 24px;
+        margin-bottom: 0;
     }
+
+    li a {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+
+.about-wrapper {
+    //width: 100%;
+    //height: calc(100vh - @heightTopPanel);
+    //background: url("../images/about-us-background.jpg") center no-repeat;
+    //background-size: cover;
+    height: fit-content;
+    position: relative;
+}
+
+.img-about-wrapper {
+    width: 100%;
+    object-fit: contain;
+    //position: absolute;
+}
+
+.about-page-header {
+    color: @textMain;
+    font-size: 32px;
+    font-style: normal;
+    text-align: center;
+    //padding-top: 52px;
+    font-weight: 900;
+    line-height: normal;
+    text-transform: uppercase;
+    top: 52px;
+    left: 0;
+    right: 0;
+    padding: 0 @paddingWrapperPC;
+    position: absolute;
+}
+
+.col-des-left-wrapper {
+    padding-right: @paddingWrapperLaptop!important;
+}
+
+.col-des-right-wrapper {
+    padding-left: @paddingWrapperLaptop!important;
+}
+
+.svg-to-next-section {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    display: inline-block;
+    width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#about-company-section {
+    margin: 100px auto;
+}
+
+.one-badge {
+    display: flex;
+    gap: 20px;
+
+    .about-title2 {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .about-desc {
+        color: #242223;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%;
+    }
+}
+
+.technics-section {
+    display: flex;
+    margin: 100px auto;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.technics-section-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.svg-to-next-section:hover {
+    cursor: pointer;
+    animation: mover 1s infinite alternate;
 }
 
 .map-responsive{
@@ -19,15 +122,124 @@
     text-align: center;
 }
 .map-responsive iframe{
-    width:90%;
-    height: 300px;
+    width:100%;
+    height: 320px;
 }
 
 
+.contact-form-wrapper {
+    padding: 60px;
+}
 
-@media screen and (max-width:800px){
-    .about-description{
-        margin: 50px 0;
-        padding: 10px;
-    } 
+.col-right-about-wrapper {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #7F9E29 11.58%, rgba(127, 158, 41, 0.87) 54.19%, rgba(127, 158, 41, 0.00) 84.05%);
+}
+
+.col-right-about-background {
+    background: url("../images/combine_background.jpg");
+    color: #FFF;
+
+
+    h3 {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: normal;
+    }
+}
+
+
+@media screen and (max-width:991px){
+    .company-badges {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .about-page-header {
+        font-size: 22px;
+        top: 24px;
+    }
+
+    .col-des-left-wrapper, .col-des-right-wrapper {
+        padding:0!important;
+    }
+
+    .col-des-left-wrapper {
+        border-bottom: 1px solid @textMuted;
+        padding-bottom: @paddingWrapperLaptop!important;
+    }
+
+    .col-des-right-wrapper {
+        padding-top: @paddingWrapperLaptop!important;
+    }
+
+    #about-company-section, .technics-section {
+        margin: @paddingWrapperPC auto;
+        padding: 0 @paddingWrapperMobile;
+    }
+
+    .technics-section {
+        gap: 25px;
+    }
+
+    .contact-form-wrapper {
+        padding: @paddingWrapperPC 120px;
+    }
+
+    .svg-to-next-section {
+        bottom: 30px;
+        svg {
+            width: 50px;
+
+        }
+    }
+}
+
+
+@media screen and (max-width:575px) {
+    .img-about-wrapper {
+        min-height: 350px;
+        object-fit: cover;
+    }
+
+    .about-page-header {
+        font-size: 16px;
+        top: 24px;
+    }
+
+    .contact-form-wrapper {
+        padding: 35px 0;
+
+        .modal-h {
+            font-size: 16px;
+        }
+    }
+
+    .svg-to-next-section {
+        bottom: 0;
+        svg {
+            width: 35px;
+        }
+    }
+
+    .one-badge svg {
+        width: 60px;
+        margin-top: -17px;
+    }
+
+    #about-company-section, .technics-section {
+        margin: 40px auto;
+        padding: 0 @paddingWrapperMobile;
+    }
+
+    .about-description {
+        padding: @paddingWrapperPC @paddingWrapperMobile;
+    }
+
+    .technics-section-title {
+        font-size: 16px;
+    }
+
+
 }

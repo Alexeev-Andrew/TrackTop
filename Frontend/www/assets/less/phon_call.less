@@ -1,7 +1,7 @@
  @import url(https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic);
-.img-circle,.img-circle2{background-color:#29AEE3;box-sizing:content-box;-webkit-box-sizing:content-box;}
-.circlephone{box-sizing:content-box;-webkit-box-sizing:content-box;border: 2px solid #29AEE3;width:160px;height:160px;bottom:-25px;right:10px;position:absolute;-webkit-border-radius:100%;-moz-border-radius: 100%;border-radius: 100%;opacity: .5;-webkit-animation: circle-anim 2.4s infinite ease-in-out !important;-moz-animation: circle-anim 2.4s infinite ease-in-out !important;-ms-animation: circle-anim 2.4s infinite ease-in-out !important;-o-animation: circle-anim 2.4s infinite ease-in-out !important;animation: circle-anim 2.4s infinite ease-in-out !important;-webkit-transition: all .5s;-moz-transition: all .5s;-o-transition: all .5s;transition: all 0.5s;}
-.circle-fill{box-sizing:content-box;-webkit-box-sizing:content-box;background-color:#29AEE3;width:110px;height:110px;bottom:0px;right:35px;position:absolute;-webkit-border-radius: 100%;-moz-border-radius: 100%;border-radius: 100%;border: 2px solid transparent;-webkit-animation: circle-fill-anim 2.3s infinite ease-in-out;-moz-animation: circle-fill-anim 2.3s infinite ease-in-out;-ms-animation: circle-fill-anim 2.3s infinite ease-in-out;-o-animation: circle-fill-anim 2.3s infinite ease-in-out;animation: circle-fill-anim 2.3s infinite ease-in-out;-webkit-transition: all .5s;-moz-transition: all .5s;-o-transition: all .5s;transition: all 0.5s;}
+.img-circle,.img-circle2{background-color: rgba(137, 168, 49, 0.90);box-sizing:content-box;-webkit-box-sizing:content-box;}
+.circlephone{box-sizing:content-box;-webkit-box-sizing:content-box;border: 2px solid @textSubline;width:160px;height:160px;bottom:-25px;right:10px;position:absolute;-webkit-border-radius:100%;-moz-border-radius: 100%;border-radius: 100%;opacity: .5;-webkit-animation: circle-anim 2.4s infinite ease-in-out !important;-moz-animation: circle-anim 2.4s infinite ease-in-out !important;-ms-animation: circle-anim 2.4s infinite ease-in-out !important;-o-animation: circle-anim 2.4s infinite ease-in-out !important;animation: circle-anim 2.4s infinite ease-in-out !important;-webkit-transition: all .5s;-moz-transition: all .5s;-o-transition: all .5s;transition: all 0.5s;}
+.circle-fill{box-sizing:content-box;-webkit-box-sizing:content-box;background-color: rgba(223, 255, 208, 0.80);;width:110px;height:110px;bottom:0px;right:35px;position:absolute;-webkit-border-radius: 100%;-moz-border-radius: 100%;border-radius: 100%;border: 2px solid transparent;-webkit-animation: circle-fill-anim 2.3s infinite ease-in-out;-moz-animation: circle-fill-anim 2.3s infinite ease-in-out;-ms-animation: circle-fill-anim 2.3s infinite ease-in-out;-o-animation: circle-fill-anim 2.3s infinite ease-in-out;animation: circle-fill-anim 2.3s infinite ease-in-out;-webkit-transition: all .5s;-moz-transition: all .5s;-o-transition: all .5s;transition: all 0.5s;}
 .img-circle{box-sizing:content-box;-webkit-box-sizing:content-box;width:77px;height: 77px;bottom: 17px;right: 52px;position:absolute;-webkit-border-radius: 100%;-moz-border-radius: 100%;border-radius: 100%;border: 2px solid transparent;opacity: .7;}
 .img-circleblock{box-sizing:content-box;-webkit-box-sizing:content-box;width:77px;height:77px;background-image:url(../images/mini.png);background-position: center center;background-repeat:no-repeat;animation-name: tossing;-webkit-animation-name: tossing;animation-duration: 1.5s;-webkit-animation-duration: 1.5s;animation-iteration-count: infinite;-webkit-animation-iteration-count: infinite;}
 .img-circle:hover{opacity: 1;}
@@ -58,11 +58,12 @@ opacity: .1;}}
   100% {transform: rotate(0deg) scale(0.7) skew(1deg);opacity: .2;}}
 
 .call_button{background: url(../images/mini.png) no-repeat;bottom:6px;right:6px;position:absolute;width:25px;height:25px;-webkit-background-size: cover;-moz-background-size:cover;background-size:cover;}
-#minbotph{background:#29AEE3;z-index:7997;width:50px;height:50px;bottom:0;right:0;position:fixed;opacity: 0.7;-webkit-border-top-left-radius: 50px;-moz-border-radius-topleft: 50px;border-top-left-radius: 50px;}
+#minbotph{background:@textSubline;z-index:7997;width:50px;height:50px;bottom:0;right:0;position:fixed;opacity: 0.7;-webkit-border-top-left-radius: 50px;-moz-border-radius-topleft: 50px;border-top-left-radius: 50px;}
 #minbotph:hover{opacity: 1;}
 #stbotph,#slibotph{float:left;position:relative;width:120px;height:120px;}
-#content1{float:left;height:81px;margin:22px 0 0 -120px;background: rgba(0, 167, 255, 0.6);padding:0 17px 0 90px;-webkit-border-radius: 50px;-moz-border-radius: 50px;border-radius: 50px;}
-#tele_phone_call{line-height:35px;height:35px;box-sizing:content-box;-webkit-box-sizing:content-box;background:#fff;outline: none;-webkit-appearance: none;vertical-align: middle;width:220px;margin:15px 0 17px 0;color:#1f6074;font-family: 'Open Sans', sans-serif;font-size:26px;border:2px solid #63cff6;padding:2px 10px 3px;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px}
+#content1{float:left;margin:22px 0 0 -120px;background: rgba(114, 156, 0, 0.67);padding:0 17px 0 90px;-webkit-border-radius: 50px;-moz-border-radius: 50px;border-radius: 50px;}
+#tele_phone_call{line-height:35px;height:35px;box-sizing:content-box;-webkit-box-sizing:content-box;background:#fff;outline: none;-webkit-appearance: none;vertical-align: middle;width:220px;margin:15px 0 17px 0;color:#000;font-family: 'Open Sans', sans-serif;font-size:26px;border: 1px solid #D5E6CD;
+;padding:2px 10px 3px;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px}
 #tele_phone_call::-webkit-input-placeholder {font-size:14px;line-height:35px;height:35px;vertical-align: middle;}
 #tele_phone_call::-moz-placeholder  {font-size:14px;line-height:35px;height:35px;vertical-align: middle;}
 #tele_phone_call:-moz-placeholder {font-size:14px;line-height:35px;height:35px;vertical-align: middle;}
@@ -72,12 +73,12 @@ opacity: .1;}}
 #tele_phone_call:focus:-moz-placeholder {color:transparent;}
 #tele_phone_call:focus:-ms-input-placeholder {color:transparent;}
 #labtelcal{font-size:9px;line-height:9px;color:#63cff6;bottom:22px;right:80px;position:absolute;}
-#butcall{font-size:0;vertical-align: middle;width:44px;height:44px;line-height:44px;margin:0;background:#eff8fd url(../images/arr.png) no-repeat 9px 8px;border:3px solid #91d7f9;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
+#butcall{font-size:0;vertical-align: middle;width:44px;height:44px;line-height:44px;margin:0;background:#fff url(../images/right-arrow.png) no-repeat 9px 8px;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
 #butcall:hover{cursor:pointer;-moz-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); transform: rotate(360deg);}
-#mssgresbox{color:white;font-size:20px;text-align:center;vertical-align: middle;line-height:80px;}
+#mssgresbox{color:white;font-size:16px;text-align:center;vertical-align: middle;    font-weight: 700;}
 #pop_up_bl{position:fixed;right:10px;bottom:25px;z-index:7998;max-height:120px;max-width:425px;font-family: 'Open Sans', sans-serif;}
- a#setcookieph{background: rgb(250, 240, 254) url(../images/close.png) center -24px no-repeat;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;display:block;position:absolute;top:10px;right:0;width:20px;height:20px;z-index:7999;-webkit-transition:all 0ms;-o-transition:all 0ms;-moz-transition:all 0ms;transition:all 0ms}
- a#setcookieph:hover{background: rgb(254, 251, 221) url(../images/close.png) center -24px no-repeat;cursor:pointer;}
+ a#setcookieph{color: @textSubline; -webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;display:block;position:absolute;top:10px;right:0;width:20px;height:20px;z-index:7999;-webkit-transition:all 0ms;-o-transition:all 0ms;-moz-transition:all 0ms;transition:all 0ms}
+ a#setcookieph:hover{color: darken(@textSubline, 10%) ;cursor:pointer;}
 
 @media (max-width: 500px) {
   #content1 {

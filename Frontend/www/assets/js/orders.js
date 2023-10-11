@@ -11,7 +11,7 @@ function backendGet(url, callback, data) {
         data_copy = {};
         data_copy.token = ""
     }
-    console.log(data_copy.token)
+    //console.log(data_copy.token)
 
     $.ajax({
         url: API_URL + url,
@@ -142,7 +142,7 @@ exports.getTypes = function(callback) {
 };
 
 exports.toAdminPanel = function(data) {
-    backendGet("/admin-panel7913", null, data );
+    backendGet("/admin-panel", null, data );
 };
 
 exports.getMarks = function(callback) {
@@ -242,10 +242,8 @@ exports.getEquipmentImagesById = function(id,callback) {
 
 exports.uploadUserPhoto = function(photo, id, callback){
     var data = new FormData();
-    data.append('uploadFile[]', photo);
+    data.append('uploadFile', photo);
     data.append('insertId', id);
-
-
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
@@ -299,8 +297,22 @@ exports.deleteTechnicsWithoutCategoryByID = function(id,callback) {
 // }
 
 exports.uploadTechnicPhoto_ = function(form,callback){
+    console.log(form)
     backendPostFiles("/api/upload_technic_photo/", form, callback);
 };
+
+
+exports.isLogIn = function(callback) {
+    backendGet("/api/is-log-in/", callback);
+}
+
+exports.logOut = function(callback) {
+    backendPost("/api/log-out/", {}, callback);
+}
+
+exports.sendMessage = function(data, callback) {
+    backendPost("/api/send-message/", data, callback);
+}
 
 exports.updateTechnicPhoto_ = function(form,callback){
     backendPostFiles("/api/update_technic_photo/", form, callback);
@@ -350,26 +362,72 @@ exports.delete_images_by_equipment_id = function(id,callback) {
 exports.delete_check_equipments_by_equipment_id = function(id,callback) {
     backendPost("/api/delete_check_equipments_by_equipment_id",{id: id},callback);
 }
-},{"./values.js":8}],2:[function(require,module,exports){
+},{"./values.js":9}],2:[function(require,module,exports){
 
 var ejs = require('ejs');
 
 
 exports.typeOfTechnic = ejs.compile("<div class='typeDiv'><!--  col-md-6 col-lg-4 -->\r\n    <img src='/images/technics_placeholders/<%= type.photo_location %>' <%if(type.name===\"Запчастини\") {%>alt=\"Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.\"\r\n    <%} else {%> alt=\"Купити <%= type.name %>. Бу <%= type.name %> Львівська область.\"\r\n    <% }%>>\r\n    <div class='nameType font-add'>\r\n        <a href=\"<%= type.url %>\" class=\"types_main_page\"><strong><h2 class=\"type_h2\"><%= type.name %> </h2></strong></a>\r\n    </div>\r\n</div>");
-exports.technicInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail\" style=\"height: 100%; margin: 0px;\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n\r\n        <div class=\"caption\">\r\n            <a href=\"<%= technic.url %>\">\r\n                <div class=\"model\">\r\n                    <h3 class=\"mark_\" >\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"model_\"><%= technic.model %></span>\r\n                    </h3>\r\n                </div>\r\n            </a>\r\n            <div class=\"price\"><i>Ціна</i> <%= technic.price %>\r\n                <% if(technic.currency.toString() == \"гривня\") { %>\r\n                    грн\r\n                <%}%>\r\n\r\n                <% if(technic.currency.toString() == \"долар\") { %>\r\n                    $\r\n                <%}%>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>");
+exports.technicInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= technic.id %>\" data-title=\"<%= technic.name %> <%= technic.model%>\" data-url=\"<%= technic.url %>\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n        <div class=\"caption\">\r\n            <a class=\"model\" href=\"<%= technic.url %>\">\r\n                <h3 class=\"model\">\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"\"><%= technic.model %></span>\r\n                    </h3>\r\n            </a>\r\n\r\n            <div class=\"caption-footer\">\r\n                <div class=\"price-block\">\r\n                    <div class=\"price-label\">Ціна</i>\r\n                        <div class=\"price\">\r\n                            <%= technic.price %>\r\n                            <% if(technic.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(technic.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                        </div>\r\n\r\n                </div>\r\n            </div>\r\n                <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                        <g clip-path=\"url(#clip0_679_6742)\">\r\n                            <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                        </g>\r\n                        <defs>\r\n                            <clipPath id=\"clip0_679_6742\">\r\n                                <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                            </clipPath>\r\n                        </defs>\r\n                    </svg>\r\n                </button>\r\n            </div>\r\n\r\n        </div>\r\n\r\n</div>");
 exports.technicWithoutCategory = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail\" style=\"margin: 0px;\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             alt =\"Купити <%= technic.name %>\">\r\n\r\n        <div class=\"caption\">\r\n            <a href=\"<%= technic.url %>\">\r\n                <div class=\"model\">\r\n                    <h3 class=\"mark_\" >\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                    </h3>\r\n                </div>\r\n            </a>\r\n            <div class=\"price\"><i>Ціна</i> <%= technic.price %>\r\n                <% if(technic.currency.toString() == \"гривня\") { %>\r\n                    грн\r\n                <%}%>\r\n\r\n                <% if(technic.currency.toString() == \"долар\") { %>\r\n                    $\r\n                <%}%>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>");
 exports.technicInMenu = ejs.compile("<a href=\"<%= item.url %>\"><%= item.name %></a>");
-exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
-exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=equipment.price_uah %> грн</span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
+exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
+exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                    \r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=equipment.price_uah %> грн</span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
 exports.oneImage = ejs.compile("<div class=\"slider__item\">\r\n    <div>\r\n        <a href=\"<%= base %>/images/<%= image %>\" class=\"fancybox\" rel=\"images-single\"  >\r\n            <img  class=\"one_image lazy\" src=\"https://via.placeholder.com/440x300?text=<%= alt %>\" data-src=\"/images/<%= image %>\" alt='<%= alt %>'>\r\n        </a>\r\n<!--        <i class=\"fa fa-arrows-alt icons full_screen_btn\"></i>-->\r\n    </div>\r\n</div>");
-exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail  one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n             alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n         ( <%=equipment.mark_name_ukr%>\r\n        <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n        <% } else {%><%= equipment.model %>  <% } %>)\"\r\n    <%} else { %> alt=\"<%= equipment.name %>\"\r\n                <%}%>>\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n\r\n                <h3 class=\"child_name\"><%= equipment.name %>\r\n                    </h3>\r\n                </a>\r\n            </div>\r\n\r\n             <% if(!equipment.vendor_code){ %>\r\n                        <div class=\"price\" style=\"height:40px;\">\r\n\r\n                        <% } else {%>\r\n                              <div class=\"price\"> <% } %>\r\n                        <div class=\"price_equipment\"><i>Ціна</i></div> <span class=\"equipment_info\"><%= equipment.price_uah %> грн\r\n\r\n                                      <!--                            <% if(equipment.currency.toString() == \"гривня\") { %>-->\r\n<!--                                грн-->\r\n<!--                            <%}%>-->\r\n\r\n<!--                            <% if(equipment.currency.toString() == \"долар\") { %>-->\r\n<!--                                $-->\r\n<!--                            <%}%>-->\r\n                            </span>\r\n                        </div>\r\n\r\n                        <!--\r\n            <div class=\"amount\"><i>Кількість:</i> <%= equipment.amount %></div>\r\n            <div class=\"state\"><i>Стан:</i> <%= equipment.state %></div>\r\n                        !-->\r\n                         <% if( equipment.vendor_code){ %>\r\n\r\n                          <div class=\"vendor_code\"><div class=\"vendor_code_label\"><i>Артикул</i></div> <span class =\"equipment_info\"><%= equipment.vendor_code %> </span></div>\r\n                           <% } %>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
+exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= equipment.id %>\" data-title=\"<%= equipment.name %> <%= equipment.model%>\" data-url=\"<%= equipment.url %>\"\r\n     data-json=\"<%=JSON.stringify(equipment)%>\">\r\n    <div class=\"one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n             alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n         ( <%=equipment.mark_name_ukr%>\r\n        <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n        <% } else {%><%= equipment.model %>  <% } %>)\"\r\n    <%} else { %> alt=\"<%= equipment.name %>\"\r\n                <%}%>>\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n\r\n                <h2 class=\"child_name\"><%= equipment.name %></h2>\r\n                </a>\r\n            </div>\r\n\r\n            <% if( equipment.vendor_code){ %>\r\n\r\n                <div class=\"vendor_code\">\r\n                    <span class=\"equipment_info\"><%= equipment.vendor_code %> </span>\r\n                </div>\r\n            <% } %>\r\n\r\n            <div class=\"caption-footer flex-column\">\r\n                <div class=\"price-message-block d-flex justify-content-between\">\r\n                    <div class=\"price-block\">\r\n                        <div class=\"price-label\">Ціна</i>\r\n                            <div class=\"price\">\r\n                                <%= equipment.price_uah %>\r\n                                    грн\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n                    <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                            <g clip-path=\"url(#clip0_679_6742)\">\r\n                                <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                                <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            </g>\r\n                            <defs>\r\n                                <clipPath id=\"clip0_679_6742\">\r\n                                    <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                                </clipPath>\r\n                            </defs>\r\n                        </svg></button>\r\n                </div>\r\n                <button class=\"btn-green-text-white w-100 btn-add-to-cart mt-3 mb-0\">Додати в корзину</button>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
 exports.oneReview = ejs.compile("<div class=\"oneReview\">\r\n    <div class=\"column column1\"><img class=\"photo_reviewer\"  src=\"http://localhost:5050/images/users_photos/<%= item.photo_location%>\"></div>\r\n    <div class=\"name_recommend column column2\">\r\n        <div class=\"name\"><%= item.name%> <%= item.surname%></div>\r\n        <% if(item.recommend) { %>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-up icons\"></i> Рекомендую</div>\r\n        <% } else {%>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-down icons\"></i> Не рекомендую</div>\r\n        <% } %>\r\n\r\n    </div>\r\n    <div class=\"text_review column column3\"><%=item.text_review%></div>\r\n</div>");
 exports.equipmentCategory = ejs.compile("<div class=\"oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"\" src=\"/images/category_placeholders/<%= category.photo_location %>\"\r\n             alt=\"Купити <%= category.category_name %>\">\r\n        <div class=\"caption\">\r\n            <h2 class=\"name\"><div >\r\n                    <a href=\"<%=category.url%>\">\r\n                        <span class=\"\" style=\"color: black\"><%= category.category_name %></span>\r\n\r\n                    </a>\r\n                </div>\r\n<!--                <span class=\"\" style=\"color: black;height: 1px;width: 1px;display:none\"> Купить < category.category_name_ru ></span>-->\r\n            </h2>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
 exports.oneMark = ejs.compile("<div class=\"oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-marks\">\r\n        <a href=\"<%= mark.url %>\">\r\n        <img class=\"\" src=\"/images/marks_photos/<%= mark.logo_file %>\" alt=\"Запчастини до комбайнів <%= mark.name %>.Запчасти для комбайнов <%= mark.name %>\">\r\n        </a>\r\n        <div class=\"caption captionMark\">\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
-exports.oneModel = ejs.compile("<div class=\"oneModel col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n");
+exports.oneModel = ejs.compile("<div class=\"oneModel \">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n\r\n<!--col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3-->");
 exports.oneOrder = ejs.compile("<div class=\"oneOrder\"  data-order=\"<%= order.order%>\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div class=\"order-decoration\"></div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"># <%= order.id%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Дата</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= new Date(order.purchase_date).toLocaleDateString()%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= order.total%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n                    <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div class=\"open-modal\">\r\n            <i class=\"fas fa-solid fa-arrow-down\"></i>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n<!--    <div class=\"image-control\">-->\r\n<!--        <div style=\"display: flex; flex-direction: column;\">-->\r\n<!--            <div class=\"orderCharacteristics\">-->\r\n<!--            </div>-->\r\n<!--            <div class=\"price-box\">-->\r\n<!--                <div class=\"minus btn btn-xs btn-danger btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-minus\"></i>-->\r\n<!--                </div>-->\r\n<!--                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"-->\r\n<!--                <div class=\"plus btn btn-xs btn-success btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-plus \"></i>-->\r\n<!--                </div>-->\r\n<!--                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-remove\"></i>-->\r\n<!--                </div>-->\r\n<!--            </div>-->\r\n<!--        </div>-->\r\n<!--        <img class=\"imgInOrder\" src=\"/images/=order.icon>\">-->\r\n<!--    </div>-->\r\n</div>");
 exports.oneOrderModal = ejs.compile("<div class=\"oneOrder\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div>\r\n            <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"><%= position.title%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Ціна</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Кількість</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.quantity%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah * position.quantity %> </span>\r\n            </p>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n</div>");
-},{"ejs":11}],3:[function(require,module,exports){
+},{"ejs":12}],3:[function(require,module,exports){
+exports.hideToggleModal = function () {
+    $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
+    $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).removeClass("child-3");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).removeClass("child-2");
+    $( "body" ).removeClass("bodyOverflowHidden");
+}
+
+exports.showToggleModal = function () {
+    $( "body" ).addClass("bodyOverflowHidden");
+    $( "#menuToggle .menu-wrapper-background" ).addClass("toggleMenuLeftOpen");
+    $( "#menuToggle  .menuToggleSpans" ).addClass("menuToggleSpanOpen");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).addClass("child-3");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).addClass("child-2");
+}
+
+
+exports.onSendMessageClick = function () {
+    $(".send-message-one-ad").click( function (e) {
+        let form = new FormData(document.querySelector("#ask-question-one-ad"))
+        let phone = form.get("phone")
+        let message = form.get("message")
+
+        require("./API").sendMessage({message: message }, () => {})
+    })
+}
+
+exports.clearMessageModal = function (selectorForm) {
+    $(selectorForm).reset()
+}
+
+// if($( "#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
+//     $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
+//     $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).removeClass("child-3");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).removeClass("child-2");
+//     $( "body" ).removeClass("bodyOverflowHidden");
+// }
+// else {
+//     $( "body" ).addClass("bodyOverflowHidden");
+//     $( "#menuToggle .menu-wrapper-background" ).addClass("toggleMenuLeftOpen");
+//     $( "#menuToggle  .menuToggleSpans" ).addClass("menuToggleSpanOpen");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).addClass("child-3");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).addClass("child-2");
+// }
+},{"./API":1}],4:[function(require,module,exports){
 var Templates = require('../Templates');
 
 var $technics =   $('.vertical-menu-technics');
@@ -378,6 +436,8 @@ var $equipment =   $('.vertical-menu-equipment');
 
 var values = require('../values.js');
 var API_URL = values.url;
+
+let {hideToggleModal, showToggleModal} = require("../helpers")
 
 
 function showTechnics(list) {
@@ -429,91 +489,113 @@ function showMarks(list) {
 }
 
 exports.initialize = function(){
+    let drop_drown_show = false;
+    let resp =  require("../API").isLogIn();
 
-    var tp = localStorage.getItem('currentTypeOfTechnics');
 
-    function callback(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=  API_URL+"/technics?type="+item.name;
-            l.push(item);
-        });
-        showTechnics(l);
-    }
-    function callback2(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=API_URL+"/technics?mark="+ item.name;
-            l.push(item)
-        });
-        showMarks(l);
-    }
-
-    require("../API").getTypes(callback);
-    require("../API").getMarks(callback2);
-
-    $equipment.click(function(){
-        document.location.href = API_URL+"/category_equipments";
-        $( "body" ).removeClass("bodyOverflowHidden");
-    })
+    // var tp = localStorage.getItem('currentTypeOfTechnics');
+    //
+    // function callback(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=  API_URL+"/technics?type="+item.name;
+    //         l.push(item);
+    //     });
+    //     showTechnics(l);
+    // }
+    // function callback2(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=API_URL+"/technics?mark="+ item.name;
+    //         l.push(item)
+    //     });
+    //     showMarks(l);
+    // }
+    //
+    // require("../API").getTypes(callback);
+    // require("../API").getMarks(callback2);
+    //
+    // $equipment.click(function(){
+    //     document.location.href = API_URL+"/category_equipments";
+    //     $( "body" ).removeClass("bodyOverflowHidden");
+    // })
 }
 
 
 toggleLeftPanel = function () {
-    if($( "#menuToggle ul" ).hasClass("toggleMenuLeftOpen")){
-        $( "#menuToggle ul" ).removeClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).removeClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).removeClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).removeClass("child-2");
-        $( "body" ).removeClass("bodyOverflowHidden");
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            $(".is-login").show();
+        } else {
+            $(".is-login").hide();
+        }
+
+        if($("#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
+            hideToggleModal()
+        }
+        else {
+            showToggleModal()
+        }
+
     }
-    else {
-        $( "body" ).addClass("bodyOverflowHidden");
-        $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).addClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
-    }
+    require("../API").isLogIn(callback)
+
+
+
     // if(opened) $( "body" ).addClass("bodyOverflowHidden");
     // else  $( "body" ).removeClass("bodyOverflowHidden");
 }
 
 
-},{"../API":1,"../Templates":2,"../values.js":8}],4:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../helpers":3,"../values.js":9}],5:[function(require,module,exports){
+let {hideToggleModal} = require("../helpers")
+
+let user_info_dispalyed = false;
 
 exports.openForm = function() {
-    document.getElementById("myForm").style.display = "block";
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            userInfo();
+        } else {
+            toggleModal("#login-modal");
+        }
+
+    }
+    require("../API").isLogIn(callback)
+
+    // document.getElementById("myForm").style.display = "block";
 
 }
 
-var user_info_dispalyed = false;
-exports.closeForm = function() {
-    document.getElementById("myForm").style.display = "none";
+toggleModal = function(selector) {
+    $(document.querySelector(selector)).modal('toggle');
 }
 
 
-exports.userInfo = function() {
+userInfo = function() {
     if(user_info_dispalyed) {
     document.getElementById("user_info").style.display = "none";
         user_info_dispalyed = false;}
     else {
-        if($("#basketColumn").hasClass( "widthR" )) $("#user_info").addClass("margR");
         document.getElementById("user_info").style.display = "block";
         user_info_dispalyed = true;
     }
 }
 
-
-var $phone = $('#myForm input[name=phone]')[0];
-var $password = $('#myForm input[name=psw]')[0];
+exports.userInfo = userInfo;
 
 
 exports.login = function(){
     $('#log_in_btn').click(function() {
-        var phone = $phone.value;
-        var password = $password.value;
+        let form = new FormData(document.querySelector("#login-form"))
+        let phone = form.get("phone")
+        let password = form.get("password")
 
         require("../API").sign_in({
             phone_number: phone,
@@ -524,7 +606,7 @@ exports.login = function(){
                         alert( "Невірний пароль" );
                     }
                     else if(!(data.data[0]==null)){
-                        console.log(data.data[0].token)
+                        // console.log(data.data[0].token)
                         localStorage.setItem('status',true);
                         localStorage.setItem('id',data.data[0].id);
                         localStorage.setItem('name',data.data[0].name);
@@ -532,7 +614,8 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data[0].phone_number);
                         localStorage.setItem('settlement',data.data[0].settelment);
                         localStorage.setItem('photo',data.data[0].photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
                     }
                     else if(!(data==null)){
@@ -545,11 +628,10 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data.phone_number);
                         localStorage.setItem('settlement',data.data.settelment);
                         localStorage.setItem('photo',data.data.photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
-                        require("../API").toAdminPanel({'token': data.data.token })
                     }
-
         });
 
     });
@@ -557,7 +639,7 @@ exports.login = function(){
 
 
 
-},{"../API":1,"./login_form":4,"./user_form":7}],5:[function(require,module,exports){
+},{"../API":1,"../helpers":3,"./user_form":8}],6:[function(require,module,exports){
 let Templates = require('../Templates');
 let ordersHTML   =   $('.orders');
 let ordersListModal   =   $('.orders-list-modal');
@@ -702,7 +784,7 @@ $(function(){
         require('../profile/login_form').userInfo();
     })
 
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
@@ -726,18 +808,19 @@ $(function(){
     })
 
 });
-},{"../API":1,"../Templates":2,"../pagesScripts/leftPanel":3,"../profile/login_form":4,"../profile/signup_form":6,"../profile/user_form":7,"../values":8}],6:[function(require,module,exports){
-var modal = document.getElementById('id01');
-var model_message = document.getElementById('messageModal');
+},{"../API":1,"../Templates":2,"../pagesScripts/leftPanel":4,"../profile/login_form":5,"../profile/signup_form":7,"../profile/user_form":8,"../values":9}],7:[function(require,module,exports){
+const modal = document.getElementById('register-modal');
+const model_message = document.getElementById('messageModal');
 
 function openSignUpForm() {
     modal.style.display='block';
 }
-var Templates = require('../Templates');
+const Templates = require('../Templates');
 
-var $reviews =   $('#reviews');
-var values = require('../values.js');
-var API_URL = values.url;
+let $reviews =   $('#reviews');
+let values = require('../values.js');
+const API_URL = values.url;
+let {clearMessageModal} = require("../helpers")
 
 
 exports.initializeLogin = function(){
@@ -756,19 +839,19 @@ exports.initializeLogin = function(){
     }
 }
 
-var $name = $('#id01 input[name=name]')[0];
-var $surname = $('#id01 input[name=surname]')[0];
-var $phone = $('#id01 input[name=phone]')[0];
-var $password = $('#id01 input[name=psw]')[0];
-var $address = $('#id01 input[name=location]')[0];
-var $email = $('#id01 input[name=email]')[0];
+let $name = $('#register-modal input[name=name]')[0];
+let $surname = $('#register-modal input[name=surname]')[0];
+let $phone = $('#register-modal input[name=phone]')[0];
+let $password = $('#register-modal input[name=psw]')[0];
+let $address = $('#register-modal input[name=location]')[0];
+let $email = $('#register-modal input[name=email]')[0];
 
 checkValidation = function(){
-    var name = $name.value;
-    var surname = $surname.value;
-    var phone = $phone.value;
-    var password = $password.value;
-    var address = $address.value;
+    let name = $name.value;
+    let surname = $surname.value;
+    let phone = $phone.value;
+    let password = $password.value;
+    let address = $address.value;
 
     if (name.value == "")
     {
@@ -788,19 +871,18 @@ checkValidation = function(){
     '(078)789-8908';
     '(078) 789-8908';
     */
-    var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if(!phoneno.test(phone)) {
         alert("Введіть дісний номер\n" +
             "Приклад 093-345-3456");
         return false;
     }
 
-    var regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
+    let regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
 
     if (password.length < 4 )
     {
         window.alert("Слабкий пароль");
-
         password.focus();
         return false
     }
@@ -814,14 +896,14 @@ checkValidation = function(){
 }
 
 checkMessageForm = function () {
-    var $name = $('#messageModal input[name=name]')[0];
-    var $phone = $('#messageModal input[name=phone]')[0];
-    var $message = $('#messageModal textarea[name=message]')[0];
+    let $name = $('#messageModal input[name=name]')[0];
+    let $phone = $('#messageModal input[name=phone]')[0];
+    let $message = $('#messageModal textarea[name=message]')[0];
    // var $address = $('#messageModal input[name=location]')[0];
 
-        var name = $name.value;
-        var phone = $phone.value;
-        var message = $message.value;
+    let name = $name.value;
+    let phone = $phone.value;
+    let message = $message.value;
        // var address = $address.value;
 
         if (name == "")
@@ -858,16 +940,16 @@ checkMessageForm = function () {
 
 function addClient(){
     $('#signup_btn').click(function() {
-        document.getElementById('id01').style.display='none'
+        document.getElementById('register-modal').style.display='none'
        // if (checkValidation()) {
-        var name = $name.value;
-        var surname = $surname.value;
-        var phone = $phone.value;
-        var password = $password.value;
-        var address = $address.value;
-        var email = $email.value;
+        let name = $name.value;
+        let surname = $surname.value;
+        let phone = $phone.value;
+        let password = $password.value;
+        let address = $address.value;
+        let email = $email.value;
 
-        var newT = {
+        let newT = {
             surname: surname,
             name: name,
             phone_number: phone,
@@ -893,81 +975,74 @@ function addClient(){
     });
 }
 
+exports.sendMessageCardHandler = function () {
+    $(".write-message-card").click(function (e) {
+        e.stopPropagation()
+        e.preventDefault();
+    })
+}
+
 sendMessage_My = function (i) {
     if(checkMessageForm()) {
 
-
-        // document.getElementById("phone").mask('+380 (99) 999-99-99');
-        // e.preventDefault();
-        const {TelegramClient} = require('messaging-api-telegram');
-
-// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-        const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM');
-//event.preventDefault();
-        var name = $('#messageModal input[name=name]')[0].value;
-
-        var phone = $('#messageModal input[name=phone]')[0].value;
-        var text = $('#messageModal textarea[name=message]')[0].value;
+        let name = $('#messageModal input[name=name]')[0].value;
+        let phone = $('#messageModal input[name=phone]')[0].value;
+        let text = $('#messageModal textarea[name=message]')[0].value;
+        let productId = $('#messageModal').attr("data-productid");
+        let productTitle = $('#messageModal').attr("data-producttitle")
+        let productUrl = $('#messageModal').attr("data-url")
 
 
         // model_message.style.display = "none";
         $('#messageModal').modal('toggle');
         let message = "Від " + name + "\n тел: " + phone + "\n";
         // let curr =  localStorage.getItem('currTechnic');
-        if (document.getElementsByClassName("type_header").length!=0) message += "Стосовно: " + document.getElementsByClassName("type_header")[0].innerText + "\n";
-        message += text;
-        console.log(message);
+
+        if (productId || productTitle) {
+            message += `Стосовно: <a href="${productUrl}">${productTitle} </a>\n`
+        } else if (document.getElementsByClassName("type_header").length!=0) {
+            message += "Стосовно: " + document.getElementsByClassName("type_header")[0].innerText + "\n";
+        }
+        message += "Повідомлення: " + text;
+        //console.log(message);
         require("../API").addPhone(phone, name);
-        client.sendMessage("-327577485", message, {
-            disable_web_page_preview: true,
-            disable_notification: false,
-        });
-        Notify("Повідомлення відправлено!!!",null,null,'success');
-        // console.log("fsdf");
-         }
+
+        require("../API").sendMessage({message}, () => {
+            Notify("Повідомлення відправлено!!!",null,null,'success');
+            clearMessageModal(".message-form")
+        })
+    }
 }
 
-openMessageModal = function () {
+
+openMessageModal = function ({productId, productTitle, url } = {}) {
 
     $('#messageModal').modal('show');
    // $('#messageModal').on('shown.bs.modal', function(e) {
     $('#user_info').css("display", "none");
     $('#myForm').css("display", "none");
-        var status = localStorage.getItem('status');
-        //console.log("");
-        var $modal = $(this);
-        // esseyId = e.relatedTarget.id;
+    $('#messageModal').attr("data-productId", productId)
+    $('#messageModal').attr("data-productTitle", productTitle)
+    $('#messageModal').attr("data-url", url)
 
-//            $.ajax({
-//                cache: false,
-//                type: 'POST',
-//                url: 'backend.php',
-//                data: 'EID='+essay_id,
-//                success: function(data)
-//                {
+    let status = localStorage.getItem('status');
 
-        if(status) {
-            console.log("status is true");
+    if(status) {
+        let name = localStorage.getItem("name");
+        let surname = localStorage.getItem("surname");
 
-            let name = localStorage.getItem("name");
-            let surname = localStorage.getItem("surname");
-            $("#username_messageForm").val(name+" "+ surname);
-            $("#username_messageForm").attr("disabled", true);
-            $("#phone_messageForm").val(localStorage.getItem("phone"));
-            $("#phone_messageForm").attr("disabled", true);
-            $("#message").val("");
+        $("#username_messageForm").val(name+" "+ surname);
+        $("#username_messageForm").attr("disabled", true);
+        $("#phone_messageForm").val(localStorage.getItem("phone"));
+        $("#phone_messageForm").attr("disabled", true);
+        $("#message").val("");
         }
         else {
-           // $("#username_messageForm").val("");
-           // $("#phone_messageForm").val("");
-            $("#message").val("");
+            clearMessageModal(".message-form")
         }
-
-//                }
-//            });
-
-    //})
 }
+
+exports.openSendMessageModal = openMessageModal;
 
 function createCookie(name, value, days) {
     var expires;
@@ -1013,13 +1088,13 @@ const getDeviceType = () => {
 };
 
 exports.openSubscribeModal = function(){
+
     $('.one-social-item-modal').on('click', function() {
         createCookie('visited', 'yes', 30);
     });
 
     let device = getDeviceType();
     if(device == "mobile" || device == "tablet") {
-
 
             $(window).scroll(function() {
 
@@ -1251,36 +1326,29 @@ openSignUpFormBasket = function() {
 
 exports.openSignUpFormBasket = openSignUpFormBasket
 
-},{"../API":1,"../Templates":2,"../values.js":8,"./user_form":7,"messaging-api-telegram":16}],7:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../helpers":3,"../values.js":9,"./user_form":8,"messaging-api-telegram":17}],8:[function(require,module,exports){
 let values = require('../values.js');
 let API_URL = values.url;
+let { hideToggleModal} = require("../helpers")
 
 exports.isLogged = function () {
-    var name = localStorage.getItem('name');
-    var surname = localStorage.getItem('surname');
-    var status = localStorage.getItem('status');
-    var phone = localStorage.getItem('phone');
-    var photo_location = localStorage.getItem("photo");
+    let name = localStorage.getItem('name');
+    let surname = localStorage.getItem('surname');
+    let status = localStorage.getItem('status');
+    let phone = localStorage.getItem('phone');
+    let photo_location = localStorage.getItem("photo");
     if(status) {
-        console.log('status true');
         // add info to panel
-        $('#full_name').html('<b>' +surname + " " + name + '</b>');
-        $('#user_phone').html('<b>' + phone + '</b>');
-        $('#user_photo').css("display","block");
-        if(photo_location==null) {
-            $('#user_photo').attr("src", "assets/images/avatar.png");
-        }
-       else  $('#user_photo').attr("src", API_URL + "/images/users_photos/"+photo_location);
-        $('#login').css("display", "none");
-        $('#signup').css("display", "none");
-
+        $('.menu-user-name').html(surname + " " + name);
+        $('.menu-user-phone').html(phone);
+        $('.menu-item-auth').hide()
         // hide error non login user
         $("#logged-user-err").css("display","none")
     }
     else {
-        $('#user_photo').css("display","none");
-        $('#login').css("display","block");
-        $('#signup').css("display","block");
+        $('.menu-user-name').html("");
+        $('.menu-user-phone').html("");
+        $('.menu-item-auth').show()
     }
 }
 
@@ -1293,26 +1361,32 @@ exports.openLogin = function(){
 }
 
 exports.deleteInfoFromLocalStorage = function() {
-    localStorage.removeItem("status");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("name");
-    localStorage.removeItem("settlement");
-    localStorage.removeItem("surname");
-    localStorage.removeItem("photo");
-    localStorage.clear();
-    require("./user_form").isLogged();
-}
+    require("../API").logOut( function (err, data) {
+        console.log(err)
+        console.log(data)
+        if(!err) {
+            localStorage.removeItem("status");
+            localStorage.removeItem("phone");
+            localStorage.removeItem("name");
+            localStorage.removeItem("settlement");
+            localStorage.removeItem("surname");
+            localStorage.removeItem("photo");
+            localStorage.clear();
 
-exports.openUserEditPage = function () {
-    
-}
+            $('#user_info').css("display", "none");
+            hideToggleModal();
+            require("./user_form").isLogged();
+        }
 
-},{"../values.js":8,"./user_form":7}],8:[function(require,module,exports){
+    });
+
+}
+},{"../API":1,"../helpers":3,"../values.js":9,"./user_form":8}],9:[function(require,module,exports){
 module.exports = {
-     // url: "http://tracktop.com.ua"
+     //url: "http://tracktop.com.ua"
      url: "http://localhost:5050"
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';var _util = require('util');var _util2 = _interopRequireDefault(_util);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 function indent(str) {
@@ -1401,9 +1475,9 @@ ${requestMessage}
 ${responseMessage}
 `;
   }};
-},{"util":50}],10:[function(require,module,exports){
+},{"util":51}],11:[function(require,module,exports){
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -2271,7 +2345,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":13,"./utils":12,"fs":10,"path":45}],12:[function(require,module,exports){
+},{"../package.json":14,"./utils":13,"fs":11,"path":46}],13:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -2437,53 +2511,29 @@ exports.cache = {
   }
 };
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "ejs@2.5.7",
-      "E:\\WebstormProjects\\TrackTop"
-    ]
-  ],
-  "_from": "ejs@2.5.7",
-  "_id": "ejs@2.5.7",
-  "_inBundle": false,
-  "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
-  "_location": "/ejs",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "ejs@2.5.7",
-    "name": "ejs",
-    "escapedName": "ejs",
-    "rawSpec": "2.5.7",
-    "saveSpec": null,
-    "fetchSpec": "2.5.7"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_spec": "2.5.7",
-  "_where": "E:\\WebstormProjects\\TrackTop",
-  "author": {
-    "name": "Matthew Eernisse",
-    "email": "mde@fleegix.org",
-    "url": "http://fleegix.org"
-  },
-  "bugs": {
-    "url": "https://github.com/mde/ejs/issues"
-  },
-  "contributors": [
-    {
-      "name": "Timothy Gu",
-      "email": "timothygu99@gmail.com",
-      "url": "https://timothygu.github.io"
-    }
-  ],
-  "dependencies": {},
+  "name": "ejs",
   "description": "Embedded JavaScript templates",
+  "keywords": [
+    "template",
+    "engine",
+    "ejs"
+  ],
+  "version": "2.5.7",
+  "author": "Matthew Eernisse <mde@fleegix.org> (http://fleegix.org)",
+  "contributors": [
+    "Timothy Gu <timothygu99@gmail.com> (https://timothygu.github.io)"
+  ],
+  "license": "Apache-2.0",
+  "main": "./lib/ejs.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mde/ejs.git"
+  },
+  "bugs": "https://github.com/mde/ejs/issues",
+  "homepage": "https://github.com/mde/ejs",
+  "dependencies": {},
   "devDependencies": {
     "browserify": "^13.0.1",
     "eslint": "^3.0.0",
@@ -2498,30 +2548,16 @@ module.exports={
   "engines": {
     "node": ">=0.10.0"
   },
-  "homepage": "https://github.com/mde/ejs",
-  "keywords": [
-    "template",
-    "engine",
-    "ejs"
-  ],
-  "license": "Apache-2.0",
-  "main": "./lib/ejs.js",
-  "name": "ejs",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mde/ejs.git"
-  },
   "scripts": {
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
-    "devdoc": "jake doc[dev]",
-    "doc": "jake doc",
+    "test": "jake test",
     "lint": "eslint \"**/*.js\" Jakefile",
-    "test": "jake test"
-  },
-  "version": "2.5.7"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+    "doc": "jake doc",
+    "devdoc": "jake doc[dev]"
+  }
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -4013,7 +4049,7 @@ function stubArray() {
 module.exports = omit;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};
 /* eslint-disable camelcase */
 
@@ -4726,16 +4762,16 @@ class TelegramClient {
     options));
 
   }}exports.default = TelegramClient;
-},{"axios":17,"axios-error":9,"debug":41,"lodash.omit":14,"url-join":47}],16:[function(require,module,exports){
+},{"axios":18,"axios-error":10,"debug":42,"lodash.omit":15,"url-join":48}],17:[function(require,module,exports){
 'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.TelegramClient = undefined;
 
 var _TelegramClient = require('./TelegramClient');var _TelegramClient2 = _interopRequireDefault(_TelegramClient);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.
 
 TelegramClient = _TelegramClient2.default;exports.default =
 { TelegramClient: _TelegramClient2.default };
-},{"./TelegramClient":15}],17:[function(require,module,exports){
+},{"./TelegramClient":16}],18:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":19}],18:[function(require,module,exports){
+},{"./lib/axios":20}],19:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -4899,7 +4935,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/createError":25,"./../core/settle":28,"./../helpers/buildURL":32,"./../helpers/cookies":34,"./../helpers/isURLSameOrigin":36,"./../helpers/parseHeaders":38,"./../utils":40}],19:[function(require,module,exports){
+},{"../core/createError":26,"./../core/settle":29,"./../helpers/buildURL":33,"./../helpers/cookies":35,"./../helpers/isURLSameOrigin":37,"./../helpers/parseHeaders":39,"./../utils":41}],20:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -4953,7 +4989,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":20,"./cancel/CancelToken":21,"./cancel/isCancel":22,"./core/Axios":23,"./defaults":30,"./helpers/bind":31,"./helpers/spread":39,"./utils":40}],20:[function(require,module,exports){
+},{"./cancel/Cancel":21,"./cancel/CancelToken":22,"./cancel/isCancel":23,"./core/Axios":24,"./defaults":31,"./helpers/bind":32,"./helpers/spread":40,"./utils":41}],21:[function(require,module,exports){
 'use strict';
 
 /**
@@ -4974,7 +5010,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -5033,14 +5069,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":20}],22:[function(require,module,exports){
+},{"./Cancel":21}],23:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var defaults = require('./../defaults');
@@ -5121,7 +5157,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"./../defaults":30,"./../utils":40,"./InterceptorManager":24,"./dispatchRequest":26}],24:[function(require,module,exports){
+},{"./../defaults":31,"./../utils":41,"./InterceptorManager":25,"./dispatchRequest":27}],25:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5175,7 +5211,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":40}],25:[function(require,module,exports){
+},{"./../utils":41}],26:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -5195,7 +5231,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":27}],26:[function(require,module,exports){
+},{"./enhanceError":28}],27:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5283,7 +5319,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":22,"../defaults":30,"./../helpers/combineURLs":33,"./../helpers/isAbsoluteURL":35,"./../utils":40,"./transformData":29}],27:[function(require,module,exports){
+},{"../cancel/isCancel":23,"../defaults":31,"./../helpers/combineURLs":34,"./../helpers/isAbsoluteURL":36,"./../utils":41,"./transformData":30}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5306,7 +5342,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -5334,7 +5370,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":25}],29:[function(require,module,exports){
+},{"./createError":26}],30:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5356,7 +5392,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":40}],30:[function(require,module,exports){
+},{"./../utils":41}],31:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5456,7 +5492,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this,require('_process'))
-},{"./adapters/http":18,"./adapters/xhr":18,"./helpers/normalizeHeaderName":37,"./utils":40,"_process":46}],31:[function(require,module,exports){
+},{"./adapters/http":19,"./adapters/xhr":19,"./helpers/normalizeHeaderName":38,"./utils":41,"_process":47}],32:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -5469,7 +5505,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5537,7 +5573,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":40}],33:[function(require,module,exports){
+},{"./../utils":41}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5553,7 +5589,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5608,7 +5644,7 @@ module.exports = (
   })()
 );
 
-},{"./../utils":40}],35:[function(require,module,exports){
+},{"./../utils":41}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5624,7 +5660,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5694,7 +5730,7 @@ module.exports = (
   })()
 );
 
-},{"./../utils":40}],37:[function(require,module,exports){
+},{"./../utils":41}],38:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -5708,7 +5744,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":40}],38:[function(require,module,exports){
+},{"../utils":41}],39:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5763,7 +5799,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":40}],39:[function(require,module,exports){
+},{"./../utils":41}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5792,7 +5828,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -6097,7 +6133,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":31,"is-buffer":43}],41:[function(require,module,exports){
+},{"./helpers/bind":32,"is-buffer":44}],42:[function(require,module,exports){
 (function (process){
 /* eslint-env browser */
 
@@ -6365,7 +6401,7 @@ formatters.j = function (v) {
 };
 
 }).call(this,require('_process'))
-},{"./common":42,"_process":46}],42:[function(require,module,exports){
+},{"./common":43,"_process":47}],43:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -6633,7 +6669,7 @@ function setup(env) {
 
 module.exports = setup;
 
-},{"ms":44}],43:[function(require,module,exports){
+},{"ms":45}],44:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6646,7 +6682,7 @@ module.exports = function isBuffer (obj) {
     typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -6810,7 +6846,7 @@ function plural(ms, msAbs, n, name) {
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7038,7 +7074,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":46}],46:[function(require,module,exports){
+},{"_process":47}],47:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7224,7 +7260,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (name, context, definition) {
   if (typeof module !== 'undefined' && module.exports) module.exports = definition();
   else if (typeof define === 'function' && define.amd) define(definition);
@@ -7304,7 +7340,7 @@ process.umask = function() { return 0; };
 
 });
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7329,14 +7365,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7926,4 +7962,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":49,"_process":46,"inherits":48}]},{},[5]);
+},{"./support/isBuffer":50,"_process":47,"inherits":49}]},{},[6]);

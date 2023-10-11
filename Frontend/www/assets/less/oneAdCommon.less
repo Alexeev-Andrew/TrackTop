@@ -1,0 +1,353 @@
+.one-ad-header {
+  color: #000;
+  font-size: 24px;
+  text-transform: initial;
+  display: flex;
+  margin-bottom: 0;
+}
+
+.one-ad-main-wrapper {
+  margin-top: 30px;
+}
+
+.one-ad-image-desc-wrapper .order-label {
+display: none;
+}
+
+.order-label {
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 45px;
+  color: #FFF;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.order-label-available {
+  background: @textMainHovered;
+}
+
+.order-label-not-available {
+  background: @textMuted;
+}
+
+.order-label-on-demand {
+  background: #FFB800;
+}
+
+.order-label-sold {
+  background: red;
+}
+
+
+.one-ad-information, #ask-question-one-ad {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.one-ad-info-row, .one-ad-header-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.one-ad-image-desc-wrapper {
+  padding-right: 64px;
+}
+
+
+.one-ad-technic-description {
+  margin-top: 20px;
+}
+
+.one-ad-info-label {
+  color: rgba(36, 34, 35, 0.50);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.one-ad-info-value {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.one-ad-info-value-regular {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.one-ad-info-value-price {
+  color: @textMain;
+  font-size: 24px;
+}
+
+.form-item-border {
+  border: 1px solid @textMuted!important;
+  border-radius: 5px;
+}
+
+.form-item-border:focus {
+  border: 1px solid @textSubline !important;
+}
+
+#ask-question-one-ad {
+  margin-top: 30px;
+}
+
+.ask-form-title {
+  text-transform: initial;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.btn-one-ad-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  .btn {
+    padding: 16px 30px;
+    align-items: center;
+  }
+}
+
+#pills-tab {
+  display: flex;
+  gap: 20px;
+
+  .nav-item .active{
+
+  }
+  .nav-link {
+    margin: 0;
+    border-radius: 15px 15px 0px 0px;
+    border-top: 1px solid #DCDCDC;
+    border-right: 1px solid #DCDCDC;
+    border-left: 1px solid #DCDCDC;
+    background: rgba(220, 220, 220, 0.40);
+    line-height: normal;
+    color: #242223;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background: @textSubline!important;
+  color: #FFF!important;
+}
+
+.tab-pane {
+  padding: 40px;
+  border: 1px solid rgba(220, 220, 220, 0.40);
+}
+
+.one-tab-ad .one-ad-usage-row {
+  margin-top: 25px;
+}
+
+.one-tab-ad .one-ad-usage-row:first-child {
+  margin-top: 0px;
+}
+
+.one-ad-usage-row {
+  display: flex;
+}
+
+.one-ad-usage-label {
+  color: @textMain;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 150%; /* 24px */
+  padding: 5px 15px 5px 0;
+  min-width: 80px;
+  border-right: 1px solid @textMuted;
+  //margin-right: 15px;
+}
+
+.nav-item-tab {
+  display: flex;
+  flex: 1;
+}
+
+#pills-equipment-usage {
+  //display: flex;
+  gap: 25px;
+  flex-direction: column;
+}
+
+.one-ad-usage-desc-wrap {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.one-ad-usage-desc {
+  padding: 5px 15px;
+  border-radius: 50px;
+  border: 1px solid #DCDCDC;
+  background: rgba(220, 220, 220, 0.40);
+  color: #242223;
+  width: fit-content;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.one-ad-usage-row .one-ad-usage-desc:first-child {
+  margin-left: 0;
+}
+
+.long_desc {
+  font-weight: 600;
+}
+
+
+@media screen and (max-width:991px) {
+  .one-ad-image-desc-wrapper {
+    padding-right: 0;
+  }
+
+  .one-ad-information {
+    margin-top: 25px;
+  }
+
+  #ask-question-one-ad {
+    padding: 0 @paddingWrapperPC;
+  }
+
+  .ask-form-title {
+    text-align: center;
+  }
+
+  .one-ad-main-wrapper {
+    margin-top: 20px;
+  }
+
+  .one-ad-header {
+    font-size: 20px;
+  }
+  .description_technic {
+    margin-top: 10px;
+  }
+
+  .btn-one-ad-row {
+    button {
+      flex:1;
+    }
+  }
+
+  .tab-pane {
+    padding: @paddingWrapperLaptop 10px;
+  }
+
+}
+
+@media screen and (max-width:575px) {
+  .one-ad-header {
+    font-size: 16px;
+  }
+
+  .one-ad-header-wrapper .order-label {
+    display: none;
+  }
+
+  .one-ad-image-desc-wrapper {
+    position: relative;
+  }
+
+  .description_technic {
+    margin-top: 10px;
+  }
+
+  .one-ad-usage-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .one-ad-usage-label {
+    border: none;
+  }
+
+  .one-ad-usage-desc {
+    font-size: 14px;
+  }
+
+  .one-ad-image-desc-wrapper .order-label {
+    position: absolute;
+    display: block;
+    z-index: 10;
+    top: 8px;
+    right: 8px;
+    font-size: 10px;
+  }
+
+  .one-ad-information {
+    margin-top: 16px;
+  }
+  .one-ad-information {
+    gap: 16px;
+  }
+
+  #ask-question-one-ad {
+    margin-top: 20px;
+    padding: 0;
+    gap: 24px;
+  }
+
+  .btn-one-ad-row {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 16px;
+
+    button {
+      margin: 0;
+      padding: 8px!important;
+      width: 100%;
+    }
+  }
+
+  .one-tab-ad .one-ad-usage-row {
+    margin-top: 15px;
+  }
+
+  .one-ad-usage-desc-wrap {
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-left: 0;
+
+    .one-ad-usage-desc {
+      margin-left: 0;
+    }
+  }
+
+  #pills-tab {
+    gap: 0;
+    flex-direction: column;
+  }
+
+  #pills-tab .nav-link {
+    border-radius: 0;
+  }
+
+  #pills-home-tab { //:not(:first-child)
+    border-radius: 15px 15px 0 0!important;
+  }
+
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    border: none!important;
+  }
+
+  }

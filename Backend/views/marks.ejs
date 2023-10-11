@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="uk">
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+
+    <meta name="description" content="<%=description%>"/>
+    <link rel="shortcut icon"  type="images/x-icon" href="/assets/images/favicon.ico" >
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        let phone = localStorage.getItem("phone");
+        if (phone) {
+            gtag('config', 'UA-154016757-1',{'user_id':phone});
+            gtag('set', {'user_id': phone});
+        }
+        else {
+            gtag('config', 'UA-154016757-1');
+        }
+        gtag('event', 'page_view', { 'send_to': 'UA-154016757-1' });
+    </script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
+
+<!--    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />-->
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '446478622679823');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=446478622679823&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="http://tracktop.com.ua/images/technics_placeholders/<%= photo_location %>"/>
+    <meta property="og:description" content="<%= description %>"/>
+    <meta property="og:locale" content="uk_UA">
+    <script data-ad-client="ca-pub-3700570185209972" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <!-- Hotjar Tracking Code for http://tracktop.com.ua -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:2205765,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <% include common/header.ejs %>
+
+    <div id="main">
+
+        <div class="narrow-wrapper padding-wrapper">
+            <div><h1 class="text-center pt-3">Марки техніки</h1></div>
+
+                <div class="technic-category-list technic-categories-page-list">
+                        <div class="technic-category-wrapper technic-categories-page">
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/category_equipments" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Запчастини" data-src="/images/technics_placeholders/parts.png" alt="Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.">
+                                    <div class="card-technic-footer">
+
+                                        <h2 class="title">Запчастини</h2>
+
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Комбайни" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Комбайни" data-src="/images/technics_placeholders/combine.png" alt="Купити Комбайни. Бу Комбайни Львівська область. Комбайн зернозбиральний">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Комбайни</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Трактори" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Трактори" data-src="/images/technics_placeholders/tractor.png" alt="Купити Трактори. Бу Трактори Львівська область. Трактор сільськогосподарський">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Трактори</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Сівалки" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Сівалки" data-src="/images/technics_placeholders/seeder.png" alt="Купити Сівалки. Бу Сівалки Львівська область. Сівалки: зернова кінна, дискова, анкерна">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Сівалки</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Плуги" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Плуги" data-src="/images/technics_placeholders/plug.png" alt="Купити Плуги. Бу Плуги Львівська область.">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Плуги</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Преси-підбирачі" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Преси-підбирачі" data-src="/images/technics_placeholders/press.png" alt="Купити Преси-підбирачі. Бу Преси-підбирачі Львівська область. Купити прес-підбирач рулонний, квадратний">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Преси-підбирачі</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Жатки" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Жатки" data-src="/images/technics_placeholders/headers.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Жатки</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Косарки" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Косарки" data-src="/images/technics_placeholders/kosarky.png" alt="Купити косарку. Бу косарки та нові Львівська область. Косарка роторна">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Косарки</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics?type=Грабарки" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Грабарки" data-src="/images/technics_placeholders/grabarky.png" alt="Купити грабарку до тракора. Бу грабарки та нові Львівська область. Грабарка сонеяко та ">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Грабарки</h2>
+                                        <div class="action">
+                                    <span class="">
+                                        Перейти до категорії
+                                    </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="technic-category-card technic-categories-page-card">
+                                <a href="/technics-without-category" class="types_main_page">
+                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Інша техніка" data-src="/images/technics_placeholders/others.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
+                                    <div class="card-technic-footer">
+                                        <h2 class="title">Інша техніка</h2>
+                                        <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                            <div class="button-action-category">
+                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+<script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+
+<!-- jQuery JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<!--Bootsrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/technicsMain.js"> </script>
+<script  src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+<script>
+    let images = document.querySelectorAll(".lazy");
+    lazyload(images);
+</script>
+        <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
+        <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
+<script >
+
+</script>
+        <% include common/footer.ejs %>
+</body>
+
+</html>

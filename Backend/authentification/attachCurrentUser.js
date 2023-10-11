@@ -9,7 +9,10 @@ exports.attachCurrentUser = async function (req, res, next) {
 
     if (!accessToken) {
         if (!refresh_token) {
-            return res.status(401).send()
+            req.currentUser = null;
+            next()
+
+            //return res.status(401).send()
         } else {
 
             try {
@@ -22,7 +25,9 @@ exports.attachCurrentUser = async function (req, res, next) {
                         let user;
                         if (!err && data) user = data[0]
                         if(!user) {
-                            return res.status(401).send()
+                            req.currentUser = null;
+                            next()
+                            //return res.status(401).send()
                         }
                         else {
                             req.currentUser = user;
@@ -35,11 +40,15 @@ exports.attachCurrentUser = async function (req, res, next) {
                         }
                     }
                 } else {
-                    return res.status(401).send()
+                    req.currentUser = null;
+                    next()
+                    //return res.status(401).send()
                 }
 
             } catch (e) {
-                return res.status(401).send()
+                req.currentUser = null;
+                next()
+                //return res.status(401).send()
 
             }
         }
@@ -60,7 +69,9 @@ exports.attachCurrentUser = async function (req, res, next) {
                         res.cookie("jwt", null, {maxAge: -1}) // 60000 is 1 min
                         res.cookie("phone", null, {maxAge: -1})
                         res.cookie("refresh_token", null, {maxAge: -1}) // 60000 is 1 min
-                        return res.status(401).send()
+                        req.currentUser = null;
+                        next()
+                        //return res.status(401).send()
                     }
                     else {
                         req.currentUser = user;
@@ -68,11 +79,16 @@ exports.attachCurrentUser = async function (req, res, next) {
                     }
                 }
             } else {
-                return res.status(401).send()
+                req.currentUser = null;
+                next()
+
+                //return res.status(401).send()
             }
 
         } catch (e) {
-            return res.status(401).send()
+            req.currentUser = null;
+            next()
+            //return res.status(401).send()
         }
     }
 

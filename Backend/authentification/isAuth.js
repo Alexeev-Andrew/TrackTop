@@ -86,7 +86,7 @@ exports.authenticateToken = async function (req, res, next) {
                         return res.status(401).send()
                     }
                     else {
-                        req.currentUser =user
+                        req.currentUser = user
                         next();
                     }
                 }

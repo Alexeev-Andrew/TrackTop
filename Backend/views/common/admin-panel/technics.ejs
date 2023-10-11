@@ -49,7 +49,8 @@
             </div>
             <div class="right">
                 <div class="fa fa-remove popup-close link" data-dismiss="modal"
-                     onclick="document.getElementById('addTechnicModelWithoutCategory').style.display='none'" title="Закрити"></div>
+                     onclick="document.getElementById('addTechnicModelWithoutCategory').style.display='none'"
+                     title="Закрити"></div>
             </div>
         </div>
         <div class="container scroll">
@@ -105,9 +106,9 @@
                     </div>
                     </div>
                 </div>
- <br>
+                <br>
 
-            <div class="one-row-admin-panel">
+                <div class="one-row-admin-panel">
                 <div class="name-type">Рік</div>
                 <div class="ds">
                 <input class="form-control form-item admin-panel-input" max="2020" min="1950" placeholder="Рік випуску"
@@ -115,18 +116,33 @@
                        type="number" name="year-input" id="year-technic-input">
                 </div>
             </div>
+                <div class="one-row-admin-panel">
+                    <div class="name-type right-type">Статус</div>
+                       <div class="ds">
+                            <select class="form-control form-item admin-panel-input" id="status">
+                                <option>В наявності</option>
+                                <option>Під замовлення</option>
+                                <option>Немає в наявності</option>
+                                <option>Продано</option>
+                            </select>
+                       </div>
+                </div>
+
+
                 <div class="form-group">
                 <label for="description">Опис</label>
-                <textarea class="form-control" id="description" name="description" rows="6"></textarea>
+                    <div id="editor" name="description"></div>
+
+                    <!--                <textarea class="form-control" id="description" name="description" rows="6"></textarea>-->
             </div>
 
                <div id="fileUploadForm" class="uploader__box js-uploader__box l-center-box">
   <form id="fileUploadForm">
 <!--      <div class="uploader__contents">-->
-<!--          <label class="button button&#45;&#45;secondary" for="fileinput">Додати фото</label>-->
-<!--          <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">-->
-<!--      </div>-->
-<!--      <input class="uploadButton button button&#45;&#45;big-bottom" type="submit" value="Upload Selected Files">-->
+      <!--          <label class="button button&#45;&#45;secondary" for="fileinput">Додати фото</label>-->
+      <!--          <input id="fileinput" class="uploader__file-input" type="file" multiple value="Select Files">-->
+      <!--      </div>-->
+      <!--      <input class="uploadButton button button&#45;&#45;big-bottom" type="submit" value="Upload Selected Files">-->
   </form>
 </div>
 
@@ -134,7 +150,7 @@
              </span>
             <div class="signup-btn-container">
                 <button class="btn btn-primary btn-small " id="add-btn" onclick="addTechnicToDB()">Додати</button>
-                <button class="btn btn-danger btn-small" id="cancel-modal-admin-panel"data-dismiss="modal"
+                <button class="btn btn-danger btn-small" id="cancel-modal-admin-panel" data-dismiss="modal"
                         onclick="document.getElementById('addTechnicModelWithoutCategory').style.display='none'">
                     Скасувати
                 </button>

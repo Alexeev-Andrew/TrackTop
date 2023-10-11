@@ -33,8 +33,9 @@ function showTypes(list) {
 
 exports.initializeTypes = function(){
 
-    $(".typeDiv").click(function () {
-        let next = this.innerText.trim();
+    $(".technic-category-card").click(function () {
+        let next = $(this).find(".title")[0].innerText;
+
         if(next =="Запчастини")
             document.location.href = API_URL+"/category_equipments";
         else if(next == "Інша техніка") {

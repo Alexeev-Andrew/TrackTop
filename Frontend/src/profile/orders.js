@@ -142,7 +142,7 @@ $(function(){
         require('../profile/login_form').userInfo();
     })
 
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");

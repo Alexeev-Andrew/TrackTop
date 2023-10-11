@@ -1,35 +1,47 @@
+let {hideToggleModal} = require("../helpers")
+
+let user_info_dispalyed = false;
 
 exports.openForm = function() {
-    document.getElementById("myForm").style.display = "block";
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            userInfo();
+        } else {
+            toggleModal("#login-modal");
+        }
+
+    }
+    require("../API").isLogIn(callback)
+
+    // document.getElementById("myForm").style.display = "block";
 
 }
 
-var user_info_dispalyed = false;
-exports.closeForm = function() {
-    document.getElementById("myForm").style.display = "none";
+toggleModal = function(selector) {
+    $(document.querySelector(selector)).modal('toggle');
 }
 
 
-exports.userInfo = function() {
+userInfo = function() {
     if(user_info_dispalyed) {
     document.getElementById("user_info").style.display = "none";
         user_info_dispalyed = false;}
     else {
-        if($("#basketColumn").hasClass( "widthR" )) $("#user_info").addClass("margR");
         document.getElementById("user_info").style.display = "block";
         user_info_dispalyed = true;
     }
 }
 
-
-var $phone = $('#myForm input[name=phone]')[0];
-var $password = $('#myForm input[name=psw]')[0];
+exports.userInfo = userInfo;
 
 
 exports.login = function(){
     $('#log_in_btn').click(function() {
-        var phone = $phone.value;
-        var password = $password.value;
+        let form = new FormData(document.querySelector("#login-form"))
+        let phone = form.get("phone")
+        let password = form.get("password")
 
         require("../API").sign_in({
             phone_number: phone,
@@ -40,7 +52,7 @@ exports.login = function(){
                         alert( "Невірний пароль" );
                     }
                     else if(!(data.data[0]==null)){
-                        console.log(data.data[0].token)
+                        // console.log(data.data[0].token)
                         localStorage.setItem('status',true);
                         localStorage.setItem('id',data.data[0].id);
                         localStorage.setItem('name',data.data[0].name);
@@ -48,7 +60,8 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data[0].phone_number);
                         localStorage.setItem('settlement',data.data[0].settelment);
                         localStorage.setItem('photo',data.data[0].photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
                     }
                     else if(!(data==null)){
@@ -61,11 +74,10 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data.phone_number);
                         localStorage.setItem('settlement',data.data.settelment);
                         localStorage.setItem('photo',data.data.photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
-                        require("../API").toAdminPanel({'token': data.data.token })
                     }
-
         });
 
     });

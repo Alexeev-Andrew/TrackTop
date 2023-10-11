@@ -32,7 +32,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+<!--    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />-->
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="/assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
     <!-- LESS JavaScript компілятор -->
     <!--style for text-->
@@ -71,9 +75,9 @@
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <% include common/header.ejs %>
-    <% include common/left_panel.ejs %>
 
     <div id="main">
+        <div class="narrow-wrapper padding-wrapper">
         <%include breadcrumbs.ejs%>
         <div class='type_header'>
             <h1 class="h1_header "><%= name %></h1>
@@ -90,7 +94,7 @@
         <div id="hide_desc" style="display: none">
         </div>
                 <% } else if(name.toString().startsWith("Запчастини до комбайна")) {%>
-                        <ul id="pagination" class="pagination justify-content-center" style="padding-left: 10%">
+                        <ul id="pagination" class="pagination justify-content-center mt-5">
                         </ul>
                 <% if(page == 1) { %>
                     <div id="hide_desc" class="descr_bottom">
@@ -155,6 +159,8 @@
                 </p>
             </div>
         <% } %>
+
+        </div>
     </div>
         <!-- jQuery JavaScript -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>

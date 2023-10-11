@@ -13,10 +13,6 @@ $(function(){
         require('./profile/login_form').openForm();
     })
 
-    $('.cancel').click(function() {
-        require('./profile/login_form').closeForm();
-    })
-
     $('#user_photo').click(function() {
         require('./profile/login_form').userInfo();
     })
@@ -26,11 +22,11 @@ $(function(){
     })
 
     // added
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('./profile/user_form').deleteInfoFromLocalStorage();
         require('./profile/user_form').isLogged();
         $('#user_info').css("display", "none");
-        document.location.href = API_URL;
+        // document.location.href = API_URL;
     })
 
     require('./profile/signup_form').initializeLogin();
@@ -44,4 +40,7 @@ $(function(){
     require('./profile/profile').updateClient();
 
     require('./profile/signup_form').openSubscribeModal();
+
+    require('../src/pagesScripts/sliderNew').multiItemSlider(".technic-category-list")
+
 });

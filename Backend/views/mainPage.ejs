@@ -29,10 +29,14 @@
 
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
-<!--    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!--    <link rel="stylesheet" type="text/css" href="assets/less/all.less" />-->
     <!-- LESS JavaScript компілятор -->
 <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>-->
     <!--style for text-->
@@ -81,7 +85,7 @@
 
 <body>
 
-<div class="wrapper">
+<div class="">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS45HK4"
@@ -90,9 +94,405 @@
 
     <% include common/header.ejs %>
 
-    <% include common/left_panel.ejs %>
-
     <div id="main">
+        <div class="main_cover ">
+            <img src="/assets/images/main_page_wrapper.jpg" class="img-main-wrapper">
+            <h1 class="page-heading page-heading-main">Магазин сільськогосподарської техніки</h1>
+            <a class="svg-to-next-section" href="#categories-section-main-page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                    <g filter="url(#filter0_b_556_4341)">
+                        <circle cx="30" cy="30" r="28.75" stroke="white" stroke-width="2.5"/>
+                    </g>
+                    <path d="M31.25 12.75C31.25 12.0596 30.6904 11.5 30 11.5C29.3096 11.5 28.75 12.0596 28.75 12.75H31.25ZM29.1161 48.1339C29.6043 48.622 30.3957 48.622 30.8839 48.1339L38.8388 40.1789C39.327 39.6908 39.327 38.8993 38.8388 38.4112C38.3507 37.923 37.5592 37.923 37.0711 38.4112L30 45.4822L22.9289 38.4112C22.4408 37.923 21.6493 37.923 21.1612 38.4112C20.673 38.8993 20.673 39.6908 21.1612 40.1789L29.1161 48.1339ZM28.75 12.75L28.75 47.25H31.25L31.25 12.75H28.75Z" fill="white"/>
+                    <defs>
+                        <filter id="filter0_b_556_4341" x="-30" y="-30" width="120" height="120" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feGaussianBlur in="BackgroundImageFix" stdDeviation="15"/>
+                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_556_4341"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_556_4341" result="shape"/>
+                        </filter>
+                    </defs>
+                </svg>
+            </a>
+
+            <!--            <img src="/assets/images/main_page_wrapper.jpg">-->
+        </div>
+
+        <section class="category-section narrow-wrapper" id="categories-section-main-page">
+            <header>
+                <div><h4 class="">Категорії</h4></div>
+                <a class="btn btn-green-text-white" href="/categories">Усі категорії <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.98919 8.23874C10.4725 8.72207 10.4725 9.5057 9.9892 9.98904L2.11295 17.8654C1.62962 18.3488 0.845988 18.3488 0.362652 17.8655C-0.120683 17.3821 -0.12069 16.5985 0.362636 16.1152L7.36375 9.11392L0.362506 2.1128C-0.120829 1.62948 -0.120836 0.845842 0.362489 0.362506C0.845815 -0.120829 1.62945 -0.120836 2.11278 0.36249L9.98919 8.23874Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.0366 8.35302C18.4569 8.77323 18.4569 9.45454 18.0366 9.87476L11.1889 16.7227C10.7686 17.1429 10.0873 17.1429 9.66711 16.7227C9.24688 16.3025 9.24688 15.6212 9.66709 15.201L15.754 9.11391L9.66698 3.02698C9.24675 2.60677 9.24675 1.92546 9.66696 1.50523C10.0872 1.08501 10.7685 1.08501 11.1887 1.50522L18.0366 8.35302Z" fill="#D9D9D9"/>
+                    </svg>
+                </a>
+            </header>
+
+
+            <div class="technic-category-list">
+                <div class="technic-category-wrapper">
+                    <div class="technic-category-card">
+                        <a href="/category_equipments" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Запчастини" data-src="/images/technics_placeholders/parts.png" alt="Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.">
+                            <div class="card-technic-footer">
+
+                                <h2 class="title">Запчастини</h2>
+
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Комбайни" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Комбайни" data-src="/images/technics_placeholders/combine.png" alt="Купити Комбайни. Бу Комбайни Львівська область. Комбайн зернозбиральний">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Комбайни</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Трактори" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Трактори" data-src="/images/technics_placeholders/tractor.png" alt="Купити Трактори. Бу Трактори Львівська область. Трактор сільськогосподарський">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Трактори</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Сівалки" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Сівалки" data-src="/images/technics_placeholders/seeder.png" alt="Купити Сівалки. Бу Сівалки Львівська область. Сівалки: зернова кінна, дискова, анкерна">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Сівалки</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Плуги" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Плуги" data-src="/images/technics_placeholders/plug.png" alt="Купити Плуги. Бу Плуги Львівська область.">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Плуги</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Жатки" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Жатки" data-src="/images/technics_placeholders/headers.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Жатки</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Фронтальні навантажувачі" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Фронтальні навантажувачі" data-src="/images/technics_placeholders/loaders.png" alt="Купити фронтальні навантажувачі на трактор. Фронтальні навантажувачі МТЗ, Т-40, Т-25">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Навантажувачі</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Преси-підбирачі" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Преси-підбирачі" data-src="/images/technics_placeholders/press.png" alt="Купити Преси-підбирачі. Бу Преси-підбирачі Львівська область. Купити прес-підбирач рулонний, квадратний">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Преси-підбирачі</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Спецтехніка" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Спецтехніка" data-src="/images/technics_placeholders/spec.png" alt="Купити спецтехніку Україна. Фронтальний навантажувач, екскаватор, маніту та інше">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Спецтехніка</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Косарки" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Косарки" data-src="/images/technics_placeholders/kosarky.png" alt="Купити косарку. Бу косарки та нові Львівська область. Косарка роторна">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Косарки</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics?type=Грабарки" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Грабарки" data-src="/images/technics_placeholders/grabarky.png" alt="Купити грабарку до тракора. Бу грабарки та нові Львівська область. Грабарка сонеяко та ">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Грабарки</h2>
+                                <div class="action">
+                                    <span class="">
+                                        Перейти до категорії
+                                    </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="technic-category-card">
+                        <a href="/technics-without-category" class="types_main_page">
+                            <img class="lazy" src="https://via.placeholder.com/190x94?text=Інша техніка" data-src="/images/technics_placeholders/others.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
+                            <div class="card-technic-footer">
+                                <h2 class="title">Інша техніка</h2>
+                                <div class="action">
+                            <span class="">
+                                Перейти до категорії
+                            </span>
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+            <footer class="d-flex gap-2">
+                <button class="btn-white-text-green muted slider_control slider_main_control_left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                        <g filter="url(#filter0_d_611_5033)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7008 27.4193L3.39933 16.1178C2.70582 15.4243 2.70582 14.2999 3.39933 13.6063L14.7009 2.30483C15.3944 1.61131 16.5188 1.61131 17.2123 2.30483C17.9058 2.99835 17.9058 4.12276 17.2123 4.81628L8.94237 13.0862L31.293 13.0862C32.2738 13.0862 33.0689 13.8813 33.0689 14.8621C33.0689 15.8429 32.2738 16.6379 31.293 16.6379L8.94237 16.6379L17.2123 24.9079C17.9058 25.6014 17.9058 26.7258 17.2123 27.4193C16.5188 28.1128 15.3944 28.1128 14.7008 27.4193Z" fill="#A9CD53"/>
+                        </g>
+                        <defs>
+                            <filter id="filter0_d_611_5033" x="0.879211" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                <feOffset dy="1"/>
+                                <feGaussianBlur stdDeviation="1"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5033"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5033" result="shape"/>
+                            </filter>
+                        </defs>
+                    </svg>
+                </button>
+                <button class="btn-white-text-green slider_control slider_main_control_right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                        <g filter="url(#filter0_d_611_5030)">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2992 2.3053L32.6007 13.6068C33.2942 14.3003 33.2942 15.4247 32.6007 16.1183L21.2991 27.4198C20.6056 28.1133 19.4812 28.1133 18.7877 27.4198C18.0942 26.7263 18.0942 25.6018 18.7877 24.9083L27.0576 16.6384L4.70701 16.6384C3.72623 16.6384 2.93115 15.8433 2.93115 14.8625C2.93115 13.8818 3.72623 13.0867 4.70701 13.0867L27.0576 13.0867L18.7877 4.81675C18.0942 4.12323 18.0942 2.99881 18.7877 2.3053C19.4812 1.61178 20.6056 1.61178 21.2992 2.3053Z" fill="#A9CD53"/>
+                        </g>
+                        <defs>
+                            <filter id="filter0_d_611_5030" x="0.931152" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                <feOffset dy="1"/>
+                                <feGaussianBlur stdDeviation="1"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5030"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5030" result="shape"/>
+                            </filter>
+                        </defs>
+                    </svg>
+                </button>
+            </footer>
+        </section>
+
+        <div class="desc-bottom-main-page">
+            <div class="row main-desc-wrapper no-gutters">
+                <div class="col-12 col-lg-6 ">
+                    <div class="d-flex col-left-desc-main">
+                        <div class="item-site-description-line">
+                                <svg width="60" height="63" viewBox="0 0 60 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="">
+                                    <path d="M33.4286 16.1429H26.5714C25.9652 16.1429 25.3838 16.3837 24.9552 16.8124C24.5265 17.241 24.2857 17.8224 24.2857 18.4286V19.5715C24.2857 20.1777 24.5265 20.759 24.9552 21.1877C25.3838 21.6164 25.9652 21.8572 26.5714 21.8572H33.4286C34.0348 21.8572 34.6161 21.6164 35.0448 21.1877C35.4735 20.759 35.7143 20.1777 35.7143 19.5715V18.4286C35.7143 17.8224 35.4735 17.241 35.0448 16.8124C34.6161 16.3837 34.0348 16.1429 33.4286 16.1429Z" stroke="white" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M36.2857 18.4286H39.7143C40.3205 18.4286 40.9019 18.6694 41.3305 19.0981C41.7592 19.5267 42 20.1081 42 20.7143V43.5714C42 44.1777 41.7592 44.759 41.3305 45.1877C40.9019 45.6163 40.3205 45.8572 39.7143 45.8572H20.2857C19.6795 45.8572 19.0981 45.6163 18.6695 45.1877C18.2408 44.759 18 44.1777 18 43.5714V20.7143C18 20.1081 18.2408 19.5267 18.6695 19.0981C19.0981 18.6694 19.6795 18.4286 20.2857 18.4286H23.7143" stroke="white" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <g filter="url(#filter0_b_29_65)">
+                                        <path d="M59.5 31.2018C59.5 48.1767 46.2741 61.9037 30 61.9037C13.7259 61.9037 0.5 48.1767 0.5 31.2018C0.5 14.227 13.7259 0.5 30 0.5C46.2741 0.5 59.5 14.227 59.5 31.2018Z" stroke="white"/>
+                                    </g>
+                                    <defs>
+                                        <filter id="filter0_b_29_65" x="-30" y="-30" width="120" height="122.404" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feGaussianBlur in="BackgroundImageFix" stdDeviation="15"/>
+                                            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_29_65"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_29_65" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                        </div>
+                            <div>
+                                <div class="title title-desc title-desc-left">
+                                    Компанія "<b>TrackTop</b>" займається продажем сільськогосподарської техніки та запасних частин до сг техніки.
+                                </div>
+
+                                <p>
+                                    Ми допоможемо обрати найбільш відповідну для вас с/г техніку. Покупка сільськогосподарської техніки та запчастин у «TrackTop» вигідний вибір з можливим подальшим співробітництвом. Наша бу сг техніка з Європи буде служити вам довгі роки, адже вона вся пройшла перевірку якості. У разі поломки ви можете у будь-який момент звернутись до нас, оскільки у нас присутній великий асортимент запасних частин до сільгосптехніки.
+                                </p>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 right-col-desc-main-wrapper">
+                    <div class="right-col-desc-main d-flex col-right-desc-main">
+                        <div class="item-site-description-line">
+                            <svg width="60" height="63" viewBox="0 0 60 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_34_339)">
+                                    <path d="M30.8091 47.592C30.284 47.7946 29.7023 47.7946 29.1771 47.592C25.0789 46.0186 21.5543 43.2391 19.069 39.6205C16.5837 36.0019 15.2546 31.7145 15.2571 27.3246V20.5246C15.2571 19.9232 15.496 19.3465 15.9213 18.9213C16.3465 18.496 16.9232 18.2571 17.5246 18.2571H42.4617C43.0627 18.2577 43.6388 18.4969 44.0635 18.9221C44.4883 19.3472 44.7269 19.9236 44.7269 20.5246V27.3246C44.7294 31.7145 43.4003 36.0019 40.915 39.6205C38.4297 43.2391 34.9074 46.0186 30.8091 47.592Z" stroke="white" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M38.2143 26L29.0714 36.2857L24 31.2143" stroke="white" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <g filter="url(#filter0_b_34_339)">
+                                    <path d="M59.5 31.2018C59.5 48.1767 46.2741 61.9037 30 61.9037C13.7259 61.9037 0.5 48.1767 0.5 31.2018C0.5 14.227 13.7259 0.5 30 0.5C46.2741 0.5 59.5 14.227 59.5 31.2018Z" stroke="white"/>
+                                </g>
+                                <defs>
+                                    <filter id="filter0_b_34_339" x="-30" y="-30" width="120" height="122.404" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feGaussianBlur in="BackgroundImageFix" stdDeviation="15"/>
+                                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_34_339"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_34_339" result="shape"/>
+                                    </filter>
+                                    <clipPath id="clip0_34_339">
+                                        <rect width="32" height="32" fill="white" transform="translate(14 17)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <div class="title title-desc">
+                                Хочете купити сільгосптехніку з Європи?
+                            </div>
+                            <div class="title title-desc">
+                                Ми допоможемо обрати найбільш відповідну для вас с/г техніку.
+                            </div>
+                            <p>
+                                Якщо вам потрібно купити комбайн, сівалку, трактор, прес-підбирач, плуг чи жниварку кукурудзяну з Польщі, Німеччини чи іншої країни Європи, звертайтесь до представників нашої фірми за телефоном,
+                                або ви можете відвідати наш офіс у Львівській області.
+                            </p>
+
+                            <p>
+                                Покупка сільськогосподарської техніки та запчастин у «TrackTop» вигідний вибір з можливим подальшим співробітництвом.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="category-section narrow-wrapper">
+            <header>
+                <div><h3 class="">Популярні марки техніки</h3></div>
+            </header>
+
+            <main class="marks-wrapper">
+                <div class="marks_list">
+                    <div class="one-mark-card">
+                        <img class="lazy" src="https://via.placeholder.com/190x94?text=Інша техніка" data-src="/images/technics_placeholders/others.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова"/>
+                        <div class="action">
+                            <span class="">
+                                Перейти
+                            </span>
+                            <div class="button-action-category button-action-mark">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </main>
+
+            <footer>
+                <a class="btn btn-green-text-white text-uppercase" href="/marks">показати всі марки <i class="fa fa-angle-right "></i><i class="fa fa-angle-right"></i></a>
+            </footer>
+        </section>
+
         <section class="mt-3 promote_own_business_section">
             <div class="wrapper-background">
                 <h3 class="d-inline-block text-center pr-3 pl-3 promote_own_business_section_title">
@@ -102,7 +502,7 @@
                 <h3 class="d-inline-block text-center pr-3 pl-3 promote_own_business_section_subtitle">
                     <div class="promote_section_title">Публікуйте безкоштовне оголошення на</div> <div class="promote_section_title_name"> <i>GROONT</i></div>
                 </h3>
-                <a href="https://groont.com.ua/" target="_blank" class="promote_own_business_section_button mt-3 btn-outline-background-grey">Перейти на сайт
+                <a href="https://groont.com.ua/" target="_blank" class="btn-green-text-white promote_own_business_section_button">Перейти на сайт
                     <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.2124 3.05151C7.31962 2.94401 7.44699 2.85873 7.58722 2.80054C7.72745 2.74235 7.87778 2.7124 8.0296 2.7124C8.18143 2.7124 8.33176 2.74235 8.47199 2.80054C8.61222 2.85873 8.73959 2.94401 8.84681 3.05151L16.5202 10.7249C16.6058 10.8104 16.6738 10.9118 16.7201 11.0235C16.7664 11.1352 16.7903 11.255 16.7903 11.3759C16.7903 11.4969 16.7664 11.6166 16.7201 11.7283C16.6738 11.84 16.6058 11.9415 16.5202 12.0269L8.84681 19.7004C8.39435 20.1528 7.66486 20.1528 7.2124 19.7004C6.75993 19.2479 6.75993 18.5184 7.2124 18.0659L13.8978 11.3713L7.20316 4.67668C6.75993 4.23345 6.75993 3.49474 7.2124 3.05151Z" fill="white"/>
                     </svg>
@@ -111,87 +511,6 @@
             </div>
         </section>
 
-        <div class="h1-main-page mt-3">
-            <h1><span>Магазин сільськогосподарської техніки TRACKTOP</span></h1>
-        </div>
-        <div class="typesOfTechnic"><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Запчастини" data-src="/images/technics_placeholders/equipment.jpg" alt="Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/category_equipments" class="types_main_page"><strong><h2 class="type_h2">Запчастини </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Комбайни" data-src="/images/technics_placeholders/combine.jpg" alt="Купити Комбайни. Бу Комбайни Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Комбайни" class="types_main_page"><strong><h2 class="type_h2">Комбайни </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Трактори" data-src="/images/technics_placeholders/tracktor.jpg" alt="Купити Трактори. Бу Трактори Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Трактори" class="types_main_page"><strong><h2 class="type_h2">Трактори </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Плуги"data-src="/images/technics_placeholders/dyskova.jpg" alt="Купити Плуги. Бу Плуги Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Плуги" class="types_main_page"><strong><h2 class="type_h2">Плуги </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Сівалки" data-src="/images/technics_placeholders/sivalka.jpg" alt="Купити Сівалки. Бу Сівалки Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Сівалки" class="types_main_page"><strong><h2 class="type_h2">Сівалки </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Преси-підбирачі" data-src="/images/technics_placeholders/press.jpg" alt="Купити Преси-підбирачі. Бу Преси-підбирачі Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Преси-підбирачі" class="types_main_page"><strong><h2 class="type_h2">Преси-підбирачі </h2></strong></a>
-                </div>
-            </div><div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" data-src="/images/technics_placeholders/jatky2.jpg"  src="https://via.placeholder.com/440x300?text=Жатки"alt="Купити Жатки. Бу Жатки Львівська область.">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Жатки" class="types_main_page"><strong><h2 class="type_h2">Жатки </h2></strong></a>
-                </div>
-            </div>
-            <div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Фронтальні навантажувачі" data-src="/images/technics_placeholders/loader.jpg" alt="Купити фронтальні навантажувачі. фронтальні навантажувачі МТЗ, Т-40, Т-25">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Фронтальні навантажувачі" class="types_main_page"><strong><h2 class="type_h2">Фронтальні навантажувачі</h2></strong></a>
-                </div>
-            </div>
-            <div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Косарки" data-src="/images/technics_placeholders/косарки2.jpg" alt="Купити косарки роторні. Косарки садові, ротаційні">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Косарки" class="types_main_page"><strong><h2 class="type_h2">Косарки</h2></strong></a>
-                </div>
-            </div>
-            <div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Грабарки" data-src="/images/technics_placeholders/грабарки.jpg" alt="Купити грабарки. Грабалки до мінітрактора/мототрактора. Грабарка сонечко">
-                <div class="nameType font-add">
-                    <a href="http://tracktop.com.ua/technics?type=Грабарки" class="types_main_page"><strong><h2 class="type_h2">Грабарки</h2></strong></a>
-                </div>
-            </div>
-            <div class="typeDiv"><!--  col-md-6 col-lg-4 -->
-                <img class="lazy" src="https://via.placeholder.com/440x300?text=Інша техніка" data-src="/images/technics_placeholders/others.jpg" alt="Купити сільгосптехіку Львів">
-                <div class="nameType font-add">
-                    <a rel="nofollow" href="http://tracktop.com.ua/technics-without-category" class="types_main_page"><strong><h2 class="type_h2">Інша техніка</h2></strong></a>
-                </div>
-            </div>
-        </div>
-        <div class="desc-bottom-main">
-            <p>
-            Компанія "<b>TrackTop</b>" займається продажем сільськогосподарської техніки та запасних частин до сг техніки.
-            </p>
-            <p>
-                <b><i>Хочете купити сільгосптехніку з Європи?</i></b>
-            </p>
-            <p>Якщо вам потрібно купити комбайн, сівалку, трактор, прес-підбирач, плуг чи жниварку кукурудзяну з Польщі, Німеччини чи іншої країни Європи, звертайтесь до представників нашої фірми за телефоном,
-            або ви можете відвідати наш офіс у Львівській області.
-            </p>
-            <p>
-            Ми допоможемо обрати найбільш відповідну для вас с/г техніку.
-                Покупка сільськогосподарської техніки та запчастин у «TrackTop» вигідний вибір з можливим подальшим співробітництвом.
-            Наша бу сг техніка з Європи буде служити вам довгі роки, адже вона вся пройшла перевірку якості.
-            У разі поломки ви можете у будь-який момент звернутись до нас, оскільки у нас присутній великий асортимент запасних частин до сільгосптехніки.
-            </p>
-        </div>
     </div>
 
 

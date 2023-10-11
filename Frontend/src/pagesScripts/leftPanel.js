@@ -7,6 +7,8 @@ var $equipment =   $('.vertical-menu-equipment');
 var values = require('../values.js');
 var API_URL = values.url;
 
+let {hideToggleModal, showToggleModal} = require("../helpers")
+
 
 function showTechnics(list) {
 
@@ -57,53 +59,63 @@ function showMarks(list) {
 }
 
 exports.initialize = function(){
+    let drop_drown_show = false;
+    let resp =  require("../API").isLogIn();
 
-    var tp = localStorage.getItem('currentTypeOfTechnics');
 
-    function callback(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=  API_URL+"/technics?type="+item.name;
-            l.push(item);
-        });
-        showTechnics(l);
-    }
-    function callback2(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=API_URL+"/technics?mark="+ item.name;
-            l.push(item)
-        });
-        showMarks(l);
-    }
-
-    require("../API").getTypes(callback);
-    require("../API").getMarks(callback2);
-
-    $equipment.click(function(){
-        document.location.href = API_URL+"/category_equipments";
-        $( "body" ).removeClass("bodyOverflowHidden");
-    })
+    // var tp = localStorage.getItem('currentTypeOfTechnics');
+    //
+    // function callback(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=  API_URL+"/technics?type="+item.name;
+    //         l.push(item);
+    //     });
+    //     showTechnics(l);
+    // }
+    // function callback2(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=API_URL+"/technics?mark="+ item.name;
+    //         l.push(item)
+    //     });
+    //     showMarks(l);
+    // }
+    //
+    // require("../API").getTypes(callback);
+    // require("../API").getMarks(callback2);
+    //
+    // $equipment.click(function(){
+    //     document.location.href = API_URL+"/category_equipments";
+    //     $( "body" ).removeClass("bodyOverflowHidden");
+    // })
 }
 
 
 toggleLeftPanel = function () {
-    if($( "#menuToggle ul" ).hasClass("toggleMenuLeftOpen")){
-        $( "#menuToggle ul" ).removeClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).removeClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).removeClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).removeClass("child-2");
-        $( "body" ).removeClass("bodyOverflowHidden");
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            $(".is-login").show();
+        } else {
+            $(".is-login").hide();
+        }
+
+        if($("#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
+            hideToggleModal()
+        }
+        else {
+            showToggleModal()
+        }
+
     }
-    else {
-        $( "body" ).addClass("bodyOverflowHidden");
-        $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).addClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
-    }
+    require("../API").isLogIn(callback)
+
+
+
     // if(opened) $( "body" ).addClass("bodyOverflowHidden");
     // else  $( "body" ).removeClass("bodyOverflowHidden");
 }

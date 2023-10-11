@@ -10,9 +10,29 @@ let type = 'tech';
 let default_photo = "default_technic.jpg"
 let files2 = [];
 
- // require("../API").deleteFile("./2.jpg",function (err,data) {
- //     if(err) console.log(err)
- // })
+ $(function(){
+     let editor = document.querySelector( '#editor' );
+     if(editor) {
+         ClassicEditor
+             .create( editor, {
+             } )
+             .then( editor => {
+                 window.editor = editor;
+             } )
+             .catch( error => {
+                 console.error( error );
+             } );
+     }
+
+     $('#vendor-choice')
+         .select2({
+             placeholder: 'Впишіть коди товару',
+             // selectOnClose: true,
+             allowClear: true,
+             theme: "classic",
+             tags: true
+         });
+ });
 
 //multiple = new MultipleSelect();
 openAddTechnicModel = function () {
@@ -118,7 +138,7 @@ openEditTechnicModal = function(cell) {
             $("#technic_url").attr("href",API_URL + "/technic?model=" + model.val() + "&mark=" + mark.val() + "&type=" + type + "&number_id=" + id)
 
             //http://tracktop.com.ua/technic?model=186&mark=Massey%20Ferguson&type=%D0%9A%D0%BE%D0%BC%D0%B1%D0%B0%D0%B9%D0%BD%D0%B8&number_id=229
-            $("#description").val(data.data[0].description);
+            editor.setData(data.data[0].description);
             $("#year-technic-input").val(data.data[0].production_date);
             let cur = data.data[0].currency;
             if(cur == "долар")  $("#currency-choice").val("$");
@@ -293,10 +313,8 @@ showModels = function() {
 openAddEquipmentModel = function () {
     type = 'eq';
     document.getElementById('addEquipmentModel').style.display='block';
-    // $('#addEquipmentModel').modal('show');
     $("#add-btn").text("Додати");
     $('#type_technics').prop("disabled", true);
-    // $('#multiple-select-container-'+container_num).css("display", "none");
     equipmentFormClear();
     $("#equipment_url").hide()
 
@@ -327,8 +345,12 @@ openAddEquipmentModel = function () {
 }
 
 openEditEquipmentModal = function(cell) {
+
+
     $('#addEquipmentModel').modal('show');
     // console.log(cell);
+    equipmentFormClear();
+
     type = 'eq';
     let row = $(cell).parents("tr");
     let cols = row.children("td");
@@ -338,7 +360,8 @@ openEditEquipmentModal = function(cell) {
     //children("button")[0]).data("id");
     $("#name-equipment").val($(cols[1]).text());
     $("#price-input").val($(cols[2]).text());
-    $("#equipment-code").val($(cols[3]).text());
+    // $("#equipment-code").val($(cols[3]).text());
+    $("#vendor-choice").val();
     $("#equipment-amount").val($(cols[4]).text());
     $('#model-choice').children().remove();
     $('#mark-choice').children().remove();
@@ -350,22 +373,21 @@ openEditEquipmentModal = function(cell) {
 
 
 
-    // function callback1(err,data) {
-    //     if(err) console.log(err);
-    //     data.data.forEach(function(item){
-    //         if (! $('#type_technics').find("option[value='" + item.technic_type + "']").length)
-    //             $('#type_technics').append(new Option(item.technic_type, item.technic_type));
-    //     });
-    // }
-    // require("../API").getModels(callback1);
-
-
     function callback(err,data) {
         if (err) {
             console.log(err);
         }
         else {
             let equipment = data.data[0];
+            //////////////////
+            let eq_codes =  JSON.parse(equipment.vendor_code) || [];
+
+            eq_codes.forEach(function (item) {
+                    let option = new Option(item, item, false, true);
+                    $('#vendor-choice').append(option).trigger("change")
+            })
+
+            ///////
 
             let categories = [];
 
@@ -391,7 +413,7 @@ openEditEquipmentModal = function(cell) {
 
                     $("#equipment_url").attr("href",API_URL + "/equipment?name=" + data.data[0].name + "&id=" + id )
 
-                    $("#description").val(data.data[0].description);
+                    editor.setData(data.data[0].description);
                     $("#state-choice").val(data.data[0].state);
                     let cur = data.data[0].currency;
                     $("#currency-choice").val(cur)
@@ -475,14 +497,21 @@ openEditEquipmentModal = function(cell) {
             try {
                 for(let i=0;i< images.length;i++) {
                     let item = images[i];
+
                     getFileObject("/images/equipments/" + item , function (fileObject) {
                         //console.log(fileObject.size);
-                        $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item +  "\"" +
+                        // $('.uploader__file-list').append( "<li class=\"uploader__file-list__item\" data-index=\"" + item +  "\"" +
+                        //     "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/equipments/" + item + "\"" +
+                        //     " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+                        //     item.id +  "\""+ "></button></li>")
+
+                        $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
                             "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/equipments/" + item + "\"" +
                             " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
                             item.id +  "\""+ "></button></li>")
-                    })
+                     })
                 }
+                photosMakeSortable()
             }
             catch(e) {
                 // forget about it :)
@@ -642,7 +671,9 @@ addTechnicToDB = function () {
     let price = $("input[type=number][name=price-input]").val();
     let currency = $('#currency-choice').children("option:selected").val();
     let year = $("input[type=number][name=year-input]").val();
-    var description = $("textarea[name=description]").val();
+    let description = editor.getData()
+    let status = $('#status').children("option:selected").val();
+
     // ..todo photos
     let add_update = $("#add-btn").text();
 
@@ -662,6 +693,7 @@ addTechnicToDB = function () {
         production_date: year,
         currency: "долар",
         description: description,
+        status : status,
     }
 
     let table_row = {
@@ -935,16 +967,17 @@ function checkInputEquipment() {
 
 addEquipmentToDB = function () {
     let name = $('#name-equipment').val();
-    let code = $("#equipment-code").val();
+    let code = $("#vendor-choice").val();
     let price = $("input[type=number][name=price-input]").val();
     let currency = $('#currency-choice').children("option:selected").val();
     let state = $('#state-choice').children("option:selected").val();
     let amount = $("#equipment-amount").val();
-    let description = $("textarea[name=description]").val();
+    let description = editor.getData();
     let category = $("#categories_modal").val();
     let selectedType = $('#type_technics').children("option:selected").val();
     let mark = $("#mark-choice").val();
     let models = $("#model-choice").val();
+    let status = $("#status").val()
     // console.log(name);
     // console.log(code);
     // console.log(price);
@@ -954,15 +987,18 @@ addEquipmentToDB = function () {
     // console.log(amount);
     let add_update_btn = $("#add-btn").text();
 
+    code.filter(item => item.toString().trim().length > 2)
+
     let equipment = {
         name : name,
         amount:amount,
         price:price,
-        vendor_code:code,
+        vendor_code: JSON.stringify(code),
         currency:currency,
         state:state,
         id_category:1,
         description:description,
+        status: status
     };
 
     // if(currency=="€") equipment.currency="євро";
@@ -1070,6 +1106,7 @@ addEquipmentToDB = function () {
                     photo_arr_names.push(item.file_name);
                 })
 
+
                 let newPhotos = getFilesUpload() || [];
                 let allFileNames = getActualFileNames() || [];
 
@@ -1083,6 +1120,9 @@ addEquipmentToDB = function () {
                 data.append("insertId", curId)
                 data.append("sorted_list", JSON.stringify(allFileNames));
                 data.append("old_files", JSON.stringify(photo_arr));
+
+                console.log(allFileNames)
+                console.log(photo_arr)
 
                 require('../API').updateEquipmentPhoto_(data, function (err, data) {
                         if (err || data.error)
@@ -1216,9 +1256,10 @@ addEquipmentToDB = function () {
 function technicFormClear() {
     $("#mark-choice").val("");
     $('#mark-choice').prop("disabled", true);
-    $("#description").val("");
+    editor.setData("");
     $("#model-choice").val("");
     $('#model-choice').prop("disabled", true);
+    $("#status").val("В наявності");
     $("#price-input-technic").val("");
     $("#year-technic-input").val("");
     $('#type_technics').val("Тип");
@@ -1230,6 +1271,11 @@ function equipmentFormClear() {
     $("#mark-choice").val("");
     $('#mark-choice').prop("disabled", true);
     $("#description").val("");
+    $("#status").val("В наявності");
+    $("#vendor-choice").val("");
+    $("#vendor-choice").children().remove();
+    $("#vendor-choice").trigger("change")
+
     $("#model-choice").children().remove();
     $('#model-choice').prop("disabled", true);
     $('#categories_modal').prop("disabled", false);
@@ -1580,9 +1626,6 @@ function hideModal(){
 
 
  /// technics without category
-
-
- let editor = require('../pagesScripts/loader').admin_editor("admin-editor");
 
 
  openAddTechnicWithoutCategoryModel = function () {

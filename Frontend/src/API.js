@@ -300,6 +300,19 @@ exports.uploadTechnicPhoto_ = function(form,callback){
     backendPostFiles("/api/upload_technic_photo/", form, callback);
 };
 
+
+exports.isLogIn = function(callback) {
+    backendGet("/api/is-log-in/", callback);
+}
+
+exports.logOut = function(callback) {
+    backendPost("/api/log-out/", {}, callback);
+}
+
+exports.sendMessage = function(data, callback) {
+    backendPost("/api/send-message/", data, callback);
+}
+
 exports.updateTechnicPhoto_ = function(form,callback){
     backendPostFiles("/api/update_technic_photo/", form, callback);
 };

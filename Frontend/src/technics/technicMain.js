@@ -1,7 +1,10 @@
 var values = require('../values.js');
 var API_URL = values.url;
 require('fancybox')($);
+require("../helpers").onSendMessageClick();
+
 let default_photo = "default_technic.jpg"
+
 
 $( window ).on( "orientationchange", function( event ) {
    // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());

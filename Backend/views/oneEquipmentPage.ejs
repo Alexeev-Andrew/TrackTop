@@ -40,7 +40,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />
+<!--    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />-->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="assets/less/fancybox.css"/>
     <!--style for text-->
@@ -75,71 +78,198 @@
 <!-- End Google Tag Manager (noscript) -->
 
     <% include common/header.ejs %>
-    <% include common/left_panel.ejs %>
 
-    <div id="main" class="container-fluid">
-        <div class='type_header'>
-            <%= equipment.name %>
-        </div>
+    <div id="main">
 
-        <div class="equipments_page">
-            <div class="slider">
-                <div class="slider__wrapper">
+        <section class="narrow-wrapper one-ad-wrapper padding-wrapper">
+            <header>
+                <div class="one-ad-header-wrapper">
+                    <h1 class='text-black-title-900-uppercase one-ad-header'>
+                        <%= equipment.name %>
+                    </h1>
+                    <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
+                </div>
+            </header>
+            <main class="one-ad-main-wrapper">
+                <div class="row no-gutters">
+                    <div class="col-lg-7">
+                        <div class="one-ad-image-desc-wrapper">
+                            <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
+                            <div class="slider">
+                                <div class="slider__wrapper">
+
+                                </div>
+                                <a class="slider__control slider__control_left" href="#" role="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                                        <g filter="url(#filter0_d_611_5033)">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7008 27.4193L3.39933 16.1178C2.70582 15.4243 2.70582 14.2999 3.39933 13.6063L14.7009 2.30483C15.3944 1.61131 16.5188 1.61131 17.2123 2.30483C17.9058 2.99835 17.9058 4.12276 17.2123 4.81628L8.94237 13.0862L31.293 13.0862C32.2738 13.0862 33.0689 13.8813 33.0689 14.8621C33.0689 15.8429 32.2738 16.6379 31.293 16.6379L8.94237 16.6379L17.2123 24.9079C17.9058 25.6014 17.9058 26.7258 17.2123 27.4193C16.5188 28.1128 15.3944 28.1128 14.7008 27.4193Z" fill="#D5E6CD"/>
+                                        </g>
+                                        <defs>
+                                            <filter id="filter0_d_611_5033" x="0.879211" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                <feOffset dy="1"/>
+                                                <feGaussianBlur stdDeviation="1"/>
+                                                <feComposite in2="hardAlpha" operator="out"/>
+                                                <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5033"/>
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5033" result="shape"/>
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </a>
+                                <a class="slider__control slider__control_right slider__control_show" href="#" role="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                                        <g filter="url(#filter0_d_611_5030)">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2992 2.3053L32.6007 13.6068C33.2942 14.3003 33.2942 15.4247 32.6007 16.1183L21.2991 27.4198C20.6056 28.1133 19.4812 28.1133 18.7877 27.4198C18.0942 26.7263 18.0942 25.6018 18.7877 24.9083L27.0576 16.6384L4.70701 16.6384C3.72623 16.6384 2.93115 15.8433 2.93115 14.8625C2.93115 13.8818 3.72623 13.0867 4.70701 13.0867L27.0576 13.0867L18.7877 4.81675C18.0942 4.12323 18.0942 2.99881 18.7877 2.3053C19.4812 1.61178 20.6056 1.61178 21.2992 2.3053Z" fill="#A9CD53"/>
+                                        </g>
+                                        <defs>
+                                            <filter id="filter0_d_611_5030" x="0.931152" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                                <feOffset dy="1"/>
+                                                <feGaussianBlur stdDeviation="1"/>
+                                                <feComposite in2="hardAlpha" operator="out"/>
+                                                <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5030"/>
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5030" result="shape"/>
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="one-ad-information">
+                            <div class="one-ad-info-row">
+                                <span class="one-ad-info-label">Ціна</span>
+                                <span class="one-ad-info-value one-ad-info-value-price"><%= equipment.price_uah %> грн</span>
+                            </div>
+                            <div class="one-ad-info-row">
+                                <span class="one-ad-info-label">Стан</span>
+                                <span class="one-ad-info-value one-ad-info-value-regular"><%= equipment.state%></span>
+                            </div>
+                            <% if(equipment.vendor_code) { %>
+                                <div class="one-ad-info-row">
+                                    <span class="one-ad-info-label">Код товару</span>
+                                    <span class="one-ad-info-value one-ad-info-value-regular"><%= vendor_code.join(", ")%></span>
+                                </div>
+                            <%}%>
+
+                            <span class="hr-line-menu-popup"></span>
+                            <div>
+                                <div class="one-ad-info-label">Опис</div>
+                                <div class="description_technic"><%= short_description %></div>
+                            </div>
+
+                            <div class="btn-one-ad-row">
+                                <button class="btn btn-green-text-white order_equipment">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                                        <g clip-path="url(#clip0_581_5452)">
+                                            <path d="M21.8317 9.43004H3.72885C3.47174 9.42483 3.21675 9.47754 2.98277 9.58425C2.7488 9.69097 2.54183 9.84896 2.37719 10.0465C2.21256 10.2441 2.09449 10.4761 2.03171 10.7255C1.96894 10.9749 1.96308 11.2352 2.01457 11.4872L3.90028 20.9158C3.98042 21.3088 4.19586 21.6613 4.5091 21.9119C4.82233 22.1625 5.21351 22.2953 5.61457 22.2872H19.946C20.347 22.2953 20.7382 22.1625 21.0515 21.9119C21.3647 21.6613 21.5801 21.3088 21.6603 20.9158L23.546 11.4872C23.5975 11.2352 23.5916 10.9749 23.5288 10.7255C23.4661 10.4761 23.348 10.2441 23.1834 10.0465C23.0187 9.84896 22.8118 9.69097 22.5778 9.58425C22.3438 9.47754 22.0888 9.42483 21.8317 9.43004Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M16.2089 3.42969L19.6374 9.42969" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.9231 9.42969L9.35167 3.42969" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_581_5452">
+                                                <rect width="24" height="24" fill="white" transform="translate(0.979858 0.429688)"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                    Замовити</button>
+                                <button class="btn btn-green-text-white " type="button" onclick="openMessageModal();">
+                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_581_5446)">
+                                            <path d="M22.3883 3.42969H3.53118C3.07652 3.42969 2.64049 3.6103 2.319 3.93179C1.99751 4.25328 1.81689 4.68932 1.81689 5.14397V19.7154C1.81689 20.1701 1.99751 20.6061 2.319 20.9276C2.64049 21.2491 3.07652 21.4297 3.53118 21.4297H22.3883C22.843 21.4297 23.279 21.2491 23.6005 20.9276C23.922 20.6061 24.1026 20.1701 24.1026 19.7154V5.14397C24.1026 4.68932 23.922 4.25328 23.6005 3.93179C23.279 3.6103 22.843 3.42969 22.3883 3.42969Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M1.81689 5.57227L11.8626 11.6134C12.1712 11.7951 12.5586 11.8928 12.9598 11.8928C13.3609 11.8928 13.7483 11.7951 14.0569 11.6134L24.1026 5.57227" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_581_5446">
+                                                <rect width="24" height="24" fill="white" transform="translate(0.959717 0.429688)"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                    Написати</button>
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
-                <a class="slider__control slider__control_left" href="#" role="button"></a>
-                <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
-            </div>
-        </div>
 
-        <!-- !-->
+                <div class="row no-gutters mt-5">
+                    <div class="w-100">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item nav-item-tab" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Опис</button>
+                            </li>
+                            <li class="nav-item nav-item-tab" role="presentation">
+                                <button class="nav-link" id="pills-equipment-usage-tab" data-toggle="pill" data-target="#pills-equipment-usage" type="button" role="tab" aria-controls="pills-equipment-usage" aria-selected="false">Застосування</button>
+                            </li>
+                            <li class="nav-item nav-item-tab" role="presentation">
+                                <button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">ОЕМ номери</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active one-tab-ad" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div class="long_desc"><%= equipment.description.toString().length > 10 ? equipment.description : short_description %></div></div>
+                            <div class="tab-pane fade one-tab-ad" id="pills-equipment-usage" role="tabpanel" aria-labelledby="pills-equipment-usage-tab">
+                                <% if(type_technic) { %>
+                                    <div class="one-ad-usage-row">
+                                        <div class="one-ad-usage-label">Техніка</div>
+                                        <div class="one-ad-usage-desc-wrap">
+                                            <div class="one-ad-usage-desc">
+                                                    <%= type_technic%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <%}%>
+                                <%if(marks) { %>
+                                    <div class="one-ad-usage-row">
+                                        <div class="one-ad-usage-label">Марки</div>
+                                        <div class="one-ad-usage-desc-wrap">
+                                            <div class="one-ad-usage-desc">
+                                                    <%= marks%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <%}%>
 
-        <div class="btn_row"> <button class="btn btn-primary order_equipment">
-            <i class="fas fa-cart-plus"></i>
-            Замовити</button>
-        <button class="btn btn-secondary" onclick="openMessageModal();">
-            <i class="	fas fa-envelope"></i>Написати</button> </div>
+                                <% if(models) { %>
+                                    <div class="one-ad-usage-row">
+                                        <div class="one-ad-usage-label">Моделі</div>
+                                        <div class="one-ad-usage-desc-wrap">
+                                            <% for(let i=0; i< models.length; i++) {%>
+                                                <div class="one-ad-usage-desc">
+                                                    <%= models[i]%>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            </div>
+                            <div class="tab-pane fade one-tab-ad" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                <% if(vendor_code) { %>
+                                    <div class="one-ad-usage-row">
+                                        <% for(let i=0; i< vendor_code.length; i++) {%>
+                                            <div class="one-ad-usage-desc">
+                                                <%= vendor_code[i]%>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
 
-
-        <div class="information">
-            <div class="row_info"><i><span class="header_type">Ціна</span></i><span class="type_description">
-                    <%= equipment.price_uah %> грн
-                </span></div>
-
-
-            <div class="row_info float_left"><i><span class="header_type">В наявності</span></i>  <% if(equipment.amount) { %><span class="type_description">Так
-                </span> <%} else { %> <span class="type_description">Так </span><%}%> </div>
-
-            <% if(equipment.vendor_code) { %>
-            <div class="row_info vendor_code_one_equipment_page"><i><span class="header_type">Артикул </span></i> <span
-                    class="type_description"><%= equipment.vendor_code%> </span>
-                <%}%>
-
-
-        <!--
-    <% if(equipment.country_producer) { %>
-                <div class="amount"><i><span class="header_type">Виробник</span></i> <%= equipment.country_producer%>
                 </div>
-                <%}%>
-    <div class="amount"><i><span class="header_type">Кількість</span></i> <%= equipment.amount %></div>
-            <% if(equipment.description) { %>
-            <div class="description"><i><span class="header_type"></span>Опис</i> <%= equipment.description %></div>
-            <%}%>
-    !-->
-
-
-    </div>
-
-
-
-    <% if(equipment.description) { %>
-            <div class="description_technic"> <%= equipment.description %></div>
-            <%}%>
-
-
+            </main>
+            <footer></footer>
+        </section>
 
         </div>
-</div>
 
 <!-- jQuery JavaScript -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>

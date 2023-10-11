@@ -1,32 +1,25 @@
 let values = require('../values.js');
 let API_URL = values.url;
+let { hideToggleModal} = require("../helpers")
 
 exports.isLogged = function () {
-    var name = localStorage.getItem('name');
-    var surname = localStorage.getItem('surname');
-    var status = localStorage.getItem('status');
-    var phone = localStorage.getItem('phone');
-    var photo_location = localStorage.getItem("photo");
+    let name = localStorage.getItem('name');
+    let surname = localStorage.getItem('surname');
+    let status = localStorage.getItem('status');
+    let phone = localStorage.getItem('phone');
+    let photo_location = localStorage.getItem("photo");
     if(status) {
-        console.log('status true');
         // add info to panel
-        $('#full_name').html('<b>' +surname + " " + name + '</b>');
-        $('#user_phone').html('<b>' + phone + '</b>');
-        $('#user_photo').css("display","block");
-        if(photo_location==null) {
-            $('#user_photo').attr("src", "assets/images/avatar.png");
-        }
-       else  $('#user_photo').attr("src", API_URL + "/images/users_photos/"+photo_location);
-        $('#login').css("display", "none");
-        $('#signup').css("display", "none");
-
+        $('.menu-user-name').html(surname + " " + name);
+        $('.menu-user-phone').html(phone);
+        $('.menu-item-auth').hide()
         // hide error non login user
         $("#logged-user-err").css("display","none")
     }
     else {
-        $('#user_photo').css("display","none");
-        $('#login').css("display","block");
-        $('#signup').css("display","block");
+        $('.menu-user-name').html("");
+        $('.menu-user-phone').html("");
+        $('.menu-item-auth').show()
     }
 }
 
@@ -39,16 +32,23 @@ exports.openLogin = function(){
 }
 
 exports.deleteInfoFromLocalStorage = function() {
-    localStorage.removeItem("status");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("name");
-    localStorage.removeItem("settlement");
-    localStorage.removeItem("surname");
-    localStorage.removeItem("photo");
-    localStorage.clear();
-    require("./user_form").isLogged();
-}
+    require("../API").logOut( function (err, data) {
+        console.log(err)
+        console.log(data)
+        if(!err) {
+            localStorage.removeItem("status");
+            localStorage.removeItem("phone");
+            localStorage.removeItem("name");
+            localStorage.removeItem("settlement");
+            localStorage.removeItem("surname");
+            localStorage.removeItem("photo");
+            localStorage.clear();
 
-exports.openUserEditPage = function () {
-    
+            $('#user_info').css("display", "none");
+            hideToggleModal();
+            require("./user_form").isLogged();
+        }
+
+    });
+
 }

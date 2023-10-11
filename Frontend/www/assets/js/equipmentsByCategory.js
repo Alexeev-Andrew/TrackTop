@@ -11,7 +11,7 @@ function backendGet(url, callback, data) {
         data_copy = {};
         data_copy.token = ""
     }
-    console.log(data_copy.token)
+    //console.log(data_copy.token)
 
     $.ajax({
         url: API_URL + url,
@@ -120,6 +120,11 @@ exports.addClient = function(client, callback) {
 exports.addCheck = function(check, callback) {
     backendPost("/api/addcheck/", check, callback);
 };
+
+exports.addOrder = function(order, callback) {
+    backendPost("/api/addorder/", order, callback);
+};
+
 exports.addCheck_equipment = function(check_equipment, callback) {
     backendPost("/api/addcheckequipment/", check_equipment, callback);
 };
@@ -137,7 +142,7 @@ exports.getTypes = function(callback) {
 };
 
 exports.toAdminPanel = function(data) {
-    backendGet("/admin-panel7913", null, data );
+    backendGet("/admin-panel", null, data );
 };
 
 exports.getMarks = function(callback) {
@@ -176,6 +181,14 @@ exports.getClientbyPhone = function(phone,callback) {
 
 exports.getTechnics = function(callback) {
     backendGet("/api/gettechnics/", callback);
+};
+
+exports.getOrdersByClientPhone = function(phone,callback) {
+    backendGet("/api/getordersbyclient/", callback, {phone:phone});
+};
+
+exports.getOrderById = function(id,callback) {
+    backendGet("/api/getorderbyid/", callback, {id:id});
 };
 
 exports.getEquipments = function(callback) {
@@ -229,10 +242,8 @@ exports.getEquipmentImagesById = function(id,callback) {
 
 exports.uploadUserPhoto = function(photo, id, callback){
     var data = new FormData();
-    data.append('uploadFile[]', photo);
+    data.append('uploadFile', photo);
     data.append('insertId', id);
-
-
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
@@ -286,8 +297,22 @@ exports.deleteTechnicsWithoutCategoryByID = function(id,callback) {
 // }
 
 exports.uploadTechnicPhoto_ = function(form,callback){
+    console.log(form)
     backendPostFiles("/api/upload_technic_photo/", form, callback);
 };
+
+
+exports.isLogIn = function(callback) {
+    backendGet("/api/is-log-in/", callback);
+}
+
+exports.logOut = function(callback) {
+    backendPost("/api/log-out/", {}, callback);
+}
+
+exports.sendMessage = function(data, callback) {
+    backendPost("/api/send-message/", data, callback);
+}
 
 exports.updateTechnicPhoto_ = function(form,callback){
     backendPostFiles("/api/update_technic_photo/", form, callback);
@@ -337,126 +362,70 @@ exports.delete_images_by_equipment_id = function(id,callback) {
 exports.delete_check_equipments_by_equipment_id = function(id,callback) {
     backendPost("/api/delete_check_equipments_by_equipment_id",{id: id},callback);
 }
-},{"./values.js":10}],2:[function(require,module,exports){
+},{"./values.js":12}],2:[function(require,module,exports){
 
 var ejs = require('ejs');
 
 
 exports.typeOfTechnic = ejs.compile("<div class='typeDiv'><!--  col-md-6 col-lg-4 -->\r\n    <img src='/images/technics_placeholders/<%= type.photo_location %>' <%if(type.name===\"Запчастини\") {%>alt=\"Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.\"\r\n    <%} else {%> alt=\"Купити <%= type.name %>. Бу <%= type.name %> Львівська область.\"\r\n    <% }%>>\r\n    <div class='nameType font-add'>\r\n        <a href=\"<%= type.url %>\" class=\"types_main_page\"><strong><h2 class=\"type_h2\"><%= type.name %> </h2></strong></a>\r\n    </div>\r\n</div>");
-exports.technicInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail\" style=\"height: 100%; margin: 0px;\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n\r\n        <div class=\"caption\">\r\n            <a href=\"<%= technic.url %>\">\r\n                <div class=\"model\">\r\n                    <h3 class=\"mark_\" >\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"model_\"><%= technic.model %></span>\r\n                    </h3>\r\n                </div>\r\n            </a>\r\n            <div class=\"price\"><i>Ціна</i> <%= technic.price %>\r\n                <% if(technic.currency.toString() == \"гривня\") { %>\r\n                    грн\r\n                <%}%>\r\n\r\n                <% if(technic.currency.toString() == \"долар\") { %>\r\n                    $\r\n                <%}%>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>");
+exports.technicInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= technic.id %>\" data-title=\"<%= technic.name %> <%= technic.model%>\" data-url=\"<%= technic.url %>\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n        <div class=\"caption\">\r\n            <a class=\"model\" href=\"<%= technic.url %>\">\r\n                <h3 class=\"model\">\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"\"><%= technic.model %></span>\r\n                    </h3>\r\n            </a>\r\n\r\n            <div class=\"caption-footer\">\r\n                <div class=\"price-block\">\r\n                    <div class=\"price-label\">Ціна</i>\r\n                        <div class=\"price\">\r\n                            <%= technic.price %>\r\n                            <% if(technic.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(technic.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                        </div>\r\n\r\n                </div>\r\n            </div>\r\n                <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                        <g clip-path=\"url(#clip0_679_6742)\">\r\n                            <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                        </g>\r\n                        <defs>\r\n                            <clipPath id=\"clip0_679_6742\">\r\n                                <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                            </clipPath>\r\n                        </defs>\r\n                    </svg>\r\n                </button>\r\n            </div>\r\n\r\n        </div>\r\n\r\n</div>");
 exports.technicWithoutCategory = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail\" style=\"margin: 0px;\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             alt =\"Купити <%= technic.name %>\">\r\n\r\n        <div class=\"caption\">\r\n            <a href=\"<%= technic.url %>\">\r\n                <div class=\"model\">\r\n                    <h3 class=\"mark_\" >\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                    </h3>\r\n                </div>\r\n            </a>\r\n            <div class=\"price\"><i>Ціна</i> <%= technic.price %>\r\n                <% if(technic.currency.toString() == \"гривня\") { %>\r\n                    грн\r\n                <%}%>\r\n\r\n                <% if(technic.currency.toString() == \"долар\") { %>\r\n                    $\r\n                <%}%>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>");
 exports.technicInMenu = ejs.compile("<a href=\"<%= item.url %>\"><%= item.name %></a>");
-exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n            <div class=\"orderCharacteristics\">\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-remove\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
-exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n            <div class=\"orderCharacteristics\">\r\n                <span class=\"price\"><%=equipment.price %> <%= equipment.currency %></span>\r\n            </div>\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-plus \"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">\r\n                    <i class=\"glyphicon glyphicon-remove\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
+exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
+exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                    \r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=equipment.price_uah %> грн</span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
 exports.oneImage = ejs.compile("<div class=\"slider__item\">\r\n    <div>\r\n        <a href=\"<%= base %>/images/<%= image %>\" class=\"fancybox\" rel=\"images-single\"  >\r\n            <img  class=\"one_image lazy\" src=\"https://via.placeholder.com/440x300?text=<%= alt %>\" data-src=\"/images/<%= image %>\" alt='<%= alt %>'>\r\n        </a>\r\n<!--        <i class=\"fa fa-arrows-alt icons full_screen_btn\"></i>-->\r\n    </div>\r\n</div>");
-exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail  one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n             alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n         ( <%=equipment.mark_name_ukr%>\r\n        <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n        <% } else {%><%= equipment.model %>  <% } %>)\"\r\n    <%} else { %> alt=\"<%= equipment.name %>\"\r\n                <%}%>>\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n\r\n                <h3 class=\"child_name\"><%= equipment.name %>\r\n                    </h3>\r\n                </a>\r\n            </div>\r\n\r\n             <% if(!equipment.vendor_code){ %>\r\n                        <div class=\"price\" style=\"height:40px;\">\r\n\r\n                        <% } else {%>\r\n                              <div class=\"price\"> <% } %>\r\n                        <div class=\"price_equipment\"><i>Ціна</i></div> <span class=\"equipment_info\"><%= equipment.price %>\r\n                            <% if(equipment.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(equipment.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                            </span>\r\n                        </div>\r\n\r\n                        <!--\r\n            <div class=\"amount\"><i>Кількість:</i> <%= equipment.amount %></div>\r\n            <div class=\"state\"><i>Стан:</i> <%= equipment.state %></div>\r\n                        !-->\r\n                         <% if( equipment.vendor_code){ %>\r\n\r\n                          <div class=\"vendor_code\"><div class=\"vendor_code_label\"><i>Артикул</i></div> <span class =\"equipment_info\"><%= equipment.vendor_code %> </span></div>\r\n                           <% } %>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
+exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= equipment.id %>\" data-title=\"<%= equipment.name %> <%= equipment.model%>\" data-url=\"<%= equipment.url %>\"\r\n     data-json=\"<%=JSON.stringify(equipment)%>\">\r\n    <div class=\"one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n             alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n         ( <%=equipment.mark_name_ukr%>\r\n        <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n        <% } else {%><%= equipment.model %>  <% } %>)\"\r\n    <%} else { %> alt=\"<%= equipment.name %>\"\r\n                <%}%>>\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n\r\n                <h2 class=\"child_name\"><%= equipment.name %></h2>\r\n                </a>\r\n            </div>\r\n\r\n            <% if( equipment.vendor_code){ %>\r\n\r\n                <div class=\"vendor_code\">\r\n                    <span class=\"equipment_info\"><%= equipment.vendor_code %> </span>\r\n                </div>\r\n            <% } %>\r\n\r\n            <div class=\"caption-footer flex-column\">\r\n                <div class=\"price-message-block d-flex justify-content-between\">\r\n                    <div class=\"price-block\">\r\n                        <div class=\"price-label\">Ціна</i>\r\n                            <div class=\"price\">\r\n                                <%= equipment.price_uah %>\r\n                                    грн\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n                    <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                            <g clip-path=\"url(#clip0_679_6742)\">\r\n                                <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                                <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            </g>\r\n                            <defs>\r\n                                <clipPath id=\"clip0_679_6742\">\r\n                                    <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                                </clipPath>\r\n                            </defs>\r\n                        </svg></button>\r\n                </div>\r\n                <button class=\"btn-green-text-white w-100 btn-add-to-cart mt-3 mb-0\">Додати в корзину</button>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
 exports.oneReview = ejs.compile("<div class=\"oneReview\">\r\n    <div class=\"column column1\"><img class=\"photo_reviewer\"  src=\"http://localhost:5050/images/users_photos/<%= item.photo_location%>\"></div>\r\n    <div class=\"name_recommend column column2\">\r\n        <div class=\"name\"><%= item.name%> <%= item.surname%></div>\r\n        <% if(item.recommend) { %>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-up icons\"></i> Рекомендую</div>\r\n        <% } else {%>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-down icons\"></i> Не рекомендую</div>\r\n        <% } %>\r\n\r\n    </div>\r\n    <div class=\"text_review column column3\"><%=item.text_review%></div>\r\n</div>");
 exports.equipmentCategory = ejs.compile("<div class=\"oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"\" src=\"/images/category_placeholders/<%= category.photo_location %>\"\r\n             alt=\"Купити <%= category.category_name %>\">\r\n        <div class=\"caption\">\r\n            <h2 class=\"name\"><div >\r\n                    <a href=\"<%=category.url%>\">\r\n                        <span class=\"\" style=\"color: black\"><%= category.category_name %></span>\r\n\r\n                    </a>\r\n                </div>\r\n<!--                <span class=\"\" style=\"color: black;height: 1px;width: 1px;display:none\"> Купить < category.category_name_ru ></span>-->\r\n            </h2>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
 exports.oneMark = ejs.compile("<div class=\"oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-marks\">\r\n        <a href=\"<%= mark.url %>\">\r\n        <img class=\"\" src=\"/images/marks_photos/<%= mark.logo_file %>\" alt=\"Запчастини до комбайнів <%= mark.name %>.Запчасти для комбайнов <%= mark.name %>\">\r\n        </a>\r\n        <div class=\"caption captionMark\">\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
-exports.oneModel = ejs.compile("<div class=\"oneModel col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n");
-exports.oneOrder = ejs.compile("<div class=\"oneModel col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n");
-},{"ejs":14}],3:[function(require,module,exports){
-var Templates = require('./Templates');
+exports.oneModel = ejs.compile("<div class=\"oneModel \">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n\r\n<!--col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3-->");
+exports.oneOrder = ejs.compile("<div class=\"oneOrder\"  data-order=\"<%= order.order%>\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div class=\"order-decoration\"></div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"># <%= order.id%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Дата</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= new Date(order.purchase_date).toLocaleDateString()%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= order.total%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n                    <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div class=\"open-modal\">\r\n            <i class=\"fas fa-solid fa-arrow-down\"></i>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n<!--    <div class=\"image-control\">-->\r\n<!--        <div style=\"display: flex; flex-direction: column;\">-->\r\n<!--            <div class=\"orderCharacteristics\">-->\r\n<!--            </div>-->\r\n<!--            <div class=\"price-box\">-->\r\n<!--                <div class=\"minus btn btn-xs btn-danger btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-minus\"></i>-->\r\n<!--                </div>-->\r\n<!--                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"-->\r\n<!--                <div class=\"plus btn btn-xs btn-success btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-plus \"></i>-->\r\n<!--                </div>-->\r\n<!--                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-remove\"></i>-->\r\n<!--                </div>-->\r\n<!--            </div>-->\r\n<!--        </div>-->\r\n<!--        <img class=\"imgInOrder\" src=\"/images/=order.icon>\">-->\r\n<!--    </div>-->\r\n</div>");
+exports.oneOrderModal = ejs.compile("<div class=\"oneOrder\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div>\r\n            <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"><%= position.title%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Ціна</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Кількість</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.quantity%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah * position.quantity %> </span>\r\n            </p>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n</div>");
+},{"ejs":16}],3:[function(require,module,exports){
+let Templates = require('./Templates');
 
-var basil = require('basil.js');
+let basil = require('basil.js');
 basil = new basil();
-const fetch = require('node-fetch');
+const values = require('./values')
+const API_URL = values.url;
 
-const { TelegramClient } = require('messaging-api-telegram');
+let allPrice = 0;
+let amountOfOrders = 0;
 
-// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM');
+let Cart = [];
 
+let $cart = $(".buyList");
+let flag=true;
 
-var phone = "380345452323"
-var text = "Покупець: Горбач Михайло\n" +
-    "телефон:"+phone+"\n Замовлення\n";
+let $amount = $(".amountOfBoughtPizz");
+let $allPrice = $(".amountLabel");
 
-
-
-
-
-// fetch.Request
-// fetch('http://example.com/movies.json')
-//     .then((response) => {
-//         return response.json();
-//     })
-//     .then((data) => {
-//         console.log(data);
-//     });
-function sendMessage(text) {
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         Accept: 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         chat_id :"-327577485",
-    //         text: text,
-    //         parse_mode: 'HTML',
-    //         disable_web_page_preview: false,
-    //         disable_notification: false,
-    //         reply_to_message_id: null
-    //     })
-    // };
-    //
-    // fetch('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage', options)
-    // .then(response => response.json())
-    // .then(response => console.log(response))
-    // .catch(err => console.error(err));
-
-    $.ajax({
-        url:'https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage',
-        method:'POST',
-        data:{chat_id:"-327577485",
-            text:text,
-            parse_mode: 'HTML',
-            disable_web_page_preview: false,
-            disable_notification: false,
-            reply_to_message_id: null},
-        success:function(){
-            alert('your message has been sent!');
-        }
-    });
-}
-
-
-function openNav() {
-    $("#basketColumn").addClass("widthR");
-    $("#main").addClass("margR");
-    $(".header").addClass("margR");
-    $("#myForm").addClass("margR");
-    if($('#user_info').css("display")=="block")
-    $("#user_info").addClass("margR");
-}
-
-function closeNav() {
-    $("#basketColumn").removeClass("widthR");
-    $("#main").removeClass("margR");
-    $(".header").removeClass("margR");
-    $("#myForm").removeClass("margR");
-    if($('#user_info').css("display")=="block")
-    $("#user_info").removeClass("margR");
-}
 
 exports.initialiseBasket = function(){
     $('.basketBtn').click(function () {
         $('#user_info').css("display", "none");
         $('#myForm').css("display", "none");
-        openNav();
+        document.location.href = values.url + "/basket"
+        //openNav();
     })
 
-    $('.basketCloseBtn').click(function () {
-        closeNav();
-    })
 
-    $('#subscribeEmail').click(function () {
-        let email = document.getElementById("email").value;
+    $('.btnSubscribeEmail').click(function () {
+        let email = document.getElementById("email_subscribe").value;
+        //console.log(email)
+
         if(emailIsValid(email)) {
             $("#error-msg").css("display","none");
-            writeEmail(email);
-            alert("Дякуємо за підписку!")
+            writeEmail(email, function (err, result) {
+                console.log(result)
+                if(err || result.error) {
+                    $("#error-msg").css("display","block");
+                }
+                else {
+                    alert("Дякуємо за підписку!")
+                }
+
+            });
         }
         else {
             $("#error-msg").css("display","block");
@@ -467,15 +436,11 @@ exports.initialiseBasket = function(){
     $(".sendNumberButton").click(function () {
 
          let phone = $("#tele_phone_call").val();
-         let param = getUrlParameter("type");
-         let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val() ;
-         if(param) text += "\n" + param;
+         let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val();
          if(phone.length == 16) {
              require("./API").addPhone(phone);
-             client.sendMessage("-327577485", text, {
-                 disable_web_page_preview: true,
-                 disable_notification: false,
-             });
+             require("./API").sendMessage({message: message }, () => {})
+
              document.getElementById('slibotph').style.display='none';
              document.getElementById('content1').style.width='300px';
              document.getElementById('content1').style.padding='0px';
@@ -493,40 +458,30 @@ exports.initialiseBasket = function(){
 
 
 
-var allPrice = 0;
-var amountOfOrders = 0;
-
-var Cart = [];
-
-var $cart = $(".buyList");
-var flag=true;
-
 function addToCart(tech) {
+    Cart = basil.get('orders');
+
+    allPrice = basil.get('price');
+    amountOfOrders = basil.get('amountOfOrders');
+
 
     Cart.forEach(function(cart_item){
-        if(cart_item.title==tech.title) {
+
+
+        if(cart_item.id === tech.id) {
+
             cart_item.quantity += 1;
-            allPrice += tech.price;
+            allPrice += tech.price_uah;
             amountOfOrders += 1;
             flag=false;
             return;
         }
     });
     if(flag){
-        allPrice += tech.price;
-       // tech.
+        allPrice += tech.price_uah;
         amountOfOrders += 1;
-        Cart.push(tech
-        //     {
-        //     id: tech.id,
-        //     title: tech.title,
-        //     price: tech.price,
-        //     currency: tech.currency,
-        //     icon: tech.icon,
-        //     quantity: 1,
-        //     isTech: tech.isTech
-        // }
-        );
+
+        Cart.push(tech);
     }
     flag=true;
     //Оновити вміст кошика на сторінці
@@ -536,7 +491,7 @@ function addToCart(tech) {
 function removeFromCart(cart_item) {
 
     if(Cart.indexOf(cart_item)!=-1) {
-        allPrice -= (cart_item.price)*cart_item.quantity;
+        allPrice -= (cart_item.price_uah)*cart_item.quantity;
         amountOfOrders -= cart_item.quantity;
         delete Cart[Cart.indexOf(cart_item)];
     }
@@ -547,18 +502,24 @@ function removeFromCart(cart_item) {
     updateCart();
 }
 
-var $amount = $(".amountOfBoughtPizz");
-var $allPrice = $(".amountLabel");
+
 
 function initialiseCart() {
-    var savedOrders = basil.get('amountOfOrders');
+    let savedOrders = basil.get('amountOfOrders');
+    //if(!savedOrders) savedOrders = 0;
     if(savedOrders>0){
         Cart = basil.get('orders');
+        console.log(Cart)
+       // if(!Cart) Cart = []
+
         Cart = Cart.filter(function(x) {
             return x !== undefined && x !== null;
         });
         allPrice = basil.get('price');
+        console.log(allPrice)
         amountOfOrders = basil.get('amountOfOrders');
+        console.log(amountOfOrders)
+
     }
 
     $(".orderButton").click(function () {
@@ -566,107 +527,78 @@ function initialiseCart() {
 
             let status = localStorage.getItem("status");
             if(status) {
-                var id = localStorage.getItem("id");
-                gtag('event', 'click', {
-                    'event_category': 'button',
-                    'event_label': 'buy'
-                });
-                var name = localStorage.getItem("name");
-                var surname = localStorage.getItem("surname");
-                var phone = localStorage.getItem("phone");
-                var settlement = localStorage.getItem("settlement");
+                let id = localStorage.getItem("id");
 
-                var user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
+                let name = localStorage.getItem("name");
+                let surname = localStorage.getItem("surname");
+                let phone = localStorage.getItem("phone");
+                let settlement = localStorage.getItem("settlement");
 
-                var order = "Замовлення\n";
+                let user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
+
+                console.log(Cart)
+                console.log(Cart[0])
+
+                let order = "Замовлення\n";
                 for (let i = 0; i < Cart.length; i++) {
                     let currency = ""
                     //if (Cart[i].currency== "")
                     if (Cart[i].url) {
-                        //console.log(Cart[i].url)
-                            //order += "<strong>id:</strong> <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>";
-                        //order += "<a href=\"http://www.example.com/\">inline URL</a>"
                         let url2 = "id: <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>" + "\n";
-                        //let url = "<a href=\""+ "http://tracktop.com.ua/technic?model=975&mark=John%20Deere&type=%D0%9A%D0%BE%D0%BC%D0%B1%D0%B0%D0%B9%D0%BD%D0%B8&number_id=222" + "\"> " + Cart[i].id + "</a>" +"\n";
-
                         order += url2
-                        //order += url
-
-                        // order += '<a href="'+ Cart[i].url + '"> ' + Cart[i].id + '</a> \n';
-                        //order += "<a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a> \n";
-
-                        //order += `id товару: [${Cart[i].id}](${Cart[i].url})` + "\n";
-                        //order += `id : [${Cart[i].id}](http://www.example.com)` + "\n";
-                        //order += `id : [dsf}](http://www.example.com)` + "\n";
-
-                        //order += `id : [${Cart[i].id}](${Cart[i].url})` + "\n";
-                        //order += "id товару: " + "<a href='" + Cart[i].url + "'>"+ Cart[i].id +"</a>" + "\n";
-
                     }
                     order += "назва: " + Cart[i].title + "\n";
-                    order += "ціна: " + Cart[i].price + Cart[i].currency + "\n";
+                    order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
                     order += "кількість: " + Cart[i].quantity + " шт.\n\n";
-                    //order+=Cart[i].currency+")\n";
                 }
-                //console.log(order);
-               // removeAll();
-                alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
+                console.log(order);
+                 //removeAll();
+                // alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
                 let today = getCurrentDate();
                 let message = user_info + "\n" + order;
-                sendMessage(message)
-                // client.sendMessage("-327577485", message, {
-                //     disable_web_page_preview: true,
-                //     disable_notification: false,
-                //     parse_mode: "HTML"
-                // });
 
-                /////////////////////////////////////////
+                //require("./API").sendMessage({message: message }, () => {})
 
 
-
-                var id ;
-                var check_id;
-                var newCheck = {
+                let check_id;
+                let newCheck = {
                     client_id: id,
+                    total: allPrice,
                     purchase_date: today,
-                    purchase_status: 0
+                    order_array: Cart
                 };
-                var check_technic;
+                let check_technic;
                 function callback(error,data){
-                    console.log(data);
                     if(data.error) {
                         console.log(data.error);
                     }
                     else if(!(data.data[0]==null)){
-                         id = data.data[0].id;
-                       // console.log(id);
-                        newCheck.client_id=id;
-                       // console.log(newCheck);
-                         addCheck(newCheck,function (check_id) {
-                             console.log("return "+check_id);
-                             addCheckEquipments(check_id);
-                         });
+                        id = data.data[0].id;
+
+                        newCheck.client_id = id;
+
+                        addCheck(newCheck,function (check_id) {
+                            document.location.href = API_URL + "/thank-you";
+                            //addCheckEquipments(check_id);
+                        });
+                        removeAll();
 
                     }
-                    else if(!(data==null)){
-                        id = data.data.id;
-                       // console.log(id);
-                        newCheck.client_id=id;
-                       // console.log(newCheck);
-                        addCheck(newCheck,function (check_id) {
-                            console.log("return "+check_id);
-                            addCheckEquipments(check_id);
-                        });
-                    }
+
                 }
                 require("./API").getClientbyPhone(phone,callback);
-
-                /////////////////////////////////////////
 
 
             }
             else {
-                alert("Покупки можуть здійснювати лише зареєстровані користувачі");
+                $("#logged-user-err").css("display","block")
+                $("#basket-logged-user-register").click(function(){
+                    require('./profile/signup_form').openSignUpFormBasket();
+                });
+                $('#basket-logged-user-log-in').click(function() {
+                    require('./profile/login_form').openForm();
+                })
+
             }
         }
     });
@@ -674,7 +606,7 @@ function initialiseCart() {
     $amount.html("");
     $amount.append(amountOfOrders);
     $allPrice.html("");
-    $allPrice.append(allPrice);
+    $allPrice.append(allPrice + " грн");
     $(".labelOrderDelete").click(function(){
         Cart.forEach(removeFromCart);
     });
@@ -682,11 +614,9 @@ function initialiseCart() {
 }
 
 function addCheck(check,callback) {
-    require("./API").addCheck(check, function (err, data) {
+    require("./API").addOrder(check, function (err, data) {
         if (data.error) console.log(data.error);
         else {
-            console.log("data = "+data.insertId);
-            console.log("data.data = "+data.data.insertId);
              callback(data.data.insertId);
         }
     });
@@ -698,7 +628,7 @@ function addCheckEquipments(check_id) {
     for(let i =0;i<carts.length;i++) {
 
         if(carts[i].isTech) {
-            var check_technic = {
+            let check_technic = {
                 check_id : check_id,
                 technic_id: carts[i].id,
                 amount : carts[i].quantity
@@ -708,21 +638,6 @@ function addCheckEquipments(check_id) {
                 else {
                     //  console.log(data.insertId);
                     console.log("Успіх техніка");
-                    //  return data.data.insertId
-                }
-            });
-        }
-        else {
-            var check_technic = {
-                check_id : check_id,
-                equipment_id: carts[i].id,
-                amount : carts[i].quantity
-            };
-            require("./API").addCheck_equipment(check_technic, function (err, data) {
-                if (data.error) console.log(data.error);
-                else {
-                    //  console.log(data.insertId);
-                    console.log("Успіх запчастина");
                     //  return data.data.insertId
                 }
             });
@@ -737,19 +652,25 @@ function getTechnicsInCart() {
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
-    console.log(Cart);
     $cart.html("");
     $amount.html("");
     $amount.append(amountOfOrders);
     $allPrice.html("");
-    $allPrice.append(allPrice);
+    $allPrice.append(allPrice + " грн");
 
     if(Cart.length>0) {
+        console.log("len" + Cart.length)
+
         $('.circle-basket').text(Cart.length)
+        $('#basket-not-empty').css("display", "block");
+        $('#basket-empty').css("display", "none");
         $('.circle-basket').css("display", "block");
+
     }
     else {
-        $('.circle-basket').text("0")
+        $('#basket-empty').css("display", "block");
+        $('#basket-not-empty').css("display", "none");
+        $('.circle-basket').text("")
         $('.circle-basket').css("display", "none");
     }
 
@@ -763,7 +684,7 @@ function updateCart() {
         $node.find(".plus").click(function(){
             //Збільшуємо кількість замовлених піц
             cart_item.quantity += 1;
-            allPrice += cart_item.price;
+            allPrice += cart_item.price_uah;
             amountOfOrders += 1;
             //Оновлюємо відображення
             updateCart();
@@ -773,7 +694,7 @@ function updateCart() {
             //Збільшуємо кількість замовлених піц
             if(cart_item.quantity>1){
                 cart_item.quantity -= 1;
-                allPrice -= cart_item.price;
+                allPrice -= cart_item.price_uah;
                 amountOfOrders -= 1;
             }
             else removeFromCart(cart_item);
@@ -788,6 +709,12 @@ function updateCart() {
     }
 
     Cart.forEach(showOne);
+
+    console.log(Cart)
+
+    console.log(allPrice)
+    console.log(amountOfOrders);
+
     basil.set("orders",Cart);
     basil.set("price",allPrice);
     basil.set("amountOfOrders",amountOfOrders);
@@ -814,46 +741,32 @@ function emailIsValid (email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-function writeEmail(email) {
+function writeEmail(email,callback) {
     document.getElementById("email-ajax").value = email;
-    sendAjaxForm('result_form', 'ajax_form', 'action_ajax_form.php');
+    sendAjaxForm('result_form', 'ajax_form', callback);
 }
 
 
 
 
-function sendAjaxForm(result_form, ajax_form, url) {
+function sendAjaxForm(result_form, ajax_form, callback) {
+    // console.log($("#"+ajax_form).serialize())
     $.ajax({
-        url:     'addUserFormSubmit', //url страницы (action_ajax_form.php)
+        url:     '/addUserFormSubmit', //url страницы (action_ajax_form.php)
         type:     "POST", //метод отправки
         dataType: "html", //формат данных
         data: $("#"+ajax_form).serialize(),  // Сеарилизуем объект
         success: function(response) { //Данные отправлены успешно
-            result = $.parseJSON(response);
+            callback(null, JSON.parse(response))
             // alert("Thank you for subscribing!")
             //$('#result_form').html('Thank you!');
         },
         error: function(response) { // Данные не отправлены
-            $('#result_form').html('Ошибка. Данные не отправлены.');
+            callback(JSON.parse(response), null)
+            // $('#result_form').html('Ошибка. Данные не отправлены.');
         }
     });
 }
-
-getUrlParameter = function(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-};
-
 
 
 
@@ -890,11 +803,164 @@ jQuery(function($){
     $("#tele_phone_call").mask("+38(999)999-9999");
 });
 
+fillStar = function(count) {
+    let container = $('.feedbackStarContainer')[0].childNodes;
+    for(let i =0 ; i <count;i++) {
+        let item = container[i];
+        item.firstChild.innerHTML = fullStar
+    }
+    for(let i =count ; i <5;i++) {
+        let item = container[i];
+        item.firstChild.innerHTML = emptyStar
+    }
+    $('#overall-rating').val(count);
+
+}
+
+submitReview = function() {
+    let correct = checkReview();
+    let overall_rating = $('#overall-rating').val();
+    let name = $('#reviewerName').val();
+    let comment = $('#comment').val();
+    let location = $('#reviewerLocation').val();
+    let recommed_friend = $('input:radio[name=isRecommended]:checked').val();
+    let review = {
+        name: name,
+        stars: overall_rating,
+        location:location,
+        recommend: recommed_friend,
+        text_review: comment
+    }
+    if(correct) {
+        hideAllErrorMsg();
+
+        require("./API").addReview(review, function (err, data) {
+            if (data.error) console.log(data.error);
+            else {
+                clearForm()
+                alert("Дякуємо! Відгук відправлено на перевірку.")
+            }
+        });
+    }
+}
+
+checkReview = function() {
+    let overall_rating = $('#overall-rating').val();
+    let name = $('#reviewerName').val();
+    let comment = $('#comment').val();
+    let location = $('#reviewerLocation').val();
+    let recommed_friend = $('input:radio[name=isRecommended]:checked').val();
+    let correct = true;
+    if(overall_rating == undefined || overall_rating.trim().length == 0) {
+        $('.error-msg-stars').css("height" , 'auto');
+        correct = false;
+    }
+    else {
+        $('.error-msg-stars').css("height" , 0);
+    }
+    if(name == undefined || name.trim().length<=1) {
+        // show
+        $('.error-msg-name').css("height" , 'auto');
+        correct = false;
+    }
+    else {
+        $('.error-msg-name').css("height" , 0);
+    }
+    if(comment == undefined || comment.trim().length<=1) {
+        // show
+        $('.error-msg-comment').css("height" , 'auto');
+        correct = false;
+    }
+    else {
+        $('.error-msg-comment').css("height" , 0);
+    }
+    if(location == undefined || location.trim().length<=1) {
+        // show
+        $('.error-msg-location').css("height" , 'auto');
+        correct = false;
+    }
+    else {
+        $('.error-msg-location').css("height" , 0);
+    }
+    if(recommed_friend == undefined || recommed_friend.trim().length<=1) {
+        $('.error-msg-radio').css("height" , 'auto');
+        correct = false;
+    }
+    else {
+        $('.error-msg-radio').css("height" , 0);
+    }
+    return correct;
+}
+
+hideAllErrorMsg = function() {
+    $('.error-msg').css("height" , 0);
+}
+
+clearForm = function() {
+    hideAllErrorMsg();
+    fillStar(0);
+    $('#overall-rating').val("");
+    $('#reviewerName').val("");
+    $('#comment').val("");
+    $('#reviewerLocation').val("");
+    $('input:radio[name=isRecommended]').prop('checked', false);
+}
+
+
+
+let fullStar = '<path d="M16 25.19l-8.24 4.65a.9.9 0 0 1-1.33-1l1.8-9-6.86-6.26A.9.9 0 0 1 1.88 12l9.32-1.08 4-8.39a.9.9 0 0 1 1.63 0l4 8.39L30.12 12a.9.9 0 0 1 .5 1.56l-6.88 6.29 1.74 9a.9.9 0 0 1-1.33 1z" fill="#fecf0a" fill-rule="evenodd"></path>';
+let emptyStar = '<path d="M16 23.21l7.13 4.13-1.5-7.62a.9.9 0 0 1 .27-.83l5.64-5.29-7.64-.93a.9.9 0 0 1-.71-.52L16 5.1l-3.22 7a.9.9 0 0 1-.71.52l-7.6.93 5.63 5.29a.9.9 0 0 1 .27.83l-1.51 7.67zm0 2l-7.9 4.58a.9.9 0 0 1-1.34-.95l1.73-9-6.65-6.3A.9.9 0 0 1 2.36 12l9-1.08 3.81-8.32a.9.9 0 0 1 1.64 0l3.81 8.32 9 1.08a.9.9 0 0 1 .51 1.55l-6.66 6.3 1.68 9a.9.9 0 0 1-1.34.94z" fill="#c5cad4" fill-rule="evenodd"></path>'
 exports.initialiseCart = initialiseCart;
 exports.addToCart = addToCart;
 exports.removeFromCart = removeFromCart;
 exports.getTechnicsInCart = getTechnicsInCart;
-},{"./API":1,"./Templates":2,"basil.js":12,"messaging-api-telegram":19,"node-fetch":48}],4:[function(require,module,exports){
+},{"./API":1,"./Templates":2,"./profile/login_form":8,"./profile/signup_form":9,"./values":12,"basil.js":14}],4:[function(require,module,exports){
+exports.hideToggleModal = function () {
+    $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
+    $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).removeClass("child-3");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).removeClass("child-2");
+    $( "body" ).removeClass("bodyOverflowHidden");
+}
+
+exports.showToggleModal = function () {
+    $( "body" ).addClass("bodyOverflowHidden");
+    $( "#menuToggle .menu-wrapper-background" ).addClass("toggleMenuLeftOpen");
+    $( "#menuToggle  .menuToggleSpans" ).addClass("menuToggleSpanOpen");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).addClass("child-3");
+    $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).addClass("child-2");
+}
+
+
+exports.onSendMessageClick = function () {
+    $(".send-message-one-ad").click( function (e) {
+        let form = new FormData(document.querySelector("#ask-question-one-ad"))
+        let phone = form.get("phone")
+        let message = form.get("message")
+
+        require("./API").sendMessage({message: message }, () => {})
+    })
+}
+
+exports.clearMessageModal = function (selectorForm) {
+    $(selectorForm).reset()
+}
+
+// if($( "#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
+//     $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
+//     $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).removeClass("child-3");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).removeClass("child-2");
+//     $( "body" ).removeClass("bodyOverflowHidden");
+// }
+// else {
+//     $( "body" ).addClass("bodyOverflowHidden");
+//     $( "#menuToggle .menu-wrapper-background" ).addClass("toggleMenuLeftOpen");
+//     $( "#menuToggle  .menuToggleSpans" ).addClass("menuToggleSpanOpen");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).addClass("child-3");
+//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).addClass("child-2");
+// }
+},{"./API":1}],5:[function(require,module,exports){
 var Templates = require('../Templates');
 
 var $technics   =   $('.technics');
@@ -903,7 +969,7 @@ var $categories =   $('.categories');
 var $marks =   $('.marks');
 var $models =   $('.models');
 var $technicsWithoutCategory   =   $('.technics-without-category');
-
+let openMessageModal = require("../profile/signup_form").openSendMessageModal;
 
 var equipmentsByCategory = [];
 
@@ -933,7 +999,17 @@ function initilizebreadcrumbEquipmentCategory(){
             $("#breadcrumb").empty();
         } else {
             let crums = " <li>\n" +
-                "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+                "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
+                "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
+                "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+                "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+                "  </g>\n" +
+                "  <defs>\n" +
+                "    <clipPath id=\"clip0_147_2554\">\n" +
+                "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
+                "    </clipPath>\n" +
+                "  </defs>\n" +
+                "</svg>\n" +
                 "            <span class=\"sr-only\">Головна</span></a>\n" +
                 "    </li>\n";
             crums +=
@@ -980,7 +1056,7 @@ function initializeBreadcrumbMarks(mark) {
 function showTechnicsWithoutCategory(list) {
 
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
             crums +=
@@ -1037,7 +1113,17 @@ function showTechnics(list) {
     if (curType == null && curMark == null) {} else {
 
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
+            "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
+            "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+            "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+            "  </g>\n" +
+            "  <defs>\n" +
+            "    <clipPath id=\"clip0_147_2554\">\n" +
+            "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
+            "    </clipPath>\n" +
+            "  </defs>\n" +
+            "</svg>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
         if (curType) crums +=
@@ -1080,7 +1166,7 @@ function showTechnics(list) {
 //console.log(typ);
         //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
 
-        $node.click(function () {
+        $node.click(function (e) {
             //console.log("type"+ type);
             //
             localStorage.setItem('currentTypeOfTechnics', type.type_name);
@@ -1102,6 +1188,18 @@ function showTechnics(list) {
     }
 
     list.forEach(showOne);
+
+    $(".write-message-card").click(function (e){
+         console.log("here")
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let productId = card;
+        console.log($(card).data("id"))
+        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+    })
 }
 
 exports.initializeTechnics = function(){
@@ -1159,6 +1257,16 @@ exports.initializeTechnics = function(){
         else {
             require("../API").getTechnics(callback);
         }
+
+
+        let category_slider = $(".tab-technic-menu")
+        category_slider.html("");
+        require("../API").getTypes( function (err5, data5) {
+            data5.data.forEach(function (item) {
+                let one_technicCard = `<a class="tab-technic-menu-item ${tp1 == item.name ? "active" : ""}" href="/technics?type=${item.name}" >${item.name}</a>`
+                category_slider.append(one_technicCard)
+            })
+        })
 }
 
 
@@ -1194,11 +1302,11 @@ function showEquipments(list , className , per_page, filter) {
     if (max_pages > 1) {
         pagination_pages += '<li class="page-item ';
         if (cur_page == 1) pagination_pages += ' disabled';
-        pagination_pages += '"><a class="page-link" href="';
+        pagination_pages += ' arrow-pagination"><a class="page-link" href="';
         if(cur_page == 2) pagination_pages += url
         else if (cur_page > 2) pagination_pages += (url + '?page=' + (cur_page - 1))
         else pagination_pages += "#"
-        pagination_pages += '" aria-label="Previous" ><span aria-hidden="true">&laquo;</span></a></li>'
+        pagination_pages += '" aria-label="Previous" ><i class="fa fa-arrow-left"></i></a></li>'
 
 
     for (let i = 1; i <= max_pages; i++) {
@@ -1212,16 +1320,15 @@ function showEquipments(list , className , per_page, filter) {
     pagination_pages += '<li class="page-item'
 
     if (cur_page == max_pages) pagination_pages += ' disabled';
-    pagination_pages += '"><a class="page-link" href="';
+    pagination_pages += ' arrow-pagination"><a class="page-link" href="';
     let next_page = parseInt(cur_page) + 1;
     if (cur_page != max_pages) pagination_pages += (url + '?page=' + next_page)
     else pagination_pages += "#"
-    pagination_pages += '" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
+    pagination_pages += '" aria-label="Next"><i class="fa fa-arrow-right"></i></a></li>'
 
     paginataion.append(pagination_pages)
 
 }
-
 
     for(let i = (cur_page-1)*per_page ; i< cur_page*per_page;i ++) {
         if(list.length> i) {
@@ -1229,6 +1336,42 @@ function showEquipments(list , className , per_page, filter) {
             showOneEquipment(list[i] , className);
         }
     }
+
+    $(".write-message-card").click(function (e){
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let productId = card;
+        console.log($(card).data("id"))
+        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+    })
+
+    $(".btn-add-to-cart").click(function (e){
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let equipment = $(card).data("json");
+        require('../basketPage').addToCart({
+            id: equipment.id,
+            title: equipment.name,
+            price_uah: equipment.price_uah,
+            price: equipment.price,
+            currency: equipment.currency,
+            icon: equipment.main_photo_location,
+            quantity: 1,
+            url: equipment.url,
+            isTech: false
+        });
+
+        require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+
+    })
+
+
     let k = equipments_showed;
     // $(window).scroll(function() {
     //     let next = equipments_showed+10 ;
@@ -1254,7 +1397,6 @@ function showOneEquipment(type , className) {
 
 
     $node.click(function () {
-        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
         localStorage.setItem('currEquipment',JSON.stringify({
             id: type.id,
             name: type.name,
@@ -1264,6 +1406,8 @@ function showOneEquipment(type , className) {
             amount: type.amount,
             description: type.description
         }));
+        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
+
     });
     if(className=="equipments")
     $equipments.append($node);
@@ -1386,7 +1530,7 @@ exports.initializeCategories = function(){
     });
 
     let crums = " <li>\n" +
-        "        <a href=\"http://tracktop.com.ua\"><i class=\"glyphicon glyphicon-home\"></i>\n" +
+        "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
         "            <span class=\"sr-only\">Головна</span></a>\n" +
         "    </li>\n";
     crums +=
@@ -1557,7 +1701,7 @@ openPage = function(base_url, page,) {
 
 
 
-},{"../API":1,"../Templates":2,"../values.js":10}],5:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../basketPage":3,"../pagesScripts/notify":7,"../profile/signup_form":9,"../values.js":12}],6:[function(require,module,exports){
 var Templates = require('../Templates');
 
 var $technics =   $('.vertical-menu-technics');
@@ -1566,6 +1710,8 @@ var $equipment =   $('.vertical-menu-equipment');
 
 var values = require('../values.js');
 var API_URL = values.url;
+
+let {hideToggleModal, showToggleModal} = require("../helpers")
 
 
 function showTechnics(list) {
@@ -1617,91 +1763,163 @@ function showMarks(list) {
 }
 
 exports.initialize = function(){
+    let drop_drown_show = false;
+    let resp =  require("../API").isLogIn();
 
-    var tp = localStorage.getItem('currentTypeOfTechnics');
 
-    function callback(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=  API_URL+"/technics?type="+item.name;
-            l.push(item);
-        });
-        showTechnics(l);
-    }
-    function callback2(err,data) {
-        if(data.error) console.log(data.error);
-        var l=[];
-        data.data.forEach(function(item){
-            item.url=API_URL+"/technics?mark="+ item.name;
-            l.push(item)
-        });
-        showMarks(l);
-    }
-
-    require("../API").getTypes(callback);
-    require("../API").getMarks(callback2);
-
-    $equipment.click(function(){
-        document.location.href = API_URL+"/category_equipments";
-        $( "body" ).removeClass("bodyOverflowHidden");
-    })
+    // var tp = localStorage.getItem('currentTypeOfTechnics');
+    //
+    // function callback(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=  API_URL+"/technics?type="+item.name;
+    //         l.push(item);
+    //     });
+    //     showTechnics(l);
+    // }
+    // function callback2(err,data) {
+    //     if(data.error) console.log(data.error);
+    //     var l=[];
+    //     data.data.forEach(function(item){
+    //         item.url=API_URL+"/technics?mark="+ item.name;
+    //         l.push(item)
+    //     });
+    //     showMarks(l);
+    // }
+    //
+    // require("../API").getTypes(callback);
+    // require("../API").getMarks(callback2);
+    //
+    // $equipment.click(function(){
+    //     document.location.href = API_URL+"/category_equipments";
+    //     $( "body" ).removeClass("bodyOverflowHidden");
+    // })
 }
 
 
 toggleLeftPanel = function () {
-    if($( "#menuToggle ul" ).hasClass("toggleMenuLeftOpen")){
-        $( "#menuToggle ul" ).removeClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).removeClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).removeClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).removeClass("child-2");
-        $( "body" ).removeClass("bodyOverflowHidden");
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            $(".is-login").show();
+        } else {
+            $(".is-login").hide();
+        }
+
+        if($("#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
+            hideToggleModal()
+        }
+        else {
+            showToggleModal()
+        }
+
     }
-    else {
-        $( "body" ).addClass("bodyOverflowHidden");
-        $( "#menuToggle ul" ).addClass("toggleMenuLeftOpen");
-        $( "#menuToggle  span" ).addClass("menuToggleSpans");
-        $( "#menuToggle  span:nth-last-child(3)" ).addClass("child-3");
-        $( "#menuToggle  span:nth-last-child(2)" ).addClass("child-2");
-    }
+    require("../API").isLogIn(callback)
+
+
+
     // if(opened) $( "body" ).addClass("bodyOverflowHidden");
     // else  $( "body" ).removeClass("bodyOverflowHidden");
 }
 
 
-},{"../API":1,"../Templates":2,"../values.js":10}],6:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../helpers":4,"../values.js":12}],7:[function(require,module,exports){
+exports.Notify = function(text, callback, close_callback, style,seconds) {
+
+
+    // 4 types  :  danger, warning, info, success (default is warning)
+    let time = "2000";
+    if(seconds) time = seconds * 1000;
+
+    var $container = $('#notifications');
+    var icon = '<i class="fa fa-info-circle " aria-hidden="true"></i>';
+
+    if (typeof style == 'undefined' ) style = 'warning'
+
+    var html = $('<div class="alert alert-' + style + '  hide">' + icon +  " " + text + '</div>');
+
+    $('<a>',{
+        text: '×',
+        class: 'button close',
+        style: 'margin-left: 10px;',
+        href: '#',
+        click: function(e){
+            e.preventDefault()
+            close_callback && close_callback()
+            remove_notice()
+        }
+    }).prependTo(html)
+
+    $container.prepend(html)
+    html.removeClass('hide').hide().fadeIn('slow')
+
+    function remove_notice() {
+        html.stop().fadeOut('slow').remove()
+    }
+
+    var timer =  setInterval(remove_notice, time);
+
+    $(html).hover(function(){
+        clearInterval(timer);
+    }, function(){
+        timer = setInterval(remove_notice, time);
+    });
+
+    html.on('click', function () {
+        clearInterval(timer)
+        callback && callback()
+        remove_notice()
+    });
+
+
+}
+},{}],8:[function(require,module,exports){
+let {hideToggleModal} = require("../helpers")
+
+let user_info_dispalyed = false;
 
 exports.openForm = function() {
-    document.getElementById("myForm").style.display = "block";
+    let isLogin = false;
+    function callback(err, value) {
+        if(value) {
+            isLogin = true;
+            userInfo();
+        } else {
+            toggleModal("#login-modal");
+        }
+
+    }
+    require("../API").isLogIn(callback)
+
+    // document.getElementById("myForm").style.display = "block";
 
 }
 
-var user_info_dispalyed = false;
-exports.closeForm = function() {
-    document.getElementById("myForm").style.display = "none";
+toggleModal = function(selector) {
+    $(document.querySelector(selector)).modal('toggle');
 }
 
 
-exports.userInfo = function() {
+userInfo = function() {
     if(user_info_dispalyed) {
     document.getElementById("user_info").style.display = "none";
         user_info_dispalyed = false;}
     else {
-        if($("#basketColumn").hasClass( "widthR" )) $("#user_info").addClass("margR");
         document.getElementById("user_info").style.display = "block";
         user_info_dispalyed = true;
     }
 }
 
-
-var $phone = $('#myForm input[name=phone]')[0];
-var $password = $('#myForm input[name=psw]')[0];
+exports.userInfo = userInfo;
 
 
 exports.login = function(){
     $('#log_in_btn').click(function() {
-        var phone = $phone.value;
-        var password = $password.value;
+        let form = new FormData(document.querySelector("#login-form"))
+        let phone = form.get("phone")
+        let password = form.get("password")
 
         require("../API").sign_in({
             phone_number: phone,
@@ -1712,7 +1930,7 @@ exports.login = function(){
                         alert( "Невірний пароль" );
                     }
                     else if(!(data.data[0]==null)){
-                        console.log(data.data[0].token)
+                        // console.log(data.data[0].token)
                         localStorage.setItem('status',true);
                         localStorage.setItem('id',data.data[0].id);
                         localStorage.setItem('name',data.data[0].name);
@@ -1720,7 +1938,8 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data[0].phone_number);
                         localStorage.setItem('settlement',data.data[0].settelment);
                         localStorage.setItem('photo',data.data[0].photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
                     }
                     else if(!(data==null)){
@@ -1733,11 +1952,10 @@ exports.login = function(){
                         localStorage.setItem('phone',data.data.phone_number);
                         localStorage.setItem('settlement',data.data.settelment);
                         localStorage.setItem('photo',data.data.photo_location);
-                        require('./login_form').closeForm();
+                        toggleModal("#login-modal");
+                        hideToggleModal()
                         require('./user_form').isLogged();
-                        require("../API").toAdminPanel({'token': data.data.token })
                     }
-
         });
 
     });
@@ -1745,18 +1963,19 @@ exports.login = function(){
 
 
 
-},{"../API":1,"./login_form":6,"./user_form":8}],7:[function(require,module,exports){
-var modal = document.getElementById('id01');
-var model_message = document.getElementById('messageModal');
+},{"../API":1,"../helpers":4,"./user_form":10}],9:[function(require,module,exports){
+const modal = document.getElementById('register-modal');
+const model_message = document.getElementById('messageModal');
 
 function openSignUpForm() {
     modal.style.display='block';
 }
-var Templates = require('../Templates');
+const Templates = require('../Templates');
 
-var $reviews =   $('#reviews');
-var values = require('../values.js');
-var API_URL = values.url;
+let $reviews =   $('#reviews');
+let values = require('../values.js');
+const API_URL = values.url;
+let {clearMessageModal} = require("../helpers")
 
 
 exports.initializeLogin = function(){
@@ -1775,19 +1994,19 @@ exports.initializeLogin = function(){
     }
 }
 
-var $name = $('#id01 input[name=name]')[0];
-var $surname = $('#id01 input[name=surname]')[0];
-var $phone = $('#id01 input[name=phone]')[0];
-var $password = $('#id01 input[name=psw]')[0];
-var $address = $('#id01 input[name=location]')[0];
-var $email = $('#id01 input[name=email]')[0];
+let $name = $('#register-modal input[name=name]')[0];
+let $surname = $('#register-modal input[name=surname]')[0];
+let $phone = $('#register-modal input[name=phone]')[0];
+let $password = $('#register-modal input[name=psw]')[0];
+let $address = $('#register-modal input[name=location]')[0];
+let $email = $('#register-modal input[name=email]')[0];
 
 checkValidation = function(){
-    var name = $name.value;
-    var surname = $surname.value;
-    var phone = $phone.value;
-    var password = $password.value;
-    var address = $address.value;
+    let name = $name.value;
+    let surname = $surname.value;
+    let phone = $phone.value;
+    let password = $password.value;
+    let address = $address.value;
 
     if (name.value == "")
     {
@@ -1807,19 +2026,18 @@ checkValidation = function(){
     '(078)789-8908';
     '(078) 789-8908';
     */
-    var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     if(!phoneno.test(phone)) {
         alert("Введіть дісний номер\n" +
             "Приклад 093-345-3456");
         return false;
     }
 
-    var regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
+    let regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
 
     if (password.length < 4 )
     {
         window.alert("Слабкий пароль");
-
         password.focus();
         return false
     }
@@ -1833,14 +2051,14 @@ checkValidation = function(){
 }
 
 checkMessageForm = function () {
-    var $name = $('#messageModal input[name=name]')[0];
-    var $phone = $('#messageModal input[name=phone]')[0];
-    var $message = $('#messageModal textarea[name=message]')[0];
+    let $name = $('#messageModal input[name=name]')[0];
+    let $phone = $('#messageModal input[name=phone]')[0];
+    let $message = $('#messageModal textarea[name=message]')[0];
    // var $address = $('#messageModal input[name=location]')[0];
 
-        var name = $name.value;
-        var phone = $phone.value;
-        var message = $message.value;
+    let name = $name.value;
+    let phone = $phone.value;
+    let message = $message.value;
        // var address = $address.value;
 
         if (name == "")
@@ -1877,16 +2095,16 @@ checkMessageForm = function () {
 
 function addClient(){
     $('#signup_btn').click(function() {
-        document.getElementById('id01').style.display='none'
+        document.getElementById('register-modal').style.display='none'
        // if (checkValidation()) {
-        var name = $name.value;
-        var surname = $surname.value;
-        var phone = $phone.value;
-        var password = $password.value;
-        var address = $address.value;
-        var email = $email.value;
+        let name = $name.value;
+        let surname = $surname.value;
+        let phone = $phone.value;
+        let password = $password.value;
+        let address = $address.value;
+        let email = $email.value;
 
-        var newT = {
+        let newT = {
             surname: surname,
             name: name,
             phone_number: phone,
@@ -1912,81 +2130,74 @@ function addClient(){
     });
 }
 
+exports.sendMessageCardHandler = function () {
+    $(".write-message-card").click(function (e) {
+        e.stopPropagation()
+        e.preventDefault();
+    })
+}
+
 sendMessage_My = function (i) {
     if(checkMessageForm()) {
 
-
-        // document.getElementById("phone").mask('+380 (99) 999-99-99');
-        // e.preventDefault();
-        const {TelegramClient} = require('messaging-api-telegram');
-
-// get accessToken from telegram [@BotFather](https://telegram.me/BotFather)
-        const client = TelegramClient.connect('884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM');
-//event.preventDefault();
-        var name = $('#messageModal input[name=name]')[0].value;
-
-        var phone = $('#messageModal input[name=phone]')[0].value;
-        var text = $('#messageModal textarea[name=message]')[0].value;
+        let name = $('#messageModal input[name=name]')[0].value;
+        let phone = $('#messageModal input[name=phone]')[0].value;
+        let text = $('#messageModal textarea[name=message]')[0].value;
+        let productId = $('#messageModal').attr("data-productid");
+        let productTitle = $('#messageModal').attr("data-producttitle")
+        let productUrl = $('#messageModal').attr("data-url")
 
 
         // model_message.style.display = "none";
         $('#messageModal').modal('toggle');
         let message = "Від " + name + "\n тел: " + phone + "\n";
         // let curr =  localStorage.getItem('currTechnic');
-        if (document.getElementsByClassName("type_header").length!=0) message += "Стосовно: " + document.getElementsByClassName("type_header")[0].innerText + "\n";
-        message += text;
-        console.log(message);
+
+        if (productId || productTitle) {
+            message += `Стосовно: <a href="${productUrl}">${productTitle} </a>\n`
+        } else if (document.getElementsByClassName("type_header").length!=0) {
+            message += "Стосовно: " + document.getElementsByClassName("type_header")[0].innerText + "\n";
+        }
+        message += "Повідомлення: " + text;
+        //console.log(message);
         require("../API").addPhone(phone, name);
-        client.sendMessage("-327577485", message, {
-            disable_web_page_preview: true,
-            disable_notification: false,
-        });
-        Notify("Повідомлення відправлено!!!",null,null,'success');
-        // console.log("fsdf");
-         }
+
+        require("../API").sendMessage({message}, () => {
+            Notify("Повідомлення відправлено!!!",null,null,'success');
+            clearMessageModal(".message-form")
+        })
+    }
 }
 
-openMessageModal = function () {
+
+openMessageModal = function ({productId, productTitle, url } = {}) {
 
     $('#messageModal').modal('show');
    // $('#messageModal').on('shown.bs.modal', function(e) {
     $('#user_info').css("display", "none");
     $('#myForm').css("display", "none");
-        var status = localStorage.getItem('status');
-        //console.log("");
-        var $modal = $(this);
-        // esseyId = e.relatedTarget.id;
+    $('#messageModal').attr("data-productId", productId)
+    $('#messageModal').attr("data-productTitle", productTitle)
+    $('#messageModal').attr("data-url", url)
 
-//            $.ajax({
-//                cache: false,
-//                type: 'POST',
-//                url: 'backend.php',
-//                data: 'EID='+essay_id,
-//                success: function(data)
-//                {
+    let status = localStorage.getItem('status');
 
-        if(status) {
-            console.log("status is true");
+    if(status) {
+        let name = localStorage.getItem("name");
+        let surname = localStorage.getItem("surname");
 
-            let name = localStorage.getItem("name");
-            let surname = localStorage.getItem("surname");
-            $("#username_messageForm").val(name+" "+ surname);
-            $("#username_messageForm").attr("disabled", true);
-            $("#phone_messageForm").val(localStorage.getItem("phone"));
-            $("#phone_messageForm").attr("disabled", true);
-            $("#message").val("");
+        $("#username_messageForm").val(name+" "+ surname);
+        $("#username_messageForm").attr("disabled", true);
+        $("#phone_messageForm").val(localStorage.getItem("phone"));
+        $("#phone_messageForm").attr("disabled", true);
+        $("#message").val("");
         }
         else {
-           // $("#username_messageForm").val("");
-           // $("#phone_messageForm").val("");
-            $("#message").val("");
+            clearMessageModal(".message-form")
         }
-
-//                }
-//            });
-
-    //})
 }
+
+exports.openSendMessageModal = openMessageModal;
 
 function createCookie(name, value, days) {
     var expires;
@@ -2032,13 +2243,13 @@ const getDeviceType = () => {
 };
 
 exports.openSubscribeModal = function(){
+
     $('.one-social-item-modal').on('click', function() {
         createCookie('visited', 'yes', 30);
     });
 
     let device = getDeviceType();
     if(device == "mobile" || device == "tablet") {
-
 
             $(window).scroll(function() {
 
@@ -2270,36 +2481,29 @@ openSignUpFormBasket = function() {
 
 exports.openSignUpFormBasket = openSignUpFormBasket
 
-},{"../API":1,"../Templates":2,"../values.js":10,"./user_form":8,"messaging-api-telegram":19}],8:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../helpers":4,"../values.js":12,"./user_form":10,"messaging-api-telegram":21}],10:[function(require,module,exports){
 let values = require('../values.js');
 let API_URL = values.url;
+let { hideToggleModal} = require("../helpers")
 
 exports.isLogged = function () {
-    var name = localStorage.getItem('name');
-    var surname = localStorage.getItem('surname');
-    var status = localStorage.getItem('status');
-    var phone = localStorage.getItem('phone');
-    var photo_location = localStorage.getItem("photo");
+    let name = localStorage.getItem('name');
+    let surname = localStorage.getItem('surname');
+    let status = localStorage.getItem('status');
+    let phone = localStorage.getItem('phone');
+    let photo_location = localStorage.getItem("photo");
     if(status) {
-        console.log('status true');
         // add info to panel
-        $('#full_name').html('<b>' +surname + " " + name + '</b>');
-        $('#user_phone').html('<b>' + phone + '</b>');
-        $('#user_photo').css("display","block");
-        if(photo_location==null) {
-            $('#user_photo').attr("src", "assets/images/avatar.png");
-        }
-       else  $('#user_photo').attr("src", API_URL + "/images/users_photos/"+photo_location);
-        $('#login').css("display", "none");
-        $('#signup').css("display", "none");
-
+        $('.menu-user-name').html(surname + " " + name);
+        $('.menu-user-phone').html(phone);
+        $('.menu-item-auth').hide()
         // hide error non login user
         $("#logged-user-err").css("display","none")
     }
     else {
-        $('#user_photo').css("display","none");
-        $('#login').css("display","block");
-        $('#signup').css("display","block");
+        $('.menu-user-name').html("");
+        $('.menu-user-phone').html("");
+        $('.menu-item-auth').show()
     }
 }
 
@@ -2312,21 +2516,27 @@ exports.openLogin = function(){
 }
 
 exports.deleteInfoFromLocalStorage = function() {
-    localStorage.removeItem("status");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("name");
-    localStorage.removeItem("settlement");
-    localStorage.removeItem("surname");
-    localStorage.removeItem("photo");
-    localStorage.clear();
-    require("./user_form").isLogged();
-}
+    require("../API").logOut( function (err, data) {
+        console.log(err)
+        console.log(data)
+        if(!err) {
+            localStorage.removeItem("status");
+            localStorage.removeItem("phone");
+            localStorage.removeItem("name");
+            localStorage.removeItem("settlement");
+            localStorage.removeItem("surname");
+            localStorage.removeItem("photo");
+            localStorage.clear();
 
-exports.openUserEditPage = function () {
-    
-}
+            $('#user_info').css("display", "none");
+            hideToggleModal();
+            require("./user_form").isLogged();
+        }
 
-},{"../values.js":10,"./user_form":8}],9:[function(require,module,exports){
+    });
+
+}
+},{"../API":1,"../helpers":4,"../values.js":12,"./user_form":10}],11:[function(require,module,exports){
 function  initialize() {
     require('../pagesScripts/addTechnics').initializeEquipments();
 }
@@ -2342,7 +2552,7 @@ $(function(){
         document.location.href = "http://tracktop.com.ua/";
     })
 
-    require('../basket').initialiseBasket();
+    require('../basketPage').initialiseBasket();
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();
@@ -2356,10 +2566,12 @@ $(function(){
         require('../profile/login_form').userInfo();
     })
 
-    $('#exit_btn').click(function() {
+    $('.exit_btn').click(function() {
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
+        document.location.href = API_URL;
+
     })
 
     require('../profile/signup_form').initializeLogin();
@@ -2379,12 +2591,12 @@ $(function(){
     initialize();
     initializeModels();
 });
-},{"../basket":3,"../pagesScripts/addTechnics":4,"../pagesScripts/leftPanel":5,"../profile/login_form":6,"../profile/signup_form":7,"../profile/user_form":8}],10:[function(require,module,exports){
+},{"../basketPage":3,"../pagesScripts/addTechnics":5,"../pagesScripts/leftPanel":6,"../profile/login_form":8,"../profile/signup_form":9,"../profile/user_form":10}],12:[function(require,module,exports){
 module.exports = {
      //url: "http://tracktop.com.ua"
      url: "http://localhost:5050"
 }
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';var _util = require('util');var _util2 = _interopRequireDefault(_util);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 function indent(str) {
@@ -2473,7 +2685,7 @@ ${requestMessage}
 ${responseMessage}
 `;
   }};
-},{"util":54}],12:[function(require,module,exports){
+},{"util":55}],14:[function(require,module,exports){
 (function () {
 	// Basil
 	var Basil = function (options) {
@@ -2861,9 +3073,9 @@ ${responseMessage}
 
 })();
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -3731,7 +3943,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":16,"./utils":15,"fs":13,"path":49}],15:[function(require,module,exports){
+},{"../package.json":18,"./utils":17,"fs":15,"path":50}],17:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -3897,53 +4109,29 @@ exports.cache = {
   }
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "ejs@2.5.7",
-      "E:\\WebstormProjects\\TrackTop"
-    ]
-  ],
-  "_from": "ejs@2.5.7",
-  "_id": "ejs@2.5.7",
-  "_inBundle": false,
-  "_integrity": "sha1-zIcsFoiArjxxiXYv1f/ACJbJUYo=",
-  "_location": "/ejs",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "ejs@2.5.7",
-    "name": "ejs",
-    "escapedName": "ejs",
-    "rawSpec": "2.5.7",
-    "saveSpec": null,
-    "fetchSpec": "2.5.7"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
-  "_spec": "2.5.7",
-  "_where": "E:\\WebstormProjects\\TrackTop",
-  "author": {
-    "name": "Matthew Eernisse",
-    "email": "mde@fleegix.org",
-    "url": "http://fleegix.org"
-  },
-  "bugs": {
-    "url": "https://github.com/mde/ejs/issues"
-  },
-  "contributors": [
-    {
-      "name": "Timothy Gu",
-      "email": "timothygu99@gmail.com",
-      "url": "https://timothygu.github.io"
-    }
-  ],
-  "dependencies": {},
+  "name": "ejs",
   "description": "Embedded JavaScript templates",
+  "keywords": [
+    "template",
+    "engine",
+    "ejs"
+  ],
+  "version": "2.5.7",
+  "author": "Matthew Eernisse <mde@fleegix.org> (http://fleegix.org)",
+  "contributors": [
+    "Timothy Gu <timothygu99@gmail.com> (https://timothygu.github.io)"
+  ],
+  "license": "Apache-2.0",
+  "main": "./lib/ejs.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mde/ejs.git"
+  },
+  "bugs": "https://github.com/mde/ejs/issues",
+  "homepage": "https://github.com/mde/ejs",
+  "dependencies": {},
   "devDependencies": {
     "browserify": "^13.0.1",
     "eslint": "^3.0.0",
@@ -3958,30 +4146,16 @@ module.exports={
   "engines": {
     "node": ">=0.10.0"
   },
-  "homepage": "https://github.com/mde/ejs",
-  "keywords": [
-    "template",
-    "engine",
-    "ejs"
-  ],
-  "license": "Apache-2.0",
-  "main": "./lib/ejs.js",
-  "name": "ejs",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mde/ejs.git"
-  },
   "scripts": {
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
-    "devdoc": "jake doc[dev]",
-    "doc": "jake doc",
+    "test": "jake test",
     "lint": "eslint \"**/*.js\" Jakefile",
-    "test": "jake test"
-  },
-  "version": "2.5.7"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+    "doc": "jake doc",
+    "devdoc": "jake doc[dev]"
+  }
 }
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -5473,7 +5647,7 @@ function stubArray() {
 module.exports = omit;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _extends = Object.assign || function (target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i];for (var key in source) {if (Object.prototype.hasOwnProperty.call(source, key)) {target[key] = source[key];}}}return target;};
 /* eslint-disable camelcase */
 
@@ -6186,16 +6360,16 @@ class TelegramClient {
     options));
 
   }}exports.default = TelegramClient;
-},{"axios":20,"axios-error":11,"debug":44,"lodash.omit":17,"url-join":51}],19:[function(require,module,exports){
+},{"axios":22,"axios-error":13,"debug":46,"lodash.omit":19,"url-join":52}],21:[function(require,module,exports){
 'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.TelegramClient = undefined;
 
 var _TelegramClient = require('./TelegramClient');var _TelegramClient2 = _interopRequireDefault(_TelegramClient);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}exports.
 
 TelegramClient = _TelegramClient2.default;exports.default =
 { TelegramClient: _TelegramClient2.default };
-},{"./TelegramClient":18}],20:[function(require,module,exports){
+},{"./TelegramClient":20}],22:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":22}],21:[function(require,module,exports){
+},{"./lib/axios":24}],23:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6359,7 +6533,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/createError":28,"./../core/settle":31,"./../helpers/buildURL":35,"./../helpers/cookies":37,"./../helpers/isURLSameOrigin":39,"./../helpers/parseHeaders":41,"./../utils":43}],22:[function(require,module,exports){
+},{"../core/createError":30,"./../core/settle":33,"./../helpers/buildURL":37,"./../helpers/cookies":39,"./../helpers/isURLSameOrigin":41,"./../helpers/parseHeaders":43,"./../utils":45}],24:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -6413,7 +6587,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":23,"./cancel/CancelToken":24,"./cancel/isCancel":25,"./core/Axios":26,"./defaults":33,"./helpers/bind":34,"./helpers/spread":42,"./utils":43}],23:[function(require,module,exports){
+},{"./cancel/Cancel":25,"./cancel/CancelToken":26,"./cancel/isCancel":27,"./core/Axios":28,"./defaults":35,"./helpers/bind":36,"./helpers/spread":44,"./utils":45}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6434,7 +6608,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -6493,14 +6667,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":23}],25:[function(require,module,exports){
+},{"./Cancel":25}],27:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 var defaults = require('./../defaults');
@@ -6581,7 +6755,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"./../defaults":33,"./../utils":43,"./InterceptorManager":27,"./dispatchRequest":29}],27:[function(require,module,exports){
+},{"./../defaults":35,"./../utils":45,"./InterceptorManager":29,"./dispatchRequest":31}],29:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6635,7 +6809,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":43}],28:[function(require,module,exports){
+},{"./../utils":45}],30:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -6655,7 +6829,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":30}],29:[function(require,module,exports){
+},{"./enhanceError":32}],31:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6743,7 +6917,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":25,"../defaults":33,"./../helpers/combineURLs":36,"./../helpers/isAbsoluteURL":38,"./../utils":43,"./transformData":32}],30:[function(require,module,exports){
+},{"../cancel/isCancel":27,"../defaults":35,"./../helpers/combineURLs":38,"./../helpers/isAbsoluteURL":40,"./../utils":45,"./transformData":34}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -6766,7 +6940,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -6794,7 +6968,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":28}],32:[function(require,module,exports){
+},{"./createError":30}],34:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6816,7 +6990,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":43}],33:[function(require,module,exports){
+},{"./../utils":45}],35:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -6916,7 +7090,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this,require('_process'))
-},{"./adapters/http":21,"./adapters/xhr":21,"./helpers/normalizeHeaderName":40,"./utils":43,"_process":50}],34:[function(require,module,exports){
+},{"./adapters/http":23,"./adapters/xhr":23,"./helpers/normalizeHeaderName":42,"./utils":45,"_process":51}],36:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -6929,7 +7103,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -6997,7 +7171,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":43}],36:[function(require,module,exports){
+},{"./../utils":45}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7013,7 +7187,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7068,7 +7242,7 @@ module.exports = (
   })()
 );
 
-},{"./../utils":43}],38:[function(require,module,exports){
+},{"./../utils":45}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7084,7 +7258,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7154,7 +7328,7 @@ module.exports = (
   })()
 );
 
-},{"./../utils":43}],40:[function(require,module,exports){
+},{"./../utils":45}],42:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -7168,7 +7342,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":43}],41:[function(require,module,exports){
+},{"../utils":45}],43:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -7223,7 +7397,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":43}],42:[function(require,module,exports){
+},{"./../utils":45}],44:[function(require,module,exports){
 'use strict';
 
 /**
@@ -7252,7 +7426,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -7557,7 +7731,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":34,"is-buffer":46}],44:[function(require,module,exports){
+},{"./helpers/bind":36,"is-buffer":48}],46:[function(require,module,exports){
 (function (process){
 /* eslint-env browser */
 
@@ -7825,7 +7999,7 @@ formatters.j = function (v) {
 };
 
 }).call(this,require('_process'))
-},{"./common":45,"_process":50}],45:[function(require,module,exports){
+},{"./common":47,"_process":51}],47:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -8093,7 +8267,7 @@ function setup(env) {
 
 module.exports = setup;
 
-},{"ms":47}],46:[function(require,module,exports){
+},{"ms":49}],48:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -8106,7 +8280,7 @@ module.exports = function isBuffer (obj) {
     typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -8270,33 +8444,7 @@ function plural(ms, msAbs, n, name) {
   return Math.round(ms / n) + ' ' + name + (isPlural ? 's' : '');
 }
 
-},{}],48:[function(require,module,exports){
-"use strict";
-
-// ref: https://github.com/tc39/proposal-global
-var getGlobal = function () {
-	// the only reliable means to get the global object is
-	// `Function('return this')()`
-	// However, this causes CSP violations in Chrome apps.
-	if (typeof self !== 'undefined') { return self; }
-	if (typeof window !== 'undefined') { return window; }
-	if (typeof global !== 'undefined') { return global; }
-	throw new Error('unable to locate global object');
-}
-
-var global = getGlobal();
-
-module.exports = exports = global.fetch;
-
-// Needed for TypeScript and Webpack.
-if (global.fetch) {
-	exports.default = global.fetch.bind(global);
-}
-
-exports.Headers = global.Headers;
-exports.Request = global.Request;
-exports.Response = global.Response;
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8524,7 +8672,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":50}],50:[function(require,module,exports){
+},{"_process":51}],51:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8710,7 +8858,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (name, context, definition) {
   if (typeof module !== 'undefined' && module.exports) module.exports = definition();
   else if (typeof define === 'function' && define.amd) define(definition);
@@ -8790,7 +8938,7 @@ process.umask = function() { return 0; };
 
 });
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8815,14 +8963,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9412,4 +9560,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":53,"_process":50,"inherits":52}]},{},[9]);
+},{"./support/isBuffer":54,"_process":51,"inherits":53}]},{},[11]);

@@ -18,6 +18,8 @@ const { createGzip } = require('zlib')
 let sitemap;
 const https = require('https');
 const fs = require('fs');
+const api = require("./api");
+const pages = require("./pages");
 // Certificate
 // const privateKey = fs.readFileSync('/etc/letsencrypt/live/tracktop.com.ua/privkey.pem', 'utf8');
 // const certificate = fs.readFileSync('/etc/letsencrypt/live/tracktop.com.ua/cert.pem', 'utf8');
@@ -46,20 +48,22 @@ function configureEndpoints(app) {
 
     //Налаштування URL за якими буде відповідати сервер
 
-    app.post('/api/addtechnic/', api.addTehnic);
-    app.post('/api/addtechnicwithoutcategory/', api.addTehnicWithoutCategory);
+    app.use(attachCurrentUser.attachCurrentUser);
+
+    app.post('/api/addtechnic/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnic);
+    app.post('/api/addtechnicwithoutcategory/', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnicWithoutCategory);
 
     app.post('/api/addreview/', api.addReview);
 
-    app.post('/api/addequipment/', api.addEquipment);
-    app.post('/api/addequipmentsmodels/', api.addEquipmentsModels);
+    app.post('/api/addequipment/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addEquipment);
+    app.post('/api/addequipmentsmodels/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addEquipmentsModels);
     app.post('/api/addclient/', api.addClient);
     app.post('/api/addcheck/', api.addCheck);
     app.post('/api/addorder/', api.addOrder);
     app.post('/api/addcheckequipment/', api.addCheckEquipment);
     app.post('/api/addchecktechnic/', api.addCheckTechnic);
-    app.post('/api/addimagestechnic/', api.addImagesTechnic);
-    app.post('/api/addimagesequipment/', api.addImagesEquipment);
+    app.post('/api/addimagestechnic/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),  api.addImagesTechnic);
+    app.post('/api/addimagesequipment/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addImagesEquipment);
     //app.post('/api/addtypetechnics/', api.addCheckEquipment);
     app.post('/api/addmarktechnics/', api.addMarkTechnics);
     app.post('/api/addmodel/', api.addModel);
@@ -74,7 +78,7 @@ function configureEndpoints(app) {
     app.get('/api/getreviews', api.get_reviews);
     app.get('/api/getordersbyclient', api.get_client_orders_by_phone);
     app.get('/api/getorderbyid', api.get_one_order_by_id);
-
+    app.get('/api/is-log-in/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.is_log_in);
 
 
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
@@ -117,19 +121,22 @@ function configureEndpoints(app) {
     app.post('/api/update_equipment_photo', upload.array('uploadFile'), api.update_equipment_photo);
 
 
-    app.post('/api/delete_technic_by_id', api.delete_technic_by_id);
-    app.post('/api/delete_technic_without_category_by_id', api.delete_technic_without_category_by_id);
+    app.post('/api/delete_technic_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_technic_by_id);
+    app.post('/api/delete_technic_without_category_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_technic_without_category_by_id);
 
-    app.post('/api/delete_equipments_by_id', api.delete_equipments_by_id);
-    app.post('/api/delete_equipments_models_by_id', api.delete_equipments_models_by_id);
-    app.post('/api/delete_equipments_models_by_ids', api.delete_equipments_models_by_ids);
+    app.post('/api/delete_equipments_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_equipments_by_id);
+    app.post('/api/delete_equipments_models_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_equipments_models_by_id);
+    app.post('/api/delete_equipments_models_by_ids', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_equipments_models_by_ids);
     // todo
-    app.post('/api/delete_images_by_technic_id', api.delete_images_by_technic_id);
-    app.post('/api/delete_oneimagetechnic_by_id', api.delete_imageTechnic_by_id);
-    app.post('/api/delete_oneimageequipment_by_id', api.delete_imageEquipment_by_id);
-    app.post('/api/delete_check_technics_by_technic_id', api.delete_check_technics_by_technic_id);
-    app.post('/api/delete_images_by_equipment_id', api.delete_images_by_equipment_id);
-    app.post('/api/delete_check_equipments_by_equipment_id', api.delete_check_equipments_by_equipment_id);
+    app.post('/api/delete_images_by_technic_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_images_by_technic_id);
+    app.post('/api/delete_oneimagetechnic_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_imageTechnic_by_id);
+    app.post('/api/delete_oneimageequipment_by_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_imageEquipment_by_id);
+    app.post('/api/delete_check_technics_by_technic_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_check_technics_by_technic_id);
+    app.post('/api/delete_images_by_equipment_id',isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.delete_images_by_equipment_id);
+    app.post('/api/delete_check_equipments_by_equipment_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_check_equipments_by_equipment_id);
+
+    app.post('/api/log-out',isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.logout);
+    app.post('/api/send-message', api.sendMessage);
     ////////////
 
 
@@ -137,11 +144,14 @@ function configureEndpoints(app) {
     app.get('/', pages.mainPage);
     app.get('/profile', isAuth.authenticateToken, pages.profile);
     app.get('/technics', pages.technics);
+    app.get('/marks', pages.marks);
     app.get('/technics-without-category', pages.technics_without_category);
     app.get('/technics-without-category/', pages.technics_without_category);
     app.get('/technics-without-category/:id', pages.technic_without_category);
     app.get('/technics-without-category/:id/', pages.technic_without_category);
     app.get('/technic', pages.technic);
+    app.get('/categories', pages.categories);
+
     app.get('/category_equipments', pages.equipments);
     app.get('/category_equipments/', pages.equipments);
     app.get('/category_equipments/category/:type/:mark', pages.models);

@@ -1,3 +1,14 @@
+.subscribe_email_popup_title {
+  color: #242223;
+  font-size: 20px;
+  font-family: Mulish;
+  font-weight: 700;
+  word-wrap: break-word
+}
+
+
+
+
 .vmenu {
   position  : fixed;
   top       : @heightTopPanel+20;
@@ -46,16 +57,16 @@ a.active-none-link:hover {
 #menuToggle {
   display            : none;
   position           : relative;
-  top                : 79px;
-  left               : 10px;
+  top                : 0;
+  //right               : 10px;
   z-index            : 8001;
   -webkit-user-select: none;
   user-select        : none;
 }
 
-#menuToggle div:first-child {
+#menuToggle #toggleMenuLeft:first-child {
   display              : block;
-  width                : 40px;
+  width                : 39px;
   height               : 32px;
   position             : absolute;
   top                  : -7px;
@@ -64,6 +75,29 @@ a.active-none-link:hover {
   opacity              : 0;
   z-index              : 8002;
   -webkit-touch-callout: none;
+}
+
+.menu-wrapper-background {
+  //right: -37px;
+  //display               : flex;
+  right: -50px;
+  display: none;
+  ///
+  width: 100vw ;
+  flex-direction        : column;
+  position              : absolute;
+  top                   : 39px;
+  list-style-type       : none;
+  -webkit-font-smoothing: antialiased;
+  transform-origin      : 0% 0%;
+  transform             : translate(100%, 0);
+  transition            : transform 1s cubic-bezier(0.77, 0.2, 0.05, 1.2);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: initial;
+  height: calc(100vh - @heightTopPanel);
+  background: rgba(10, 10, 10, 0.60);
+  backdrop-filter: blur(7.5px);
 }
 
 #vmenuShown::-webkit-scrollbar-track
@@ -104,31 +138,37 @@ a.active-none-link:hover {
 //  outline: 1px solid slategrey;
 //}
 
-#menuToggle span {
+#menuToggle .menuToggleSpans {
   display         : block;
   width           : 33px;
   height          : 4px;
   margin-bottom   : 5px;
   position        : relative;
-  background      : #cdcdcd;
+  background      : @textMain;
   border-radius   : 3px;
   z-index         : 8001;
   transform-origin: 4px 0px;
   transition      : transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), opacity 0.55s ease;
 }
 
-#menuToggle span:first-child {
+#menuToggle .menuToggleSpans:first-child {
   transform-origin: 0% 0%;
 }
 
-#menuToggle span:nth-last-child(2) {
+#menuToggle .menuToggleSpans:nth-last-child(2) {
   transform-origin: 0% 100%;
 }
 
-.menuToggleSpans {
+.hr-line-menu-popup {
+  width: 100%;
+  height: 1px;
+  background: @textMuted;
+}
+
+.menuToggleSpanOpen {
   opacity   : 1!important;
   transform : rotate(45deg) translate(-2px, -1px)!important;
-  background: #232323!important;
+  background: @textMain!important;
 }
 
 .child-3 {
@@ -141,122 +181,210 @@ a.active-none-link:hover {
 }
 
 #menu {
-  min-width             : 100vw;
+  //right: -37px;
+  width: 400px ;
+  margin-left: auto;
   display               : flex;
   flex-direction        : column;
-  position              : absolute;
-  top                   : 50px;
-  margin                : -60px 0 0 -85px;
-  padding               : 50px;
-  padding-top           : 30px;
-  background            : #f1f1f1;
-  list-style-type       : none;
-  -webkit-font-smoothing: antialiased;
-  transform-origin      : 0% 0%;
-  transform             : translate(-100%, 0);
-  transition            : transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.2);
-  overflow: auto;
+  //position              : absolute;
+  //top                   : 40px;
+  ////margin                : -60px 0 0 -85px;
+  //padding               : 40px 25px;
+  background            : #ffff;
+  //list-style-type       : none;
+  //-webkit-font-smoothing: antialiased;
+  //transform-origin      : 0% 0%;
+  //transform             : translate(100%, 0);
+  //transition            : transform 1s cubic-bezier(0.77, 0.2, 0.05, 1.2);
+  //overflow: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: initial;
-  height: 95vh;
+  min-height: calc(100vh - @heightTopPanel);
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
 }
 
-#menu li:hover {
-  text-decoration: underline;
+.menu-popup-wrapper {
+  padding               : 40px 25px;
+  background: #ffff;
 }
 
-#menu li {
-  padding  : 10px 0;
-  font-size: 13px;
-  color    : black;
-  float    : none;
-}
+//#menu li:hover {
+//  text-decoration: underline;
+//}
+//
+//#menu li {
+//padding  : 10px 0;
+//font-size: 13px;
+//color    : black;
+//float    : none;
+//}
 
 #menu a {
-  text-decoration: none;
+text-decoration: none;
 }
 
 .toggleMenuLeftOpen {
-  transform: translate(15%, 0)!important;
+right: -@paddingWrapperLaptop;
+display: flex;
+///
+transform: translate(0%, 0)!important;
+-webkit-font-smoothing: antialiased;
+transition            : transform 1s cubic-bezier(0.77, 0.2, 0.05, 1.2);
 }
 
-@media (max-width:500px) {
-  #menuToggle {
-    display: inline-block;
-  }
+@media (max-width:991px) {
+#menuToggle {
+display: inline-block;
+}
 
-  .header a {
-    padding: 5px;
-  }
+.toggleMenuLeftOpen {
+right: -@paddingWrapperLaptop;
+}
+.popup-menu-mobile {
+display: none;
+}
 
-  #menu .logo {
-    display        : flex;
-    justify-content: center;
-  }
+.menu-wrapper-background {
+display: flex;
+}
 
-  #menu #logo {
-    display      : block;
-    position     : relative;
-    margin-bottom: 10px;
-    align-self   : center;
-  }
 
-  #vmenuShown {
-    display: none;
-  }
+.menu_popup_schedule_socials {
+text-align: center;
+display: flex;
+flex-direction: column;
+//margin-top: auto;
+align-items: center;
+  margin-top: 36px;
+}
 
-  .header #contact_phone {
-    display: none;
-  }
+.subscribe_email_container {
+display: flex!important;
+flex-direction: column!important;
+gap: 15px;
+margin-top: 2rem;
 
-  .header-right .icons {
-    font-size: 18px;
-  }
 
-  #main {
-    margin    : 0px;
-    margin-top: 85px;
-  }
+.input-email input {
+  border-radius: 50px;
+  border-right: 1px solid #D9D9D9!important;
+}
+
+.button_sub {
+  width: 100%;
+  max-width: none;
+  border-radius: 50px;
+  margin-left: 0;
+}
+}
+//
+//.social-item {
+//  background: black;
+//  padding: 0 5px;
+//  border-radius: 30px;
+//}
+
+.schedule-popup {
+font-size: 12px;
+color: @textSubline;
+}
+
+.socials-popup {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.socials-popup a{
+font-size: 1.5rem;
+color: @textMain;
+}
+.menu-popup-hr-line-bottom {
+display: block;
+width: 65%;
+height: 1px;
+margin: 12px auto;
+background: @textMuted;
+}
+}
+
+@media (max-width:768px) {
+.header-schedule {
+display: none;
+}
+.header-phones {
+display: flex;
+gap: 20px;
+width: 100%;
+justify-content: space-evenly;
+flex-direction: row;
+}
+}
+
+
+@media (max-width:575px) {
+#menuToggle {
+display: inline-block;
+}
+
+.menu-popup-wrapper {
+  padding: 24px 16px;
+}
+
+.popup-menu-mobile {
+display: flex;
+}
+
+.popup-menu-mobile a{
+padding: 0;
+}
+
+.toggleMenuLeftOpen {
+right: -@paddingWrapperMobile;
+}
+
+#menu {
+width: 290px;
+}
+
+#menu .logo {
+display        : flex;
+justify-content: center;
+}
+
+#menu #logo {
+display      : block;
+position     : relative;
+margin-bottom: 10px;
+align-self   : center;
+}
+
+#vmenuShown {
+display: none;
+}
+
+.header #contact_phone {
+display: none;
+}
+
+.header-right .icons {
+font-size: 18px;
+}
+
+
+.subscribe_email_popup {
+display: none;
+}
 }
 
 .bodyOverflowHidden {
-  overflow: hidden;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-@media  screen and (max-width:460px) {
-  #menu {
-    margin-left: -80px;
-  }
-}
-
-@media  screen and (max-width:440px) {
-  #menu {
-    margin-left: -75px;
-  }
-}
-
-@media  screen and (max-width:380px) {
-  #menu {
-    margin-left: -70px;
-  }
-}
-
-@media  screen and (max-width:350px) {
-  #menu {
-    margin-left: -65px;
-  }
-}
-
-@media  screen and (max-width:330px) {
-  #menu {
-    margin-left: -58px;
-  }
+height: 100%;
+overflow: hidden;
+width: 100%;
+//position: fixed;
+//top: 0;
+//left: 0;
+//right: 0;
+//bottom: 0;
 }

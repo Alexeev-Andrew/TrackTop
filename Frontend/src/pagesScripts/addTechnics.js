@@ -6,7 +6,7 @@ var $categories =   $('.categories');
 var $marks =   $('.marks');
 var $models =   $('.models');
 var $technicsWithoutCategory   =   $('.technics-without-category');
-
+let openMessageModal = require("../profile/signup_form").openSendMessageModal;
 
 var equipmentsByCategory = [];
 
@@ -36,7 +36,17 @@ function initilizebreadcrumbEquipmentCategory(){
             $("#breadcrumb").empty();
         } else {
             let crums = " <li>\n" +
-                "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
+                "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
+                "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
+                "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+                "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+                "  </g>\n" +
+                "  <defs>\n" +
+                "    <clipPath id=\"clip0_147_2554\">\n" +
+                "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
+                "    </clipPath>\n" +
+                "  </defs>\n" +
+                "</svg>\n" +
                 "            <span class=\"sr-only\">Головна</span></a>\n" +
                 "    </li>\n";
             crums +=
@@ -140,7 +150,17 @@ function showTechnics(list) {
     if (curType == null && curMark == null) {} else {
 
         let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
+            "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
+            "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
+            "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+            "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
+            "  </g>\n" +
+            "  <defs>\n" +
+            "    <clipPath id=\"clip0_147_2554\">\n" +
+            "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
+            "    </clipPath>\n" +
+            "  </defs>\n" +
+            "</svg>\n" +
             "            <span class=\"sr-only\">Головна</span></a>\n" +
             "    </li>\n";
         if (curType) crums +=
@@ -183,7 +203,7 @@ function showTechnics(list) {
 //console.log(typ);
         //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
 
-        $node.click(function () {
+        $node.click(function (e) {
             //console.log("type"+ type);
             //
             localStorage.setItem('currentTypeOfTechnics', type.type_name);
@@ -205,6 +225,18 @@ function showTechnics(list) {
     }
 
     list.forEach(showOne);
+
+    $(".write-message-card").click(function (e){
+         console.log("here")
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let productId = card;
+        console.log($(card).data("id"))
+        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+    })
 }
 
 exports.initializeTechnics = function(){
@@ -262,6 +294,16 @@ exports.initializeTechnics = function(){
         else {
             require("../API").getTechnics(callback);
         }
+
+
+        let category_slider = $(".tab-technic-menu")
+        category_slider.html("");
+        require("../API").getTypes( function (err5, data5) {
+            data5.data.forEach(function (item) {
+                let one_technicCard = `<a class="tab-technic-menu-item ${tp1 == item.name ? "active" : ""}" href="/technics?type=${item.name}" >${item.name}</a>`
+                category_slider.append(one_technicCard)
+            })
+        })
 }
 
 
@@ -297,11 +339,11 @@ function showEquipments(list , className , per_page, filter) {
     if (max_pages > 1) {
         pagination_pages += '<li class="page-item ';
         if (cur_page == 1) pagination_pages += ' disabled';
-        pagination_pages += '"><a class="page-link" href="';
+        pagination_pages += ' arrow-pagination"><a class="page-link" href="';
         if(cur_page == 2) pagination_pages += url
         else if (cur_page > 2) pagination_pages += (url + '?page=' + (cur_page - 1))
         else pagination_pages += "#"
-        pagination_pages += '" aria-label="Previous" ><span aria-hidden="true">&laquo;</span></a></li>'
+        pagination_pages += '" aria-label="Previous" ><i class="fa fa-arrow-left"></i></a></li>'
 
 
     for (let i = 1; i <= max_pages; i++) {
@@ -315,16 +357,15 @@ function showEquipments(list , className , per_page, filter) {
     pagination_pages += '<li class="page-item'
 
     if (cur_page == max_pages) pagination_pages += ' disabled';
-    pagination_pages += '"><a class="page-link" href="';
+    pagination_pages += ' arrow-pagination"><a class="page-link" href="';
     let next_page = parseInt(cur_page) + 1;
     if (cur_page != max_pages) pagination_pages += (url + '?page=' + next_page)
     else pagination_pages += "#"
-    pagination_pages += '" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
+    pagination_pages += '" aria-label="Next"><i class="fa fa-arrow-right"></i></a></li>'
 
     paginataion.append(pagination_pages)
 
 }
-
 
     for(let i = (cur_page-1)*per_page ; i< cur_page*per_page;i ++) {
         if(list.length> i) {
@@ -332,6 +373,42 @@ function showEquipments(list , className , per_page, filter) {
             showOneEquipment(list[i] , className);
         }
     }
+
+    $(".write-message-card").click(function (e){
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let productId = card;
+        console.log($(card).data("id"))
+        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+    })
+
+    $(".btn-add-to-cart").click(function (e){
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault();
+        let card =  e.target.closest(".oneTechnic");
+        console.log(card)
+        let equipment = $(card).data("json");
+        require('../basketPage').addToCart({
+            id: equipment.id,
+            title: equipment.name,
+            price_uah: equipment.price_uah,
+            price: equipment.price,
+            currency: equipment.currency,
+            icon: equipment.main_photo_location,
+            quantity: 1,
+            url: equipment.url,
+            isTech: false
+        });
+
+        require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+
+    })
+
+
     let k = equipments_showed;
     // $(window).scroll(function() {
     //     let next = equipments_showed+10 ;
@@ -357,7 +434,6 @@ function showOneEquipment(type , className) {
 
 
     $node.click(function () {
-        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
         localStorage.setItem('currEquipment',JSON.stringify({
             id: type.id,
             name: type.name,
@@ -367,6 +443,8 @@ function showOneEquipment(type , className) {
             amount: type.amount,
             description: type.description
         }));
+        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
+
     });
     if(className=="equipments")
     $equipments.append($node);

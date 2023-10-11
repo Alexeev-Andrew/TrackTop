@@ -1,5 +1,6 @@
-<div class="oneTechnic">
-    <div class="thumbnail  one_equipment technic-card">
+<div class="oneTechnic" data-id="<%= equipment.id %>" data-title="<%= equipment.name %> <%= equipment.model%>" data-url="<%= equipment.url %>"
+     data-json="<%=JSON.stringify(equipment)%>">
+    <div class="one_equipment technic-card">
         <img class="lazy" src="https://via.placeholder.com/440x300?text=<%= equipment.name %>" data-src="/images/equipments/<%= equipment.main_photo_location %>"
             <% if(equipment.technic_type=="Комбайни"){ %>
              alt ="Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>
@@ -13,36 +14,43 @@
             <div class="nameEquipment">
                 <a href="<%= equipment.url %>">
 
-                <h3 class="child_name"><%= equipment.name %>
-                    </h3>
+                <h2 class="child_name"><%= equipment.name %></h2>
                 </a>
             </div>
 
-             <% if(!equipment.vendor_code){ %>
-                        <div class="price" style="height:40px;">
+            <% if( equipment.vendor_code){ %>
 
-                        <% } else {%>
-                              <div class="price"> <% } %>
-                        <div class="price_equipment"><i>Ціна</i></div> <span class="equipment_info"><%= equipment.price_uah %> грн
+                <div class="vendor_code">
+                    <span class="equipment_info"><%= equipment.vendor_code %> </span>
+                </div>
+            <% } %>
 
-                                      <!--                            <% if(equipment.currency.toString() == "гривня") { %>-->
-<!--                                грн-->
-<!--                            <%}%>-->
+            <div class="caption-footer flex-column">
+                <div class="price-message-block d-flex justify-content-between">
+                    <div class="price-block">
+                        <div class="price-label">Ціна</i>
+                            <div class="price">
+                                <%= equipment.price_uah %>
+                                    грн
+                            </div>
 
-<!--                            <% if(equipment.currency.toString() == "долар") { %>-->
-<!--                                $-->
-<!--                            <%}%>-->
-                            </span>
                         </div>
+                    </div>
+                    <button class="btn-green-text-white write-message-card"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_679_6742)">
+                                <path d="M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_679_6742">
+                                    <rect width="25.1792" height="25.1792" fill="white" transform="translate(0.374512 0.152344)"/>
+                                </clipPath>
+                            </defs>
+                        </svg></button>
+                </div>
+                <button class="btn-green-text-white w-100 btn-add-to-cart mt-3 mb-0">Додати в корзину</button>
 
-                        <!--
-            <div class="amount"><i>Кількість:</i> <%= equipment.amount %></div>
-            <div class="state"><i>Стан:</i> <%= equipment.state %></div>
-                        !-->
-                         <% if( equipment.vendor_code){ %>
-
-                          <div class="vendor_code"><div class="vendor_code_label"><i>Артикул</i></div> <span class ="equipment_info"><%= equipment.vendor_code %> </span></div>
-                           <% } %>
+            </div>
 
         </div>
     </div>

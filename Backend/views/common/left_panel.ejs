@@ -1,40 +1,157 @@
-<div id='vmenuShown' class="navbar-container vmenu">
-        <div class="vertical-menu">
-
-                <a href="http://tracktop.com.ua" class="active">На головну</a>
-        </div>
-
-        <div class="vertical-menu vertical-menu-equipment">
-                <a href="http://tracktop.com.ua/category_equipments" class="active">Запчастини</a>
-        </div>
-
-        <div class="vertical-menu vertical-menu-technics">
-                <a href="#" class="active">Техніка</a>
-        </div>
-        <div class="vertical-menu vertical-menu-models">
-                <a href="#" class="active" >Марки</a>
-        </div>
-
-</div>
 <div id="menuToggle">
         <div  id="toggleMenuLeft" onclick="toggleLeftPanel()" class=""></div>
-        <span></span>
-        <span></span>
-        <span></span>
+        <span class="menuToggleSpans"></span>
+        <span class="menuToggleSpans"></span>
+        <span class="menuToggleSpans"></span>
+
+    <div class="menu-wrapper-background">
         <ul id="menu">
-                <div class="vertical-menu">
-                        <a href="http://tracktop.com.ua" class="active">На головну</a>
-                </div>
+            <div class="menu-popup-wrapper">
+                <div class="menu-popup">
+                    <div class="menu-is-login is-login">
+                        <div class="menu-user-name menu-popup-item "></div>
+                        <div class="menu-popup-item menu-user-phone"></div>
+                    </div>
+                    <span class="hr-line-menu-popup is-login"></span>
 
-                <div class="vertical-menu vertical-menu-equipment">
-                        <a href="#" class="active">Запчастини</a>
-                </div>
+                    <div class="menu-popup-item menu-item-auth" data-toggle="modal" data-target="#login-modal">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.3 6.7C9.20736 6.79152 9.13381 6.90052 9.08361 7.02068C9.03341 7.14084 9.00756 7.26977 9.00756 7.4C9.00756 7.53022 9.03341 7.65915 9.08361 7.77931C9.13381 7.89948 9.20736 8.00848 9.3 8.1L11.2 10H2C1.45 10 1 10.45 1 11C1 11.55 1.45 12 2 12H11.2L9.3 13.9C9.20736 13.9915 9.13381 14.1005 9.08361 14.2207C9.03341 14.3408 9.00756 14.4698 9.00756 14.6C9.00756 14.7302 9.03341 14.8592 9.08361 14.9793C9.13381 15.0995 9.20736 15.2085 9.3 15.3C9.69 15.69 10.31 15.69 10.7 15.3L14.29 11.71C14.3827 11.6175 14.4563 11.5076 14.5064 11.3866C14.5566 11.2657 14.5824 11.136 14.5824 11.005C14.5824 10.874 14.5566 10.7443 14.5064 10.6234C14.4563 10.5024 14.3827 10.3925 14.29 10.3L10.7 6.7C10.6085 6.60736 10.4995 6.53381 10.3793 6.48361C10.2592 6.43341 10.1302 6.40756 10 6.40756C9.86977 6.40756 9.74085 6.43341 9.62068 6.48361C9.50052 6.53381 9.39152 6.60736 9.3 6.7ZM19 18H12C11.45 18 11 18.45 11 19C11 19.55 11.45 20 12 20H19C20.1 20 21 19.1 21 18V4C21 2.9 20.1 2 19 2H12C11.45 2 11 2.45 11 3C11 3.55 11.45 4 12 4H19V18Z" fill="#2F9321"/>
+                        </svg>
+                        <span>Увійти</span>
+                    </div>
+                    <div class="menu-popup-item menu-item-auth" data-toggle="modal" data-target="#register-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <g clip-path="url(#clip0_138_2114)">
+                                <path d="M20.3396 21.2886C19.6799 19.2314 18.3839 17.4368 16.6386 16.1636C14.8932 14.8904 12.7886 14.2043 10.6282 14.2043C8.46777 14.2043 6.36317 14.8904 4.6178 16.1636C2.87243 17.4368 1.57647 19.2314 0.916748 21.2886H20.3396Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.6281 14.2172C11.5014 14.2172 12.3662 14.0452 13.173 13.711C13.9799 13.3768 14.713 12.8869 15.3305 12.2694C15.9481 11.6518 16.4379 10.9187 16.7721 10.1119C17.1063 9.30502 17.2784 8.44024 17.2784 7.56691C17.2784 6.69358 17.1063 5.82881 16.7721 5.02196C16.4379 4.21511 15.9481 3.48199 15.3305 2.86445C14.713 2.24691 13.9799 1.75706 13.173 1.42285C12.3662 1.08864 11.5014 0.916626 10.6281 0.916626C8.8643 0.916626 7.17278 1.61728 5.92561 2.86445C4.67844 4.11162 3.97778 5.80315 3.97778 7.56691C3.97778 9.33068 4.67844 11.0222 5.92561 12.2694C7.17278 13.5165 8.8643 14.2172 10.6281 14.2172Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.8 10.1393C12.8 10.1393 12.2484 11.2251 10.6283 11.2251C9.00969 11.2251 8.45654 10.1409 8.45654 10.1409" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.1575 6.30037H17.1135C16.1952 6.30123 15.2873 6.10662 14.4501 5.72947C13.6129 5.35231 12.8655 4.80126 12.2578 4.11294C11.6498 4.80146 10.9022 5.35263 10.0647 5.72979C9.22721 6.10695 8.31899 6.30146 7.40048 6.30037C6.31746 6.30262 5.25128 6.03243 4.30005 5.51465C4.75615 4.11294 5.66482 2.90238 6.8834 2.073C8.10199 1.24363 9.56149 0.842404 11.0328 0.932315C12.5041 1.02223 13.9039 1.59818 15.0124 2.56977C16.1209 3.54135 16.8754 4.85355 17.1575 6.30037Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_138_2114">
+                                    <rect width="22" height="22" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                            <span>Реєстрація</span>
+                    </div>
+                    <div class="menu-popup-item basketBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path d="M19.1143 8.24996H2.51999C2.28431 8.24518 2.05057 8.2935 1.83609 8.39132C1.62161 8.48914 1.43188 8.63396 1.28097 8.81506C1.13006 8.99615 1.02182 9.20888 0.964281 9.43749C0.90674 9.66609 0.901368 9.90471 0.948563 10.1357L2.67713 18.7785C2.7506 19.1388 2.94809 19.4619 3.23522 19.6916C3.52234 19.9213 3.88093 20.0431 4.24856 20.0357H17.3857C17.7533 20.0431 18.1119 19.9213 18.3991 19.6916C18.6862 19.4619 18.8837 19.1388 18.9571 18.7785L20.6857 10.1357C20.7329 9.90471 20.7275 9.66609 20.67 9.43749C20.6124 9.20888 20.5042 8.99615 20.3533 8.81506C20.2024 8.63396 20.0127 8.48914 19.7982 8.39132C19.5837 8.2935 19.35 8.24518 19.1143 8.24996Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.96 2.75L17.1028 8.25" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.53149 8.25L7.67435 2.75" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                            <span>Корзина</span>
+                    </div>
+                    <div class="menu-popup-item" onclick="openMessageModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <g clip-path="url(#clip0_138_2125)">
+                                <path d="M19.6428 2.75H2.35707C1.9403 2.75 1.54061 2.91556 1.24591 3.21026C0.951205 3.50496 0.785645 3.90466 0.785645 4.32143V17.6786C0.785645 18.0953 0.951205 18.495 1.24591 18.7897C1.54061 19.0844 1.9403 19.25 2.35707 19.25H19.6428C20.0596 19.25 20.4593 19.0844 20.754 18.7897C21.0487 18.495 21.2142 18.0953 21.2142 17.6786V4.32143C21.2142 3.90466 21.0487 3.50496 20.754 3.21026C20.4593 2.91556 20.0596 2.75 19.6428 2.75Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M0.785645 4.71423L9.99422 10.2519C10.2771 10.4185 10.6322 10.5081 10.9999 10.5081C11.3676 10.5081 11.7228 10.4185 12.0056 10.2519L21.2142 4.71423" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_138_2125">
+                                    <rect width="22" height="22" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                            <span>Повідомлення</span>
+                    </div>
+                    <div class="menu-popup-item is-login">
+                        <a href="/purchases" rel="nofollow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                <path d="M16.6666 20.4167C15.3985 20.4167 14.3175 19.9696 13.4234 19.0756C12.5294 18.1815 12.0826 17.1008 12.0833 15.8333C12.0833 14.5653 12.5303 13.4842 13.4243 12.5902C14.3184 11.6961 15.3991 11.2494 16.6666 11.25C17.9346 11.25 19.0157 11.697 19.9098 12.5911C20.8038 13.4851 21.2505 14.5659 21.2499 15.8333C21.2499 17.1014 20.8029 18.1824 19.9088 19.0765C19.0148 19.9706 17.934 20.4173 16.6666 20.4167ZM17.1249 15.65V13.5417C17.1249 13.4194 17.0791 13.3125 16.9874 13.2208C16.8958 13.1292 16.7888 13.0833 16.6666 13.0833C16.5444 13.0833 16.4374 13.1292 16.3458 13.2208C16.2541 13.3125 16.2083 13.4194 16.2083 13.5417V15.6271C16.2083 15.7493 16.2312 15.8679 16.277 15.9828C16.3228 16.0976 16.3916 16.2006 16.4833 16.2917L17.8583 17.6667C17.9499 17.7583 18.0569 17.8042 18.1791 17.8042C18.3013 17.8042 18.4083 17.7583 18.4999 17.6667C18.5916 17.575 18.6374 17.4681 18.6374 17.3458C18.6374 17.2236 18.5916 17.1167 18.4999 17.025L17.1249 15.65Z" fill="#2F9321"/>
+                                <path d="M20.3368 10.5465L20.769 8.38579C20.8162 8.15483 20.8108 7.91621 20.7532 7.68761C20.6957 7.459 20.5875 7.24628 20.4366 7.06518C20.2856 6.88408 20.0959 6.73926 19.8814 6.64144C19.667 6.54362 19.4332 6.49531 19.1975 6.50008H2.60324C2.36756 6.49531 2.13382 6.54362 1.91934 6.64144C1.70486 6.73926 1.51514 6.88408 1.36422 7.06518C1.21331 7.24628 1.10507 7.459 1.04753 7.68761C0.989992 7.91621 0.98462 8.15483 1.03182 8.38579L2.76039 17.0286C2.83385 17.3889 3.03134 17.7121 3.31847 17.9418C3.6056 18.1715 3.96419 18.2932 4.33182 18.2858H10.9004" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14.0432 1L17.1861 6.5" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4.61475 6.5L7.7576 1" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Історія покупок</span>
+                        </a>
+                    </div>
+                    <div class="menu-popup-item is-login">
+                        <a href="/profile" rel="nofollow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                <path d="M9.43297 11.1609C8.62593 11.1609 7.83701 10.9216 7.16598 10.4733C6.49495 10.0249 5.97195 9.3876 5.66311 8.642C5.35426 7.89639 5.27346 7.07594 5.4309 6.28441C5.58835 5.49288 5.97698 4.76581 6.54764 4.19514C7.1183 3.62448 7.84537 3.23585 8.63691 3.07841C9.42844 2.92096 10.2489 3.00177 10.9945 3.31061C11.7401 3.61945 12.3774 4.14245 12.8258 4.81348C13.2741 5.48451 13.5134 6.27343 13.5134 7.08047C13.5106 8.16179 13.0797 9.19801 12.3151 9.96262C11.5505 10.7272 10.5143 11.1581 9.43297 11.1609ZM9.43297 4.63219C8.94874 4.63219 8.47539 4.77578 8.07277 5.0448C7.67016 5.31382 7.35635 5.69619 7.17105 6.14355C6.98574 6.59092 6.93726 7.08319 7.03173 7.5581C7.1262 8.03302 7.35937 8.46927 7.70177 8.81166C8.04417 9.15406 8.48041 9.38724 8.95533 9.48171C9.43025 9.57617 9.92252 9.52769 10.3699 9.34238C10.8172 9.15708 11.1996 8.84328 11.4686 8.44066C11.7377 8.03804 11.8812 7.56469 11.8812 7.08047C11.8812 6.43114 11.6233 5.80842 11.1642 5.34927C10.705 4.89013 10.0823 4.63219 9.43297 4.63219ZM1.81609 18.7778C1.59965 18.7778 1.39208 18.6918 1.23903 18.5388C1.08598 18.3857 1 18.1782 1 17.9617C1 12.7931 6.90852 12.7931 9.43297 12.7931C10.2164 12.7931 10.9128 12.7931 11.5439 12.8693C11.7586 12.886 11.958 12.9869 12.0986 13.1499C12.2392 13.313 12.3097 13.525 12.2947 13.7398C12.2753 13.9554 12.1721 14.1548 12.0074 14.2952C11.8426 14.4355 11.6293 14.5057 11.4134 14.4906C10.8258 14.4906 10.1729 14.4253 9.43297 14.4253C3.79648 14.4253 2.63219 15.8399 2.63219 17.9617C2.63365 18.0693 2.61354 18.1761 2.57305 18.2757C2.53255 18.3754 2.4725 18.466 2.39642 18.542C2.32035 18.6181 2.2298 18.6782 2.13012 18.7187C2.03045 18.7592 1.92367 18.7793 1.81609 18.7778ZM11.7289 19.6048C11.5125 19.6046 11.3051 19.5185 11.1522 19.3654C11.0663 19.2835 11.0001 19.1832 10.9586 19.072C10.9171 18.9607 10.9015 18.8416 10.9128 18.7234L11.0869 16.6342C11.1004 16.4421 11.1813 16.261 11.3154 16.1228L17.3219 10.1163C17.7363 9.73242 18.2803 9.51913 18.8452 9.51913C19.4101 9.51913 19.9542 9.73242 20.3686 10.1163C20.5729 10.3223 20.734 10.567 20.8424 10.8361C20.9508 11.1051 21.0043 11.3932 20.9997 11.6832C21.004 11.9506 20.9552 12.2162 20.8562 12.4646C20.7572 12.713 20.61 12.9393 20.423 13.1304L14.4166 19.1369C14.2834 19.2735 14.106 19.3583 13.916 19.3763L11.8051 19.5721L11.7289 19.6048ZM12.6865 17.0586L12.6212 17.8855L13.4699 17.8094L19.2696 12.0097C19.3381 11.9276 19.3731 11.8227 19.3675 11.7159C19.3671 11.5644 19.3132 11.4179 19.2152 11.3024C19.1082 11.2229 18.9785 11.18 18.8452 11.18C18.712 11.18 18.5822 11.2229 18.4753 11.3024L12.6865 17.0586Z" fill="#2F9321"/>
+                            </svg>
+                            <span>Редагувати профіль</span>
+                        </a>
+                    </div>
+                    <div class="menu-popup-item is-login">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path d="M10.9999 21.0833C5.906 19.9512 1.83325 15.1451 1.83325 10.0833V4.58329L10.9999 0.916626L20.1666 4.58329V10.0833C20.1666 15.147 16.0938 19.9512 10.9999 21.0833ZM3.66659 5.49996V10.0833C3.71897 12.2027 4.46442 14.2466 5.78883 15.9022C7.11325 17.5577 8.94366 18.7336 10.9999 19.25C13.0562 18.7336 14.8866 17.5577 16.211 15.9022C17.5354 14.2466 18.2809 12.2027 18.3333 10.0833V5.49996L10.9999 2.74996L3.66659 5.49996Z" fill="#2F9321"/>
+                            <path d="M10.9999 10.0833C12.2656 10.0833 13.2916 9.05732 13.2916 7.79167C13.2916 6.52601 12.2656 5.5 10.9999 5.5C9.73427 5.5 8.70825 6.52601 8.70825 7.79167C8.70825 9.05732 9.73427 10.0833 10.9999 10.0833Z" fill="#2F9321"/>
+                            <path d="M6.41675 13.75C6.86856 14.5734 7.53104 15.2619 8.33638 15.7451C9.14171 16.2283 10.061 16.4888 11.0001 16.5C11.9392 16.4888 12.8585 16.2283 13.6638 15.7451C14.4691 15.2619 15.1316 14.5734 15.5834 13.75C15.5605 12.012 12.5199 11 11.0001 11C9.472 11 6.43966 12.012 6.41675 13.75Z" fill="#2F9321"/>
+                        </svg>
+                        <span>адмін панель</span>
+                    </div>
 
-                <div class="vertical-menu vertical-menu-technics">
-                        <a href="#" class="active">Техніка</a>
+                    <span class="hr-line-menu-popup"></span>
+
+                    <div class="menu-popup-item menu-logout is-login exit_btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path d="M4.58333 4.58333H10.0833C10.5875 4.58333 11 4.17083 11 3.66667C11 3.1625 10.5875 2.75 10.0833 2.75H4.58333C3.575 2.75 2.75 3.575 2.75 4.58333V17.4167C2.75 18.425 3.575 19.25 4.58333 19.25H10.0833C10.5875 19.25 11 18.8375 11 18.3333C11 17.8292 10.5875 17.4167 10.0833 17.4167H4.58333V4.58333Z" fill="#EC0000"/>
+                            <path d="M18.9292 10.6792L16.3717 8.1217C16.3079 8.05621 16.2261 8.01123 16.1366 7.99252C16.0471 7.9738 15.9541 7.98221 15.8695 8.01667C15.7848 8.05112 15.7124 8.11005 15.6614 8.18592C15.6104 8.26179 15.5832 8.35114 15.5833 8.44254V10.0834H9.16667C8.6625 10.0834 8.25 10.4959 8.25 11C8.25 11.5042 8.6625 11.9167 9.16667 11.9167H15.5833V13.5575C15.5833 13.97 16.0783 14.1717 16.3625 13.8784L18.92 11.3209C19.1033 11.1467 19.1033 10.8534 18.9292 10.6792Z" fill="#EC0000"/>
+                        </svg>
+                        <span>Вийти</span>
+                    </div>
+
                 </div>
-                <div class="vertical-menu vertical-menu-models">
-                        <a href="#" class="active">Марки</a>
+                <div class="subscribe_email_popup">
+                        <div class="subscribe_email_popup_title">
+                                Підпишіться, щоб отримувати сповіщення!
+                        </div>
+
+                    <form method="POST" id="ajax_form" action="" style="display: none;">
+                        <input type="email" id="email-ajax" name="email">
+                    </form>
+
+                    <form class="formInlineContainer subscribe_email_container">
+                            <div class="input-email">
+                                    <input type="email" id="email" name="email" placeholder="Email" value="" data-automation="email-address-input">
+                            </div>
+                            <button id="subscribeEmail"  class="button_sub" type="button" data-automation="subscribe-newsletter-button">
+                                    Підписатись
+                            </button>
+                    </form>
                 </div>
+                <div class="popup-menu-mobile">
+                        <a href="/category_equipments" class="menu-item">Запчастини</a>
+                        <a href="/categories" class="menu-item">Техніка</a>
+                        <a href="/marks" class="menu-item">Марки</a>
+                        <a href="/about" class="menu-item">Про нас</a>
+                </div>
+                <div class="menu_popup_schedule_socials">
+                        <div class="schedule-popup">
+                            <span>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.5 16C12.6421 16 16 12.6421 16 8.5C16 4.35786 12.6421 1 8.5 1C4.35786 1 1 4.35786 1 8.5C1 12.6421 4.35786 16 8.5 16Z" stroke="#89A831" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 5V9L10 11" stroke="#89A831" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <span>Пн-Пт: 9:00-18:00</span>
+                            <span>Сб-Нд: 10:00-15:00</span>
+                        </div>
+                    <span class="menu-popup-hr-line-bottom"></span>
+                        <div class="socials-popup">
+                            <span class="social-item">
+                                <a href="https://t.me/TrackTopLviv" class="social-items fab fa-telegram" target="_blank" onclick="fbq('trackCustom', 'clickOpenTelegram');"></a>
+                            </span>
+                                                <span class="social-item">
+                                <a href="https://invite.viber.com/?g2=AQB3zGXsatWLG0pH6Rf7Wb33IAjhGy7MAoMRBEByk1jDUKliZohw3FnC32CTQZKK" class="social-items fab fa-viber" target="_blank" onclick="fbq('trackCustom', 'clickOpenViber');"></a>
+                            </span>
+                                                <span class="social-item">
+                                <a href="https://www.facebook.com/tracktopShop" class="social-items fab fa-facebook m-left-5" target="_blank" onclick="fbq('trackCustom', 'clickOpenFacebook');"></a>
+                            </span>
+                                                <span class="social-item">
+                                <a href="https://www.instagram.com/tracktop_shop/" class="social-items fab fa-instagram m-left-5" target="_blank" onclick="fbq('trackCustom', 'clickOpenInstagram');"></a>
+                            </span>
+                                            <span class="social-item">
+                                <a href="https://www.instagram.com/tracktop_shop/" class="social-items fab fa-tiktok m-left-5" target="_blank" onclick="fbq('trackCustom', 'clickOpenInstagram');"></a>
+                            </span>
+                        </div>
+                </div>
+            </div>
         </ul>
+    </div>
 </div>

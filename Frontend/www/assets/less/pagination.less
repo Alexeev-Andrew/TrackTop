@@ -1,0 +1,35 @@
+#pagination {
+  gap: 10px;
+}
+
+.page-link {
+  color: @textSubline;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.page-item.active .page-link {
+  color: @textMain;
+  font-weight: 900;
+  background: none;
+}
+
+.page-item.disabled .page-link {
+  color: @textMuted;
+  background: none;
+}
+
+.arrow-pagination {
+  background: #FFF;
+  border-radius: 50px;
+  box-shadow: 4px 8px 24px 0px rgba(148, 189, 129, 0.15);
+}
+
+.page-link:hover {
+  color: @textMain;
+  background: none;
+}
