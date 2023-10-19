@@ -8,12 +8,12 @@ exports.connect = function() {
 
     connection = mysql.createConnection({
         host: 'localhost',
-        // user: 'tracktop',
-        // password: 'tracktop123',
-        // database: "tracktop"
-        user: 'root',
-        password: 'Mihamiha_123',
-        database: "tracktop2"
+        user: 'tracktop',
+        password: 'tracktop123',
+        database: "tracktop"
+        // user: 'root',
+        // password: 'Mihamiha_123',
+        // database: "tracktop2"
     });
 
     connection.connect(function(err) {
