@@ -257,9 +257,9 @@ function initialiseCart() {
     $amount.append(amountOfOrders);
     $allPrice.html("");
     $allPrice.append(allPrice + " грн");
-    $(".labelOrderDelete").click(function(){
-        Cart.forEach(removeFromCart);
-    });
+    // $(".labelOrderDelete").click(function(){
+    //     Cart.forEach(removeFromCart);
+    // });
     updateCart();
 }
 
