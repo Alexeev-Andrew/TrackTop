@@ -10,23 +10,24 @@
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </head>
 
 <body>
-<div class="wrapper">
+<div class="">
 
     <% include common/header.ejs %>
 
-    <div id="main" style="padding: 30px 0">
-        <div style="text-align: center; font-size: 32px">Ой, щось пішло не так.</div>
-        <div style="text-align: center">Даної сторінки не існує.</div>
-
-        <div style="text-align: center">
-            <button class="to_catalog_btn" onclick="document.location.href='/'">На головну</button>
+    <div id="main">
+        <div class="narrow-wrapper padding-wrapper add-top-padding">
+            <div class="page_not_exist_title add-top-padding">Даної сторінки не існує</div>
+            <div class="page_not_exist_subtitle">Ой, щось пішло не так</div>
+            <div style="text-align: center" class="mt-5">
+                <button class="btn btn-green-text-white m-auto pr-4 pl-4" onclick="document.location.href='/'">На головну</button>
+            </div>
         </div>
-
     </div>
 
 
@@ -40,8 +41,8 @@
 
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
-    <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
+    <script type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
+    <script type="text/javascript" src="/assets/js/maskph_call.js"></script>
     <% include common/footer.ejs %>
 </div>
 </body>

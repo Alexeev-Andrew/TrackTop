@@ -95,13 +95,13 @@
                  </div>
                 <br>
                 <div class="one-row-admin-panel">
-                    <div class="name-type right-type">Статус</div>
+                    <div class="name-type ">Статус</div>
                        <div class="ds">
                             <select class="form-control form-item admin-panel-input" id="status">
-                                <option default selected>В наявності</option>
-                                <option>Під замовлення</option>
-                                <option>Немає в наявності</option>
-                                <option>Продано</option>
+                                <option default selected>в наявності</option>
+                                <option>під замовлення</option>
+                                <option>немає в наявності</option>
+                                <option>продано</option>
                             </select>
                        </div>
                 </div>
@@ -110,7 +110,6 @@
                                 <label class="mt-3" for="vendor-choice">Впишіть коди запчастини</label>
 
                         <select class="form-control form-item admin-panel-input" placeholder="Модель"
-                                required
                                 type="text" id="vendor-choice" class="myInputClass"
                                 name="vendor_code[]" multiple="multiple">
                             <option></option>
@@ -119,8 +118,9 @@
 
                 <div>Категорія запчастини</div>
 
-                <div class="ds ds-mobile-full"> <select class="form-control form-item admin-panel-input" id="categories_modal"
-                                         name="categories_modal"
+                <div class="ds ds-mobile-full">
+                    <select class="form-control form-item admin-panel-input" id="categories_modal"
+                                         name="categories_modal" required
                                          onchange="unlockType()">
 <!--          <option selected disabled>Тип</option>-->
                         <!--                        <option selected disabled>Категорія</option>-->

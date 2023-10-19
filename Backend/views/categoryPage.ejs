@@ -35,7 +35,8 @@
 <!--    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />-->
     <!-- LESS основний файл -->
     <link rel="stylesheet/less" type="text/css" href="/assets/less/main.less">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
     <!-- LESS JavaScript компілятор -->
@@ -79,9 +80,11 @@
     <div id="main">
         <div class="narrow-wrapper padding-wrapper">
         <%include breadcrumbs.ejs%>
-        <div class='type_header'>
-            <h1 class="h1_header "><%= name %></h1>
-        </div>
+            <h1 class="header-main"><%= name %></h1>
+
+<!--            <div class='type_header'>-->
+<!--            <h1 class="h1_header "><%= name %></h1>-->
+<!--        </div>-->
 
         <% if(name!="Запчастини до комбайнів"){ %>
             <% include common/searchBarEquipments.ejs %>
@@ -112,52 +115,90 @@
                     <% } %>
                 <% } %>
         <% }else{ %>
-            <div class="marks"><div class="oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail thumbnail-marks">
-                        <a href="http://tracktop.com.ua/category_equipments/category/combine_details/Massey Ferguson">
-                            <img class="" src="/images/marks_photos/mf-logo.png" alt="Запчастини до комбайнів Massey Ferguson.Запчасти для комбайнов Massey Ferguson">
-                        </a>
-                        <div class="caption captionMark">
+            <div class="marks">
+                <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-4 col-lg-4"
+                     data-url="/category_equipments/category/combine_details/Massey Ferguson">
+                    <div class="oneCategory oneCategoryMark">
+                        <div class="category-header">
+                            <h2 class="category_name">
+                                    <a href="/category_equipments/category/combine_details/Massey Ferguson">
+                                        Massey Ferguson
+                                    </a>
+                            </h2>
+                            <div class="action">
+                                <div class="button-action-category">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </div>
+                            </div>
                         </div>
 
+                        <img class="" src="/images/marks_photos/massey-ferguson.png" alt="Запчастини до комбайнів Massey Ferguson. Запчасти для комбайнов Massey Ferguson">
                     </div>
-
-                </div><div class="oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail thumbnail-marks">
-                        <a href="http://tracktop.com.ua/category_equipments/category/combine_details/Claas">
-                            <img class="" src="/images/marks_photos/claas-logo-2.png" alt="Запчастини до комбайнів Claas.Запчасти для комбайнов Claas">
-                        </a>
-                        <div class="caption captionMark">
+                </div>
+                <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-4 col-lg-4" data-url="/category_equipments/category/combine_details/Claas">
+                    <div class="oneCategory oneCategoryMark">
+                        <div class="category-header">
+                            <h2 class="category_name"><div>
+                                    <a href="/category_equipments/category/combine_details/Claas">
+                                        <span class="" style="color: black">Claas</span>
+                                    </a>
+                                </div>
+                            </h2>
+                            <div class="action">
+                                <div class="button-action-category">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </div>
+                            </div>
                         </div>
 
+                        <img class="" src="/images/marks_photos/claas.png" alt="Запчастини до комбайнів Claas. Запчасти для комбайнов Claas">
                     </div>
+                </div>
 
-                </div><div class="oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail thumbnail-marks">
-                        <a href="http://tracktop.com.ua/category_equipments/category/combine_details/John Deere">
-                            <img class="" src="/images/marks_photos/john-deere-logo-1.png" alt="Запчастини до комбайнів John Deere.Запчасти для комбайнов John Deere">
-                        </a>
-                        <div class="caption captionMark">
+                <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-4 col-lg-4" data-url="/category_equipments/category/combine_details/John Deere">
+                    <div class="oneCategory oneCategoryMark">
+                        <div class="category-header">
+                            <h2 class="category_name"><div>
+                                    <a href="/category_equipments/category/combine_details/John Deere">
+                                        <span class="" style="color: black">John Deere</span>
+                                    </a>
+                                </div>
+                            </h2>
+                            <div class="action">
+                                <div class="button-action-category">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </div>
+                            </div>
                         </div>
 
+                        <img class="" src="/images/marks_photos/john-deere.png" alt="Запчастини до комбайнів John Deere. Запчасти для комбайнов John Deere">
                     </div>
-
-                </div></div>
-            <div id="hide_desc" class="descr_bottom">
-                <h4>
-                <i>Запчастини до зернозбиральних комбайнів Claas, Massey Ferguson, John Deere</i>
-                </h4>
-                <p>
-                На нашому сайті ви знайде майже всі ходові запчастини до комбайнів. Якщо ж запчастини немає на
-                складі, то ми постараємось доставити її у найкоротші терміни.  Ми показуємо реальні фото запчастин
-                до комбайнів, які ми продаємо.
-                </p>
-                <p> Запчастини до комбайнів - це один з основних напрямків, на якому ми спеціалізуємось.
-                У нас великий склад і відмінна якість запчастин до комбайнів Claas (Клаас), Massey Ferguson(Массей Фергюсон), John Deere (Джон Дір). Ми продаємо як і оригінальні
-                запчастини до комбайнів так і високоякісні аналоги. Якщо у вас сталась поломка комбайна зернозбирального і ви шукаєте запасну частину, то телефонуйте за номером, який розміщений у розділі контатки.
-                Ми постараємось допомогти вам вирішити проблему.
-                </p>
+                </div>
+                </div>
             </div>
+        <section class="descr_bottom">
+            <div class="narrow-wrapper padding-wrapper">
+                <div class="row no-gutters">
+                    <div class="col-12 col-lg-6 col-left-background-equipments-categories col-left-background-equipments-marks">
+                    </div>
+                    <div class="col-12 col-lg-6 col-right-equipments">
+                        <h2 class="title">Запчастини до зернозбиральних комбайнів</h2>
+                        <p class="">На нашому сайті ви знайде майже всі ходові запчастини до комбайнів. Якщо ж запчастини немає на
+                            складі, то ми постараємось доставити її у найкоротші терміни. Ми показуємо реальні фото запчастин
+                            до комбайнів, які ми продаємо.</p>
+                        <p class="">
+                            Запчастини до комбайнів - це один з основних напрямків, на якому ми спеціалізуємось.
+                            У нас великий склад і відмінна якість запчастин до комбайнів Claas (Клаас), Massey Ferguson(Массей Фергюсон), John Deere (Джон Дір). Ми продаємо як і оригінальні
+                            запчастини до комбайнів так і високоякісні аналоги.
+                        </p>
+                        <p class="">
+                            Якщо у вас сталась поломка комбайна зернозбирального і ви шукаєте запасну частину, то телефонуйте за номером, який розміщений у розділі контатки.
+                            Ми постараємось допомогти вам вирішити проблему.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
         <% } %>
 
         </div>
@@ -173,6 +214,8 @@
 
         <script type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
         <script type="text/javascript" src="/assets/js/maskph_call.js"></script>
+
+        <% include common/footer-ad-subscribe.ejs %>
         <% include common/footer.ejs %>
 </body>
 

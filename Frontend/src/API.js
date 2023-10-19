@@ -22,8 +22,8 @@ function backendGet(url, callback, data) {
         success: function(data){
             callback(null, data);
         },
-        error: function() {
-            callback(new Error("Ajax Failed"));
+        error: function(err) {
+            callback(err);
         }
     })
 }
@@ -40,8 +40,8 @@ function backendPost(url, data, callback, token) {
         success: function(data){
             callback(null, data);
         },
-        error: function() {
-            callback(new Error("Ajax Failed"));
+        error: function(err) {
+            callback(err);
         }
     })
 }
@@ -246,6 +246,10 @@ exports.uploadUserPhoto = function(photo, id, callback){
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
+exports.deleteUserPhoto = function(callback){
+    backendPost("/api/delete_user_photo/",{}, callback);
+};
+
 exports.uploadTechnicPhoto = function(photo,callback){
     var data = new FormData();
     data.append('uploadFile', photo);
@@ -259,8 +263,12 @@ exports.uploadEquipmentPhoto = function(photo,callback){
 };
 
 
-exports.updateClient = function(id,info,callback) {
-    backendPost("/api/update_user",{id: id, info: info},callback);
+exports.updateClient = function(info,callback) {
+    backendPost("/api/update_user",{info: info},callback);
+}
+
+exports.updateClientPassword = function(info,callback) {
+    backendPost("/api/update_user_pwd", info, callback);
 }
 
 exports.addPhone = function(phone,name,callback) {

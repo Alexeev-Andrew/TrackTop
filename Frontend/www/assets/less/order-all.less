@@ -65,10 +65,10 @@ body {
   transition: all .2s ease-in-out;
 }
 
-.order-label {
-  font-size: 14px;
-  color: #9d8f8f;
-}
+//.order-label {
+//  font-size: 14px;
+//  color: #9d8f8f;
+//}
 
 .order-title {
   font-size: 16px;
@@ -82,15 +82,14 @@ body {
   cursor: pointer;
 }
 
-
-.imgInOrder {
-  width        : 80px;
-  height       : 60px;
-  object-fit   : cover;
-  max-width    : 120px;
-  border-style : ridge;
-  border-radius: 5px;
+.item-desc-basket {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
+
 
 .modal-order-comment-section {
   display: none;
@@ -112,27 +111,6 @@ body {
   background-color: #f3f1f1;
 }
 
-.modal-content {
-  width: 640px;
-}
-
-.scroll-box {
-  max-height: 80vh;
-  overflow-y: auto;
-  max-width: 700px;
-  margin: auto;
-}
-
-.scroll-box::-webkit-scrollbar, .modal-order-container::-webkit-scrollbar-thumb {
-  -webkit-appearance: none;
-  width: 10px;
-}
-
-.scroll-box::-webkit-scrollbar-thumb, .modal-order-container::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background-color: rgba(0,0,0,.5);
-  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-}
 
 .scroll {
   overflow-y: hidden;
@@ -140,8 +118,6 @@ body {
 
 .modal-order-container {
   height: auto;
-  max-height: 75vh;
-  overflow-y: scroll;
 }
 
 

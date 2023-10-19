@@ -358,28 +358,34 @@ function sendEmail(_to, _link) {
 
 exports.sendMessage = function (req, res) {
 
-    //console.log(req.body)
-    axios.post('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage', {
+    console.log(req.body.message)
+    axios.post('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage',{
         chat_id :"-327577485",
         text: req.body.message,
         parse_mode: 'HTML',
         disable_web_page_preview: false,
         disable_notification: false,
         reply_to_message_id: null
-    }).then(function (response) {
+    },
+        // {headers: {
+        //         'Content-type': 'application/json; charset=utf-8',
+        //     }}
+
+        ).then(function (response) {
+            res.send({status: true})
     })
         .catch(function (error) {
+            res.send({status: false})
         });
 
 }
 
 exports.addTehnicWithoutCategory = function(req, res) {
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
 
     function callback(error,data){
         if(error) {
-            //console.log("Error! ", error.sqlMessage);
+            console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -586,16 +592,14 @@ exports.addImagesEquipment = function(req, res) {
 };
 
 exports.addClient = function(req, res) {
-    var db = require('./db');
-    var info = req.body;
-
+    let info = req.body;
+    console.log(info)
     info.hash = require('./hash').md5(info.hash);
 
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
             res.send({
-                success: true,
                 error: error.sqlMessage
             });
         }
@@ -722,23 +726,19 @@ exports.addCheckTechnic = function(req, res) {
 
 //
 exports.sign_in = function(req, res) {
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
 
     function callback(error,data){
         if(error) {
-            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
+            console.log(data)
             if(!(data[0]==null) && require('./hash').md5(info.password) === data[0].hash){
                 let token = authService.generateToken(data[0]);
-                //res.json(token);
-                //res.cookie("jwt", token, {secure: true, httpOnly: true})
-                //let token = authService.generateToken(user);
                 let refresh_token = authService.generateRefreshToken(data[0]);
                 //res.json(token);
                 res.cookie("jwt", token, {maxAge: 60000 * 60 * 24}) // 60000 is 1 min
@@ -1027,7 +1027,6 @@ exports.getequipmentsbymodal = function (req,res) {
             });
         }
         else {
-            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1242,8 +1241,7 @@ exports.get_review = function (req,res) {
 }
 
 exports.get_user_information = function (req,res) {
-    var db = require('./db');
-    var info = req.query;
+    let info = req.query;
 
     function callback(error,data){
         if(error) {
@@ -1254,7 +1252,6 @@ exports.get_user_information = function (req,res) {
             });
         }
         else {
-            //console.log("Success! ", data);
             res.send({
                 success: true,
                 data: data
@@ -1335,12 +1332,14 @@ exports.is_log_in = function (req,res) {
     if (user) {
         function callback(err, data) {
             if(err) {
-                return res.send(err);
+                return res.send({auth: false});
             } else {
-                return res.send(true);
+                return res.send({auth: true, user : user});
             }
         }
         db.get_client_by_id(user.id, callback)
+    } else {
+        return res.send({auth: false});
     }
 
 }
@@ -1353,8 +1352,8 @@ const {md5} = require("./hash");
 
 exports.upload_user_photo = function (req,res) {
     upload_photo_new(req,res,'users_photos', "add");
-
 }
+
 
 exports.update_user_photo = function (req,res) {
     upload_photo_new(req,res,'users_photos', "update");
@@ -1414,7 +1413,7 @@ const asyncSaveImageToDB = async (oldpath, file_name, type) => {
 
 const asyncSaveBufferToDB = async (fileBuffer, file_name, type) => {
     try {
-        const image = sharp(fileBuffer);
+        let image = sharp(fileBuffer);
         image
             .metadata()
             .then(function(metadata) {
@@ -1424,13 +1423,15 @@ const asyncSaveBufferToDB = async (fileBuffer, file_name, type) => {
                 if(height > 720)
                     image.resize({height:720});
 
-                image
-                    // .resize(Math.round(metadata.width / 2))
-                    .composite([{ input: 'logo.png', gravity: 'southeast' }])
-                    .webp()
-                    .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
-                        console.log(err)
-                    });
+                if (type != "users_photos")
+                    image = image.composite([{ input: 'logo.png', gravity: 'southeast' }])
+
+                    image
+                        // .composite([{ input: 'logo.png', gravity: 'southeast' }])
+                        .webp()
+                        .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
+                            //console.log(err)
+                        });
             })
             .then(function(data) {
                 // data contains a WebP image half the width and height of the original JPEG
@@ -1447,7 +1448,7 @@ const asyncSaveBufferToDB = async (fileBuffer, file_name, type) => {
 
 function upload_photo_new(req,res,path,action){
 
-    let {insertId} = req.body;
+    let {insertId, type} = req.body;
     let files = req.files || Array.of(req.file);
 
     if (!files) files = []
@@ -1467,12 +1468,20 @@ function upload_photo_new(req,res,path,action){
         if (file_names.length > 0) {
             switch (path) {
                 case "technics" : {
-                    db.update_technic(insertId, {
-                        images: JSON.stringify(file_names),
-                        main_photo_location: file_names[0]
-                    }, function (err, data) {
-                        res.json({success: true, "files" :file_names})
-                    });
+
+                    if(type && type == "withoutCategoryTechnics") {
+                        db.update_technic_without_category(insertId, {
+                            photos: JSON.stringify(file_names),
+                        })
+                    }
+                    else {
+                        db.update_technic(insertId, {
+                            images: JSON.stringify(file_names),
+                            main_photo_location: file_names[0]
+                        }, function (err, data) {
+                            res.json({success: true, "files" :file_names})
+                        });
+                    }
                     break;
                 }
                 case "equipments" : {
@@ -1524,9 +1533,16 @@ function upload_photo_new(req,res,path,action){
 
         switch (path) {
             case "technics" :
-                db.update_technic(insertId, to_insert, function (err, data) {
-                    res.json({success: true, "files" :file_names})
-                });
+                if(type && type == "withoutCategoryTechnics") {
+                    db.update_technic_without_category(insertId, {photos : JSON.stringify(sorted_list)},
+                        (err, data) => {
+                            res.json({success: true, "files" :file_names})
+                        })
+                } else {
+                    db.update_technic(insertId, to_insert, function (err, data) {
+                        res.json({success: true, "files" :file_names})
+                    });
+                }
                 break;
             case "equipments" :
                 db.update_equipments(insertId, to_insert, function (err, data) {
@@ -1798,33 +1814,74 @@ function upload_photo(req,res,path,action){
 }
 
 exports.update_user = function(req,res){
-    var db = require('./db');
-    var info = req.body;
+    let info = req.body;
     let user = req.currentUser;
-    console.log(info)
-    let user_update = info.info
-    user_update.hash = require('./hash').md5(user_update.hash);
-
-    delete user_update["id"]
-
-    function callback(error,data){
-        if(error) {
-            console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
-                error: error.sqlMessage
-            });
+    if (user) {
+        let user_update = info.info
+        if (user_update.hash) {
+            delete user_update.hash;
         }
-        else {
-            console.log("Success! ", data);
-            res.send({
-                success: true
-            });
+
+        if (user_update.role) {
+            delete user_update.role;
         }
+
+        delete user_update["id"]
+
+        function callback(error,data){
+            if(error) {
+                console.log("Error! ", error.sqlMessage);
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+                console.log("Success! ", data);
+                res.send({
+                    success: true
+                });
+            }
+        }
+
+        db.update_client(user.id, user_update,callback);
+    } else {
+        res.send("error")
     }
 
-    db.update_client(user.id, user_update,callback);
 }
+
+exports.update_user_pwd = function(req,res){
+    let {pas, old_pas} = req.body;
+    let user = req.currentUser;
+    console.log(user.password)
+    if (user && user.hash == require('./hash').md5(old_pas)) {
+        let hash = require('./hash').md5(pas);
+        console.log(hash)
+        function callback(error,data){
+            if(error) {
+                // console.log("Error! ", error.sqlMessage);
+                res.send({
+                    success: true,
+                    error: "Виникла помилка"
+                });
+            }
+            else {
+                res.send({
+                    success: true
+                });
+            }
+        }
+
+        db.update_client(user.id, {hash},callback);
+    } else {
+        res.send({
+            error: "Перевірте актуальний пароль"
+        })
+    }
+
+}
+
 
 exports.update_review = function(req,res){
     var db = require('./db');
@@ -1879,7 +1936,7 @@ exports.update_technic_without_category = function(req,res){
 exports.update_technic = function(req,res){
     let info = req.body;
     // if technic is sold we have to delete images except first
-    if(info && info.info.sold) {
+    if(info && info.info.status == "продано") {
         function callback5(error,data5){
             if(error) {
                 //console.log("Error! ", error.sqlMessage);
@@ -1895,8 +1952,6 @@ exports.update_technic = function(req,res){
                     let first_image = images[0];
 
                     let newpath = helper.getFileName(first_image) + "-sold";
-
-                    //console.log(newpath)
 
                     helper.SaveImageToDB(first_image, newpath, "technics", function (err, data) {
                         //console.log(data)
@@ -1989,26 +2044,27 @@ exports.update_equipment = function(req,res){
 }
 
 exports.delete_technic_without_category_by_id = function(req,res){
-        var db = require('./db');
-        var info = req.body;
+        let info = req.body;
 
         function callback1(err1, data1) {
-            if (err1) console.log(err1);
+            if (err1)      {
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
             else {
-
-                let photos = JSON.parse(data1[0].photos);
+                let photos = JSON.parse(data1[0].photos) || [];
                 if(photos && photos.length > 0)
                     photos.forEach(function (item) {
-                        let file_path = "./Backend/res/images/technics/"+ item.val;
-                        if(fs.existsSync(file_path)) {
-                            fs.unlinkSync(file_path);
+                        let file_path = "./Backend/res/images/technics/"+ item;
+                        try {
+                            if(fs.existsSync(file_path)) {
+                                fs.unlinkSync(file_path);
+                            }
+                        } catch(err) {
                         }
-                        else {
-                            //console.log("file not exist")
-                        }
-
                     })
-
 
                 function callback(error, data) {
                     if (error) {
@@ -2018,7 +2074,6 @@ exports.delete_technic_without_category_by_id = function(req,res){
                             error: error.sqlMessage
                         });
                     } else {
-                        //console.log("Success! ", data);
                         res.send({
                             success: true
                         });
@@ -2083,20 +2138,10 @@ exports.delete_technic_by_id = function(req,res){
                                 error: error.sqlMessage
                             });
                         } else {
+                            try {
+                                helper.deleteFiles("./Backend/res/images/technics/", JSON.parse(data5[0].images))
+                            } catch (e) {}
 
-                            helper.deleteFiles("./Backend/res/images/technics/", JSON.parse(data5[0].images))
-
-                            // if(data3 && data3.length > 0)
-                            //     data3.forEach(function (item) {
-                            //         let file_path = "./Backend/res/images/technics/"+ item.file_name;
-                            //         if(fs.existsSync(file_path)) {
-                            //             fs.unlinkSync(file_path);
-                            //         }
-                            //         else {
-                            //             //console.log("file not exist")
-                            //         }
-                            //
-                            //     })
                             res.send({
                                 success: true
                             });
@@ -2125,28 +2170,22 @@ exports.delete_technic_by_id = function(req,res){
 }
 
 
-exports.deleteFiles = function(req,res){
-    let files = req.body;
-    //console.log(files);
-    files.forEach(fs.unlink)
+deleteFiles = function(file_loactions){
+    try {
+        file_loactions.forEach(function (item) {
+            fs.unlinkSync(item)
+        })
+    } catch(err) {
+        //console.error(err)
+    }
 }
 
-exports.deleteFile = function(req,res) {
-    let file = req.body;
-    //console.log(file);
-    fs.unlink(file, (err => {
-        if (err) {
-            //console.log(err);
-            res.send({
-                success: true,
-                error: err
-            });
-        }
-        else {
-            //console.log("\nDeleted file: example_file.txt");
-            res.send({success:true})
-        }
-    }));
+deleteFile = function(file) {
+    try {
+        fs.unlinkSync(file);
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 exports.delete_equipments_by_id = function(req,res){
@@ -2336,6 +2375,7 @@ exports.delete_imageEquipment_by_id = function(req,res){
     db.delete_equipment_image_by_id(info.id,callback);
 }
 
+
 exports.delete_check_technics_by_technic_id = function(req,res){
     var db = require('./db');
     var info = req.body;
@@ -2380,6 +2420,32 @@ exports.delete_images_by_equipment_id = function(req,res){
     }
 
     db.delete_images_by_equipment_id(info.id,callback);
+}
+
+exports.delete_user_photo = function(req,res){
+    let user = req.currentUser;
+
+    if (user) {
+        function callback(error,data){
+            if(error) {
+                res.send({
+                    success: true,
+                    error: error.sqlMessage
+                });
+            }
+            else {
+                // delete images
+                if (user.photo_location && user.photo_location != "avatar.png")
+                deleteFile("./Backend/res/images/users_photos/" + user.photo_location)
+                res.send({
+                    success: true
+                });
+            }
+        }
+        db.update_client(user.id, {photo_location: "avatar.png"}, callback);
+    } else {
+        res.send({})
+    }
 }
 
 exports.delete_check_equipments_by_equipment_id = function(req,res){

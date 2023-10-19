@@ -17,8 +17,8 @@
                     <a href="tel:380676462244">
                         (067) 646-22-44
                     </a>
-                    <a href="tel:380676462244">
-                        (067) 646-22-44
+                    <a href="tel:380978378772">
+                        (097) 837-87-72
                     </a>
             </div>
         </div>
@@ -112,8 +112,10 @@
     <ul id="menu-pc">
         <div class="menu-popup">
             <div class="menu-is-login">
-                <div class="menu-user-name menu-popup-item "></div>
-                <div class="menu-popup-item menu-user-phone"></div>
+                <%if (user?.name || user?.surname) {%>
+                    <div class="menu-user-name menu-popup-item "></div>
+                <%}%>
+                    <div class="menu-popup-item menu-user-phone"></div>
             </div>
             <span class="hr-line-menu-popup"></span>
 
@@ -139,17 +141,17 @@
                 </svg>
                 <span>Повідомлення</span>
             </div>
-            <div class="menu-popup-item ">
-                <a href="/purchases" rel="nofollow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-                        <path d="M16.6666 20.4167C15.3985 20.4167 14.3175 19.9696 13.4234 19.0756C12.5294 18.1815 12.0826 17.1008 12.0833 15.8333C12.0833 14.5653 12.5303 13.4842 13.4243 12.5902C14.3184 11.6961 15.3991 11.2494 16.6666 11.25C17.9346 11.25 19.0157 11.697 19.9098 12.5911C20.8038 13.4851 21.2505 14.5659 21.2499 15.8333C21.2499 17.1014 20.8029 18.1824 19.9088 19.0765C19.0148 19.9706 17.934 20.4173 16.6666 20.4167ZM17.1249 15.65V13.5417C17.1249 13.4194 17.0791 13.3125 16.9874 13.2208C16.8958 13.1292 16.7888 13.0833 16.6666 13.0833C16.5444 13.0833 16.4374 13.1292 16.3458 13.2208C16.2541 13.3125 16.2083 13.4194 16.2083 13.5417V15.6271C16.2083 15.7493 16.2312 15.8679 16.277 15.9828C16.3228 16.0976 16.3916 16.2006 16.4833 16.2917L17.8583 17.6667C17.9499 17.7583 18.0569 17.8042 18.1791 17.8042C18.3013 17.8042 18.4083 17.7583 18.4999 17.6667C18.5916 17.575 18.6374 17.4681 18.6374 17.3458C18.6374 17.2236 18.5916 17.1167 18.4999 17.025L17.1249 15.65Z" fill="#2F9321"/>
-                        <path d="M20.3368 10.5465L20.769 8.38579C20.8162 8.15483 20.8108 7.91621 20.7532 7.68761C20.6957 7.459 20.5875 7.24628 20.4366 7.06518C20.2856 6.88408 20.0959 6.73926 19.8814 6.64144C19.667 6.54362 19.4332 6.49531 19.1975 6.50008H2.60324C2.36756 6.49531 2.13382 6.54362 1.91934 6.64144C1.70486 6.73926 1.51514 6.88408 1.36422 7.06518C1.21331 7.24628 1.10507 7.459 1.04753 7.68761C0.989992 7.91621 0.98462 8.15483 1.03182 8.38579L2.76039 17.0286C2.83385 17.3889 3.03134 17.7121 3.31847 17.9418C3.6056 18.1715 3.96419 18.2932 4.33182 18.2858H10.9004" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M14.0432 1L17.1861 6.5" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4.61475 6.5L7.7576 1" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Історія покупок</span>
-                </a>
-            </div>
+<!--            <div class="menu-popup-item ">-->
+<!--                <a href="/purchases" rel="nofollow">-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">-->
+<!--                        <path d="M16.6666 20.4167C15.3985 20.4167 14.3175 19.9696 13.4234 19.0756C12.5294 18.1815 12.0826 17.1008 12.0833 15.8333C12.0833 14.5653 12.5303 13.4842 13.4243 12.5902C14.3184 11.6961 15.3991 11.2494 16.6666 11.25C17.9346 11.25 19.0157 11.697 19.9098 12.5911C20.8038 13.4851 21.2505 14.5659 21.2499 15.8333C21.2499 17.1014 20.8029 18.1824 19.9088 19.0765C19.0148 19.9706 17.934 20.4173 16.6666 20.4167ZM17.1249 15.65V13.5417C17.1249 13.4194 17.0791 13.3125 16.9874 13.2208C16.8958 13.1292 16.7888 13.0833 16.6666 13.0833C16.5444 13.0833 16.4374 13.1292 16.3458 13.2208C16.2541 13.3125 16.2083 13.4194 16.2083 13.5417V15.6271C16.2083 15.7493 16.2312 15.8679 16.277 15.9828C16.3228 16.0976 16.3916 16.2006 16.4833 16.2917L17.8583 17.6667C17.9499 17.7583 18.0569 17.8042 18.1791 17.8042C18.3013 17.8042 18.4083 17.7583 18.4999 17.6667C18.5916 17.575 18.6374 17.4681 18.6374 17.3458C18.6374 17.2236 18.5916 17.1167 18.4999 17.025L17.1249 15.65Z" fill="#2F9321"/>-->
+<!--                        <path d="M20.3368 10.5465L20.769 8.38579C20.8162 8.15483 20.8108 7.91621 20.7532 7.68761C20.6957 7.459 20.5875 7.24628 20.4366 7.06518C20.2856 6.88408 20.0959 6.73926 19.8814 6.64144C19.667 6.54362 19.4332 6.49531 19.1975 6.50008H2.60324C2.36756 6.49531 2.13382 6.54362 1.91934 6.64144C1.70486 6.73926 1.51514 6.88408 1.36422 7.06518C1.21331 7.24628 1.10507 7.459 1.04753 7.68761C0.989992 7.91621 0.98462 8.15483 1.03182 8.38579L2.76039 17.0286C2.83385 17.3889 3.03134 17.7121 3.31847 17.9418C3.6056 18.1715 3.96419 18.2932 4.33182 18.2858H10.9004" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                        <path d="M14.0432 1L17.1861 6.5" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                        <path d="M4.61475 6.5L7.7576 1" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                    <span>Історія покупок</span>-->
+<!--                </a>-->
+<!--            </div>-->
             <div class="menu-popup-item ">
                 <a href="/profile" rel="nofollow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -214,7 +216,7 @@
             <div class="col-md-12 col-lg-4 left-col-auth" data-modal="register">
                 <div class="left-col-auth-wrapper">
                     <div class="auth-left-header">Вже маєте профіль?</div>
-                    <button class="auth-btn-left" data-toggle="modal" data-target="#login-modal" type="button" data-dismiss="modal">Увійти</button>
+                    <button class="auth-btn-left" data-toggle="modal" data-target="#subscribeModal" type="button" data-dismiss="modal">Увійти</button>
                 </div>
             </div>
             <div class="col-md-12 col-lg-8 right-col-signup">
@@ -229,17 +231,7 @@
                     Створіть акаунт
                 </div>
 
-                <div class="no-gutters form-container-auth ">
-                    <div class="row no-gutters">
-                        <div class="col-lg-6 auth-col">
-                            <input type="text" placeholder="Ваше ім'я" title="Введіть ім'я" name="name"
-                                   class="form-control form-item form-item-auth" required>
-                        </div>
-                        <div class="col-lg-6 auth-col">
-                            <input type="text" placeholder="Прізвище" name="surname" title="Введіть прізвище"
-                                   class="form-control form-item form-item-auth" required>
-                        </div>
-                    </div>
+                <div class="no-gutters form-container-auth">
                     <div class="row no-gutters">
                         <div class="col-lg-6 auth-col">
                             <input type="text" placeholder="Телефон" title="Введіть номер телефону" name="phone"
@@ -252,34 +244,24 @@
                     </div>
                     <div class="row no-gutters">
                         <div class="col-lg-6 auth-col">
+                            <input type="text" placeholder="Ваше ім'я" title="Введіть ім'я" name="name"
+                                   class="form-control form-item form-item-auth" >
+                        </div>
+                        <div class="col-lg-6 auth-col">
+                            <input type="text" placeholder="Прізвище" name="surname" title="Введіть прізвище"
+                                   class="form-control form-item form-item-auth" >
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-lg-6 auth-col">
                             <input type="text" placeholder="Населений пункт" title="Введіть населений пункт" name="location"
-                                   class="form-control form-item form-item-auth" required>
+                                   class="form-control form-item form-item-auth" >
                         </div>
                         <div class="col-lg-6 auth-col">
                             <input type="email" placeholder="Email" title="Введіть email" name="email"
                                    class="form-control form-item form-item-auth">
                         </div>
                     </div>
-
-
-
-
-<!--                    <div class="col-lg-6 auth-col">-->
-<!--                        <input type="text" placeholder="Ваше прізвище" name="surname" title="Введіть прізвище"-->
-<!--                               class="form-item-auth" required>-->
-<!--                        <input type="text" placeholder="Номер телефону" title="Введіть номер телефону" name="phone"-->
-<!--                               class="form-item-auth" required>-->
-<!--                        <input type="text" placeholder="Населений пункт" title="Введіть населений пункт" name="location"-->
-<!--                               class=" form-item-auth" required>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-6 auth-col">-->
-<!--                        <input type="text" placeholder="Ваше ім'я" title="Введіть ім'я" name="name"-->
-<!--                               class="form-item-auth" required>-->
-<!--                        <input type="password" placeholder="Пароль" title="Введіть пароль" name="psw"-->
-<!--                               class="form-item-auth" required>-->
-<!--                        <input type="email" placeholder="Email" title="Введіть email" name="email"-->
-<!--                               class="form-item-auth">-->
-<!--                    </div>-->
 
                 </div>
 
@@ -290,7 +272,7 @@
                         </label>
                     </div>
                     <div class="col-lg-6 auth-col">
-                        <button id="signup_btn" class="btn  btn-green-text-white signup-btn w-100">Зареєструватись</button>
+                        <button id="signup_btn" class="btn btn-green-text-white signup-btn w-100">Зареєструватись</button>
                     </div>
 
                 </div>
@@ -298,42 +280,6 @@
             </div>
 
         </div>
-<!--        <div class="header-signup">-->
-<!--            <div class="left">-->
-<!--                <span>Реєстрація</span>-->
-<!--            </div>-->
-<!--            <div class="right">-->
-<!--                <div onclick="document.getElementById('register-modal').style.display='none'"-->
-<!--                    class="fa fa-remove popup-close link" title="Закрити"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="container">-->
-<!--            <span class="form-group">-->
-<!--                <input type="text" placeholder="Ваше прізвище" name="surname" title="Введіть прізвище"-->
-<!--                    class="form-control form-item" required>-->
-<!--                <input type="text" placeholder="Ваше ім'я" title="Введіть ім'я" name="name"-->
-<!--                    class="form-control form-item" required>-->
-<!--                <input type="text" placeholder="Номер телефону" title="Введіть номер телефону" name="phone"-->
-<!--                    class="form-control form-item" required>-->
-<!--                <input type="password" placeholder="Пароль" title="Введіть пароль" name="psw"-->
-<!--                    class="form-control form-item" required>-->
-<!--                <input type="text" placeholder="Населений пункт" title="Введіть населений пункт" name="location"-->
-<!--                    class="form-control form-item" required>-->
-<!--                <input type="email" placeholder="Email" title="Введіть email" name="email"-->
-<!--                    class="form-control form-item">-->
-<!--                <label class="form-item">-->
-<!--                    <input type="checkbox" checked="checked" name="remember"> Запам'ятати-->
-<!--                </label>-->
-<!--            </span>-->
-
-<!--            <div class="signup-btn-container">-->
-<!--                <button id="signup_btn" class="signup btn small btn-ok">Ok</button>-->
-<!--                <button type="button" onclick="document.getElementById('register-modal').style.display='none'"-->
-<!--                    class="btn btn-primary btn-small btn-cancel">-->
-<!--                    Скасувати-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        </div>-->
     </form>
     </div>
 </div>
@@ -375,7 +321,7 @@
                     </div>
 
                     <div class="row no-gutters signup-btn-container">
-                        <div class="col-lg-6 d-flex align-items-center">
+                        <div class="col-lg-12 d-flex align-items-center">
                             <label class="form-item remember_checkbox">
                                 <input type="checkbox" checked="checked" name="remember" class="remember_checkbox"> Запам'ятати мене
                             </label>

@@ -1,30 +1,60 @@
 <div class="myOrder">
-    <p class="centerAlign">
-        <span class="order-title"><%= equipment.title%> </span>
-    </p>
-    <div class="image-control">
-        <div style="display: flex; flex-direction: column;">
+    <div class="img-order-wrapper">
+        <img class="imgInOrder" src="/images/equipments/<%=equipment.icon%>">
+        <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
+    </div>
 
-            <div class="price-box">
-                <div class="minus btn btn-xs btn-danger btn-circle">
-                    <i class="fa fa-minus"></i>
-                </div>
-                <span class="label order-count" style="color:black;"><span class=""
-                        style="display:none">x</span><%= equipment.quantity %></span>
-                <div class="plus btn btn-xs btn-success btn-circle">
-                    <i class="fa fa-plus"></i>
-                </div>
-                <div class="removeButton count-clear btn btn-xs btn-default">
-                    Видалити
-                    
-                </div>
+    <div class="item-desc-basket">
+        <div class="order-title"><%= equipment.title%> </div>
+        <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
+
+        <div class="one-ad-info-row">
+            <span class="one-ad-info-label">Стан:</span>
+            <span class="one-ad-info-value one-ad-info-value-regular"><%= equipment.state %></span>
+        </div>
+        <% if(equipment.vendor_code) { %>
+            <div class="one-ad-info-row">
+                <span class="one-ad-info-label">Код товару</span>
+                <span class="one-ad-info-value one-ad-info-value-regular"><%= equipment.vendor_code.join(", ")%></span>
             </div>
-            <div class="orderCharacteristics">
-                <span>Ціна: </span>
-                <span class="price"><%=equipment.price_uah %> грн</span>
+        <%}%>
+
+
+        <div class="">
+            <div style="display: flex; flex-direction: column;">
+                <div class="amount-box">
+                    <span class="one-ad-info-label">К-сть:</span>
+                    <div class="minus btn btn-circle">
+                        <i class="fa fa-minus"></i>
+                    </div>
+                    <span class="label order-count" style="color:black;">
+                        <span class=""
+                            style="display:none">x
+                        </span>
+                        <%= equipment.quantity %>
+                    </span>
+                    <div class="plus btn btn-circle">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <div class="removeButton count-clear">
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_818_6669)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.875 2.08398C15.3122 2.0841 15.7384 2.22178 16.093 2.47753C16.4477 2.73329 16.7129 3.09414 16.851 3.50898L17.4167 5.20898H20.8333C21.1096 5.20898 21.3746 5.31873 21.5699 5.51408C21.7653 5.70943 21.875 5.97438 21.875 6.25065C21.875 6.52692 21.7653 6.79187 21.5699 6.98722C21.3746 7.18257 21.1096 7.29232 20.8333 7.29232L20.8302 7.36628L19.9271 20.0152C19.8707 20.8034 19.5179 21.5409 18.9396 22.0794C18.3613 22.6178 17.6006 22.9172 16.8104 22.9173H8.18958C7.39943 22.9172 6.63865 22.6178 6.06038 22.0794C5.48211 21.5409 5.12928 20.8034 5.07292 20.0152L4.16979 7.36523C4.16791 7.34097 4.16686 7.31665 4.16667 7.29232C3.8904 7.29232 3.62545 7.18257 3.4301 6.98722C3.23475 6.79187 3.125 6.52692 3.125 6.25065C3.125 5.97438 3.23475 5.70943 3.4301 5.51408C3.62545 5.31873 3.8904 5.20898 4.16667 5.20898H7.58333L8.14896 3.50898C8.28718 3.09397 8.55254 2.733 8.90739 2.47723C9.26225 2.22146 9.68861 2.08388 10.126 2.08398H14.875ZM9.375 10.4173C9.11986 10.4174 8.87361 10.511 8.68295 10.6806C8.49228 10.8501 8.37048 11.0837 8.34062 11.3371L8.33333 11.459V17.709C8.33363 17.9745 8.43529 18.2299 8.61755 18.4229C8.79981 18.616 9.04891 18.7321 9.31395 18.7477C9.579 18.7633 9.83998 18.677 10.0436 18.5066C10.2472 18.3362 10.378 18.0945 10.4094 17.8309L10.4167 17.709V11.459C10.4167 11.1827 10.3069 10.9178 10.1116 10.7224C9.91622 10.5271 9.65127 10.4173 9.375 10.4173ZM15.625 10.4173C15.3487 10.4173 15.0838 10.5271 14.8884 10.7224C14.6931 10.9178 14.5833 11.1827 14.5833 11.459V17.709C14.5833 17.9853 14.6931 18.2502 14.8884 18.4456C15.0838 18.6409 15.3487 18.7507 15.625 18.7507C15.9013 18.7507 16.1662 18.6409 16.3616 18.4456C16.5569 18.2502 16.6667 17.9853 16.6667 17.709V11.459C16.6667 11.1827 16.5569 10.9178 16.3616 10.7224C16.1662 10.5271 15.9013 10.4173 15.625 10.4173ZM14.875 4.16732H10.125L9.77812 5.20898H15.2219L14.875 4.16732Z" fill="#89A831"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_818_6669">
+                                    <rect width="25" height="25" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <div class="orderCharacteristics">
+                    <span class="price"><%=equipment.price_uah %> грн</span>
+                </div>
             </div>
         </div>
-        <img class="imgInOrder" src="/images/equipments/<%=equipment.icon%>">
+
     </div>
 
 

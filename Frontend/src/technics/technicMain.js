@@ -1,18 +1,17 @@
-var values = require('../values.js');
-var API_URL = values.url;
+let values = require('../values.js');
+let API_URL = values.url;
 require('fancybox')($);
 require("../helpers").onSendMessageClick();
-
+let {toMainPageBreadcrumb, getUrlParameter} = require("../helpers")
 let default_photo = "default_technic.jpg"
 
 
-$( window ).on( "orientationchange", function( event ) {
-   // $.when($("#breadcrumb").empty()).then( initilizebreadcrumb());
-    $("#breadcrumb").empty();
-    setTimeout(function() {   //calls click event after a certain time
-        initilizebreadcrumb();
-    }, 500);
-});
+// $( window ).on( "orientationchange", function( event ) {
+//     $("#breadcrumb").empty();
+//     setTimeout(function() {   //calls click event after a certain time
+//         initilizebreadcrumb();
+//     }, 500);
+// });
 
 $(document).ready(function() {
     //$(".slider").setLockAncors()
@@ -21,46 +20,34 @@ $(document).ready(function() {
 })
 
 
-function initilizebreadcrumb(){
-    let cur_type_mark;
+function initilizebreadcrumb(no_category = false){
     let curType = localStorage.getItem('currentTypeOfTechnics');
     let curMark = localStorage.getItem('currentMarkOfTechnics');
     let curTech = JSON.parse(localStorage.getItem('currTechnic'));
 
-    if ( (curType == null && curMark == null) ) {}
-    else if( $(window).width()<500 && (document.referrer!="" && document.referrer!=document.location.href)) {
-        $("#breadcrumb").addClass("breadcrumb-mobile");
+    let crums = toMainPageBreadcrumb();
+    if(no_category) {
+        crums +=
+            `<li>
+                <a class='seturl' href="/technics-without-category">
+                <span>${curType}</span></a>
+            </li>`;
+    crums +=
+        ` <li class='current'>
+            <a class='seturl-last' href="/technics-without-category/${curTech.id}">
+            <span>${curTech.name}</span></a>
+        </li>`;
 
-        let crums = " <li class='back_breadcrumb'>\n" +
-            "        <a class='seturl'>\n" +
-            "            <span >Назад</span></a>\n" +
-            "    </li>\n";
         $("#breadcrumb").append(crums);
 
-        $(".seturl").attr("href", document.referrer);
     }
-    else if ($(window).width()<500) {
-        $("#breadcrumb").empty();
-    }
-    else {
-        let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
-            "            <span class=\"sr-only\">Головна</span></a>\n" +
-            "    </li>\n";
+    else if ( (curType != null && curMark != null) ) {
         if (curType) {
-            cur_type_mark = curType;
             crums +=
                 " <li>\n" +
                 "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
                 "            <span>" + curType + "</span></a>\n" +
                 "    </li>\n";
-        } else {
-            crums +=
-                " <li >\n" +
-                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-                "            <span>" + curMark + "</span></a>\n" +
-                "    </li>\n";
-            cur_type_mark = curMark;
         }
         crums +=
             " <li class='current'>\n" +
@@ -71,7 +58,7 @@ function initilizebreadcrumb(){
         $("#breadcrumb").append(crums);
         let a = ($(".seturl").length - 1);
         let h = $(".seturl")[(a - 1)];
-        $(".seturl").attr("href", API_URL + "/technics?type=" + cur_type_mark);
+        $(".seturl").attr("href", API_URL + "/technics?type=" + curType);
         $(".seturl-last").attr("href", API_URL + "/technic?model=" + curTech.model + "&mark=" + curTech.mark + "&type="+ curType +"&number_id="+curTech.id);
     }
 }
@@ -135,36 +122,13 @@ function  initialize() {
                 $(".type_header").text(type_tech + " " + type.marks_of_technics_name + " " + type.model);
 
                 let dataset = [];
-                let im = JSON.parse(type.images);
+                let im = JSON.parse(type.images) || ["default_technic.jpg"];
                 im.forEach(function (item) {
                     dataset.push("technics/" + item)
                 });
                 require('../pagesScripts/slider').initialize(dataset, alt);
 
-                // function callback(err, data) {
-                //     if (data.error) console.log(data.error);
-                //     let im = [];
-                //     try {
-                //         im = JSON.parse(data.data);
-                //         im.forEach(function (item) {
-                //             dataset.push("technics/" + item)
-                //         });
-                //     }
-                //     catch(e) {
-                //         // forget about it :)
-                //     }
-                //
-                //
-                // }
-                //
-                // require('../API').getTechnicsImagesById(tech.id, callback);
-
                 $('.order_technic').click(function () {
-
-                    // var equipment = localStorage.getItem('currEquipment');
-                    // console.log(equipment);
-                    // var isTech = equipment==null ? false : true;
-
                     require('../pagesScripts/notify').Notify("Товар додано. Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
                     let href = document.location.href;
@@ -179,10 +143,6 @@ function  initialize() {
                         url1:"sd",
                         isTech: true
                     });
-
-                    //console.log(document.location.href)
-
-                    // Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!")
                 })
             }
         }
@@ -195,31 +155,30 @@ function  initialize() {
             if(data5.error) console.log(data5.error);
             else {
                 let loader = data5.data[0];
+                localStorage.setItem("currentTypeOfTechnics", 'Інша техніка');
+
+                localStorage.setItem('currTechnic', JSON.stringify({
+                    id: loader.id,
+                    name: loader.name,
+                    price: loader.price,
+                    currency: loader.currency,
+                    amount: loader.amount,
+                    description: loader.description
+                }));
 
                 let alt = "Купити " + loader.name;
-                //$(".type_header").text(type_tech + " " +loader.marks_of_technics_name + " " + loader.model);
+                initilizebreadcrumb(true);
 
                 var dataset = [];
-                let photos = JSON.parse(loader.photos);
-                //console.log(photos)
-                if(photos == null || photos == undefined) {
-                    photos = []
-                }
-                if(photos.length != 0)
+                let photos = JSON.parse(loader.photos) || [];
+
                 photos.forEach(function(item) {
-                    dataset.push("technics/"+item.val)
+                    dataset.push("technics/"+item)
                 });
                 if(dataset.length === 0) {
                     dataset.push("technics/"+default_photo)
                 }
                 require('../pagesScripts/slider').initialize(dataset,alt);
-                let editor = require('../pagesScripts/loader').none_editor("view-editor");
-                let cont = JSON.parse(data5.data[0].description,function (key, value) {
-                    if(typeof value === 'string')
-                        value = value.replace("/n/","\n");
-                    return value
-                });
-                editor.setContents(cont);
             }
         }
         require('../API').getTechnicsWithoutCategoryById(id,callback4);
@@ -252,7 +211,6 @@ $(function(){
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
         document.location.href = API_URL;
-
     })
 
 
@@ -266,22 +224,4 @@ $(function(){
     require('../profile/user_form').isLogged();
     initialize();
 
-    $('.edit-profile').click(function(){
-        document.location.href = API_URL+"/profile";
-    })
 });
-
-getUrlParameter = function(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-};

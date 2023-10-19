@@ -1,6 +1,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+* {box-sizing: border-box;}
+
 .page-heading {
   font-size: 20px;
   font-weight: 900;
@@ -9,13 +11,35 @@
   padding-top: 50px;
 }
 
+label {
+  margin-bottom: 0;
+}
+
+input:focus {
+  outline: none!important;
+  box-shadow: none!important;
+  border-color: initial!important;
+}
+
+input:-internal-autofill-selected {
+  background: black !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 button {
   margin: 0;
   opacity: 1;
 }
 
 .padding-wrapper {
-  padding: 0 @paddingWrapperPC;
+  padding-left: @paddingWrapperPC;
+  padding-right: @paddingWrapperPC;
 }
 
 .color-subline {
@@ -80,6 +104,13 @@ button:focus {
   box-shadow: none!important;
 }
 
+.header-main {
+  color: black;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
 .modal-open .modal {
   padding-right: 0!important;
 }
@@ -92,15 +123,95 @@ button:focus {
   text-transform: uppercase;
 }
 
+.wrapper-background-grey {
+  background: rgba(220, 220, 220, 0.40);
+  padding: 50px 0;
+}
+
+
+body {
+  font-family: Mulish, sans-serif;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  font-weight: normal;
+  background-color: #FDFDFD!important;
+  height: 100%;
+}
+
+.narrow-wrapper {
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wrapper {
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#main {
+  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+.btn-outline-green-text-white {
+  color: @textMainHovered;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 16px 30px;
+  margin:0;
+  background: white;
+  border: 1px solid @textMainHovered;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.btn-outline-green-text-white:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.btn-outline-green-text-white:hover {
+  background: @textMainHovered;
+  color: white;
+  text-decoration: none;
+}
+
+.input-border-green {
+  border: 1px #D5E6CD solid;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.input-border-green::placeholder {
+  color: @textMuted;
+}
+
+.add-top-padding {
+  padding-top: @paddingWrapperLaptop;
+}
+
 
 @media screen and (max-width: 991px) {
   .padding-wrapper {
-    padding: 0 @paddingWrapperLaptop;
+    padding-left: @paddingWrapperLaptop;
+    padding-right: @paddingWrapperLaptop;
   }
 }
 
 @media screen and (max-width: 575px) {
+  .add-top-padding {
+    padding-top: @paddingWrapperMobile;
+  }
   .padding-wrapper {
-    padding: 0 @paddingWrapperMobile;
+    padding-left: @paddingWrapperMobile;
+    padding-right: @paddingWrapperMobile;
+  }
+  .header-main {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
   }
 }

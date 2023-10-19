@@ -3,9 +3,20 @@ let {hideToggleModal} = require("../helpers")
 let user_info_dispalyed = false;
 
 exports.openForm = function() {
+
+    document.addEventListener("click", function (event) {
+        if (!$(event.target).closest('#user_info').length) {
+            if (user_info_dispalyed) {
+                $('#user_info').hide();
+                user_info_dispalyed = false;
+            }
+        }
+    });
+
+
     let isLogin = false;
-    function callback(err, value) {
-        if(value) {
+    function callback(err, data) {
+        if(data.auth) {
             isLogin = true;
             userInfo();
         } else {
@@ -14,9 +25,6 @@ exports.openForm = function() {
 
     }
     require("../API").isLogIn(callback)
-
-    // document.getElementById("myForm").style.display = "block";
-
 }
 
 toggleModal = function(selector) {
@@ -27,7 +35,8 @@ toggleModal = function(selector) {
 userInfo = function() {
     if(user_info_dispalyed) {
     document.getElementById("user_info").style.display = "none";
-        user_info_dispalyed = false;}
+        user_info_dispalyed = false;
+    }
     else {
         document.getElementById("user_info").style.display = "block";
         user_info_dispalyed = true;
@@ -35,7 +44,6 @@ userInfo = function() {
 }
 
 exports.userInfo = userInfo;
-
 
 exports.login = function(){
     $('#log_in_btn').click(function() {
@@ -47,39 +55,33 @@ exports.login = function(){
             phone_number: phone,
             password: password
         }, function (err,data) {
-                    if(data.error) {
-                        console.log(data.error);
-                        alert( "Невірний пароль" );
-                    }
-                    else if(!(data.data[0]==null)){
-                        // console.log(data.data[0].token)
-                        localStorage.setItem('status',true);
-                        localStorage.setItem('id',data.data[0].id);
-                        localStorage.setItem('name',data.data[0].name);
-                        localStorage.setItem('surname',data.data[0].surname);
-                        localStorage.setItem('phone',data.data[0].phone_number);
-                        localStorage.setItem('settlement',data.data[0].settelment);
-                        localStorage.setItem('photo',data.data[0].photo_location);
-                        toggleModal("#login-modal");
-                        hideToggleModal()
-                        require('./user_form').isLogged();
-                    }
-                    else if(!(data==null)){
-                        console.log(data.data.token)
-                        localStorage.access_token = data.data.token;
-                        localStorage.setItem('status',true);
-                        localStorage.setItem('id',data.data.id);
-                        localStorage.setItem('name',data.data.name);
-                        localStorage.setItem('surname',data.data.surname);
-                        localStorage.setItem('phone',data.data.phone_number);
-                        localStorage.setItem('settlement',data.data.settelment);
-                        localStorage.setItem('photo',data.data.photo_location);
-                        toggleModal("#login-modal");
-                        hideToggleModal()
-                        require('./user_form').isLogged();
-                    }
-        });
+            if (data.error) {
+                console.log(data.error);
+                alert("Помилка. Перевірте введені дані");
+            }
+            else {
 
+                let loc = document.location.href;
+                if (loc.includes("/basket")) {
+                    document.querySelector(".row-col-anonim-wrapper").style.display = "none"
+                }
+
+                console.log(data);
+
+                if (!(data == null)) {
+                    localStorage.setItem('status', true);
+                    localStorage.setItem('id', data.data.id);
+                    localStorage.setItem('name', data.data.name);
+                    localStorage.setItem('surname', data.data.surname);
+                    localStorage.setItem('phone', data.data.phone_number);
+                    localStorage.setItem('settlement', data.data.settelment);
+                    localStorage.setItem('photo', data.data.photo_location);
+                    toggleModal("#login-modal");
+                    hideToggleModal()
+                    require('./user_form').isLogged();
+                }
+            }
+        })
     });
 }
 

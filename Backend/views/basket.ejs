@@ -21,20 +21,24 @@
 </head>
 
 <body>
-<div class="wrapper">
-
     <% include common/header.ejs %>
 
-    <div id="main" class="no-left-panel">
+    <div id="main">
         <!-- Create the toolbar container -->
-        <div class="wrapper-main-page">
+        <section class="narrow-wrapper padding-wrapper add-top-padding">
 
-            <h1 class="h1_main">Кошик</h1>
+            <header class="d-flex">
+                <h1 class="header-main basket_header">Корзина</h1>
+                <div class="label_main_count">0</div>
+            </header>
+
 
             <div id="basket-empty">
-                <span>Кошик порожній</span>
+                <img class="img-empty-basket" src="/assets/images/empty-basket.png">
+
+                <span class="basket-label">Додайте товари в козину</span>
                 <div class="to-main-page-from-basket">
-                    <button type="button" class="btn btn-warning btn-lg btn-to-main-page-from-basket"><a href="/">На головну</a></button>
+                    <a href="/" type="button" class="btn btn-outline-green-text-white btn-to-main-page-from-basket">Продовжити покупки</a>
                 </div>
             </div>
             <div id="basket-not-empty">
@@ -42,67 +46,115 @@
                 <span class="labelOrderDelete" role="button">Очистити</span>
 
                 <div class="scroll-box">
-                    <div id="basketColumn" class="sidenav secondColumn">
+                    <div id="basketColumn" class="">
 
-<!--                <div class="orderLabel">-->
-<!--                    <span class="labelOrder"><b>Замовлення</b></span>-->
-<!--                    <span class="label label-warning amountOfBoughtPizz">0</span>-->
-<!--                    <span class="labelOrderDelete" role="button">Очистити</span>-->
-<!--                </div>-->
-
-                    <div class="endOrderLabel">
-
-                        <span class="sumLabel"><b>Сума замовлення</b></span>
-                        <span class="amountLabel"><b>0 грн</b></span>
-                    </div>
-                <div class="container buyList">
-
+                <div class="buyList">
 
                 </div>
 
-                <div class="endOrderLabel">
+                        <div class="row no-gutters row-col-anonim-wrapper">
+                            <div class="col-md-8 col-lg-8 col-order-details">
+                                <h4 class="basket-title-details text-left basket-title-anonim">Купити як анонімний користувач</h4>
+                                <form id="buy-anonim-form">
+                                    <div class="row no-gutters">
+                                        <div class="col-lg-6 auth-col">
+                                            <input type="text" placeholder="Ваше ім'я" title="Введіть ім'я" name="name"
+                                                   class="form-control form-item input-border-green" required>
+                                        </div>
+                                        <div class="col-lg-6 auth-col">
+                                            <input type="text" placeholder="Телефон" title="Введіть номер телефону" name="phone"
+                                                   class="form-control form-item input-border-green" required>
+                                        </div>
+                                    </div>
 
-                    <div class="order-comment">
-                        <label for="description">Коментар до замовлення</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" maxlength="140"></textarea>
-                    </div>
+                                    <div>
+                                        <h4 class="delivery-label">Деталі доставки</h4>
+                                        <div class="row no-gutters">
+                                            <div class="col-lg-6 auth-col">
+                                                <input type="text" placeholder="Населений пункт" title="Введіть населений пункт"
+                                                       name="location"
+                                                       class="form-control form-item input-border-green" required>
+                                            </div>
+                                            <div class="col-lg-6 auth-col">
+                                                <input type="number" placeholder="Відділення Нової пошти" title="Введіть номер відділення"
+                                                       name="post_number"
+                                                       class="form-control form-item input-border-green">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <div class="buttonOrderDiv">
-                        <button type="button" class="btn btn-warning btn-lg btn-block orderButton">Замовити</button>
-                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 col-lg-4">
+                                    <div class="logged-user-wrapper">
+                                        <h3 class="already-have-acc-title">Вже зареєстровані?</h3>
+                                        <button id="basket-logged-user-log-in" type="button" class="btn btn-green-text-white text-uppercase"
+                                                data-toggle="modal" data-target="#login-modal" data-dismiss="modal">Увійти</button>
 
+                                    </div>
+                            </div>
+                        </div>
 
-                    <div id="logged-user-err">
-                    <div class="basket-logged-user-err">Замовлення можуть здійснювати лише зареєстровані користувачі</div>
-                    <div id="basket-logged-user-register" class="basket-logged-user-err "><i>Зареєструватись</i></div>
+                        <div class="row no-gutters row-col-details-comment-wrapper">
+                            <div class="col-md-8 col-lg-8 col-order-details">
+                                <h4 class="basket-title-details">Деталі замовлення</h4>
 
-                        <div id="basket-logged-user-log-in" class="basket-logged-user-err "><i>Увійти</i></div>
+                                <div class="order-detail-wrapper">
+                                    <div class="order-row">
+                                        <span class="sumLabel one-ad-info-label">Сума замовлення</span>
+                                        <span class="amountLabel one-ad-info-value one-ad-info-value-regular"><b>0 грн</b></span>
+                                    </div>
 
-                    </div>
-                </div>
+                                    <div class="order-row">
+                                        <span class="sumLabel one-ad-info-label">Вартість доставки</span>
+                                        <span class="one-ad-info-value one-ad-info-value-regular text-regular value-delivery
+                                                     text-right text-end">За тарифами перевізника</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="summarize-order">
+                                    <div class="order-row">
+                                        <span class="sumLabel basket-title-details text-align-left">Загальна сума</span>
+                                        <span class="amountLabel price text-right text-end">0 грн</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4">
+                                <div class="">
+                                    <div class="order-comment">
+                                        <label for="description" class="comment-label">Коментар до замовлення</label>
+                                        <textarea class="form-control message-textarea" id="description" name="description" rows="3" maxlength="200"
+                                                  placeholder="Напишіть ваші побажання"></textarea>
+                                    </div>
+
+                                    <div class="buttonOrderDiv">
+                                        <button type="button" class="btn btn-green-text-white w-100 text-uppercase orderButton">Замовити</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
             </div>
                 </div>
             </div>
 
-        </div>
+        </section>
     </div>
-
-
-<script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
 
     <!-- jQuery JavaScript -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 
     <!--Bootsrap JavaScript -->
-    <script async type="text/javascript" src="/assets/js/main.js"> </script>
-<script>
-
-</script>
+    <script type="text/javascript" src="/assets/js/main.js"> </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
     <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
-</div>
+
+    <% include common/footer.ejs %>
 
 </body>
 

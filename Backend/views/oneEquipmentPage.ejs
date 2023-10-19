@@ -42,7 +42,7 @@
     <!-- LESS основний файл -->
 <!--    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />-->
     <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="assets/less/fancybox.css"/>
@@ -82,9 +82,10 @@
     <div id="main">
 
         <section class="narrow-wrapper one-ad-wrapper padding-wrapper">
+            <% include breadcrumbs.ejs %>
             <header>
                 <div class="one-ad-header-wrapper">
-                    <h1 class='text-black-title-900-uppercase one-ad-header'>
+                    <h1 class='text-black-title-900-uppercase one-ad-header' data-id="<%= equipment.id %>" data-title="<%= equipment.name %> <%= equipment.technic_mark %> <%= equipment.model%>" data-url="<%= equipment.url %>">
                         <%= equipment.name %>
                     </h1>
                     <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
@@ -179,7 +180,7 @@
                                         </defs>
                                     </svg>
                                     Замовити</button>
-                                <button class="btn btn-green-text-white " type="button" onclick="openMessageModal();">
+                                <button class="btn btn-green-text-white write-message-one-equipment" type="button">
                                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_581_5446)">
                                             <path d="M22.3883 3.42969H3.53118C3.07652 3.42969 2.64049 3.6103 2.319 3.93179C1.99751 4.25328 1.81689 4.68932 1.81689 5.14397V19.7154C1.81689 20.1701 1.99751 20.6061 2.319 20.9276C2.64049 21.2491 3.07652 21.4297 3.53118 21.4297H22.3883C22.843 21.4297 23.279 21.2491 23.6005 20.9276C23.922 20.6061 24.1026 20.1701 24.1026 19.7154V5.14397C24.1026 4.68932 23.922 4.25328 23.6005 3.93179C23.279 3.6103 22.843 3.42969 22.3883 3.42969Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -214,7 +215,7 @@
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active one-tab-ad" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div class="long_desc"><%= equipment.description.toString().length > 10 ? equipment.description : short_description %></div></div>
+                            <div class="tab-pane fade show active one-tab-ad" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><div class="long_desc"><%-equipment.description.toString().length > 10 ? equipment.description : short_description %></div></div>
                             <div class="tab-pane fade one-tab-ad" id="pills-equipment-usage" role="tabpanel" aria-labelledby="pills-equipment-usage-tab">
                                 <% if(type_technic) { %>
                                     <div class="one-ad-usage-row">
@@ -253,11 +254,13 @@
                             <div class="tab-pane fade one-tab-ad" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                                 <% if(vendor_code) { %>
                                     <div class="one-ad-usage-row">
+                                        <div class="one-ad-usage-desc-wrap">
                                         <% for(let i=0; i< vendor_code.length; i++) {%>
                                             <div class="one-ad-usage-desc">
                                                 <%= vendor_code[i]%>
                                             </div>
                                         <% } %>
+                                        </div>
                                     </div>
                                 <%}%>
                             </div>
@@ -282,9 +285,7 @@
 <script  src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <script type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
 <script type="text/javascript" src="/assets/js/maskph_call.js"></script>
-<!--<script type="text/javascript" src="assets/js/slider.js"> </script>-->
-        <!--font awesome-->
-<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+<% include common/footer-ad-subscribe.ejs %>
 <% include common/footer.ejs %>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<div class="oneTechnic" data-id="<%= technic.id %>" data-title="<%= technic.name %> <%= technic.model%>" data-url="<%= technic.url %>">
+<div class="oneTechnic" data-id="<%= technic.id %>" data-title="<%= technic.type_name%> <%= technic.name %> <%= technic.model%>" data-url="<%= technic.url %>">
         <img class="lazy" src="https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>" data-src="/images/technics/<%= technic.main_photo_location %>"
              <%if(technic.type_name.trim()=="Преси-підбирачі") {%>alt="Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>"
         <%} else if(technic.type_name=="Сівалки"){%> alt="Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>"

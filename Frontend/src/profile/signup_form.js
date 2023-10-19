@@ -1,87 +1,94 @@
 const modal = document.getElementById('register-modal');
-const model_message = document.getElementById('messageModal');
 
-function openSignUpForm() {
-    modal.style.display='block';
-}
 const Templates = require('../Templates');
 
 let $reviews =   $('#reviews');
 let values = require('../values.js');
 const API_URL = values.url;
-let {clearMessageModal} = require("../helpers")
+let {clearMessageModal , Notify, validatePhone, passwordValidation, hideToggleModal} = require("../helpers")
 
 
 exports.initializeLogin = function(){
-    $('#signup').click(function() {
-        $('#myForm').css("display", "none");
-        openSignUpForm();
-        addClient();
-    });
+    $('#signup_btn').click(function() {
+        let [isValid, error] = checkValidation();
+        //console.log(isValid, error)
+        let name = $('#register-modal input[name=name]')[0].value;
+        let surname = $('#register-modal input[name=surname]')[0].value;
+        let phone = $('#register-modal input[name=phone]')[0].value;
+        let password = $('#register-modal input[name=psw]')[0].value;
+        let address = $('#register-modal input[name=location]')[0].value;
+        let email = $('#register-modal input[name=email]')[0].value;
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (isValid) {
+            function callback(error,data){
+                if(data.error) {
+                    alert( "Виникла помилка" );
+                }
+                else if(!(data.data[0]==null)){
+                    Notify("Вже існує користувач з таким телефоном")
+                }
+                else {
+                    let newT = {
+                        surname: surname,
+                        name: name,
+                        phone_number: phone,
+                        settelment: address,
+                        email: email,
+                        hash: password
+                    }
+                    // console.log(newT);
+                    require("../API").addClient(newT, function (err, data) {
+                        console.log(err , data)
+                        if (data.error) {
+                            Notify("Виникла помилка, перевірте дані або спробуйте пізніше")
+                        }
+                        else {
+                            $("#register-modal").modal("toggle");
+                            hideToggleModal()
+                            Notify("Вітаю! Профіль створено, тепер вам потрібно увійти")
+                        }
+                    });
+                }
+            }
+            require("../API").getClientbyPhone(phone,callback);
         }
-    }
+        else {
+                Notify(error)
+            }
+
+    });
 }
 
-let $name = $('#register-modal input[name=name]')[0];
-let $surname = $('#register-modal input[name=surname]')[0];
-let $phone = $('#register-modal input[name=phone]')[0];
-let $password = $('#register-modal input[name=psw]')[0];
-let $address = $('#register-modal input[name=location]')[0];
-let $email = $('#register-modal input[name=email]')[0];
-
 checkValidation = function(){
-    let name = $name.value;
-    let surname = $surname.value;
+    let $name = $('#register-modal input[name=name]')[0];
+    let $surname = $('#register-modal input[name=surname]')[0];
+    let $phone = $('#register-modal input[name=phone]')[0];
+    let $password = $('#register-modal input[name=psw]')[0];
+    let $address = $('#register-modal input[name=location]')[0];
+    let $email = $('#register-modal input[name=email]')[0];
+
+
     let phone = $phone.value;
     let password = $password.value;
-    let address = $address.value;
 
-    if (name.value == "")
-    {
-        name.focus();
-        return false;
+    if(!validatePhone(phone)) {
+        $phone.focus();
+        return [false, "Перевірте введений телефон"];
     }
 
-    if (address.value == "")
-    {
-        address.focus();
-        return false;
+    if(passwordValidation(password).length >= 1) {
+        $password.focus();
+        return [false, passwordValidation(password)[0]];
     }
 
-  /*  /^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/
+    // let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    // if(!phoneno.test(phone)) {
+    //     alert("Введіть дісний номер\n" +
+    //         "Приклад 093-345-3456");
+    //     return false;
+    // }
 
-        '123-345-3456';
-    '(078)789-8908';
-    '(078) 789-8908';
-    */
-    let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    if(!phoneno.test(phone)) {
-        alert("Введіть дісний номер\n" +
-            "Приклад 093-345-3456");
-        return false;
-    }
-
-    let regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
-
-    if (password.length < 4 )
-    {
-        window.alert("Слабкий пароль");
-        password.focus();
-        return false
-    }
-
-    if(!regularExpression.test(password)) {
-        alert("Пароль повинен містити як мінімум 1 цифру та 1 спеціальний символ");
-        return false;
-    }
-
-    return true;
+    return [true, null];
 }
 
 checkMessageForm = function () {
@@ -127,42 +134,6 @@ checkMessageForm = function () {
     return true;
 }
 
-function addClient(){
-    $('#signup_btn').click(function() {
-        document.getElementById('register-modal').style.display='none'
-       // if (checkValidation()) {
-        let name = $name.value;
-        let surname = $surname.value;
-        let phone = $phone.value;
-        let password = $password.value;
-        let address = $address.value;
-        let email = $email.value;
-
-        let newT = {
-            surname: surname,
-            name: name,
-            phone_number: phone,
-            settelment: address,
-            email: email,
-            hash: password
-        }
-       // console.log(newT);
-        require("../API").addClient(newT, function (err, data) {
-            if (data.error) console.log(data.error);
-            else {
-                //TODO: сделать вызов авторизации
-                localStorage.setItem('status',true);
-                localStorage.setItem('name',name);
-                localStorage.setItem('surname',surname);
-                localStorage.setItem('phone',phone);
-                localStorage.setItem('settlement',address);
-                require('./user_form').isLogged();
-            }
-        });
-       // }
-
-    });
-}
 
 exports.sendMessageCardHandler = function () {
     $(".write-message-card").click(function (e) {
@@ -209,7 +180,6 @@ openMessageModal = function ({productId, productTitle, url } = {}) {
     $('#messageModal').modal('show');
    // $('#messageModal').on('shown.bs.modal', function(e) {
     $('#user_info').css("display", "none");
-    $('#myForm').css("display", "none");
     $('#messageModal').attr("data-productId", productId)
     $('#messageModal').attr("data-productTitle", productTitle)
     $('#messageModal').attr("data-url", url)
@@ -219,9 +189,9 @@ openMessageModal = function ({productId, productTitle, url } = {}) {
     if(status) {
         let name = localStorage.getItem("name");
         let surname = localStorage.getItem("surname");
-
-        $("#username_messageForm").val(name+" "+ surname);
-        $("#username_messageForm").attr("disabled", true);
+        if (name || surname) {
+            $("#username_messageForm").val(name+" "+ surname);
+        }
         $("#phone_messageForm").val(localStorage.getItem("phone"));
         $("#phone_messageForm").attr("disabled", true);
         $("#message").val("");
@@ -459,17 +429,6 @@ $(function(){
         initializeReviews();
 });
 
-//
-// showAllReviews = function () {
-//     function callback(err,data) {
-//         data.data.forEach(function(item){
-//             if(item.show)
-//
-//         });
-//
-//     }
-//     require("../API").getReviews(callback);
-// }
 
 function showReviews(list) {
 
@@ -487,7 +446,7 @@ function showReviews(list) {
 
 initializeReviews = function(){
 
-    var l=[];
+    let l=[];
 
     require("../API").getReviews(function (err,data) {
         if(data.error) console.log(data.error);
@@ -498,19 +457,3 @@ initializeReviews = function(){
     });
 
 }
-
-
-openSignUpFormBasket = function() {
-    $('#myForm').css("display", "none");
-    openSignUpForm();
-    addClient();
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-}
-
-exports.openSignUpFormBasket = openSignUpFormBasket

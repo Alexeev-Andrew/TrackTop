@@ -82,27 +82,22 @@
   height: 100%;
 }
 
- .models{
-  width                : 100%;
-  display              : grid;
-  padding              : 3% 10%;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-template-rows   : auto;
-  grid-gap             : 20px;
-}
-
-  .oneModel{
-    width: 100%;
-    padding-top: 7px;
-    padding-bottom: 7px;
-  }
-
-//.equipments{
-//  padding              : 10px 10%;
+// .models{
+//  width                : 100%;
+//  display              : grid;
+//  padding              : 3% 10%;
+//  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+//  grid-template-rows   : auto;
+//  grid-gap             : 20px;
 //}
-.marks {
-  padding              : 0
-}
+//
+//
+//  .oneModel{
+//    width: 100%;
+//    padding-top: 7px;
+//    padding-bottom: 7px;
+//  }
+
 
 #nothing_found{
   font-size    : 2.5rem;
@@ -148,6 +143,12 @@
   margin-bottom: 25px;
 }
 
+.descr_bottom a {
+  text-decoration: none;
+  color: #000;
+}
+
+
 .wrapper-buy-from-europe {
   padding: 64px 0;
   background: #DCDCDC;
@@ -165,6 +166,10 @@
 
 .col-desc-technics-left {
   padding-right: @paddingWrapperLaptop!important;
+}
+
+.col-desc-technics-right {
+  padding-left: @paddingWrapperLaptop!important;
 }
 
 .wrapper-col-page-technics {
@@ -194,21 +199,12 @@
 .thank-you-wrapper {
   padding-top: 100px;
 }
-.to_catalog_btn {
-  color: @textMainHovered;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 16px 30px;
-  margin:0;
-  background: white;
-  border: 1px solid @textMainHovered;
-  border-radius: 10px 10px 10px 10px;
-  margin-top: 35px;
-}
 
-.to_catalog_btn:hover {
-  background: @textMainHovered;
-  color: white;
+.img-thank-you {
+  width: 100%;
+}
+.to_catalog_btn {
+  margin-top: 35px;
 }
 
 .title-thank-you {
@@ -237,42 +233,53 @@
   //background-color: #f4f4f4;
 }
 
+.oneCategoryWrapper {
+  padding: 0 15px;
+}
+
 .oneCategory {
-    cursor: pointer;
-}
-
-.oneMark {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.thumbnail-marks {
-  margin: 0 !important;
-}
-
-.thumbnail-models {
-  border: 1px solid #b4b4b4 !important;
-  //margin-bottom: 15px !important;
-  padding: 12px;
-}
-.thumbnail-marks:hover , .thumbnail-models:hover{
   cursor: pointer;
-  border-width: 1px;
-  border-color: #4c78ab;
-  border-style: solid;
-  background-color: #4c78ab;
+  padding: 30px 60px;
+  background: white;
+  box-shadow: 0px 25px 54px 0px rgba(73, 73, 73, 0.10);
+  border-radius: 10px;
+
+  .category_name, .category_name a{
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-decoration: none;
+    margin-bottom: 0;
+  }
 }
 
-.thumbnail-models:hover, .thumbnail-models:hover a {
-  background-color: #68a6dc;
-  color:aliceblue!important;
+.oneModel {
+  padding: 15px!important;
+
+  .category-header {
+    height: auto;
+  }
+
+  .model-name  a {
+    color: black;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+    text-decoration: none;
+    line-height: 150%;
+    letter-spacing: 0.35px;
+  }
 }
 
 
-
-.captionMark {
-  padding: 0px !important;
-  height:1px;
-  overflow: hidden;
+.category-header {
+  //padding: 20px 8px 0px 8px;
+  height: 48px;
+  gap: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
 }
 
 .oneTechnic {
@@ -325,12 +332,20 @@
 }
 
 .equipments .oneTechnic {
-  height: 398px;
+  height: 420px;
 
-  caption {
-    padding: 24px;
+  .captionEquipment {
+    padding: 20px;
+  }
+
+  .child_name {
+    font-size: 18px;
   }
 }
+
+//.captionEquipment {
+//  padding: 24px;
+//}
 
 .oneTechnic:hover {
   cursor: pointer;
@@ -355,13 +370,17 @@
 
 .description,
 .amount,
-.mark_t,
-.vendor_code {
+.mark_t{
   font-size    : 16px;
   height       : 20px;
   overflow     : hidden;
   text-overflow: ellipsis;
   color        : #898989;
+}
+
+.vendor_code {
+  height: 0;
+  overflow     : hidden;
 }
 
 
@@ -385,7 +404,7 @@
 
 .nameEquipment {
   position: relative;
-  height: 28px;
+  height: 48px;
   font-size: 14px !important;
   vertical-align: middle;
   overflow: hidden;
@@ -410,6 +429,30 @@
   //overflow-y: hidden;
 }
 
+.col-left-background-equipments-categories {
+  background: url("/assets/images/parts-background.png") center no-repeat;
+  border-radius: 15px 0 0 15px;
+  background-size: cover;
+  //margin-left: 15px;
+}
+
+.col-left-background-equipments-models {
+  background-image: url("/assets/images/models_background.png");
+}
+
+.col-left-background-equipments-marks {
+  background: url("/assets/images/three_combine.png") center no-repeat;
+  background-size: cover;
+}
+
+.col-right-equipments {
+  border-radius: 15px;
+  background: #FFF;
+  padding: 50px!important;
+  box-shadow: 0px 25px 54px 0px rgba(73, 73, 73, 0.10);
+  margin-left: -15px;
+}
+
 .mark_ {
   font-size: 20px!important;
   margin: 0!important;
@@ -417,12 +460,28 @@
 }
 
 
-.categories, .marks {
+.categories, .marks, .models {
   display: flex;
   flex-wrap: wrap;
   row-gap: 30px;
   align-items: center;
   justify-content: center;
+  margin: 0 -15px;
+}
+
+.models {
+  justify-content: left;
+}
+
+.marks .category_name a {
+  text-decoration: none;
+  color: #242223;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.oneCategory:hover {
+  box-shadow: 4px 4px 35px 0px #B1D89E;
 }
 
 .oneCategory img, .oneMark img {
@@ -436,28 +495,80 @@
 
 .wrapper_category {
   text-align: center;
+  margin-top: 25px;
 }
 
-.font-sm {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+@media (max-width:1140px) {
+  .oneCategory {
+    padding: 30px 40px;
+  }
 }
 
 
 @media (max-width:991px) {
+  .oneCategoryWrapper {
+    padding: 0 10px;
+  }
+  .categories, .marks, .models {
+    margin: 0 -10px;
+  }
+  .oneCategory {
+    padding: 30px 40px;
+  }
+  .oneCategoryMark {
+    padding: 20px 15px;
+  }
   .col-desc-technics-left {
     padding-right: 0!important;
     margin-bottom: 24px;
   }
-  .h1_header {
+  .col-desc-technics-right {
+    padding-left: 0!important;
+  }
+    .h1_header {
     font-size: 28px;
   }
 
   .tab-technic-menu-wrapper h4 {
     font-size: 20px;
   }
+
+  .col-left-background-equipments-categories {
+    height: 280px;
+    border-radius: 15px 15px 0 0;
+  }
+  .col-right-equipments {
+    margin-left: 0;
+    margin-top: -15px;
+    border-radius: 15px;
+    padding: 50px 40px!important;
+  }
+
+  .oneModel{
+    padding: 12px!important;
+  }
+
+  }
+
+@media (max-width:767px) {
+  .col-right-equipments {
+    padding: 40px @paddingWrapperLaptop!important;
+  }
+  .thank-you-wrapper {
+    padding-top: 40px;
+    //flex-direction: column-reverse;
+  }
+
 }
 
 @media (max-width:575px) {
+
+  .categories {
+    margin: 0;
+    .oneCategoryWrapper {
+      padding: 0;
+    }
+  }
 
   .technics .oneTechnic {
     height: 320px;
@@ -473,13 +584,17 @@
   .model, .mark_ {
     margin-bottom: 0px;
   }
-  .oneModel{
-    padding-top: 7px;
-    padding-bottom: 7px;
+
+  .marks, .models {
+    margin: 0;
+    .oneCategoryWrapper {
+      padding: 0;
+    }
   }
 
   .h1_header{
     font-size: 20px;
+    margin-bottom: @paddingWrapperMobile;
   }
 
   .tab-technic-menu-item {
@@ -496,8 +611,12 @@
     font-size: 16px;
   }
 
+  .equipments .oneTechnic {
+    height: 400px;
+  }
+
   .nameEquipment{
-    height: auto;
+    //height: auto;
   }
   .child_name {
     position: relative;
@@ -531,6 +650,10 @@
 
   .wrapper-col-page-technics {
     padding: @paddingWrapperMobile!important;
+  }
+
+  .oneModel{
+    padding: 12px!important;
   }
 
 }

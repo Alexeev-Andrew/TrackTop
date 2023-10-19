@@ -7,7 +7,7 @@
 .img-circle:hover{opacity: 1;}
 .img-circle:hover .img-circleblock{background-image:url(../images/call_me.png);  animation-name: pulse;-webkit-animation-name: pulse; animation-duration: 2.5s; -webkit-animation-duration: 2.5s;animation-iteration-count: infinite;-webkit-animation-iteration-count: infinite;}
 .img-circle2{box-sizing:content-box;-webkit-box-sizing:content-box;width:77px;height:77px;bottom: 17px;right: 52px;position:absolute;-webkit-border-radius: 100%;-moz-border-radius: 100%;border-radius: 100%;border: 2px solid transparent;opacity: 1;}
-.img-circleblock2{box-sizing:content-box;-webkit-box-sizing:content-box;width:77px;height:77px;background-image:url(../images/call_you.png); background-position: center center;background-repeat:no-repeat;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
+.img-circleblock2{box-sizing:content-box;-webkit-box-sizing:content-box;width:77px;height:77px;background-image:url(../images/call_you.png);background-size: contain; background-position: center center;background-repeat:no-repeat;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
 .img-circleblock2:hover {background-image:url(../images/mini.png);-moz-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); transform: rotate(360deg);}
 @keyframes pulse {0% {transform: scale(0.9);opacity: 1;}
   50% {transform: scale(1); opacity: 1; }
@@ -73,7 +73,8 @@ opacity: .1;}}
 #tele_phone_call:focus:-moz-placeholder {color:transparent;}
 #tele_phone_call:focus:-ms-input-placeholder {color:transparent;}
 #labtelcal{font-size:9px;line-height:9px;color:#63cff6;bottom:22px;right:80px;position:absolute;}
-#butcall{font-size:0;vertical-align: middle;width:44px;height:44px;line-height:44px;margin:0;background:#fff url(../images/right-arrow.png) no-repeat 9px 8px;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
+#butcall{border:none;font-size:0;vertical-align: middle;width:44px;height:44px;line-height:44px;margin:0;background:#fff url(../images/right-arrow.png) no-repeat;    background-size: contain;
+  background-position: center;-webkit-border-radius:50px;-moz-border-radius:50px;border-radius:50px;-moz-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;}
 #butcall:hover{cursor:pointer;-moz-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -ms-transform: rotate(360deg); transform: rotate(360deg);}
 #mssgresbox{color:white;font-size:16px;text-align:center;vertical-align: middle;    font-weight: 700;}
 #pop_up_bl{position:fixed;right:10px;bottom:25px;z-index:7998;max-height:120px;max-width:425px;font-family: 'Open Sans', sans-serif;}
@@ -135,7 +136,7 @@ opacity: .1;}}
     width: 32px;
     height: 36px;
     line-height: 32px;
-    background: #eff8fd url(../images/arr.png) no-repeat 4px 4px;
+    //background: #eff8fd url(../images/arr.png) no-repeat 4px 4px;
   }
 
   #butcall:hover {

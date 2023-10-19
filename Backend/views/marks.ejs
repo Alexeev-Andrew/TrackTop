@@ -89,188 +89,369 @@
     <div id="main">
 
         <div class="narrow-wrapper padding-wrapper">
-            <div><h1 class="text-center pt-3">Марки техніки</h1></div>
+            <ol id="breadcrumb"><li>
+                    <a href="/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                            <g clip-path="url(#clip0_147_2554)">
+                                <path d="M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M10 19.2856V13.5713" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_147_2554">
+                                    <rect width="20" height="20" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a></li><li class="current"><a href="/">
+                    </a><a class="seturl" href="/marks">
+                        <span>Всі марки</span></a>
+                </li></ol>
 
-                <div class="technic-category-list technic-categories-page-list">
-                        <div class="technic-category-wrapper technic-categories-page">
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/category_equipments" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Запчастини" data-src="/images/technics_placeholders/parts.png" alt="Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.">
-                                    <div class="card-technic-footer">
+            <div><h1 class="text-center h1_header">Марки техніки</h1></div>
 
-                                        <h2 class="title">Запчастини</h2>
-
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                <main class="marks-wrapper">
+                    <div class="marks_list row no-gutters">
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Pronar">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Pronar" data-src="/images/marks_photos/pronar.png"
+                                     alt="Купити техніку марки Pronar Львівська область. Сільгосптехніка бу марки Pronar"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Комбайни" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Комбайни" data-src="/images/technics_placeholders/combine.png" alt="Купити Комбайни. Бу Комбайни Львівська область. Комбайн зернозбиральний">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Комбайни</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Amazone">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Amazone" data-src="/images/marks_photos/amazone.png"
+                                     alt="Купити техніку марки Amazone Львівська область. Сільгосптехніка бу марки Amazone"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Трактори" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Трактори" data-src="/images/technics_placeholders/tractor.png" alt="Купити Трактори. Бу Трактори Львівська область. Трактор сільськогосподарський">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Трактори</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Massey Ferguson">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Massey Ferguson" data-src="/images/marks_photos/massey-ferguson.png"
+                                     alt="Купити техніку марки Massey Ferguson Львівська область. Сільгосптехніка бу марки Massey Ferguson"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Сівалки" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Сівалки" data-src="/images/technics_placeholders/seeder.png" alt="Купити Сівалки. Бу Сівалки Львівська область. Сівалки: зернова кінна, дискова, анкерна">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Сівалки</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Claas">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Claas" data-src="/images/marks_photos/claas.png"
+                                     alt="Купити техніку марки Claas Львівська область. Сільгосптехніка бу марки Claas"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Плуги" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Плуги" data-src="/images/technics_placeholders/plug.png" alt="Купити Плуги. Бу Плуги Львівська область.">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Плуги</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=John Deere">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=John Deere" data-src="/images/marks_photos/john-deere.png"
+                                     alt="Купити техніку марки John Deere Львівська область. Сільгосптехніка бу марки John Deere"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Преси-підбирачі" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Преси-підбирачі" data-src="/images/technics_placeholders/press.png" alt="Купити Преси-підбирачі. Бу Преси-підбирачі Львівська область. Купити прес-підбирач рулонний, квадратний">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Преси-підбирачі</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Hassia">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Hassia" data-src="/images/marks_photos/hassia.png"
+                                     alt="Купити техніку марки Hassia Львівська область. Сільгосптехніка бу марки Hassia"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Жатки" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Жатки" data-src="/images/technics_placeholders/headers.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Жатки</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Tume">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Tume" data-src="/images/marks_photos/tume.png"
+                                     alt="Купити техніку марки Tume Львівська область. Сільгосптехніка бу марки Tume"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Косарки" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Косарки" data-src="/images/technics_placeholders/kosarky.png" alt="Купити косарку. Бу косарки та нові Львівська область. Косарка роторна">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Косарки</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=International">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=International" data-src="/images/marks_photos/ihc.png"
+                                     alt="Купити техніку марки International Львівська область. Сільгосптехніка бу марки International"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics?type=Грабарки" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Грабарки" data-src="/images/technics_placeholders/grabarky.png" alt="Купити грабарку до тракора. Бу грабарки та нові Львівська область. Грабарка сонеяко та ">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Грабарки</h2>
-                                        <div class="action">
-                                    <span class="">
-                                        Перейти до категорії
-                                    </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                            </div>
-                            <div class="technic-category-card technic-categories-page-card">
-                                <a href="/technics-without-category" class="types_main_page">
-                                    <img class="lazy" src="https://via.placeholder.com/190x94?text=Інша техніка" data-src="/images/technics_placeholders/others.png" alt="Купити Жатку кукурудзяну. Бу Жатки Львівська область. Жатка для збирання кукурудзи, зернова">
-                                    <div class="card-technic-footer">
-                                        <h2 class="title">Інша техніка</h2>
-                                        <div class="action">
-                            <span class="">
-                                Перейти до категорії
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Sipma">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Sipma" data-src="/images/marks_photos/sipma.png"
+                                     alt="Купити техніку марки Sipma Львівська область. Сільгосптехніка бу марки Sipma"/>
+                                <div class="action">
+                            <span>
+                                Перейти
                             </span>
-                                            <div class="button-action-category">
-                                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     </div>
-                                </a>
-
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Nordsten">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Nordsten" data-src="/images/marks_photos/nordsten.png"
+                                     alt="Купити техніку марки Nordsten Львівська область. Сільгосптехніка бу марки Nordsten"/>
+                                <div class="action">
+                            <span>
+                                Перейти
+                            </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Lemken">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Lemken" data-src="/images/marks_photos/lemken.png"
+                                     alt="Купити техніку марки Lemken Львівська область. Сільгосптехніка бу марки Lemken"/>
+                                <div class="action">
+                            <span>
+                                Перейти
+                            </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Rabewerk">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Rabewerk" data-src="/images/marks_photos/rabe-werk.png"
+                                     alt="Купити техніку марки Rabewerk Львівська область. Сільгосптехніка бу марки Rabewerk"/>
+                                <div class="action">
+                            <span>
+                                Перейти
+                            </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=New Holland">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=New Holland" data-src="/images/marks_photos/new-holland.png"
+                                     alt="Купити техніку марки New Holland Львівська область. Сільгосптехніка бу марки New Holland"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=MTZ">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=MTZ" data-src="/images/marks_photos/MTZ.png"
+                                     alt="Купити техніку марки MTZ Львівська область. Сільгосптехніка бу марки MTZ"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Nodet gougis">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Nodet" data-src="/images/marks_photos/Nodet.png"
+                                     alt="Купити техніку марки Nodet gougis Львівська область. Сільгосптехніка бу марки Nodet gougis"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Stegsted">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Stegsted" data-src="/images/marks_photos/stegsted.png"
+                                     alt="Купити техніку марки Stegsted Львівська область. Сільгосптехніка бу марки Stegsted"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Saxonia">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=saxonia" data-src="/images/marks_photos/saxonia.png"
+                                     alt="Купити техніку марки Saxonia Львівська область. Сільгосптехніка бу марки Saxonia"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Sulky">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Sulky" data-src="/images/marks_photos/sulky.png"
+                                     alt="Купити техніку марки Sulky Львівська область. Сільгосптехніка бу марки Sulky"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=TROL">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=TROL" data-src="/images/marks_photos/trol-s5.png"
+                                     alt="Купити техніку марки TROL S5 Львівська область. Сільгосптехніка бу марки TROL S5"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Welger">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Welger" data-src="/images/marks_photos/welger.png"
+                                     alt="Купити техніку марки Welger Львівська область. Сільгосптехніка бу марки Welger"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=T25">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=T25" data-src="/images/marks_photos/t-25.png"
+                                     alt="Купити техніку марки T25 Львівська область. Сільгосптехніка бу марки T25"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Ibr">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Ibr" data-src="/images/marks_photos/ibr.png"
+                                     alt="Купити техніку марки Ibr Львівська область. Сільгосптехніка бу марки Ibr"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Isaria">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Isaria" data-src="/images/marks_photos/isaria.png"
+                                     alt="Купити техніку марки Isaria Львівська область. Сільгосптехніка бу марки Isaria"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Kleine">
+                            <div class="one-mark-card">
+                                <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Kleine" data-src="/images/marks_photos/kleine.png"
+                                     alt="Купити техніку марки Kleine Львівська область. Сільгосптехніка бу марки Kleine"/>
+                                <div class="action">
+                                <span>
+                                    Перейти
+                                </span>
+                                    <div class="button-action-category button-action-mark">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+
                     </div>
-
-                </div>
-
-
+                </main>
             </div>
         </div>
 
@@ -297,6 +478,7 @@
 <script >
 
 </script>
+        <% include common/footer-ad-subscribe.ejs %>
         <% include common/footer.ejs %>
 </body>
 

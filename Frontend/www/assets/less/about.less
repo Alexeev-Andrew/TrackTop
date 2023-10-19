@@ -33,7 +33,9 @@
 
 .img-about-wrapper {
     width: 100%;
-    object-fit: contain;
+    max-height: calc(100vh - 100px);
+    object-fit: cover;
+    //object-fit: contain;
     //position: absolute;
 }
 
@@ -109,6 +111,7 @@
 
 .technics-section-title {
     font-size: 20px;
+    margin: auto;
     text-align: center;
 }
 
@@ -133,13 +136,22 @@
 
 .col-right-about-wrapper {
     border-radius: 10px;
-    background: linear-gradient(180deg, #7F9E29 11.58%, rgba(127, 158, 41, 0.87) 54.19%, rgba(127, 158, 41, 0.00) 84.05%);
+    background-image: url("../images/combine_background.jpg");
+    background-clip: content-box;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
 }
 
-.col-right-about-background {
-    background: url("../images/combine_background.jpg");
-    color: #FFF;
 
+.contact-section {
+    margin-top: 100px;
+}
+.col-right-about-background {
+    background: linear-gradient(180deg, rgba(127, 158, 41, 0.00) -1.09%, rgba(127, 158, 41, 0.87) 27.48%, #7F9E29 35.27%);
+    color: #FFF;
+    height: 100%;
+    border-radius: 10px;
 
     h3 {
         font-size: 24px;
@@ -148,12 +160,21 @@
     }
 }
 
+.col-right-about-background-wrapper {
+    padding: 0 36px;
+    padding-top: 124px;
+}
+
 
 @media screen and (max-width:991px){
     .company-badges {
         display: flex;
         flex-direction: column;
         gap: 30px;
+    }
+
+    .contact-section {
+        margin-top: 0;
     }
 
     .about-page-header {
@@ -196,6 +217,26 @@
     }
 }
 
+@media screen and (max-width:767px) {
+    .contact-form-wrapper {
+        padding: 35px 0;
+    }
+
+    .col-right-about-background-wrapper {
+        padding-right: @paddingWrapperMobile;
+        padding-left: @paddingWrapperMobile;
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .col-right-about-wrapper {
+        background-size: cover;
+    }
+}
+
+
 
 @media screen and (max-width:575px) {
     .img-about-wrapper {
@@ -209,8 +250,6 @@
     }
 
     .contact-form-wrapper {
-        padding: 35px 0;
-
         .modal-h {
             font-size: 16px;
         }

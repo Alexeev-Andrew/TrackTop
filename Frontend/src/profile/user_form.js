@@ -8,6 +8,7 @@ exports.isLogged = function () {
     let status = localStorage.getItem('status');
     let phone = localStorage.getItem('phone');
     let photo_location = localStorage.getItem("photo");
+
     if(status) {
         // add info to panel
         $('.menu-user-name').html(surname + " " + name);
@@ -33,8 +34,6 @@ exports.openLogin = function(){
 
 exports.deleteInfoFromLocalStorage = function() {
     require("../API").logOut( function (err, data) {
-        console.log(err)
-        console.log(data)
         if(!err) {
             localStorage.removeItem("status");
             localStorage.removeItem("phone");
@@ -47,6 +46,7 @@ exports.deleteInfoFromLocalStorage = function() {
             $('#user_info').css("display", "none");
             hideToggleModal();
             require("./user_form").isLogged();
+            document.location.href = '/'
         }
 
     });

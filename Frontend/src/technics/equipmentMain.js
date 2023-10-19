@@ -1,4 +1,34 @@
+const {openSendMessageModal: openMessageModal} = require("../profile/signup_form");
 require('fancybox')($);
+
+let {getUrlParameter, toMainPageBreadcrumb} = require("../helpers")
+
+function initilizebreadcrumb(){
+    let curCategory = localStorage.getItem('current_category_equipments');
+    let currEquipment = JSON.parse(localStorage.getItem('currEquipment'));
+
+    let crums = toMainPageBreadcrumb();
+    crums +=
+        `<li>
+            <a class='seturl' href="/category_equipments">
+            <span>Запчастини</span></a>
+        </li>`;
+    crums +=
+        `<li class=''>
+            <a class='seturl-last' 
+                href="/category_equipments/category?name=${curCategory}">
+             <span>${curCategory}</span></a>
+        </li>`;
+    crums +=
+        ` <li class='current'>
+            <a class='seturl-last' href="${document.location.href}">
+            <span>${currEquipment.name}</span></a>
+        </li>`;
+
+    $("#breadcrumb").append(crums);
+
+}
+
 
 function  initialize() {
     let id =   getUrlParameter("id");
@@ -9,18 +39,22 @@ function  initialize() {
         }
 
         let equipment = data5.data[0];
+        console.log(equipment)
+        localStorage.setItem("current_category_equipments", equipment.category_name);
 
         localStorage.setItem('currEquipment',JSON.stringify({
             id: id,
-            name: data5.data[0].name,
-            main_photo_location: data5.data[0].main_photo_location,
-            price_uah: data5.data[0].price_uah,
-            price: data5.data[0].price,
-            currency: data5.data[0].currency,
-            amount: data5.data[0].amount,
-            description: data5.data[0].description,
-            mark: data5.data[0].mark,
+            name: equipment.name,
+            main_photo_location: equipment.main_photo_location,
+            price_uah: equipment.price_uah,
+            price: equipment.price,
+            currency: equipment.currency,
+            amount: equipment.amount,
+            description: equipment.description,
+            mark: equipment.mark,
         }));
+        initilizebreadcrumb()
+
         let alt;
         if (data5.data[0].description) alt = "Купити " + data5.data[0].description ;
         else alt = "Купити " + data5.data[0].name ;
@@ -37,9 +71,6 @@ function  initialize() {
 
         $('.order_equipment').click(function () {
 
-            let equipment = JSON.parse(localStorage.getItem('currEquipment'));
-            //console.log(equipment);
-            // var isTech = equipment==null ? false : true;
             require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
             require('../basketPage').addToCart({
@@ -50,9 +81,21 @@ function  initialize() {
                 currency: equipment.currency,
                 icon: equipment.main_photo_location,
                 quantity: 1,
+                status: equipment.status,
+                state: equipment.state,
+                vendor_code: JSON.parse(equipment.vendor_code),
                 url: document.location.href,
                 isTech: false
             });
+        })
+
+        $(".write-message-one-equipment").click(function (e){
+            e.stopImmediatePropagation()
+            e.stopPropagation()
+            e.preventDefault();
+            let one_eq = document.querySelector(".one-ad-header");
+
+            openMessageModal({productId:$(one_eq).data("id") , productTitle : $(one_eq).data("title"), url : $(one_eq).data("url") })
         })
     }
     require('../API').getEquipmentsById(id,callback5);
@@ -107,18 +150,3 @@ $(function(){
         document.location.href = "http://tracktop.com.ua/profile";
     })
 });
-
-getUrlParameter = function(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-};

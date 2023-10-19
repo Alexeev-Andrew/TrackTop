@@ -34,17 +34,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
 <!--    <link rel="stylesheet" type="text/css" href="assets/less/all.css" />-->
-    <!-- LESS основний файл -->
     <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
-    <!-- LESS JavaScript компілятор -->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>-->
-    <!--style for text-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">-->
-    <!--font awesome-->
+
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
     <!-- Facebook Pixel Code -->
     <script>
@@ -95,29 +90,16 @@
         <div class="narrow-wrapper padding-wrapper">
             <% include breadcrumbs.ejs %>
         </div>
-<!--        <  common/searchBar.ejs >-->
 
         <div class="narrow-wrapper padding-wrapper">
-            <div class="tab-technic-menu-wrapper" style="">
-                <h4 class="">Категорії</h4>
-            <div class="tab-technic-menu">
-                <div class="tab-technic-menu-item active"><a href="/technics?type=Комбайни">Комбайни</a></div>
-                <div class="tab-technic-menu-item "style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Трактори</div>
-                <div class="tab-technic-menu-item"style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Плуги</div>
-                <div class="tab-technic-menu-item"style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Сівалки</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Преси-підбирачі</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Жатки</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Фронтальні навантажувачі</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Косарки</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Грабарки</div>
-
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Інша техніка</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Інша техніка</div>
-                <div class="tab-technic-menu-item" style="color: #242223; font-size: 16px; font-family: Mulish; font-weight: 600; word-wrap: break-word">Інша техніка</div>
-            </div>
+            <% if(types) {%>
+                <div class="tab-technic-menu-wrapper" style="">
+                    <h4 class="">Категорії</h4>
+                    <div class="tab-technic-menu">
+                </div>
+                <% }%>
             </div>
         </div>
-
 
             <h1 class="h1_header type_header">
                 <% if(types){ %>
@@ -272,7 +254,7 @@
                                     Використовуючи прес-підбирач ви значно зменшите витрати та час на заготівлю сіна чи соломи.
                                 </div>
 
-                                <h4 class="title mt-3">Який прес обрати?</h4>
+                                <h4 class="title mt-3">Який прес підбирач обрати?</h4>
                                 <div>
                                 У компанії «TrackTop» ви можете купити преси-підбирач для заготовки сіна, соломи та трави за доступною ціною. На нашому сайті ви зможете знайти преси-підбирачі рулонні та тюкові таких марок:
                                 <a href="/technics?mark=John%20Deere">John Deere</a>, <a href="/technics?mark=Claas">Claas</a>, <a href="/technics?mark=Sipma">Sipma</a> та <a href="/technics?mark=Welger">Welger</a>. Фірми Джон Дір та Клаас мають надзвичайно великий вибір пресів для різних господарств - як великих так і малих. Преси Claas Rollant дуже часто використовують при заготівлі сіна. Якщо у вас невелике господарство рекомендуємо звернути увагу на преси Sipma (Сіпма) та Welger
@@ -863,9 +845,8 @@
 
         <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
         <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
-<script >
 
-</script>
+        <% include common/footer-ad-subscribe.ejs %>
         <% include common/footer.ejs %>
 </body>
 

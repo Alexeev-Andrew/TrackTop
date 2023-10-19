@@ -23,8 +23,8 @@ function backendGet(url, callback, data) {
         success: function(data){
             callback(null, data);
         },
-        error: function() {
-            callback(new Error("Ajax Failed"));
+        error: function(err) {
+            callback(err);
         }
     })
 }
@@ -41,8 +41,8 @@ function backendPost(url, data, callback, token) {
         success: function(data){
             callback(null, data);
         },
-        error: function() {
-            callback(new Error("Ajax Failed"));
+        error: function(err) {
+            callback(err);
         }
     })
 }
@@ -247,6 +247,10 @@ exports.uploadUserPhoto = function(photo, id, callback){
     backendPostFiles("/api/upload_user_photo/", data, callback);
 };
 
+exports.deleteUserPhoto = function(callback){
+    backendPost("/api/delete_user_photo/",{}, callback);
+};
+
 exports.uploadTechnicPhoto = function(photo,callback){
     var data = new FormData();
     data.append('uploadFile', photo);
@@ -260,8 +264,12 @@ exports.uploadEquipmentPhoto = function(photo,callback){
 };
 
 
-exports.updateClient = function(id,info,callback) {
-    backendPost("/api/update_user",{id: id, info: info},callback);
+exports.updateClient = function(info,callback) {
+    backendPost("/api/update_user",{info: info},callback);
+}
+
+exports.updateClientPassword = function(info,callback) {
+    backendPost("/api/update_user_pwd", info, callback);
 }
 
 exports.addPhone = function(phone,name,callback) {
@@ -368,21 +376,22 @@ var ejs = require('ejs');
 
 
 exports.typeOfTechnic = ejs.compile("<div class='typeDiv'><!--  col-md-6 col-lg-4 -->\r\n    <img src='/images/technics_placeholders/<%= type.photo_location %>' <%if(type.name===\"Запчастини\") {%>alt=\"Купити запчастини до комбайнів, сівалок, тракторів. Запчастини до с/г техніки.\"\r\n    <%} else {%> alt=\"Купити <%= type.name %>. Бу <%= type.name %> Львівська область.\"\r\n    <% }%>>\r\n    <div class='nameType font-add'>\r\n        <a href=\"<%= type.url %>\" class=\"types_main_page\"><strong><h2 class=\"type_h2\"><%= type.name %> </h2></strong></a>\r\n    </div>\r\n</div>");
-exports.technicInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= technic.id %>\" data-title=\"<%= technic.name %> <%= technic.model%>\" data-url=\"<%= technic.url %>\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n        <div class=\"caption\">\r\n            <a class=\"model\" href=\"<%= technic.url %>\">\r\n                <h3 class=\"model\">\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"\"><%= technic.model %></span>\r\n                    </h3>\r\n            </a>\r\n\r\n            <div class=\"caption-footer\">\r\n                <div class=\"price-block\">\r\n                    <div class=\"price-label\">Ціна</i>\r\n                        <div class=\"price\">\r\n                            <%= technic.price %>\r\n                            <% if(technic.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(technic.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                        </div>\r\n\r\n                </div>\r\n            </div>\r\n                <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                        <g clip-path=\"url(#clip0_679_6742)\">\r\n                            <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                        </g>\r\n                        <defs>\r\n                            <clipPath id=\"clip0_679_6742\">\r\n                                <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                            </clipPath>\r\n                        </defs>\r\n                    </svg>\r\n                </button>\r\n            </div>\r\n\r\n        </div>\r\n\r\n</div>");
-exports.technicWithoutCategory = ejs.compile("<div class=\"oneTechnic\">\r\n    <div class=\"thumbnail\" style=\"margin: 0px;\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             alt =\"Купити <%= technic.name %>\">\r\n\r\n        <div class=\"caption\">\r\n            <a href=\"<%= technic.url %>\">\r\n                <div class=\"model\">\r\n                    <h3 class=\"mark_\" >\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                    </h3>\r\n                </div>\r\n            </a>\r\n            <div class=\"price\"><i>Ціна</i> <%= technic.price %>\r\n                <% if(technic.currency.toString() == \"гривня\") { %>\r\n                    грн\r\n                <%}%>\r\n\r\n                <% if(technic.currency.toString() == \"долар\") { %>\r\n                    $\r\n                <%}%>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>");
+exports.technicInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= technic.id %>\" data-title=\"<%= technic.type_name%> <%= technic.name %> <%= technic.model%>\" data-url=\"<%= technic.url %>\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %> <%= technic.model%>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n             <%if(technic.type_name.trim()==\"Преси-підбирачі\") {%>alt=\"Купити прес-підбирач <%= technic.name %> <%= technic.model%>, купить пресс-подборщик <%= technic.name %> <%= technic.model%>\"\r\n        <%} else if(technic.type_name==\"Сівалки\"){%> alt=\"Купити сівалку <%= technic.name %> <%= technic.model%>, купить сеялку <%= technic.name %> <%= technic.model%>\"\r\n        <% } else if (technic.type_name==\"Жатки\"){%> alt=\"Купити жатку <%= technic.name %> <%= technic.model%>, купить жатку <%= technic.name %> <%= technic.model%>\"\r\n\r\n        <% } else { %>\r\n             alt =\"Купити <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>, купить <%= technic.type_name.toString().substring(0,technic.type_name.length-1).toLowerCase() %> <%= technic.name %> <%= technic.model %>\"\r\n        <% } %>>\r\n\r\n        <div class=\"caption\">\r\n            <a class=\"model\" href=\"<%= technic.url %>\">\r\n                <h3 class=\"model\">\r\n                        <span class=\"mark_technic\"><%= technic.name %></span>\r\n                        <span class=\"\"><%= technic.model %></span>\r\n                    </h3>\r\n            </a>\r\n\r\n            <div class=\"caption-footer\">\r\n                <div class=\"price-block\">\r\n                    <div class=\"price-label\">Ціна</i>\r\n                        <div class=\"price\">\r\n                            <%= technic.price %>\r\n                            <% if(technic.currency.toString() == \"гривня\") { %>\r\n                                грн\r\n                            <%}%>\r\n\r\n                            <% if(technic.currency.toString() == \"долар\") { %>\r\n                                $\r\n                            <%}%>\r\n                        </div>\r\n\r\n                </div>\r\n            </div>\r\n                <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                        <g clip-path=\"url(#clip0_679_6742)\">\r\n                            <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                        </g>\r\n                        <defs>\r\n                            <clipPath id=\"clip0_679_6742\">\r\n                                <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                            </clipPath>\r\n                        </defs>\r\n                    </svg>\r\n                </button>\r\n            </div>\r\n\r\n        </div>\r\n\r\n</div>");
+exports.technicWithoutCategory = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= technic.id %>\" data-title=\"<%= technic.name %>\" data-url=\"<%= technic.url %>\">\r\n    <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= technic.name %>\" data-src=\"/images/technics/<%= technic.main_photo_location %>\"\r\n         alt =\"Купити <%= technic.name %>\">\r\n\r\n    <div class=\"caption\">\r\n        <a class=\"model\" href=\"<%= technic.url %>\">\r\n            <h3 class=\"model\">\r\n                <span class=\"mark_technic\"><%= technic.name %></span>\r\n            </h3>\r\n        </a>\r\n\r\n        <div class=\"caption-footer\">\r\n            <div class=\"price-block\">\r\n                <div class=\"price-label\">Ціна</i>\r\n                    <div class=\"price\">\r\n                        <%= technic.price %>\r\n                        <% if(technic.currency.toString() == \"гривня\") { %>\r\n                            грн\r\n                        <%}%>\r\n\r\n                        <% if(technic.currency.toString() == \"долар\") { %>\r\n                            $\r\n                        <%}%>\r\n                    </div>\r\n\r\n                </div>\r\n            </div>\r\n            <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                    <g clip-path=\"url(#clip0_679_6742)\">\r\n                        <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                        <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                    </g>\r\n                    <defs>\r\n                        <clipPath id=\"clip0_679_6742\">\r\n                            <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                        </clipPath>\r\n                    </defs>\r\n                </svg>\r\n            </button>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>");
 exports.technicInMenu = ejs.compile("<a href=\"<%= item.url %>\"><%= item.name %></a>");
 exports.technicInOrder = ejs.compile("<div class=\"myOrder\">\r\n\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= technic.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= technic.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=technic.price %> <% if(technic.currency.toString() == \"гривня\") { %>\r\n                        грн\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"долар\") { %>\r\n                        $\r\n                    <%}%>\r\n                    <% if(technic.currency.toString() == \"євро\") { %>\r\n                        €\r\n                    <%}%></span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/<%=technic.icon%>\">\r\n    </div>\r\n</div>");
-exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <p class=\"centerAlign\">\r\n        <span class=\"order-title\"><%= equipment.title%> </span>\r\n    </p>\r\n    <div class=\"image-control\">\r\n        <div style=\"display: flex; flex-direction: column;\">\r\n\r\n            <div class=\"price-box\">\r\n                <div class=\"minus btn btn-xs btn-danger btn-circle\">\r\n                    <i class=\"fa fa-minus\"></i>\r\n                </div>\r\n                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"\r\n                        style=\"display:none\">x</span><%= equipment.quantity %></span>\r\n                <div class=\"plus btn btn-xs btn-success btn-circle\">\r\n                    <i class=\"fa fa-plus\"></i>\r\n                </div>\r\n                <div class=\"removeButton count-clear btn btn-xs btn-default\">\r\n                    Видалити\r\n                    \r\n                </div>\r\n            </div>\r\n            <div class=\"orderCharacteristics\">\r\n                <span>Ціна: </span>\r\n                <span class=\"price\"><%=equipment.price_uah %> грн</span>\r\n            </div>\r\n        </div>\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n    </div>\r\n\r\n\r\n</div>");
+exports.equipmentInOrder = ejs.compile("<div class=\"myOrder\">\r\n    <div class=\"img-order-wrapper\">\r\n        <img class=\"imgInOrder\" src=\"/images/equipments/<%=equipment.icon%>\">\r\n        <span class=\"order-label <%= equipment.status.toString().toLowerCase() == \"в наявності\" ? \"order-label-available\" : equipment.status.toString().toLowerCase() == \"під замовлення\" ? \"order-label-on-demand\" :  equipment.status.toString().toLowerCase() == \"продано\" ? \"order-label-sold\" : \"order-label-not-available\" %>\"><%= equipment.status %></span>\r\n    </div>\r\n\r\n    <div class=\"item-desc-basket\">\r\n        <div class=\"order-title\"><%= equipment.title%> </div>\r\n        <span class=\"order-label <%= equipment.status.toString().toLowerCase() == \"в наявності\" ? \"order-label-available\" : equipment.status.toString().toLowerCase() == \"під замовлення\" ? \"order-label-on-demand\" :  equipment.status.toString().toLowerCase() == \"продано\" ? \"order-label-sold\" : \"order-label-not-available\" %>\"><%= equipment.status %></span>\r\n\r\n        <div class=\"one-ad-info-row\">\r\n            <span class=\"one-ad-info-label\">Стан:</span>\r\n            <span class=\"one-ad-info-value one-ad-info-value-regular\"><%= equipment.state %></span>\r\n        </div>\r\n        <% if(equipment.vendor_code) { %>\r\n            <div class=\"one-ad-info-row\">\r\n                <span class=\"one-ad-info-label\">Код товару</span>\r\n                <span class=\"one-ad-info-value one-ad-info-value-regular\"><%= equipment.vendor_code.join(\", \")%></span>\r\n            </div>\r\n        <%}%>\r\n\r\n\r\n        <div class=\"\">\r\n            <div style=\"display: flex; flex-direction: column;\">\r\n                <div class=\"amount-box\">\r\n                    <span class=\"one-ad-info-label\">К-сть:</span>\r\n                    <div class=\"minus btn btn-circle\">\r\n                        <i class=\"fa fa-minus\"></i>\r\n                    </div>\r\n                    <span class=\"label order-count\" style=\"color:black;\">\r\n                        <span class=\"\"\r\n                            style=\"display:none\">x\r\n                        </span>\r\n                        <%= equipment.quantity %>\r\n                    </span>\r\n                    <div class=\"plus btn btn-circle\">\r\n                        <i class=\"fa fa-plus\"></i>\r\n                    </div>\r\n                    <div class=\"removeButton count-clear\">\r\n                        <svg width=\"25\" height=\"25\" viewBox=\"0 0 25 25\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                            <g clip-path=\"url(#clip0_818_6669)\">\r\n                                <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M14.875 2.08398C15.3122 2.0841 15.7384 2.22178 16.093 2.47753C16.4477 2.73329 16.7129 3.09414 16.851 3.50898L17.4167 5.20898H20.8333C21.1096 5.20898 21.3746 5.31873 21.5699 5.51408C21.7653 5.70943 21.875 5.97438 21.875 6.25065C21.875 6.52692 21.7653 6.79187 21.5699 6.98722C21.3746 7.18257 21.1096 7.29232 20.8333 7.29232L20.8302 7.36628L19.9271 20.0152C19.8707 20.8034 19.5179 21.5409 18.9396 22.0794C18.3613 22.6178 17.6006 22.9172 16.8104 22.9173H8.18958C7.39943 22.9172 6.63865 22.6178 6.06038 22.0794C5.48211 21.5409 5.12928 20.8034 5.07292 20.0152L4.16979 7.36523C4.16791 7.34097 4.16686 7.31665 4.16667 7.29232C3.8904 7.29232 3.62545 7.18257 3.4301 6.98722C3.23475 6.79187 3.125 6.52692 3.125 6.25065C3.125 5.97438 3.23475 5.70943 3.4301 5.51408C3.62545 5.31873 3.8904 5.20898 4.16667 5.20898H7.58333L8.14896 3.50898C8.28718 3.09397 8.55254 2.733 8.90739 2.47723C9.26225 2.22146 9.68861 2.08388 10.126 2.08398H14.875ZM9.375 10.4173C9.11986 10.4174 8.87361 10.511 8.68295 10.6806C8.49228 10.8501 8.37048 11.0837 8.34062 11.3371L8.33333 11.459V17.709C8.33363 17.9745 8.43529 18.2299 8.61755 18.4229C8.79981 18.616 9.04891 18.7321 9.31395 18.7477C9.579 18.7633 9.83998 18.677 10.0436 18.5066C10.2472 18.3362 10.378 18.0945 10.4094 17.8309L10.4167 17.709V11.459C10.4167 11.1827 10.3069 10.9178 10.1116 10.7224C9.91622 10.5271 9.65127 10.4173 9.375 10.4173ZM15.625 10.4173C15.3487 10.4173 15.0838 10.5271 14.8884 10.7224C14.6931 10.9178 14.5833 11.1827 14.5833 11.459V17.709C14.5833 17.9853 14.6931 18.2502 14.8884 18.4456C15.0838 18.6409 15.3487 18.7507 15.625 18.7507C15.9013 18.7507 16.1662 18.6409 16.3616 18.4456C16.5569 18.2502 16.6667 17.9853 16.6667 17.709V11.459C16.6667 11.1827 16.5569 10.9178 16.3616 10.7224C16.1662 10.5271 15.9013 10.4173 15.625 10.4173ZM14.875 4.16732H10.125L9.77812 5.20898H15.2219L14.875 4.16732Z\" fill=\"#89A831\"/>\r\n                            </g>\r\n                            <defs>\r\n                                <clipPath id=\"clip0_818_6669\">\r\n                                    <rect width=\"25\" height=\"25\" fill=\"white\"/>\r\n                                </clipPath>\r\n                            </defs>\r\n                        </svg>\r\n                    </div>\r\n                </div>\r\n                <div class=\"orderCharacteristics\">\r\n                    <span class=\"price\"><%=equipment.price_uah %> грн</span>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n\r\n\r\n</div>");
 exports.oneImage = ejs.compile("<div class=\"slider__item\">\r\n    <div>\r\n        <a href=\"<%= base %>/images/<%= image %>\" class=\"fancybox\" rel=\"images-single\"  >\r\n            <img  class=\"one_image lazy\" src=\"https://via.placeholder.com/440x300?text=<%= alt %>\" data-src=\"/images/<%= image %>\" alt='<%= alt %>'>\r\n        </a>\r\n<!--        <i class=\"fa fa-arrows-alt icons full_screen_btn\"></i>-->\r\n    </div>\r\n</div>");
-exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= equipment.id %>\" data-title=\"<%= equipment.name %> <%= equipment.model%>\" data-url=\"<%= equipment.url %>\"\r\n     data-json=\"<%=JSON.stringify(equipment)%>\">\r\n    <div class=\"one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n             alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n         ( <%=equipment.mark_name_ukr%>\r\n        <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n        <% } else {%><%= equipment.model %>  <% } %>)\"\r\n    <%} else { %> alt=\"<%= equipment.name %>\"\r\n                <%}%>>\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n\r\n                <h2 class=\"child_name\"><%= equipment.name %></h2>\r\n                </a>\r\n            </div>\r\n\r\n            <% if( equipment.vendor_code){ %>\r\n\r\n                <div class=\"vendor_code\">\r\n                    <span class=\"equipment_info\"><%= equipment.vendor_code %> </span>\r\n                </div>\r\n            <% } %>\r\n\r\n            <div class=\"caption-footer flex-column\">\r\n                <div class=\"price-message-block d-flex justify-content-between\">\r\n                    <div class=\"price-block\">\r\n                        <div class=\"price-label\">Ціна</i>\r\n                            <div class=\"price\">\r\n                                <%= equipment.price_uah %>\r\n                                    грн\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n                    <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                            <g clip-path=\"url(#clip0_679_6742)\">\r\n                                <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                                <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            </g>\r\n                            <defs>\r\n                                <clipPath id=\"clip0_679_6742\">\r\n                                    <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                                </clipPath>\r\n                            </defs>\r\n                        </svg></button>\r\n                </div>\r\n                <button class=\"btn-green-text-white w-100 btn-add-to-cart mt-3 mb-0\">Додати в корзину</button>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
+exports.equipmentInList = ejs.compile("<div class=\"oneTechnic\" data-id=\"<%= equipment.id %>\" data-title=\"<%= equipment.name %> <%= equipment.technic_mark %> <%= equipment.model%>\" data-url=\"<%= equipment.url %>\"\r\n     data-json=\"<%=JSON.stringify(equipment)%>\">\r\n    <div class=\"one_equipment technic-card\">\r\n        <img class=\"lazy\" src=\"https://via.placeholder.com/440x300?text=<%= equipment.name %>\" data-src=\"/images/equipments/<%= equipment.main_photo_location %>\"\r\n            <% if(equipment.technic_type==\"Комбайни\"){ %>\r\n                alt =\"Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>\r\n                <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : \"\" %>\r\n                ( <%=equipment.mark_name_ukr%>\r\n                <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>\r\n                    <% } else {%><%= equipment.model %>  <% } %>)\"\r\n            <%} else { %> alt=\"<%= equipment.name %> <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : \"\" %>\"\r\n                <%}%>\r\n        >\r\n\r\n        <div class=\"caption captionEquipment\">\r\n            <div class=\"nameEquipment\">\r\n                <a href=\"<%= equipment.url %>\">\r\n                    <h2 class=\"child_name\"><%= equipment.name %> <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : \"\" %></h2>\r\n                </a>\r\n            </div>\r\n\r\n            <% if( equipment.vendor_code){ %>\r\n                <div class=\"vendor_code\">\r\n                    <h4 class=\"\"><%= equipment.vendor_code ? JSON.parse(equipment.vendor_code).join(\", \") : \"\" %></h4>\r\n                </div>\r\n            <% } %>\r\n\r\n            <div class=\"caption-footer flex-column\">\r\n                <div class=\"price-message-block d-flex justify-content-between\">\r\n                    <div class=\"price-block\">\r\n                        <div class=\"price-label\">Ціна</i>\r\n                            <div class=\"price\">\r\n                                <%= equipment.price_uah %>\r\n                                    грн\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n                    <button class=\"btn-green-text-white write-message-card\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 26 26\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                            <g clip-path=\"url(#clip0_679_6742)\">\r\n                                <path d=\"M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                                <path d=\"M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688\" stroke=\"white\" stroke-width=\"2.07728\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\r\n                            </g>\r\n                            <defs>\r\n                                <clipPath id=\"clip0_679_6742\">\r\n                                    <rect width=\"25.1792\" height=\"25.1792\" fill=\"white\" transform=\"translate(0.374512 0.152344)\"/>\r\n                                </clipPath>\r\n                            </defs>\r\n                        </svg></button>\r\n                </div>\r\n                <button class=\"btn-green-text-white w-100 btn-add-to-cart mt-3 mb-0\">Додати в корзину</button>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>");
 exports.oneReview = ejs.compile("<div class=\"oneReview\">\r\n    <div class=\"column column1\"><img class=\"photo_reviewer\"  src=\"http://localhost:5050/images/users_photos/<%= item.photo_location%>\"></div>\r\n    <div class=\"name_recommend column column2\">\r\n        <div class=\"name\"><%= item.name%> <%= item.surname%></div>\r\n        <% if(item.recommend) { %>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-up icons\"></i> Рекомендую</div>\r\n        <% } else {%>\r\n            <div class=\"recommend\"><i class=\"fas fa-thumbs-down icons\"></i> Не рекомендую</div>\r\n        <% } %>\r\n\r\n    </div>\r\n    <div class=\"text_review column column3\"><%=item.text_review%></div>\r\n</div>");
 exports.equipmentCategory = ejs.compile("<div class=\"oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"\" src=\"/images/category_placeholders/<%= category.photo_location %>\"\r\n             alt=\"Купити <%= category.category_name %>\">\r\n        <div class=\"caption\">\r\n            <h2 class=\"name\"><div >\r\n                    <a href=\"<%=category.url%>\">\r\n                        <span class=\"\" style=\"color: black\"><%= category.category_name %></span>\r\n\r\n                    </a>\r\n                </div>\r\n<!--                <span class=\"\" style=\"color: black;height: 1px;width: 1px;display:none\"> Купить < category.category_name_ru ></span>-->\r\n            </h2>\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
-exports.oneMark = ejs.compile("<div class=\"oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-marks\">\r\n        <a href=\"<%= mark.url %>\">\r\n        <img class=\"\" src=\"/images/marks_photos/<%= mark.logo_file %>\" alt=\"Запчастини до комбайнів <%= mark.name %>.Запчасти для комбайнов <%= mark.name %>\">\r\n        </a>\r\n        <div class=\"caption captionMark\">\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
-exports.oneModel = ejs.compile("<div class=\"oneModel \">\r\n    <div class=\"thumbnail thumbnail-models\">\r\n        <div class=\"caption \">\r\n            <a href=\"<%= model.url %>\" style=\"text-decoration: none\">\r\n                <div class=\"name nameModel\"><b><span class=\"\"><%= model.mark + \" \"  + model.model%></span></b></div>\r\n            </a>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n        </div>\r\n\r\n    </div>\r\n\r\n</div>\r\n\r\n<!--col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3-->");
+exports.oneMark = ejs.compile("<div class=\"oneMark col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\r\n    <div class=\"thumbnail thumbnail-marks\">\r\n        <a href=\"<%= mark.url %>\">\r\n        <img class=\"\" src=\"/images/marks_photos/<%= mark.logo_file %>\" alt=\"Запчастини до комбайнів <%= mark.name %>. Запчасти для комбайнов <%= mark.name %>\">\r\n        </a>\r\n        <div class=\"caption captionMark\">\r\n    </div>\r\n\r\n</div>\r\n\r\n</div>\r\n");
+exports.oneModel = ejs.compile("<div class=\"oneCategoryWrapper col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3\">\r\n    <div class=\"oneCategory oneModel\">\r\n        <div class=\"category-header\">\r\n            <h2 class=\"category_name model-name\">\r\n                <a href=\"<%= model.url %>\">\r\n                    <%= model.mark + \" \"  + model.model%>\r\n                </a>\r\n            </h2>\r\n            <span style=\"display: none; height: 50px\"> Купити запчастини до комбайна <%= model.mark + \" \"  + model.model%>%></span>\r\n\r\n            <div class=\"action\">\r\n                    <svg width=\"17\" height=\"24\" viewBox=\"0 0 17 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n                        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M6.51476 1.39247L16.0607 10.9384C16.6465 11.5242 16.6465 12.4739 16.0607 13.0597L6.51476 22.6057C5.92898 23.1915 4.97923 23.1915 4.39344 22.6057C3.80765 22.0199 3.80765 21.0701 4.39344 20.4843L12.8787 11.9991L4.39344 3.51379C3.80765 2.928 3.80765 1.97825 4.39344 1.39247C4.97923 0.806678 5.92898 0.806678 6.51476 1.39247Z\" fill=\"black\"/>\r\n                    </svg>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
 exports.oneOrder = ejs.compile("<div class=\"oneOrder\"  data-order=\"<%= order.order%>\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div class=\"order-decoration\"></div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"># <%= order.id%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Дата</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= new Date(order.purchase_date).toLocaleDateString()%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= order.total%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n                    <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div class=\"open-modal\">\r\n            <i class=\"fas fa-solid fa-arrow-down\"></i>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n<!--    <div class=\"image-control\">-->\r\n<!--        <div style=\"display: flex; flex-direction: column;\">-->\r\n<!--            <div class=\"orderCharacteristics\">-->\r\n<!--            </div>-->\r\n<!--            <div class=\"price-box\">-->\r\n<!--                <div class=\"minus btn btn-xs btn-danger btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-minus\"></i>-->\r\n<!--                </div>-->\r\n<!--                <span class=\"label order-count\" style=\"color:black;\"><span class=\"\"-->\r\n<!--                <div class=\"plus btn btn-xs btn-success btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-plus \"></i>-->\r\n<!--                </div>-->\r\n<!--                <div class=\"removeButton count-clear btn btn-xs btn-default btn-circle\">-->\r\n<!--                    <i class=\"glyphicon glyphicon-remove\"></i>-->\r\n<!--                </div>-->\r\n<!--            </div>-->\r\n<!--        </div>-->\r\n<!--        <img class=\"imgInOrder\" src=\"/images/=order.icon>\">-->\r\n<!--    </div>-->\r\n</div>");
 exports.oneOrderModal = ejs.compile("<div class=\"oneOrder\">\r\n\r\n    <div class=\"order-container-flex\">\r\n\r\n        <div>\r\n            <img class=\"imgInOrder\" src=\"/images/equipments/default_technic.jpg\">\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"\">\r\n                <span class=\"order-title\"><%= position.title%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Ціна</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Кількість</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.quantity%> </span>\r\n            </p>\r\n        </div>\r\n\r\n        <div>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-label\">Сума</span>\r\n            </p>\r\n            <p class=\"centerAlign\">\r\n                <span class=\"order-title\"><%= position.price_uah * position.quantity %> </span>\r\n            </p>\r\n        </div>\r\n\r\n\r\n    </div>\r\n\r\n</div>");
 },{"ejs":16}],3:[function(require,module,exports){
 let Templates = require('./Templates');
+let {validatePhone, Notify} = require("./helpers")
 
 let basil = require('basil.js');
 basil = new basil();
@@ -397,7 +406,7 @@ let Cart = [];
 let $cart = $(".buyList");
 let flag=true;
 
-let $amount = $(".amountOfBoughtPizz");
+let $amount = $(".amountOfProducts");
 let $allPrice = $(".amountLabel");
 
 
@@ -406,31 +415,43 @@ exports.initialiseBasket = function(){
         $('#user_info').css("display", "none");
         $('#myForm').css("display", "none");
         document.location.href = values.url + "/basket"
-        //openNav();
     })
 
 
     $('.btnSubscribeEmail').click(function () {
-        let email = document.getElementById("email_subscribe").value;
-        //console.log(email)
+        let email = document.getElementById("email_subscribe_footer").value;
+        checkAndSubscribeHelper(email)
+    })
 
+    $('#subscribeEmail').click(function () {
+        let email = document.getElementById("email_subscribe_left_menu").value;
+        checkAndSubscribeHelper(email)
+    })
+
+    $('.btnSubscribeEmailNews').click(function () {
+        let email = document.getElementById("email_subscribe").value;
+        checkAndSubscribeHelper(email)
+    })
+
+
+
+    function checkAndSubscribeHelper(email) {
         if(emailIsValid(email)) {
             $("#error-msg").css("display","none");
             writeEmail(email, function (err, result) {
-                console.log(result)
                 if(err || result.error) {
-                    $("#error-msg").css("display","block");
+                    Notify("Ви вже підписані на новини", null, null, 'info' , 4)
                 }
                 else {
-                    alert("Дякуємо за підписку!")
+                    Notify("Дякуємо за підписку!", null, null, 'success' , 4)
                 }
-
             });
         }
         else {
-            $("#error-msg").css("display","block");
+            Notify("Введіть вірний email", null, null, 'warning' , 4)
         }
-    })
+    }
+
 
 
     $(".sendNumberButton").click(function () {
@@ -439,18 +460,16 @@ exports.initialiseBasket = function(){
          let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val();
          if(phone.length == 16) {
              require("./API").addPhone(phone);
-             require("./API").sendMessage({message: message }, () => {})
-
-             document.getElementById('slibotph').style.display='none';
-             document.getElementById('content1').style.width='300px';
-             document.getElementById('content1').style.padding='0px';
-             document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
-
+             require("./API").sendMessage({message: text }, () => {
+                 $("#pop_up_bl").hide();
+                 $("#minbotph").show()
+                 Notify('Дякую, ми передзвонимо до Вас найближчим часом', null, null, 'success' , 4)
+                 // document.getElementById('content1').style.width='300px';
+                 // document.getElementById('content1').style.padding='24px';
+                 // document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
+             })
          }
-         else {
-             //document.getElementById('mssgresbox').innerHTML = 'Помилка!';
-         }
-        //console.log($("#tele_phone_call").val() + ", len = " + $("#tele_phone_call").val().length);
+
     });
 
     initialiseCart();
@@ -524,82 +543,105 @@ function initialiseCart() {
 
     $(".orderButton").click(function () {
         if(Cart.length!=0){
+            let form_anonim = document.querySelector("#buy-anonim-form")
 
-            let status = localStorage.getItem("status");
-            if(status) {
-                let id = localStorage.getItem("id");
 
-                let name = localStorage.getItem("name");
-                let surname = localStorage.getItem("surname");
-                let phone = localStorage.getItem("phone");
-                let settlement = localStorage.getItem("settlement");
+            let order_details = $("#description").val().trim()
+            let today = getCurrentDate();
 
-                let user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
+            let newCheck = {
+                total: allPrice,
+                purchase_date: today,
+                order_array: Cart
+            }
 
-                console.log(Cart)
-                console.log(Cart[0])
+            function callback(err, data) {
+                let user_info = "";
+                if(data.auth || window.getComputedStyle(document.querySelector(".row-col-anonim-wrapper"), null).display == "flex") {
+                    if (data.auth) {
+                        let user = data.user;
 
-                let order = "Замовлення\n";
-                for (let i = 0; i < Cart.length; i++) {
-                    let currency = ""
-                    //if (Cart[i].currency== "")
-                    if (Cart[i].url) {
-                        let url2 = "id: <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>" + "\n";
-                        order += url2
+                        newCheck["client_id"] = user.id;
+
+                        if (user.surname || user.name) {
+                            user_info += "Покупець:  " + user.surname + " " + user.name + "\n"
+                        }
+
+                        user_info += "Телефон : " + user.phone_number;
+                        if (user.settlement && user.nova_poshta_number) {
+                            user_info += "\nнас. пункт : " + user.settlement + ` № ${user.nova_poshta_number}`
+                        }
+                    } else {
+                        let data_form = new FormData(form_anonim);
+                        let user_name = data_form.get("name");
+                        let phone = data_form.get("phone");
+                        let location = data_form.get("location");
+                        let post_number = data_form.get("post_number")
+
+
+                        if (!validatePhone(phone)) {
+                            return alert("Перевірте введений номер телефону")
+                        }
+
+                        if (data_form.get("name")) user_info += "Покупець:  " + user_name + "\n"
+                        if (location.length >= 3 && Number.isInteger(Number(post_number))) {
+                            user_info += "\nнас. пункт : " + location + ` № ${post_number}`
+                        } else {
+                            return alert("Перевірте дані для доставки")
+                        }
+
+                        newCheck["anonim_user"] = JSON.stringify({name: user_name, phone, location, post_number })
                     }
-                    order += "назва: " + Cart[i].title + "\n";
-                    order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
-                    order += "кількість: " + Cart[i].quantity + " шт.\n\n";
-                }
-                console.log(order);
-                 //removeAll();
-                // alert("Дякуємо за замовлення! Найближчим часом ми з вами зв'яжемось.");
-                let today = getCurrentDate();
-                let message = user_info + "\n" + order;
 
-                //require("./API").sendMessage({message: message }, () => {})
+                    let order = "Замовлення\n";
+                    for (let i = 0; i < Cart.length; i++) {
+                        if (Cart[i].url) {
+                            //console.log(Cart[i].url)
 
+                            function encodeRFC3986URI(str) {
+                                return encodeURI(str)
+                                    .replace(/%5B/g, "[")
+                                    .replace(/%5D/g, "]")
+                                    .replace(
+                                        /[!'()*]/g,
+                                        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+                                    );
+                            }
+                            //console.log(decodeURI(Cart[i].url))
 
-                let check_id;
-                let newCheck = {
-                    client_id: id,
-                    total: allPrice,
-                    purchase_date: today,
-                    order_array: Cart
-                };
-                let check_technic;
-                function callback(error,data){
-                    if(data.error) {
-                        console.log(data.error);
+                            let url = Cart[i].url;//Cart[i].url.replaceAll("%", '\\'); //'=?UTF-8?B?'+new Buffer(subject).toString('base64')+'?='
+                            url = decodeURI(Cart[i].url);
+                            url = encodeRFC3986URI(url)
+                            let url2 = `id: <a href="${url}">${Cart[i].id}</a>\n`;
+                            order += url2
+                        }
+                        order += "назва: " + Cart[i].title + "\n";
+                        order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
+                        order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                     }
-                    else if(!(data.data[0]==null)){
-                        id = data.data[0].id;
+                    console.log(order);
 
-                        newCheck.client_id = id;
+                    let message = user_info + "\n" + order;
+                    if (order_details) message += `\n Деталі замовлення: ${order_details}`
 
-                        addCheck(newCheck,function (check_id) {
-                            document.location.href = API_URL + "/thank-you";
-                            //addCheckEquipments(check_id);
-                        });
+                    require("./API").sendMessage({message: message }, () => {
+                        // notify
+                        Notify('Дякуємо, замовлення отримано!', null, null, 'success' , 4)
+                    })
+
+
+                    addCheck(newCheck,function () {
                         removeAll();
-
-                    }
+                        //document.location.href = API_URL + "/thank-you";
+                    });
 
                 }
-                require("./API").getClientbyPhone(phone,callback);
-
-
+                else {
+                    console.log("here")
+                    document.querySelector(".row-col-anonim-wrapper").style.display = "flex"
+                }
             }
-            else {
-                $("#logged-user-err").css("display","block")
-                $("#basket-logged-user-register").click(function(){
-                    require('./profile/signup_form').openSignUpFormBasket();
-                });
-                $('#basket-logged-user-log-in').click(function() {
-                    require('./profile/login_form').openForm();
-                })
-
-            }
+            require("./API").isLogIn(callback)
         }
     });
 
@@ -615,7 +657,10 @@ function initialiseCart() {
 
 function addCheck(check,callback) {
     require("./API").addOrder(check, function (err, data) {
-        if (data.error) console.log(data.error);
+        if (data.error) {
+            callback(data.error)
+            console.log(data.error);
+        }
         else {
              callback(data.data.insertId);
         }
@@ -657,18 +702,17 @@ function updateCart() {
     $amount.append(amountOfOrders);
     $allPrice.html("");
     $allPrice.append(allPrice + " грн");
+    $('.label_main_count').text(Cart.length)
+
 
     if(Cart.length>0) {
-        console.log("len" + Cart.length)
-
         $('.circle-basket').text(Cart.length)
         $('#basket-not-empty').css("display", "block");
         $('#basket-empty').css("display", "none");
         $('.circle-basket').css("display", "block");
-
     }
     else {
-        $('#basket-empty').css("display", "block");
+        $('#basket-empty').css("display", "flex");
         $('#basket-not-empty').css("display", "none");
         $('.circle-basket').text("")
         $('.circle-basket').css("display", "none");
@@ -914,7 +958,9 @@ exports.initialiseCart = initialiseCart;
 exports.addToCart = addToCart;
 exports.removeFromCart = removeFromCart;
 exports.getTechnicsInCart = getTechnicsInCart;
-},{"./API":1,"./Templates":2,"./profile/login_form":8,"./profile/signup_form":9,"./values":12,"basil.js":14}],4:[function(require,module,exports){
+},{"./API":1,"./Templates":2,"./helpers":4,"./values":12,"basil.js":14}],4:[function(require,module,exports){
+
+
 exports.hideToggleModal = function () {
     $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
     $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
@@ -934,11 +980,24 @@ exports.showToggleModal = function () {
 
 exports.onSendMessageClick = function () {
     $(".send-message-one-ad").click( function (e) {
-        let form = new FormData(document.querySelector("#ask-question-one-ad"))
+        let ask_question_one_ad_form = document.querySelector("#ask-question-one-ad")
+        let form = new FormData(ask_question_one_ad_form)
         let phone = form.get("phone")
-        let message = form.get("message")
+        let message = form.get("message");
+        if(!validatePhone(phone)) {
+            Notify("Перевірте введений телефон")
+            return
+        }
+        if (message.trim().length < 5) {
+            Notify("Заповніть форму")
+            return
+        }
+        let text_message = "Від: " + phone + "\nСтосовно: " + $(".one-ad-header").text() + "\nПовідомлення: " + message;
 
-        require("./API").sendMessage({message: message }, () => {})
+        require("./API").sendMessage({message: text_message }, () => {
+            ask_question_one_ad_form.reset();
+            Notify('Повідомлення відправлено!', null, null, 'success' , 4)
+        })
     })
 }
 
@@ -946,23 +1005,146 @@ exports.clearMessageModal = function (selectorForm) {
     $(selectorForm).reset()
 }
 
-// if($( "#menuToggle .menu-wrapper-background" ).hasClass("toggleMenuLeftOpen")){
-//     $( "#menuToggle .menu-wrapper-background" ).removeClass("toggleMenuLeftOpen");
-//     $( "#menuToggle  .menuToggleSpans" ).removeClass("menuToggleSpanOpen");
-//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).removeClass("child-3");
-//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).removeClass("child-2");
-//     $( "body" ).removeClass("bodyOverflowHidden");
-// }
-// else {
-//     $( "body" ).addClass("bodyOverflowHidden");
-//     $( "#menuToggle .menu-wrapper-background" ).addClass("toggleMenuLeftOpen");
-//     $( "#menuToggle  .menuToggleSpans" ).addClass("menuToggleSpanOpen");
-//     $( "#menuToggle  .menuToggleSpans:nth-last-child(3)" ).addClass("child-3");
-//     $( "#menuToggle  .menuToggleSpans:nth-last-child(2)" ).addClass("child-2");
-// }
+validatePhone = function(phone) {
+    let reg = /^\+?3?8?(0[5-9][0-9]\d{7})$/
+    let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    if(phone.match(reg)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+exports.validatePhone = validatePhone
+
+exports.validateEmail = function(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+exports.passwordValidation = function(password) {
+    let arrError = [];
+    let re = /^\w+$/;
+    if(!re.test(password)) {
+        arrError.push("Пароль повинен містити тільки літери, цифри та нижнє підкреслення")
+        return arrError;
+    }
+
+    if(password != "") {
+        if (password.length < 5) {
+            arrError.push("Короткий пароль. Введіть довший пароль")
+            return arrError;
+        }
+    }
+
+    re = /[0-9]/;
+    if(!re.test(password)) {
+        arrError.push("Пароль повинен містити як мінімум одну цифру, літеру нижньго та верхнього регістру")
+        return arrError;
+    }
+
+    re = /[a-z]/;
+    if(!re.test(password)) {
+        arrError.push("Пароль повинен містити як мінімум одну цифру, літеру нижньго та верхнього регістру")
+        //arrError.push("Пароль повинен містити як мінімум одну літеру нижнього регістру")
+        return arrError;
+    }
+
+    re = /[A-Z]/;
+    if(!re.test(password)) {
+        arrError.push("Пароль повинен містити як мінімум одну цифру, літеру нижньго та верхнього регістру")
+        return arrError;
+    }
+    return arrError;
+}
+
+function Notify(text, callback, close_callback, style, seconds) {
+    // 4 types  :  danger, warning, info, success (default is warning)
+    let time = "2000";
+    if(seconds) time = seconds * 1000;
+
+    var $container = $('#notifications');
+    var icon = '<i class="fa fa-info-circle " aria-hidden="true"></i>';
+
+    if (typeof style == 'undefined' ) style = 'warning'
+
+    var html = $('<div class="alert alert-' + style + '  hide">' + icon +  " " + text + '</div>');
+
+    $('<a>',{
+        text: '×',
+        class: 'button close',
+        style: 'margin-left: 10px;',
+        href: '#',
+        click: function(e){
+            e.preventDefault()
+            close_callback && close_callback()
+            remove_notice()
+        }
+    }).prependTo(html)
+
+    $container.prepend(html)
+    html.removeClass('hide').hide().fadeIn('slow')
+
+    function remove_notice() {
+        html.stop().fadeOut('slow').remove()
+    }
+
+    var timer =  setInterval(remove_notice, time);
+
+    $(html).hover(function(){
+        clearInterval(timer);
+    }, function(){
+        timer = setInterval(remove_notice, time);
+    });
+
+    html.on('click', function () {
+        clearInterval(timer)
+        callback && callback()
+        remove_notice()
+    });
+
+}
+
+exports.Notify = Notify
+
+exports.getUrlParameter = function(sParam) {
+    let sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+
+exports.toMainPageBreadcrumb = function () {
+    return `<li>
+        <a href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <g clip-path="url(#clip0_147_2554)">
+                    <path
+                        d="M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z"
+                        stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 19.2856V13.5713" stroke="#2F9321" stroke-width="1.71429" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_147_2554">
+                        <rect width="20" height="20" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+    </li>`
+}
 },{"./API":1}],5:[function(require,module,exports){
 var Templates = require('../Templates');
-
+let {toMainPageBreadcrumb , getUrlParameter} = require("../helpers")
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
 var $categories =   $('.categories');
@@ -980,90 +1162,56 @@ let equipments_per_page = 12;
 var equipments_showed = 0;
 
 function initilizebreadcrumbEquipmentCategory(){
-    if(!document.location.href.includes("combine_details")) {
+    // if(!document.location.href.includes("combine_details")) {
+
         $("#breadcrumb").empty();
         let curCategory = localStorage.getItem('current_category_equipments');
         let curType = eq[curCategory] ? eq[curCategory] : curCategory;
-        //console.log(eq[curCategory]);
+        let crums = toMainPageBreadcrumb();
+        crums +=
+            `<li>
+                <a class='seturl' href="/category_equipments">
+             <span>Запчастини</span></a>
+            </li>`;
+        crums +=
+            `<li class='current'>
+            <a class='seturl-last' 
+                href="/category_equipments/category?name=${curCategory}">
+                 <span>${curType}</span></a>
+              </li>`;
 
-        if ($(window).width() < 500 && (document.referrer != "" && document.referrer != document.location.href)) {
-            $("#breadcrumb").addClass("breadcrumb-mobile");
-
-            let crums = " <li class='back_breadcrumb'>\n" +
-                "        <a class='seturl' href='http://tracktop.com.ua/category_equipments'>\n" +
-                "            <span >Назад</span></a>\n" +
-                "    </li>\n";
-            $("#breadcrumb").append(crums);
-
-        } else if ($(window).width() < 500) {
-            $("#breadcrumb").empty();
-        } else {
-            let crums = " <li>\n" +
-                "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
-                "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
-                "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
-                "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
-                "  </g>\n" +
-                "  <defs>\n" +
-                "    <clipPath id=\"clip0_147_2554\">\n" +
-                "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
-                "    </clipPath>\n" +
-                "  </defs>\n" +
-                "</svg>\n" +
-                "            <span class=\"sr-only\">Головна</span></a>\n" +
-                "    </li>\n";
-            crums +=
-                " <li>\n" +
-                "        <a class='seturl' href=\"http://tracktop.com.ua/category_equipments\">\n" +
-                "            <span>Запчастини</span></a>\n" +
-                "    </li>\n";
-            crums +=
-                " <li class='current'>\n" +
-                "        <a class='seturl-last' href=\"http://tracktop.com.ua/category_equipments/category?name=" + curCategory +
-                "\">\n" +
-                "            <span>" + curType + "</span></a>\n" +
-                "    </li>\n";
-
-            $("#breadcrumb").append(crums);
-        }
-    }
+        $("#breadcrumb").append(crums);
+        //}
+    //}
 }
 
 function initializeBreadcrumbMarks(mark) {
-    let curCategory = localStorage.getItem('current_category_equipments');
+    // let curCategory = localStorage.getItem('current_category_equipments');
     if(document.location.href.toString().includes("combine_details")) {
-        if($(window).width() > 768) {
-            initilizebreadcrumbEquipmentCategory();
-            let h = $(".current");
-            h.addClass("seturl").removeClass("current");
-            let crums =
-                " <li class='current'>\n" +
-                "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
-                "            <span>" + mark + "</span></a>\n" +
-                "    </li>\n";
-            //let curCategory = localStorage.getItem('current_category_equipments');
-            $("#breadcrumb").append(crums);
-            $(".seturl-last").attr("href", API_URL + "/category_equipments/category/combine_details/" + mark);
-        }
-        else {
-            $(".seturl").attr("href", API_URL + "/category_equipments/category?name=" + curCategory);
-        }
+        initilizebreadcrumbEquipmentCategory(mark);
+        let h = $(".current");
+        h.addClass("seturl").removeClass("current");
+        h.find("a").removeClass("seturl-last");
+        let crums =
+            " <li class='current'>\n" +
+            "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
+            "            <span>" + mark + "</span></a>\n" +
+            "    </li>\n";
+        //let curCategory = localStorage.getItem('current_category_equipments');
+        $("#breadcrumb").append(crums);
+        $(".seturl-last").attr("href", API_URL + "/category_equipments/category/combine_details/" + mark);
     }
-
-
 }
 
 function showTechnicsWithoutCategory(list) {
 
-        let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
-            "            <span class=\"sr-only\">Головна</span></a>\n" +
-            "    </li>\n";
-            crums +=
-                " <li class='current'>\n" +
-                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-                "            <span>" + 'Техніка' + "</span></a>\n" +
-                "    </li>\n";
+    let crums = toMainPageBreadcrumb();
+
+    crums +=
+            `<li class='current'>
+                <a class='seturl' href="/"">
+            <span>Техніка</span></a>
+            </li>`
         $("#breadcrumb").append(crums);
         let a = ($(".seturl").length - 1);
         $(".seturl").attr("href", document.location.href);
@@ -1077,11 +1225,11 @@ function showTechnicsWithoutCategory(list) {
     function showOne(type) {
         //console.log(type);
         type.url = API_URL+"/technics-without-category/"+type.id;
-        let main_photo_location = JSON.parse(type.photos)[0].val;
-        type.main_photo_location = main_photo_location ? main_photo_location : "default_technic.jpg"
+        let main_photo_location = JSON.parse(type.photos) || [];
+        type.main_photo_location = main_photo_location ? main_photo_location[0] : "default_technic.jpg"
 
-        var html_code = Templates.technicWithoutCategory({technic: type});
-        var $node = $(html_code);
+        let html_code = Templates.technicWithoutCategory({technic: type});
+        let $node = $(html_code);
 
         $node.click(function () {
 
@@ -1104,7 +1252,6 @@ function showTechnicsWithoutCategory(list) {
     list.forEach(showOne);
 }
 
-
 function showTechnics(list) {
 
     let curType = localStorage.getItem('currentTypeOfTechnics');
@@ -1112,34 +1259,14 @@ function showTechnics(list) {
 
     if (curType == null && curMark == null) {} else {
 
-        let crums = " <li>\n" +
-            "        <a href=\"http://tracktop.com.ua\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\">\n" +
-            "  <g clip-path=\"url(#clip0_147_2554)\">\n" +
-            "    <path d=\"M19.2858 9.91387C19.2872 9.71557 19.2473 9.51915 19.1686 9.33713C19.0899 9.15512 18.9741 8.9915 18.8287 8.85672L10.0001 0.713867L1.17153 8.85672C1.02614 8.99156 0.910406 9.15518 0.831703 9.33718C0.752999 9.51919 0.713046 9.71558 0.714388 9.91387V17.8567C0.714388 18.2356 0.864898 18.599 1.13281 18.8669C1.40072 19.1348 1.76408 19.2853 2.14296 19.2853H17.8572C18.2361 19.2853 18.5995 19.1348 18.8674 18.8669C19.1353 18.599 19.2858 18.2356 19.2858 17.8567V9.91387Z\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
-            "    <path d=\"M10 19.2856V13.5713\" stroke=\"#2F9321\" stroke-width=\"1.71429\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n" +
-            "  </g>\n" +
-            "  <defs>\n" +
-            "    <clipPath id=\"clip0_147_2554\">\n" +
-            "      <rect width=\"20\" height=\"20\" fill=\"white\"/>\n" +
-            "    </clipPath>\n" +
-            "  </defs>\n" +
-            "</svg>\n" +
-            "            <span class=\"sr-only\">Головна</span></a>\n" +
-            "    </li>\n";
-        if (curType) crums +=
-            " <li class='current'>\n" +
-            "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-            "            <span>" + curType + "</span></a>\n" +
-            "    </li>\n";
-        else {
-            crums +=
-                " <li class='current'>\n" +
-                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
-                "            <span>" + curMark + "</span></a>\n" +
-                "    </li>\n";
-        }
+        let crums = toMainPageBreadcrumb();
+        crums +=
+            `<li class='current'>
+                <a class='seturl' href="/">
+                <span>${curMark ? curMark : curType}</span></a>
+             </li>`;
+
         $("#breadcrumb").append(crums);
-        let a = ($(".seturl").length - 1);
         $(".seturl").attr("href", document.location.href);
     }
 
@@ -1151,20 +1278,18 @@ function showTechnics(list) {
     }
     function showOne(type) {
         //console.log(type);
-        type.url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name+ '&number_id='+type.id;
-        var html_code = Templates.technicInList({technic: type});
-        var $node = $(html_code);
 
-        var model = $node.find('.model_').html();
-        var mark = $node.find('.mark_technic').html();
-        var typ = localStorage.getItem('currentTypeOfTechnics');
+        let url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name+ '&number_id='+type.id;
+        type.url = url;
+        let html_code = Templates.technicInList({technic: type});
+        let $node = $(html_code);
 
-        var s = type.type_name;
+        let model = $node.find('.model_').html();
+        let mark = $node.find('.mark_technic').html();
+        let typ = localStorage.getItem('currentTypeOfTechnics');
 
-        //console.log("s = "+ s );
-       // var typ = $node.find('.type_h2').html();
-//console.log(typ);
-        //console.log("model:" + model+ " mark = "+ mark + "type  = " + typ);
+        let s = type.type_name;
+
 
         $node.click(function (e) {
             //console.log("type"+ type);
@@ -1181,7 +1306,7 @@ function showTechnics(list) {
                 amount: type.amount,
                 description: type.description
             }));
-            document.location.href = API_URL+"/technic?model="+model+"&mark="+mark+'&type='+type.type_name + '&number_id='+type.id;;
+            document.location.href = url;
         });
 
         $technics.append($node);
@@ -1190,7 +1315,6 @@ function showTechnics(list) {
     list.forEach(showOne);
 
     $(".write-message-card").click(function (e){
-         console.log("here")
         e.stopImmediatePropagation()
         e.stopPropagation()
         e.preventDefault();
@@ -1266,9 +1390,10 @@ exports.initializeTechnics = function(){
                 let one_technicCard = `<a class="tab-technic-menu-item ${tp1 == item.name ? "active" : ""}" href="/technics?type=${item.name}" >${item.name}</a>`
                 category_slider.append(one_technicCard)
             })
+            let one_technicCard = `<a class="tab-technic-menu-item ${tp1 == "Інша техніка" ? "active" : ""}" href="/technics-without-category" >Інша техніка</a>`
+            category_slider.append(one_technicCard)
         })
 }
-
 
 
 function showEquipments(list , className , per_page, filter) {
@@ -1279,7 +1404,7 @@ function showEquipments(list , className , per_page, filter) {
         $searchedEquipments.html("");
     if (list.length === 0 && filter.toString().trim() == "") {
         //TODO: templ for empty result
-        $("#nothing_found").text("Категорія поки не запонена. Напишіть нам або подзвоніть, щоб зробити замовлення");
+        $("#nothing_found").text("Категорія поки не заповнена. Напишіть нам або подзвоніть, щоб зробити замовлення");
         $("#description_technic_equipment").css("display", "block");
         return;
     } else if (list.length === 0) {
@@ -1353,7 +1478,7 @@ function showEquipments(list , className , per_page, filter) {
         e.stopPropagation()
         e.preventDefault();
         let card =  e.target.closest(".oneTechnic");
-        console.log(card)
+        // console.log(card)
         let equipment = $(card).data("json");
         require('../basketPage').addToCart({
             id: equipment.id,
@@ -1362,12 +1487,15 @@ function showEquipments(list , className , per_page, filter) {
             price: equipment.price,
             currency: equipment.currency,
             icon: equipment.main_photo_location,
+            status: equipment.status,
+            state: equipment.state,
+            vendor_code: JSON.parse(equipment.vendor_code),
             quantity: 1,
             url: equipment.url,
             isTech: false
         });
 
-        require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+        require('../pagesScripts/notify').Notify("Товар додано. Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
     })
 
@@ -1420,19 +1548,21 @@ exports.initializeEquipments = function(){
     let currCategory = paramCategory;
     localStorage.setItem("current_category_equipments", currCategory);
     initilizebreadcrumbEquipmentCategory();
+
     function callback1(err,data) {
         if(data.error) console.log(data.error);
         else {
            data.data.forEach(function (item) {
                if(item.category_name == currCategory && currCategory!="Запчастини до комбайнів" ) {
                    function callback(err,data) {
-                       if(data.error) console.log(data.error);
+                       if(data.error) {
+                           console.log(data.error);
+                       }
                        equipmentsByCategory = data.data;
 
                        filterSelectionEquipments(data.data.length);
                        lazyLoad();
                    }
-
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
                }
                else if(currCategory=="Запчастини до комбайнів" && !document.location.href.toString().includes("combine_details")) {
@@ -1468,15 +1598,21 @@ exports.initializeEquipments = function(){
            })
         if(document.location.href.toString().includes("combine_details")) {
                 let model = getModelEquipments()
-                //console.log(model);
-            // let param = document.location.href.toString().split("/");
-            //     param.slice(0,param.length-1)
-            // let model = (param[param.length-1].replace("%20"," "));
-            // let base_url =
+                let mark = getMarkEquipment(2);
+                initializeBreadcrumbMarks(mark)
+
+                let h = $(".current");
+                h.addClass("seturl").removeClass("current");
+                h.find("a").removeClass("seturl-last");
+                let crums =
+                    `<li class='current'>
+                        <a class='seturl-last' href="${API_URL + '/category_equipments/category/combine_details/' + mark + '/' + model}">
+                              <span>${model}</span></a>
+                    </li>`;
+                $("#breadcrumb").append(crums);
+
                 require("../API").getEquipmentsByModal(model, callback2);
 
-
-                //require('./db').get_technic_by_type_model_mark(type,mark,model,
                 function callback2(error, data) {
 
                     if (error) {
@@ -1484,6 +1620,8 @@ exports.initializeEquipments = function(){
                     } else {
                         //console.log(data.data);
                         equipmentsByCategory = data.data;
+                        console.log(equipmentsByCategory)
+
                         filterSelectionEquipments(equipments_per_page);
                         lazyLoad();
                     }
@@ -1493,8 +1631,6 @@ exports.initializeEquipments = function(){
         }
     }
     require("../API").get_equipments_categories(callback1);
-
-
 }
 
 function showCategories(list) {
@@ -1529,15 +1665,12 @@ exports.initializeCategories = function(){
         document.location.href = API_URL+"/category_equipments/category?name="+ next ;
     });
 
-    let crums = " <li>\n" +
-        "        <a href=\"http://tracktop.com.ua\"><i class=\"fa fa-home\"></i>\n" +
-        "            <span class=\"sr-only\">Головна</span></a>\n" +
-        "    </li>\n";
+    let crums = toMainPageBreadcrumb()
     crums +=
-        " <li class='current'>\n" +
-        "        <a class='seturl' href=\"http://tracktop.com.ua/category_equipments\">\n" +
-        "            <span>Запчастини</span></a>\n" +
-        "    </li>\n";
+         `<li class='current'>
+         <a class='seturl' href="/category_equipments">
+            <span>Запчастини</span></a>
+         </li>`;
 
 $("#breadcrumb").append(crums);
 
@@ -1559,16 +1692,13 @@ function showMarks(list) {
 
     $marks.html("");
     if(list.length===0) {
-        // $equipments.append("Нічого не знайдено");
-        //TODO: templ for empty result
         $(".nothing_found").css("display","block");
         return;
     }
     function showOneMark(mark) {
         mark.url = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
-        var html_code = Templates.oneMark({mark: mark});
-        var $node = $(html_code);
-        //console.log(mark);
+        let html_code = Templates.oneMark({mark: mark});
+        let $node = $(html_code);
 
         $node.click(function () {
             //localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
@@ -1580,27 +1710,35 @@ function showMarks(list) {
 
     list.forEach(showOneMark);
 }
+
+exports.initializeMarks = function () {
+    $(".oneCategoryMark").click(function (e) {
+        let url = $(e.target).closest(".oneCategoryWrapper").data("url")
+        document.location.href = API_URL + url ;
+    });
+}
 exports.initializeModels = function () {
     localStorage.setItem("current_category_equipments", "Запчастини до комбайнів");
 
     let l = [];
     let str = "<ul style='margin-top: 10px'>";
     let loc = document.location.href.toString();
-    let param = loc.split("/");
-    let mark = (param[param.length-1].replace("%20"," "));
-    while (mark.includes("%20")) mark = mark.replace("%20"," ");
-    //initializeBreadcrumbMarks(mark);
-    if(mark) {
+    let mark = getMarkEquipment();
+    console.log(mark)
+    let marks = ["Massey Ferguson", "John Deere", "Claas"]
+    if(mark && marks.includes(mark)) {
         function callback(err, data) {
             if (data.error) console.log(data.error);
-            data.data.forEach(function (item) {
-                l.push({model: item.model, mark: mark});
-                let model_location = loc.endsWith('/') ? loc + item.model : loc + '/' + item.model;
-                str+="<li class='font-sm'><a href='" + model_location + "'><p>Запчастини до комбайна " + mark + " " + item.model + "</p></a></li>"
-            })
-            showModels(l);
-            //if(data.data.length > 0 )initializeBreadcrumbMarks(mark);
-            $('#text_models').append("<br> Ми пропонуємо: " + str + "</ul>");
+            else {
+                 initializeBreadcrumbMarks(mark);
+                data.data.forEach(function (item) {
+                    l.push({model: item.model, mark: mark});
+                    let model_location = loc.endsWith('/') ? loc + item.model : loc + '/' + item.model;
+                    str += "<li class='font-sm'><a href='" + model_location + "'><p>Запчастини до комбайна " + mark + " " + item.model + "</p></a></li>"
+                })
+                showModels(l);
+                $('#text_models').append("<br> Ми пропонуємо: " + str + "</ul>");
+            }
 
         }
 
@@ -1612,21 +1750,20 @@ function showModels(list) {
 
     $models.html("");
 
-    function showOneMark(model) {
+    function showOneModel(model) {
         model.url = document.location.href +"/"+ model.model ;
         var html_code = Templates.oneModel({model: model});
         var $node = $(html_code);
 
 
         $node.click(function () {
-            //localStorage.setItem("current_category_equipments", "df");
             document.location.href = document.location.href +"/"+ model.model ;
         });
 
         $models.append($node);
     }
 
-    list.forEach(showOneMark);
+    list.forEach(showOneModel);
 }
 
 filterSelectionEquipments = function(per_page) {
@@ -1650,27 +1787,12 @@ filterSelectionEquipments = function(per_page) {
     }
 }
 
-getUrlParameter = function(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-};
-
 
 let eq = {
     "Запчастини до комбайнів": "Комбайни",
-    "Запчастини до тракторів":"Трактори",
-    "Запчастини до сівалок":"Сівалки",
-    "Запчастини до пресів-підбирачів":"Преси-підбирачі"
+    "Запчастини до тракторів": "Трактори",
+    "Запчастини до сівалок": "Сівалки",
+    "Запчастини до пресів-підбирачів": "Преси-підбирачі"
 }
 
 getModelEquipments = function() {
@@ -1681,6 +1803,12 @@ getModelEquipments = function() {
     //$("#breadcrumb").empty();
     while (model.includes("%20")) model = model.replace("%20"," ");
     return model;
+}
+
+getMarkEquipment = function(from_page = 1) {
+    let param = document.location.href.toString().split("/");
+    let mark = (param[param.length - from_page].replaceAll("%20"," "));
+    return mark;
 }
 
 lazyLoad = function() {
@@ -1701,7 +1829,7 @@ openPage = function(base_url, page,) {
 
 
 
-},{"../API":1,"../Templates":2,"../basketPage":3,"../pagesScripts/notify":7,"../profile/signup_form":9,"../values.js":12}],6:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../basketPage":3,"../helpers":4,"../pagesScripts/notify":7,"../profile/signup_form":9,"../values.js":12}],6:[function(require,module,exports){
 var Templates = require('../Templates');
 
 var $technics =   $('.vertical-menu-technics');
@@ -1800,8 +1928,8 @@ exports.initialize = function(){
 
 toggleLeftPanel = function () {
     let isLogin = false;
-    function callback(err, value) {
-        if(value) {
+    function callback(err, data) {
+        if(data.auth) {
             isLogin = true;
             $(".is-login").show();
         } else {
@@ -1818,17 +1946,16 @@ toggleLeftPanel = function () {
     }
     require("../API").isLogIn(callback)
 
-
-
-    // if(opened) $( "body" ).addClass("bodyOverflowHidden");
-    // else  $( "body" ).removeClass("bodyOverflowHidden");
+    $(".menu-wrapper-background").click(function (e) {
+        if (!$(event.target).closest('#menu').length) {
+            hideToggleModal()
+        }
+    })
 }
 
 
 },{"../API":1,"../Templates":2,"../helpers":4,"../values.js":12}],7:[function(require,module,exports){
-exports.Notify = function(text, callback, close_callback, style,seconds) {
-
-
+exports.Notify = function(text, callback, close_callback, style, seconds) {
     // 4 types  :  danger, warning, info, success (default is warning)
     let time = "2000";
     if(seconds) time = seconds * 1000;
@@ -1881,9 +2008,20 @@ let {hideToggleModal} = require("../helpers")
 let user_info_dispalyed = false;
 
 exports.openForm = function() {
+
+    document.addEventListener("click", function (event) {
+        if (!$(event.target).closest('#user_info').length) {
+            if (user_info_dispalyed) {
+                $('#user_info').hide();
+                user_info_dispalyed = false;
+            }
+        }
+    });
+
+
     let isLogin = false;
-    function callback(err, value) {
-        if(value) {
+    function callback(err, data) {
+        if(data.auth) {
             isLogin = true;
             userInfo();
         } else {
@@ -1892,9 +2030,6 @@ exports.openForm = function() {
 
     }
     require("../API").isLogIn(callback)
-
-    // document.getElementById("myForm").style.display = "block";
-
 }
 
 toggleModal = function(selector) {
@@ -1905,7 +2040,8 @@ toggleModal = function(selector) {
 userInfo = function() {
     if(user_info_dispalyed) {
     document.getElementById("user_info").style.display = "none";
-        user_info_dispalyed = false;}
+        user_info_dispalyed = false;
+    }
     else {
         document.getElementById("user_info").style.display = "block";
         user_info_dispalyed = true;
@@ -1913,7 +2049,6 @@ userInfo = function() {
 }
 
 exports.userInfo = userInfo;
-
 
 exports.login = function(){
     $('#log_in_btn').click(function() {
@@ -1925,39 +2060,33 @@ exports.login = function(){
             phone_number: phone,
             password: password
         }, function (err,data) {
-                    if(data.error) {
-                        console.log(data.error);
-                        alert( "Невірний пароль" );
-                    }
-                    else if(!(data.data[0]==null)){
-                        // console.log(data.data[0].token)
-                        localStorage.setItem('status',true);
-                        localStorage.setItem('id',data.data[0].id);
-                        localStorage.setItem('name',data.data[0].name);
-                        localStorage.setItem('surname',data.data[0].surname);
-                        localStorage.setItem('phone',data.data[0].phone_number);
-                        localStorage.setItem('settlement',data.data[0].settelment);
-                        localStorage.setItem('photo',data.data[0].photo_location);
-                        toggleModal("#login-modal");
-                        hideToggleModal()
-                        require('./user_form').isLogged();
-                    }
-                    else if(!(data==null)){
-                        console.log(data.data.token)
-                        localStorage.access_token = data.data.token;
-                        localStorage.setItem('status',true);
-                        localStorage.setItem('id',data.data.id);
-                        localStorage.setItem('name',data.data.name);
-                        localStorage.setItem('surname',data.data.surname);
-                        localStorage.setItem('phone',data.data.phone_number);
-                        localStorage.setItem('settlement',data.data.settelment);
-                        localStorage.setItem('photo',data.data.photo_location);
-                        toggleModal("#login-modal");
-                        hideToggleModal()
-                        require('./user_form').isLogged();
-                    }
-        });
+            if (data.error) {
+                console.log(data.error);
+                alert("Помилка. Перевірте введені дані");
+            }
+            else {
 
+                let loc = document.location.href;
+                if (loc.includes("/basket")) {
+                    document.querySelector(".row-col-anonim-wrapper").style.display = "none"
+                }
+
+                console.log(data);
+
+                if (!(data == null)) {
+                    localStorage.setItem('status', true);
+                    localStorage.setItem('id', data.data.id);
+                    localStorage.setItem('name', data.data.name);
+                    localStorage.setItem('surname', data.data.surname);
+                    localStorage.setItem('phone', data.data.phone_number);
+                    localStorage.setItem('settlement', data.data.settelment);
+                    localStorage.setItem('photo', data.data.photo_location);
+                    toggleModal("#login-modal");
+                    hideToggleModal()
+                    require('./user_form').isLogged();
+                }
+            }
+        })
     });
 }
 
@@ -1965,89 +2094,96 @@ exports.login = function(){
 
 },{"../API":1,"../helpers":4,"./user_form":10}],9:[function(require,module,exports){
 const modal = document.getElementById('register-modal');
-const model_message = document.getElementById('messageModal');
 
-function openSignUpForm() {
-    modal.style.display='block';
-}
 const Templates = require('../Templates');
 
 let $reviews =   $('#reviews');
 let values = require('../values.js');
 const API_URL = values.url;
-let {clearMessageModal} = require("../helpers")
+let {clearMessageModal , Notify, validatePhone, passwordValidation, hideToggleModal} = require("../helpers")
 
 
 exports.initializeLogin = function(){
-    $('#signup').click(function() {
-        $('#myForm').css("display", "none");
-        openSignUpForm();
-        addClient();
-    });
+    $('#signup_btn').click(function() {
+        let [isValid, error] = checkValidation();
+        //console.log(isValid, error)
+        let name = $('#register-modal input[name=name]')[0].value;
+        let surname = $('#register-modal input[name=surname]')[0].value;
+        let phone = $('#register-modal input[name=phone]')[0].value;
+        let password = $('#register-modal input[name=psw]')[0].value;
+        let address = $('#register-modal input[name=location]')[0].value;
+        let email = $('#register-modal input[name=email]')[0].value;
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (isValid) {
+            function callback(error,data){
+                if(data.error) {
+                    alert( "Виникла помилка" );
+                }
+                else if(!(data.data[0]==null)){
+                    Notify("Вже існує користувач з таким телефоном")
+                }
+                else {
+                    let newT = {
+                        surname: surname,
+                        name: name,
+                        phone_number: phone,
+                        settelment: address,
+                        email: email,
+                        hash: password
+                    }
+                    // console.log(newT);
+                    require("../API").addClient(newT, function (err, data) {
+                        console.log(err , data)
+                        if (data.error) {
+                            Notify("Виникла помилка, перевірте дані або спробуйте пізніше")
+                        }
+                        else {
+                            $("#register-modal").modal("toggle");
+                            hideToggleModal()
+                            Notify("Вітаю! Профіль створено, тепер вам потрібно увійти")
+                        }
+                    });
+                }
+            }
+            require("../API").getClientbyPhone(phone,callback);
         }
-    }
+        else {
+                Notify(error)
+            }
+
+    });
 }
 
-let $name = $('#register-modal input[name=name]')[0];
-let $surname = $('#register-modal input[name=surname]')[0];
-let $phone = $('#register-modal input[name=phone]')[0];
-let $password = $('#register-modal input[name=psw]')[0];
-let $address = $('#register-modal input[name=location]')[0];
-let $email = $('#register-modal input[name=email]')[0];
-
 checkValidation = function(){
-    let name = $name.value;
-    let surname = $surname.value;
+    let $name = $('#register-modal input[name=name]')[0];
+    let $surname = $('#register-modal input[name=surname]')[0];
+    let $phone = $('#register-modal input[name=phone]')[0];
+    let $password = $('#register-modal input[name=psw]')[0];
+    let $address = $('#register-modal input[name=location]')[0];
+    let $email = $('#register-modal input[name=email]')[0];
+
+
     let phone = $phone.value;
     let password = $password.value;
-    let address = $address.value;
 
-    if (name.value == "")
-    {
-        name.focus();
-        return false;
+    if(!validatePhone(phone)) {
+        $phone.focus();
+        return [false, "Перевірте введений телефон"];
     }
 
-    if (address.value == "")
-    {
-        address.focus();
-        return false;
+    if(passwordValidation(password).length >= 1) {
+        $password.focus();
+        return [false, passwordValidation(password)[0]];
     }
 
-  /*  /^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/
+    // let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    // if(!phoneno.test(phone)) {
+    //     alert("Введіть дісний номер\n" +
+    //         "Приклад 093-345-3456");
+    //     return false;
+    // }
 
-        '123-345-3456';
-    '(078)789-8908';
-    '(078) 789-8908';
-    */
-    let phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    if(!phoneno.test(phone)) {
-        alert("Введіть дісний номер\n" +
-            "Приклад 093-345-3456");
-        return false;
-    }
-
-    let regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{4,16}$/;
-
-    if (password.length < 4 )
-    {
-        window.alert("Слабкий пароль");
-        password.focus();
-        return false
-    }
-
-    if(!regularExpression.test(password)) {
-        alert("Пароль повинен містити як мінімум 1 цифру та 1 спеціальний символ");
-        return false;
-    }
-
-    return true;
+    return [true, null];
 }
 
 checkMessageForm = function () {
@@ -2093,42 +2229,6 @@ checkMessageForm = function () {
     return true;
 }
 
-function addClient(){
-    $('#signup_btn').click(function() {
-        document.getElementById('register-modal').style.display='none'
-       // if (checkValidation()) {
-        let name = $name.value;
-        let surname = $surname.value;
-        let phone = $phone.value;
-        let password = $password.value;
-        let address = $address.value;
-        let email = $email.value;
-
-        let newT = {
-            surname: surname,
-            name: name,
-            phone_number: phone,
-            settelment: address,
-            email: email,
-            hash: password
-        }
-       // console.log(newT);
-        require("../API").addClient(newT, function (err, data) {
-            if (data.error) console.log(data.error);
-            else {
-                //TODO: сделать вызов авторизации
-                localStorage.setItem('status',true);
-                localStorage.setItem('name',name);
-                localStorage.setItem('surname',surname);
-                localStorage.setItem('phone',phone);
-                localStorage.setItem('settlement',address);
-                require('./user_form').isLogged();
-            }
-        });
-       // }
-
-    });
-}
 
 exports.sendMessageCardHandler = function () {
     $(".write-message-card").click(function (e) {
@@ -2175,7 +2275,6 @@ openMessageModal = function ({productId, productTitle, url } = {}) {
     $('#messageModal').modal('show');
    // $('#messageModal').on('shown.bs.modal', function(e) {
     $('#user_info').css("display", "none");
-    $('#myForm').css("display", "none");
     $('#messageModal').attr("data-productId", productId)
     $('#messageModal').attr("data-productTitle", productTitle)
     $('#messageModal').attr("data-url", url)
@@ -2185,9 +2284,9 @@ openMessageModal = function ({productId, productTitle, url } = {}) {
     if(status) {
         let name = localStorage.getItem("name");
         let surname = localStorage.getItem("surname");
-
-        $("#username_messageForm").val(name+" "+ surname);
-        $("#username_messageForm").attr("disabled", true);
+        if (name || surname) {
+            $("#username_messageForm").val(name+" "+ surname);
+        }
         $("#phone_messageForm").val(localStorage.getItem("phone"));
         $("#phone_messageForm").attr("disabled", true);
         $("#message").val("");
@@ -2425,17 +2524,6 @@ $(function(){
         initializeReviews();
 });
 
-//
-// showAllReviews = function () {
-//     function callback(err,data) {
-//         data.data.forEach(function(item){
-//             if(item.show)
-//
-//         });
-//
-//     }
-//     require("../API").getReviews(callback);
-// }
 
 function showReviews(list) {
 
@@ -2453,7 +2541,7 @@ function showReviews(list) {
 
 initializeReviews = function(){
 
-    var l=[];
+    let l=[];
 
     require("../API").getReviews(function (err,data) {
         if(data.error) console.log(data.error);
@@ -2465,23 +2553,7 @@ initializeReviews = function(){
 
 }
 
-
-openSignUpFormBasket = function() {
-    $('#myForm').css("display", "none");
-    openSignUpForm();
-    addClient();
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-}
-
-exports.openSignUpFormBasket = openSignUpFormBasket
-
-},{"../API":1,"../Templates":2,"../helpers":4,"../values.js":12,"./user_form":10,"messaging-api-telegram":21}],10:[function(require,module,exports){
+},{"../API":1,"../Templates":2,"../helpers":4,"../values.js":12,"messaging-api-telegram":21}],10:[function(require,module,exports){
 let values = require('../values.js');
 let API_URL = values.url;
 let { hideToggleModal} = require("../helpers")
@@ -2492,6 +2564,7 @@ exports.isLogged = function () {
     let status = localStorage.getItem('status');
     let phone = localStorage.getItem('phone');
     let photo_location = localStorage.getItem("photo");
+
     if(status) {
         // add info to panel
         $('.menu-user-name').html(surname + " " + name);
@@ -2517,8 +2590,6 @@ exports.openLogin = function(){
 
 exports.deleteInfoFromLocalStorage = function() {
     require("../API").logOut( function (err, data) {
-        console.log(err)
-        console.log(data)
         if(!err) {
             localStorage.removeItem("status");
             localStorage.removeItem("phone");
@@ -2531,6 +2602,7 @@ exports.deleteInfoFromLocalStorage = function() {
             $('#user_info').css("display", "none");
             hideToggleModal();
             require("./user_form").isLogged();
+            document.location.href = '/'
         }
 
     });
@@ -2542,15 +2614,20 @@ function  initialize() {
 }
 
 function  initializeModels() {
+    // try to fix
     require('../pagesScripts/addTechnics').initializeModels();
 }
 
 
-///
+
+
 $(function(){
     $('#logo').click(function () {
-        document.location.href = "http://tracktop.com.ua/";
+        document.location.href = "/";
     })
+
+    require('../pagesScripts/addTechnics').initializeMarks();
+
 
     require('../basketPage').initialiseBasket();
 
@@ -2558,9 +2635,6 @@ $(function(){
         require('../profile/login_form').openForm();
     })
 
-    $('.cancel').click(function() {
-        require('../profile/login_form').closeForm();
-    })
 
     $('#user_photo').click(function() {
         require('../profile/login_form').userInfo();
@@ -2570,23 +2644,16 @@ $(function(){
         require('../profile/user_form').deleteInfoFromLocalStorage();
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
-        document.location.href = API_URL;
-
     })
 
     require('../profile/signup_form').initializeLogin();
     require('../pagesScripts/leftPanel').initialize();
 
-   // initialize();
     require('../profile/login_form').login();
 
     require('../profile/user_form').isLogged();
     require('../profile/signup_form').openSubscribeModal();
 
-
-    $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua/profile";
-    })
 
     initialize();
     initializeModels();

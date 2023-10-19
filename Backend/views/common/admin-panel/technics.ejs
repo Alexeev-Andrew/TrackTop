@@ -58,7 +58,6 @@
                 <a id="technic_url" href="#" target="_blank">Переглянути</a>
             </div>
             <span class="form-group">
-<!--    <label for="sel1">Тип</label>-->
 
                 <div class="one-row-admin-panel">
                 <span class="name-type">Тип</span>
@@ -67,12 +66,11 @@
          </select>
          </div>
                 </div>
-                <!--                <label for="mark-choice">Модель</label>-->
 
                 <div class="one-row-admin-panel">
                  <span class="name-type  right-type">Марка</span>
                 <div class="ds">
-<input class="form-control form-item admin-panel-input" id="mark-choice" list="marks" placeholder="Марка" required
+        <input class="form-control form-item admin-panel-input" id="mark-choice" list="marks" placeholder="Марка" required
        onchange="getModels()" disabled/>
 </div>
 <datalist id="marks">
@@ -120,10 +118,10 @@
                     <div class="name-type right-type">Статус</div>
                        <div class="ds">
                             <select class="form-control form-item admin-panel-input" id="status">
-                                <option>В наявності</option>
-                                <option>Під замовлення</option>
-                                <option>Немає в наявності</option>
-                                <option>Продано</option>
+                                <option default selected>в наявності</option>
+                                <option>під замовлення</option>
+                                <option>немає в наявності</option>
+                                <option>продано</option>
                             </select>
                        </div>
                 </div>

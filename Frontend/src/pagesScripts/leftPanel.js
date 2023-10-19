@@ -96,8 +96,8 @@ exports.initialize = function(){
 
 toggleLeftPanel = function () {
     let isLogin = false;
-    function callback(err, value) {
-        if(value) {
+    function callback(err, data) {
+        if(data.auth) {
             isLogin = true;
             $(".is-login").show();
         } else {
@@ -114,9 +114,10 @@ toggleLeftPanel = function () {
     }
     require("../API").isLogIn(callback)
 
-
-
-    // if(opened) $( "body" ).addClass("bodyOverflowHidden");
-    // else  $( "body" ).removeClass("bodyOverflowHidden");
+    $(".menu-wrapper-background").click(function (e) {
+        if (!$(event.target).closest('#menu').length) {
+            hideToggleModal()
+        }
+    })
 }
 

@@ -10,7 +10,6 @@ exports.deleteFiles = function(folder_base, files) {
         files.forEach(function (item) {
             let file_path = folder_base + item;
             if(fs.existsSync(file_path)) {
-
                 fs.unlinkSync(file_path);
             }
             else {

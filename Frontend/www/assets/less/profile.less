@@ -1,8 +1,10 @@
 .img-thumbnail {
-  width: 200px;
-  height: 200px;
-  border-radius: 60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 120px;
   object-fit: cover;
+  padding: 0;
+  border: none;
 }
 
 
@@ -11,21 +13,121 @@ input[type='file'] {
   color: transparent;
 }
 
+.profile-wrapper {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 
+.row-change-photo-wrapper {
+}
+
+.row-change-photo, .btn-change-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center!important;
+  gap: 15px;
+}
 
 .profile-fields-container{
-  text-align: center!important;
   padding: 0 10%;
   margin: auto;
-  max-width: 640px;
+  //max-width: 640px;
 }
 
 .profile-fields-container .control-label {
-  font-weight: 600;
+  text-align: left;
+  color: @textMuted;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 5px;
 }
-
 
 .file-wrapper {
     width: 140px;
     overflow:hidden;
+}
+
+#photo_input {
+  display: none;
+}
+
+#change-photo:hover, .delete-user-photo:hover {
+  cursor: pointer;
+}
+
+
+
+.profile-header-block {
+  color: rgba(36, 34, 35, 0.50);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+#form_user_info .row, #change_password_form .row{
+  margin-bottom: 25px;
+}
+#form_user_info .auth-col, #change_password_form .auth-col {
+  gap: 0;
+  text-align: left;
+
+
+}
+
+#form_user_info {
+  .auth-col-btn {
+    //padding-right: 0!important;
+    padding-left: 0!important;
+  }
+}
+
+#profileAccordion .card-body {
+  margin-top: 25px;
+  padding: 0;
+}
+
+
+ #profileAccordion .card-header {
+   margin-bottom: 0;
+   padding: 20px 0;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   cursor: pointer;
+ }
+
+#profileAccordion .card-header h6, #profileAccordion .card-header {
+  font-size: 20px;
+  background-color: #fff;
+  font-weight: 700;
+  color: #79766E;
+}
+
+
+@media screen and (max-width: 991px) {
+  #form_user_info .row, #change_password_form .row{
+    gap: 15px;
+  }
+  .row-change-photo {
+    flex-direction: row;
+    margin-bottom:@paddingWrapperLaptop;
+    gap: @paddingWrapperLaptop;
+  }
+
+  .btn-change-photo {
+    align-items: start!important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile-wrapper {
+    padding-top: @paddingWrapperLaptop;
+  }
+  .img-thumbnail {
+    width: 120px;
+    height: 120px;
+  }
 }

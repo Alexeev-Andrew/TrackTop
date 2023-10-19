@@ -78,15 +78,13 @@ function configureEndpoints(app) {
     app.get('/api/getreviews', api.get_reviews);
     app.get('/api/getordersbyclient', api.get_client_orders_by_phone);
     app.get('/api/getorderbyid', api.get_one_order_by_id);
-    app.get('/api/is-log-in/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.is_log_in);
+    app.get('/api/is-log-in/', attachCurrentUser.attachCurrentUser, api.is_log_in);
 
 
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
     app.post('/api/getequipmentsbycategoryid', api.getequipmentsbycategoryid);
     app.post('/api/getequipmentswithmodels', api.getequipmentswithmodels);
     app.post('/api/getequipmentsbymodal', api.getequipmentsbymodal);
-    app.post('/api/delete-files', api.deleteFiles);
-    app.post('/api/delete-file', api.deleteFile);
 
     app.post('/api/signin',  api.sign_in);
 
@@ -111,6 +109,8 @@ function configureEndpoints(app) {
     app.post('/api/upload_technic_photo', upload.array('uploadFile'),  api.upload_technic_photo);
     app.post('/api/upload_equipment_photo', upload.array('uploadFile'), api.upload_equipment_photo);
     app.post('/api/update_user', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.update_user);
+    app.post('/api/update_user_pwd', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.update_user_pwd);
+
     app.post('/api/update_review', api.update_review);
 
     app.post('/api/update_technic_without_category', api.update_technic_without_category);
@@ -134,6 +134,8 @@ function configureEndpoints(app) {
     app.post('/api/delete_check_technics_by_technic_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_check_technics_by_technic_id);
     app.post('/api/delete_images_by_equipment_id',isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.delete_images_by_equipment_id);
     app.post('/api/delete_check_equipments_by_equipment_id', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser,api.delete_check_equipments_by_equipment_id);
+
+    app.post('/api/delete_user_photo', isAuth.authenticateToken,  api.delete_user_photo);
 
     app.post('/api/log-out',isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, api.logout);
     app.post('/api/send-message', api.sendMessage);
@@ -165,8 +167,6 @@ function configureEndpoints(app) {
     app.get('/purchases', pages.purchases);
     app.get('/basket', pages.basket);
     app.get('/thank-you', pages.thank_you);
-    app.get('/test', pages.test);
-
 
     // app.use(sitemap({
     //     sitemapUrl: '/sitemap.xml', // optional, default value is '/sitemap.xml'
@@ -204,6 +204,7 @@ function configureEndpoints(app) {
                 db.get_technics_without_category(callback9)
 
                 smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
+                smStream.write({ url: '/marks',  changefreq: 'weekly',  priority: 0.8 })
                 smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
                 smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })

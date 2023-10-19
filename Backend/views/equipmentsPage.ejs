@@ -32,7 +32,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+<!--    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />-->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
     <!--style for text-->
@@ -73,132 +76,263 @@
     <% include common/header.ejs %>
 
     <div id="main">
-        <%include breadcrumbs.ejs%>
-        <div class='type_header'>
-            <h1 class="h1_header " >Запчастини до с/г техніки</h1>
+        <div class="narrow-wrapper padding-wrapper">
+
+            <%include breadcrumbs.ejs%>
+                <h1 class="header-main" >Запчастини до с/г техніки</h1>
+                <div class="wrapper_category">
+                <div class="categories">
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="/category_equipments/category?name=Запчастини до комбайнів">
+                                            <span class="" style="color: black">Запчастини до комбайнів</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/kombajny.png" alt="Купити Запчастини до комбайнів">
+                        </div>
+
+                    </div>
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="category_equipments/category?name=Запчастини до пресів-підбирачів">
+                                            <span class="" style="color: black">Запчастини до пресів-підбирачів</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/press.png" alt="Купити Запчастини до пресів-підбирачів">
+                        </div>
+
+                    </div>
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="/category_equipments/category?name=Запчастини до сівалок">
+                                            <span class="" style="color: black">Запчастини до сівалок</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/seeder.png" alt="Купити Запчастини до сівалок">
+                        </div>
+
+                    </div>
+
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="/category_equipments/category?name=Колеса">
+                                            <span class="" style="color: black">Колеса</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/koleso.png" alt="Купити Колеса, купити шини до комбайна, трактора">
+                        </div>
+
+                    </div>
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="/category_equipments/category?name=Запчастини до тракторів">
+                                            <span class="" style="color: black">Запчастини до тракторів</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/tractor.png" alt="Купити Запчастини до тракторів">
+                        </div>
+
+                    </div>
+                    <div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="oneCategory">
+                            <div class="category-header">
+                                <h2 class="category_name"><div>
+                                        <a href="/category_equipments/category?name=Інше">
+                                            <span class="" style="color: black">Інше</span>
+                                        </a>
+                                    </div>
+                                </h2>
+                                <div class="action">
+                                    <div class="button-action-category">
+                                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img class="" src="/images/category_placeholders/others.png" alt="Купити запчастини до спецтехніки та с/г техніки">
+                        </div>
+
+                    </div>
+
+
+                    <!--                <div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">-->
+    <!--                    <div class="">-->
+    <!--                        <img class="" src="/images/category_placeholders/seyalki.jpg" alt="Купити Запчастини до сівалок">-->
+    <!--                        <div class="caption">-->
+    <!--                            <h2 class="name"><div>-->
+    <!--                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до сівалок">-->
+    <!--                                        <span class="" style="color: black">Запчастини до сівалок</span>-->
+
+    <!--                                    </a>-->
+    <!--                                </div>-->
+    <!--                                &lt;!&ndash;                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>&ndash;&gt;-->
+    <!--                            </h2>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+    <!--                <div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">-->
+    <!--                    <div class="">-->
+    <!--                        <img class="" src="/images/category_placeholders/press_pidbyrach.jpg" alt="Купити Запчастини до пресів-підбирачів">-->
+    <!--                        <div class="caption">-->
+    <!--                            <h2 class="name"><div>-->
+    <!--                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до пресів-підбирачів">-->
+    <!--                                        <span class="" style="color: black">Запчастини до пресів-підбирачів</span>-->
+
+    <!--                                    </a>-->
+    <!--                                </div>-->
+    <!--                                &lt;!&ndash;                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>&ndash;&gt;-->
+    <!--                            </h2>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+    <!--                <div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">-->
+    <!--                    <div class="">-->
+    <!--                        <img class="" src="/images/category_placeholders/kolesa_spec_tech_.png" alt="Купити Колеса">-->
+    <!--                        <div class="caption">-->
+    <!--                            <h2 class="name"><div>-->
+    <!--                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Колеса">-->
+    <!--                                        <span class="" style="color: black">Колеса</span>-->
+
+    <!--                                    </a>-->
+    <!--                                </div>-->
+    <!--                                &lt;!&ndash;                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>&ndash;&gt;-->
+    <!--                            </h2>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+    <!--                <div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">-->
+    <!--                    <div class="">-->
+    <!--                        <img class="" src="/images/category_placeholders/equipments.png" alt="Купити Інше">-->
+    <!--                        <div class="caption">-->
+    <!--                            <h2 class="name"><div>-->
+    <!--                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Інше">-->
+    <!--                                        <span class="" style="color: black">Інше</span>-->
+
+    <!--                                    </a>-->
+    <!--                                </div>-->
+    <!--                                &lt;!&ndash;                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>&ndash;&gt;-->
+    <!--                            </h2>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+    <!--                <div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">-->
+    <!--                    <div class="">-->
+    <!--                        <img class="" src="/images/category_placeholders/traktory.jpg" alt="Купити Запчастини до тракторів">-->
+    <!--                        <div class="caption">-->
+    <!--                            <h2 class="name"><div>-->
+    <!--                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до тракторів">-->
+    <!--                                        <span class="" style="color: black">Запчастини до тракторів</span>-->
+
+    <!--                                    </a>-->
+    <!--                                </div>-->
+    <!--                                &lt;!&ndash;                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>&ndash;&gt;-->
+    <!--                            </h2>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+                </div>
+            </div>
         </div>
 
-<!--        <% include common/searchBar.ejs %>-->
-        <div class="wrapper_category">
-            <div class="categories"><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/kombayny.jpg" alt="Купити Запчастини до комбайнів">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до комбайнів">
-                                        <span class="" style="color: black">Запчастини до комбайнів</span>
 
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
+        <section class="desc-section wrapper-background-grey descr_bottom">
+            <div class="narrow-wrapper padding-wrapper">
+                <div class="row no-gutters">
+                    <div class="col-12 col-lg-6 col-desc-technics-left">
+                        <h2 class="title">Запчастини до сільськогосподарської техніки</h2>
 
+                        Компанія “TrackTop” уже багато років поставляє запчастини до сільськогосподарської техніки. Ми реалізуємо як і нові запчастини до сільгосптехніки техніки так і б/у. Наша компанія пропонує широкий вибір запчастин від різних виробників.
+                        На даний момент у нас є в наявності декілька тисяч запчастин. Асортимент запчастин до с/г техніки постійно розширюється.
                     </div>
+                    <div class="col-12 col-lg-6 col-desc-technics-right">
+                        У нас ви можете придбати:
+                        <ul><li><a href="/category?name=Запчастини%20до%20комбайнів">запчастини до комбайнів</a></li>
+                            <li><a href="category?name=Запчастини%20до%20пресів-підбирачів">запчастини до пресів-підбирачів</a></li>
+                            <li><a href="category?name=Запчастини%20до%20сівалок">запчастини до сівалок</a></li>
+                            <li><a href="category?name=Запчастини%20до%20тракторів">запчастини до тракторів</a></li>
+                            <li><a href="category?name=Запчастини%20до%20колеса">шини та диски до с/г техніки</a></li>
+                        </ul></div>
+                </div>
+            </div>
+        </section>
 
-                </div><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/seyalki.jpg" alt="Купити Запчастини до сівалок">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до сівалок">
-                                        <span class="" style="color: black">Запчастини до сівалок</span>
-
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
-
+        <section class="descr_bottom">
+            <div class="narrow-wrapper padding-wrapper">
+                <div class="row no-gutters">
+                    <div class="col-12 col-lg-6 col-left-background-equipments-categories">
                     </div>
-
-                </div><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/press_pidbyrach.jpg" alt="Купити Запчастини до пресів-підбирачів">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до пресів-підбирачів">
-                                        <span class="" style="color: black">Запчастини до пресів-підбирачів</span>
-
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
-
+                    <div class="col-12 col-lg-6 col-right-equipments">
+                        <p class="">Основний напрямок діяльності – це постачання запчастини до комбайнів.</p>
+                        <p class="">На полицях нашого магазину ви зможете знайти практичну будь-яку запчастину до комбайнів Claas (Клаас), Massey Ferguson (Массей Фергюсон) та John Deere (Джон Дір). </p>
+                        <p class="">Запчастини для комбайнів поділені на категорії по моделях, тому знайти запчастину до певної моделі буде дуже просто. Також у нас ви можете придбати запчастини до таких ходових тракторів як MTZ 50, МТЗ 80, МТЗ 82, Т25 та t40.</p>
+                        <p class="">Для того щоб зробити замовлення додайте товари в кошик та оформіть замовлення, через деякий час із вами зв’яжеться працівник компанії для підтвердження замовлення. Якщо запчастини немає на складі – зробіть замовлення. Відправлення товару відбувається протягом одного-двох робочих днів та по всій території України. </p>
+                        <p class="">
+                            Ми співпрацюємо лише з перевіреними постачальниками, тому гарантуємо якісний товар. Якщо ж випадково до вас потрапив неякісний товар, то обов’язково повідомте нас про це. Ми обміняємо ваш товар на інший, оскільки ми цінуємо нашу репутацію.                        </p>
                     </div>
-
-                </div><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/kolesa_spec_tech_.png" alt="Купити Колеса">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Колеса">
-                                        <span class="" style="color: black">Колеса</span>
-
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
-
-                    </div>
-
-                </div><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/equipments.png" alt="Купити Інше">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Інше">
-                                        <span class="" style="color: black">Інше</span>
-
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
-
-                    </div>
-
-                </div><div class="oneCategory col-xs-12 col-sm-6 col-md-6 col-lg-4 ">
-                    <div class="thumbnail">
-                        <img class="" src="/images/category_placeholders/traktory.jpg" alt="Купити Запчастини до тракторів">
-                        <div class="caption">
-                            <h2 class="name"><div>
-                                    <a href="http://tracktop.com.ua/category_equipments/category?name=Запчастини до тракторів">
-                                        <span class="" style="color: black">Запчастини до тракторів</span>
-
-                                    </a>
-                                </div>
-                                <!--                <span class="" style="color: black;height: 1px;width: 1px;display:none"> Купить < category.category_name_ru ></span>-->
-                            </h2>
-                        </div>
-
-                    </div>
-
-                </div></div>            </div>
-        <div class="descr_bottom" >
-        <p>
-            <h5><i>Запчастини до сільськогосподарської техніки.</i></h5>
-
-            Компанія “TrackTop” уже багато років поставляє запчастини до
-            сільськогосподарської техніки. Ми реалізуємо як і нові запчастини до сільгосптехніки техніки так і бу. Наша компанія пропонує широкий вибір запчастин від різних виробників. На даний момент у нас є в наявності декілька тисяч запчастин. Асортимент запчастин до сг техніки постійно розширюється. На даний момент у нас ви можете придбати:
-        <ul><li>запчастини до комбайнів</li>
-            <li>запчастини до сівалок</li>
-            <li>запчастини до тракторів</li>
-            <li>запчастини до пресів-підбирачів</li>
-        </ul>
-        Основний напрямок діяльності – це постачання запчастини до комбайнів. На полицях нашого магазину ви зможете знайти  практичну будь-яку запчастину до комбайнів Claas (Клаас), Massey Ferguson (Массей Фергюсон) та John Deere (Джон Дір). Запчастини для комбайнів поділені на категорії, тому знайти запчастину до певної моделі буде дуже просто. Також у нас ви можете придбати запчастини до таких ходових тракторів як MTZ 50, МТЗ 80, МТЗ 82, Т25 та t40.
-
-        </p>
-        <p>
-            Для того щоб зробити замовлення додайте товари в кошик та оформіть замовлення, через деякий час із вами зв’яжеться працівник компанії для підтвердження замовлення.
-            Якщо запчастини немає на складі – зробіть замовлення. Доставка товару відбувається протягом одного тижня та по всій території України.
-            Ми співпрацюємо лише з перевіреними постачальниками, тому гарантуємо якісний товар.
-            Якщо ж випадково до вас потрапив неякісний товар, то обов’язково повідомте нас про це. Ми обміняємо ваш товар на інший, оскільки ми цінуємо нашу репутацію.
-        </p>
-        </div>
-        </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 
 
@@ -207,11 +341,14 @@
 
         <!--Bootsrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script  src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
         <script type="text/javascript" src="/assets/js/equipmentsMain.js"> </script>
 
         <script type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
         <script type="text/javascript" src="/assets/js/maskph_call.js"></script>
+        <% include common/footer-ad-subscribe.ejs %>
+
         <% include common/footer.ejs %>
 </body>
 

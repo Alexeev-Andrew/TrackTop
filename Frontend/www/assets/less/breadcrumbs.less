@@ -1,16 +1,32 @@
 /* хлебные крошки */
 #breadcrumb {
   list-style: none;
-  display: inline-block;
+  display: -webkit-inline-box !important;
+  -ms-overflow-style: none;
+  overflow-x: scroll;
+  width: 100%;
+  scrollbar-width: none;
   padding-left: 0px;
-  margin-top: 24px;
+  padding-top: 24px;
+  align-items: center;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
   //margin-left: 15px;
 }
+
+#breadcrumb::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
 #breadcrumb .icon {
   font-size: 14px;
 }
 #breadcrumb li {
   float: left;
+}
+
+#breadcrumb li:first-child {
+  margin-top: -2px;
 }
 #breadcrumb li a {
   color: @textMain;
@@ -112,11 +128,8 @@ h1 {
 
 @media screen and (max-width: 575px) {
   #breadcrumb {
-    margin-bottom: 0;
-    margin-top: 12px;
-    //position: absolute !important;
-    //margin-top: -38px !important;
-    //padding-left: 50px;
+    padding-top: @paddingWrapperMobile;
+    margin-bottom: @paddingWrapperMobile;
   }
 
   .breadcrumb-mobile li a:before {

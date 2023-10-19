@@ -43,22 +43,15 @@
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="/assets/less/fancybox.css"/>
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.1/jquery.fancybox.min.css">-->
 <!--    <script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"></script>-->
 
     <!-- LESS основний файл -->
-    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
-    <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.bubble.css">
+    <link rel="stylesheet/less" type="text/css" href="/assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>-->
-    <!--style for text-->
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
-    <!--font awesome-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+
     <!-- Facebook Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)
@@ -90,83 +83,197 @@
     <% include common/header.ejs %>
     <% include common/message.ejs %>
 
+<div id="main">
 
+    <section class="narrow-wrapper one-ad-wrapper  padding-wrapper">
+        <header>
+            <% include breadcrumbs.ejs %>
 
-    <div id="main" class="container-fluid">
-        <%include breadcrumbs.ejs%>
-        <h1>
-            <div class="header-technic">
-        <div class='type_header'>
-            <%= name %>
-        </div>
+            <div class="one-ad-header-wrapper">
+                <h1 class='text-black-title-900-uppercase one-ad-header'>
+                    <%= technic.name %>
+                </h1>
+                <span class="order-label <%= technic.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : technic.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  technic.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= technic.status %></span>
             </div>
-        </h1>
-        <div>
-            <div class="slider">
-                <div class="slider__wrapper">
+        </header>
+        <main class="one-ad-main-wrapper">
+            <div class="row no-gutters">
+                <div class="col-lg-8">
+                    <div class="one-ad-image-desc-wrapper">
+                        <span class="order-label <%= technic.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : technic.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  technic.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= technic.status %></span>
+
+                        <div class="slider">
+                            <div class="slider__wrapper">
+                            </div>
+                            <a class="slider__control slider__control_left" href="#" role="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                                    <g filter="url(#filter0_d_611_5033)">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.7008 27.4193L3.39933 16.1178C2.70582 15.4243 2.70582 14.2999 3.39933 13.6063L14.7009 2.30483C15.3944 1.61131 16.5188 1.61131 17.2123 2.30483C17.9058 2.99835 17.9058 4.12276 17.2123 4.81628L8.94237 13.0862L31.293 13.0862C32.2738 13.0862 33.0689 13.8813 33.0689 14.8621C33.0689 15.8429 32.2738 16.6379 31.293 16.6379L8.94237 16.6379L17.2123 24.9079C17.9058 25.6014 17.9058 26.7258 17.2123 27.4193C16.5188 28.1128 15.3944 28.1128 14.7008 27.4193Z" fill="#D5E6CD"/>
+                                    </g>
+                                    <defs>
+                                        <filter id="filter0_d_611_5033" x="0.879211" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feOffset dy="1"/>
+                                            <feGaussianBlur stdDeviation="1"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5033"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5033" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </a>
+                            <a class="slider__control slider__control_right slider__control_show" href="#" role="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31" fill="none">
+                                    <g filter="url(#filter0_d_611_5030)">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2992 2.3053L32.6007 13.6068C33.2942 14.3003 33.2942 15.4247 32.6007 16.1183L21.2991 27.4198C20.6056 28.1133 19.4812 28.1133 18.7877 27.4198C18.0942 26.7263 18.0942 25.6018 18.7877 24.9083L27.0576 16.6384L4.70701 16.6384C3.72623 16.6384 2.93115 15.8433 2.93115 14.8625C2.93115 13.8818 3.72623 13.0867 4.70701 13.0867L27.0576 13.0867L18.7877 4.81675C18.0942 4.12323 18.0942 2.99881 18.7877 2.3053C19.4812 1.61178 20.6056 1.61178 21.2992 2.3053Z" fill="#A9CD53"/>
+                                    </g>
+                                    <defs>
+                                        <filter id="filter0_d_611_5030" x="0.931152" y="0.785156" width="34.1896" height="30.1543" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                            <feOffset dy="1"/>
+                                            <feGaussianBlur stdDeviation="1"/>
+                                            <feComposite in2="hardAlpha" operator="out"/>
+                                            <feColorMatrix type="matrix" values="0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0 0.791667 0 0 0 0.65 0"/>
+                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_611_5030"/>
+                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_611_5030" result="shape"/>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="one-ad-description one-ad-technic-description">
+                            <div class="one-ad-info-label">Опис</div>
+                            <div class="description_technic"> <%- technic.description %></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="one-ad-information">
+                        <div class="one-ad-info-row">
+                            <span class="one-ad-info-label">Ціна</span>
+                            <span class="one-ad-info-value one-ad-info-value-price"><%= technic.price %> <%=technic.currency.toString() == "гривня" ? "грн" : technic.currency.toString() == "долар" ? "$" : "$" %></span>
+                        </div>
+                        <div class="one-ad-info-row">
+                            <span class="one-ad-info-label">Рік випуску</span>
+                            <span class="one-ad-info-value one-ad-info-value-year"><%= technic.production_date%></span>
+                        </div>
+                        <span class="hr-line-menu-popup"></span>
+
+                    </div>
+
+                    <form id="ask-question-one-ad">
+                        <h4 class="text-black-title-900-uppercase ask-form-title">Задати питання</h4>
+                        <!--                            <input type="text" placeholder="Ваше ім'я" name="name"-->
+                        <!--                                   class="form-control form-item form-item-auth form-item-border" required>-->
+                        <input  type="text" placeholder="Номер телефону" name="phone"
+                                class="form-control form-item form-item-auth form-item-border"  required>
+                        <textarea class="form-control form-item-auth message-textarea form-item-border" required name="message" rows="8" placeholder="Текст повідомлення"></textarea>
+
+                        <button class="btn btn-green-text-white w-100 send-message-one-ad" type="button">
+                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_679_6742)">
+                                    <path d="M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_679_6742">
+                                        <rect width="25.1792" height="25.1792" fill="white" transform="translate(0.374512 0.152344)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Написати</button>
+                    </form>
 
                 </div>
-                <a class="slider__control slider__control_left" href="#" role="button"></a>
-                <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
+
             </div>
-        </div>
-
-        <!-- !-->
-
-        <div class="btn_row">
-            <button class="btn btn-secondary" onclick="openMessageModal();">
-                <i class="	fas fa-envelope"></i>Написати</button> </div>
-
-
-
-        <div class="information">
-            <!--
-    <table>
-        <tr><th><i><span class="header_type">Ціна</span></i></th><td><%= technic.price %>  <% if(technic.currency.toString() == "гривня") { %>
-                    грн
-                <%}%>
-
-                <% if(technic.currency.toString() == "долар") { %>
-                    $
-                <%}%></td></tr>
-        <tr><td>данные</td><td>данные</td></tr>
-    </table>
-
-!-->
-
-            <div class="row_info" style="display: block;margin: auto"><i><span class="header_type">Ціна</span></i><span class="type_description">
-                    <%= technic.price %> <% if(technic.currency.toString() == "гривня") { %>
-                    грн
-                    <%}%>
-
-        <% if(technic.currency.toString() == "долар") { %>
-                    $
-                    <%}%> </span></div>
-
-    <% if(technic.production_date) { %>
-                    <div class="row_info float_left"><i><span class="header_type">Рік випуску</span></i> <span
-                            class="type_description"><%= technic.production_date%> </span> </div>
-                    <%}%>
-    <!--
-    <% if(technic.country_producer) { %>
-                    <div class="amount"><i><span class="header_type">Виробник</span></i> <%= technic.country_producer%>
-                    </div>
-                    <%}%>
-    <div class="amount"><i><span class="header_type">Кількість</span></i> <%= technic.amount %></div>
-            <% if(technic.description) { %>
-            <div class="description"><i><span class="header_type"></span>Опис</i> <%= technic.description %></div>
-            <%}%>
-    !-->
-
+        </main>
+        <footer></footer>
+    </section>
 
 </div>
-    <% if(technic.description) { %>
-            <div class="description_technic">
-                <div id="view-editor"></div>
-            </div>
-            <%}%>
 
-</div>
+
+<!--    <div id="main" class="container-fluid">-->
+<!--        <%include breadcrumbs.ejs%>-->
+<!--        <h1>-->
+<!--            <div class="header-technic">-->
+<!--        <div class='type_header'>-->
+<!--            <%= name %>-->
+<!--        </div>-->
+<!--            </div>-->
+<!--        </h1>-->
+<!--        <div>-->
+<!--            <div class="slider">-->
+<!--                <div class="slider__wrapper">-->
+
+<!--                </div>-->
+<!--                <a class="slider__control slider__control_left" href="#" role="button"></a>-->
+<!--                <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; !&ndash;&gt;-->
+
+<!--        <div class="btn_row">-->
+<!--            <button class="btn btn-secondary" onclick="openMessageModal();">-->
+<!--                <i class="	fas fa-envelope"></i>Написати</button> </div>-->
+
+
+
+<!--        <div class="information">-->
+<!--            &lt;!&ndash;-->
+<!--    <table>-->
+<!--        <tr><th><i><span class="header_type">Ціна</span></i></th><td><%= technic.price %>  <% if(technic.currency.toString() == "гривня") { %>-->
+<!--                    грн-->
+<!--                <%}%>-->
+
+<!--                <% if(technic.currency.toString() == "долар") { %>-->
+<!--                    $-->
+<!--                <%}%></td></tr>-->
+<!--        <tr><td>данные</td><td>данные</td></tr>-->
+<!--    </table>-->
+
+<!--!&ndash;&gt;-->
+
+<!--            <div class="row_info" style="display: block;margin: auto"><i><span class="header_type">Ціна</span></i><span class="type_description">-->
+<!--                    <%= technic.price %> <% if(technic.currency.toString() == "гривня") { %>-->
+<!--                    грн-->
+<!--                    <%}%>-->
+
+<!--        <% if(technic.currency.toString() == "долар") { %>-->
+<!--                    $-->
+<!--                    <%}%> </span></div>-->
+
+<!--    <% if(technic.production_date) { %>-->
+<!--                    <div class="row_info float_left"><i><span class="header_type">Рік випуску</span></i> <span-->
+<!--                            class="type_description"><%= technic.production_date%> </span> </div>-->
+<!--                    <%}%>-->
+<!--    &lt;!&ndash;-->
+<!--    <% if(technic.country_producer) { %>-->
+<!--                    <div class="amount"><i><span class="header_type">Виробник</span></i> <%= technic.country_producer%>-->
+<!--                    </div>-->
+<!--                    <%}%>-->
+<!--    <div class="amount"><i><span class="header_type">Кількість</span></i> <%= technic.amount %></div>-->
+<!--            <% if(technic.description) { %>-->
+<!--            <div class="description"><i><span class="header_type"></span>Опис</i> <%= technic.description %></div>-->
+<!--            <%}%>-->
+<!--    !&ndash;&gt;-->
+
+
+<!--</div>-->
+<!--    <% if(technic.description) { %>-->
+<!--            <div class="description_technic">-->
+<!--                <div id="view-editor"></div>-->
+<!--            </div>-->
+<!--            <%}%>-->
+
+<!--</div>-->
 
 
 <!-- jQuery JavaScript -->
@@ -182,6 +289,8 @@
 <script  src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <script type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
 <script type="text/javascript" src="/assets/js/maskph_call.js"></script>
+
+<% include common/footer-ad-subscribe.ejs %>
 <% include common/footer.ejs %>
 </body>
 </html>

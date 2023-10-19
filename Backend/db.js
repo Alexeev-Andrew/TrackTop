@@ -284,7 +284,7 @@ exports.get_technics_without_category_by_id = function(id,callback){
 
 
 exports.get_client_by_phone = function(phone,callback){
-    connection.query("SELECT * FROM clients WHERE phone_number ='" + phone + "'",callback);
+    connection.query("SELECT * FROM clients WHERE phone_number ='" + phone + "' limit 1",callback);
 }
 
 exports.get_client_by_id = function(id,callback){

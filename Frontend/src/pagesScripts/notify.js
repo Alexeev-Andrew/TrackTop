@@ -1,6 +1,4 @@
-exports.Notify = function(text, callback, close_callback, style,seconds) {
-
-
+exports.Notify = function(text, callback, close_callback, style, seconds) {
     // 4 types  :  danger, warning, info, success (default is warning)
     let time = "2000";
     if(seconds) time = seconds * 1000;

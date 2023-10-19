@@ -148,12 +148,65 @@ button:hover {
   margin: 0;
 }
 
+.subscribe-modal {
+  max-width: 600px;
+  width: 100%;
+  background: #fff;
+  margin: auto;
+  min-width: 600px;
+  padding: 60px 65px 35px;
+  border-radius: 25px;
+  position: relative;
+}
+
+.img-subscribe-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 12000;
+  top: -135px;
+}
+
+.socials-popup-news {
+  margin: auto;
+  align-items: center;
+  gap: 12px;
+
+  a {
+    color: @textSubline!important;
+    text-decoration: none;
+  }
+}
+
+//.form-subscribe-news {
+//  margin: 20px 0;
+//}
+
+.modal-news-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background: @textMuted;
+}
+
+.text-news-socials {
+  padding: 0 20px;
+  color: @textSubline;
+  text-align: center;
+  min-width: 250px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .modal-content-subscribe-modal {
   margin: auto;
-  position: absolute!important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: auto;
 }
 
 /* Style the horizontal ruler */
@@ -207,7 +260,7 @@ hr {
 .btn-close-modal {
   outline: none;
   position: absolute;
-  top: 0.6rem;
+  top: 1rem;
   font-size: 2rem;
   right: 1.6rem;
   box-shadow: none;
@@ -397,6 +450,15 @@ hr {
     margin-top: 15px;
   }
 
+}
+
+
+@media (max-width: 767px) {
+  .subscribe-modal {
+    width: auto;
+    min-width: auto;
+    padding: 55px 16px 25px 16px;
+  }
 }
 
 

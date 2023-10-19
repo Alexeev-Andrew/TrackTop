@@ -13,7 +13,7 @@
         </span>
 
     <span class="col2">
-        <button class="btn btn-secondary btn-admin-header" onclick="openAddTechnicModel()" type="button">
+        <button class="btn btn-secondary btn-admin-header" onclick="openAddTechnicWithoutCategoryModel()" type="button">
             <i class="fa fa-plus"></i>
         </button>
         </span>
@@ -79,10 +79,31 @@
                     </div>
                 </div>
  <br>
+                <div class="one-row-admin-panel">
+                <div class="name-type">Рік</div>
+                <div class="ds">
+                <input class="form-control form-item admin-panel-input" max="2020" min="1950" placeholder="Рік випуску"
+                       required
+                       type="number" name="year-input" id="year-technic-input">
+                </div>
+            </div>
+                <div class="one-row-admin-panel">
+                    <div class="name-type right-type">Статус</div>
+                       <div class="ds">
+                            <select class="form-control form-item admin-panel-input" id="status">
+                                <option default selected>в наявності</option>
+                                <option>під замовлення</option>
+                                <option>немає в наявності</option>
+                                <option>продано</option>
+                            </select>
+                       </div>
+                </div>
+                <br>
+
 
                 <div class="form-group">
                 <label for="description">Опис</label>
-                    <div id="admin-editor"></div>
+                    <div id="editor" name="description"></div>
                 </div>
 
                <div id="fileUploadForm" class="uploader__box js-uploader__box l-center-box">

@@ -234,6 +234,24 @@ transform: translate(0%, 0)!important;
 transition            : transform 1s cubic-bezier(0.77, 0.2, 0.05, 1.2);
 }
 
+.socials-popup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.socials-popup a{
+  font-size: 1.5rem;
+  color: @textMain;
+}
+.menu-popup-hr-line-bottom {
+  display: block;
+  width: 65%;
+  height: 1px;
+  margin: 12px auto;
+  background: @textMuted;
+}
+
+
 @media (max-width:991px) {
 #menuToggle {
 display: inline-block;
@@ -293,19 +311,6 @@ color: @textSubline;
 
 .socials-popup {
 display: flex;
-align-items: center;
-gap: 12px;
-}
-.socials-popup a{
-font-size: 1.5rem;
-color: @textMain;
-}
-.menu-popup-hr-line-bottom {
-display: block;
-width: 65%;
-height: 1px;
-margin: 12px auto;
-background: @textMuted;
 }
 }
 

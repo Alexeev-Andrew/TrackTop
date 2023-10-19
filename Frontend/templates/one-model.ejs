@@ -1,14 +1,18 @@
-<div class="oneModel ">
-    <div class="thumbnail thumbnail-models">
-        <div class="caption ">
-            <a href="<%= model.url %>" style="text-decoration: none">
-                <div class="name nameModel"><b><span class=""><%= model.mark + " "  + model.model%></span></b></div>
-            </a>
+<div class="oneCategoryWrapper col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+    <div class="oneCategory oneModel">
+        <div class="category-header">
+            <h2 class="category_name model-name">
+                <a href="<%= model.url %>">
+                    <%= model.mark + " "  + model.model%>
+                </a>
+            </h2>
             <span style="display: none; height: 50px"> Купити запчастини до комбайна <%= model.mark + " "  + model.model%>%></span>
+
+            <div class="action">
+                    <svg width="17" height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.51476 1.39247L16.0607 10.9384C16.6465 11.5242 16.6465 12.4739 16.0607 13.0597L6.51476 22.6057C5.92898 23.1915 4.97923 23.1915 4.39344 22.6057C3.80765 22.0199 3.80765 21.0701 4.39344 20.4843L12.8787 11.9991L4.39344 3.51379C3.80765 2.928 3.80765 1.97825 4.39344 1.39247C4.97923 0.806678 5.92898 0.806678 6.51476 1.39247Z" fill="black"/>
+                    </svg>
+            </div>
         </div>
-
     </div>
-
 </div>
-
-<!--col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3-->

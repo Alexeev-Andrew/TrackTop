@@ -23,14 +23,14 @@ exports.profile = function(req, res) {
 
 
 exports.technics_without_category = function(req, res) {
-            res.render('technicsPage', {
-                pageTitle: 'Купити сг техніку Львівська область | TrackTop',
-                description : "Купити сільгосптехніку техніку! Сільгосптехніка бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
-                photo_location :"",
-                types:null,
-                mark:null,
-                user: req.currentUser,
-            });
+    res.render('technicsPage', {
+        pageTitle: 'Купити сг техніку Львівська область | TrackTop',
+        description : "Купити сільгосптехніку техніку! Сільгосптехніка бу | Львівська область. Дзвоніть ☎ (067)-646-22-44" ,
+        photo_location :"",
+        types:null,
+        mark:null,
+        user: req.currentUser,
+    });
 };
 
 
@@ -51,7 +51,7 @@ exports.technics = function(req, res) {
                 if (req.query.type == "Фронтальні навантажувачі")
                     res.render('technicsPage', {
                         pageTitle: req.query.type + " на МТЗ, Т-40, Т25 (Польща)",
-                        description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
+                        description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (097)-837-87-72",
                         types: req.query.type,
                         mark: req.query.mark,
                         photo_location: photo_location,
@@ -79,8 +79,8 @@ exports.technics = function(req, res) {
                     });
                 else {
                     res.render('technicsPage', {
-                        pageTitle: 'Купити ' + req.query.mark + " Львівська область | TrackTop",
-                        description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка " + req.query.mark + " бу | Львівська область. Дзвоніть ☎ (067)-646-22-44",
+                        pageTitle: 'Купити техніку марки ' + req.query.mark + " Львівська область | TrackTop",
+                        description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " | Львівська область. Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
                         mark: req.query.mark,
                         photo_location: photo_location,
@@ -99,18 +99,14 @@ exports.marks = function(req, res) {
         if (error) {
             console.log("Error! ", error.sqlMessage);
         }
-
-        let marks = data;
-        console.log(marks)
-            res.render('marks', {
-                pageTitle: req.query.type + " на МТЗ, Т-40, Т25 (Польща)",
-                description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (093)-493-14-81",
+         res.render('marks', {
+                pageTitle: "Купити сільгосптехніку Львів. Купити спецтехніку Україна | TrackTop",
+                description: "Купити сільгосптехніку бу та нова, спецтехніка в Україні та під замовлення | TrackTop",
                 types: req.query.type,
                 mark: req.query.mark,
                 photo_location: "",
                 user: req.currentUser,
             });
-
 
     }
 };
@@ -197,7 +193,7 @@ exports.models = function(req, res) {
 
 
 exports.technic_without_category = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
 
     require('./db').get_technics_without_category_by_id(id,
 
@@ -214,12 +210,13 @@ exports.technic_without_category = function(req, res) {
 
                 if(data.length>0) {
                     let technic = data[0];
+                    let photos = JSON.parse(technic.photos) || ["default_technic.jpg"];
                             res.render('oneTechnicWithoutCategoryPage', {
                                 pageTitle: technic.name + " | Корчин, Львівська область",
                                 name: technic.name,
                                 description: "Купити "  + technic.name + " Дзвоніть ☎ (097)-837-87-72",
                                 technic: technic,
-                                photo_location : JSON.parse(technic.photos)[0].val,
+                                photo_location : photos[0],
                                 user: req.currentUser,
                             });
                 }
@@ -245,8 +242,6 @@ exports.technic = function(req, res) {
 
     require('./db').get_technics_by_id(number_id,
 
-
-    //require('./db').get_technic_by_type_model_mark(type,mark,model,
         function (error,data) {
 
         if(error) {
@@ -272,7 +267,7 @@ exports.technic = function(req, res) {
                             pageTitle: model + ' ' + mark + " (Польща)",
                             name: mark + ' ' + model,
                             type: type_,
-                            description: "Купити "  + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (093)-493-14-81",
+                            description: "Купити "  + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (097)-837-87-72",
                             technic: data[0],
                             user: req.currentUser,
                         });
@@ -282,7 +277,7 @@ exports.technic = function(req, res) {
                             pageTitle: type + ' ' + mark + ' ' + model + " (Польща)",
                             name: mark + ' ' + model,
                             type: type_,
-                            description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (093)-493-14-81",
+                            description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (097)-837-87-72",
                             technic: data[0],
                             user: req.currentUser,
                         });
@@ -325,8 +320,9 @@ exports.categories = function(req, res) {
             }
             else {
                     res.render('categories', {
-                        pageTitle: " | Корчин, Львівська область",
-                        description: "Купити  Дзвоніть ☎ (097)-837-87-72",
+                        pageTitle: "Купити сільгосптехніку б/у Львів з Європи. Cпецтехніка Україна | TrackTop",
+                        description: "Купити комбайни бу, трактори, жатки, сівалки. Спецтехніка під замовлення | Техніка з Європи",
+
                         photo_location : "",
                         user: req.currentUser,
                     })
@@ -338,10 +334,6 @@ exports.categories = function(req, res) {
 
 
 exports.equipment = function(req, res) {
-   // var model = req.query.model;
-
-    //console.log(req);
-
     let vendor_code;
 
     require('./db').get_equipment_by_id(req.query.id, function (error,data) {
@@ -402,7 +394,7 @@ exports.equipment = function(req, res) {
                                     marks: data[0].technic_mark,
                                     type_technic: category,
                                     vendor_code: vendor_code,
-                                    short_description: equipment.name + " " + vendor_code.join(", ") + ". Застосувається в комбайнах " +  data[0].technic_mark + " " + models.map(item => item.toString().toUpperCase()).join(", "),
+                                    short_description: equipment.name + " " + vendor_code.join(", ") + ". Застосувається в комбайнах " +  data[0].technic_mark + " " + models.join(", "),
                                     user: req.currentUser,
 
                                 });
@@ -479,13 +471,6 @@ exports.about = (req, res) => {
     })
 }
 
-exports.test = (req, res) => {
-    res.render('test', {
-        pageTitle: 'Про компанію TrackTop',
-        user: req.currentUser,
-    })
-}
-
 exports.sitemap = (req, res) => {
     res.render('sitemap', {
         pageTitle: 'Карта сайту магазину сг техніки TrackTop | Львівська область',
@@ -501,7 +486,7 @@ exports.reviews = (req, res) => {
 exports.basket = (req, res) => {
     res.render('basket', {
         pageTitle:  "Корзина | TrackTop" ,
-        description :  "Корзина | Магазин до комбайнів",
+        description :  "Корзина | Магазин запчастини до комбайнів",
         user: req.currentUser,
     });
 }
@@ -528,7 +513,7 @@ exports.thank_you = (req, res) => {
 
 exports.adminPanel = (req, res) => {
     res.render('adminPage', {
-        pageTitle: 'admin panel',
+        pageTitle: 'Адмін панель',
         currPage:  req.query.page || "check",
         user: req.currentUser,
     })

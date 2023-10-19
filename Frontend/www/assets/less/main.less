@@ -5,35 +5,7 @@
 
 @import "initialize";
 
-* {box-sizing: border-box;}
 
-body {
-  font-family: Mulish, sans-serif;
-  font-style: normal;
-  letter-spacing: 0.01em;
-  font-weight: normal;
-  height: 100%;
-}
-
-.narrow-wrapper {
-  max-width: 1440px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.wrapper {
-  max-width: 1440px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-#main {
-  margin-top: 100px;
-  margin-right: auto;
-  margin-left: auto;
-  //margin-left:@WidthLeftPanel
-  //padding-left: 0!important;
-}
 
 @import "type";
 @import "topPanel";
@@ -154,9 +126,10 @@ body {
 }
 
 .promote_own_business_section_button {
-  padding: 8px 25px;
-  font-weight: 700;
-  font-size: 18px;
+  padding-left: 25px;
+  padding-right: 25px;
+  //font-weight: 700;
+  //font-size: 18px;
   color: #FFF;
   cursor: pointer;
   width: fit-content;
@@ -182,6 +155,8 @@ body {
 }
 
 
+
+
 .right-col-desc-main-wrapper {
   background: url("../images/tractor_main_page_background.png");
 }
@@ -197,10 +172,10 @@ body {
 .item-site-description-line:before {
     content: '';
     width: 1px;
-    height: 40px;
+    height: 60px;
     position: absolute;
-    left: 30px;
-    top: -48px;
+    left: 28px;
+    top: -60px;
     background-color: white;
 }
 
@@ -243,34 +218,51 @@ body {
   //width: 1240px;
   align-items: flex-end;
   align-content: flex-end;
-  gap: 20px;
+  row-gap: 20px;
   flex-wrap: wrap;
+}
+
+.one-mark-card-wrapper {
+  padding: 15px!important;
+  text-decoration: none;
+  border-radius: 15px;
+}
+
+.one-mark-card-wrapper:hover {
+  box-shadow: 4px 4px 24px 0px rgba(177, 216, 158, 0.60);
+  background: #fff;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .one-mark-card {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-.button-action-mark {
-  background: #DCDCDC;
-  color: white;
+.mark-logo {
+  width: 100%;
+  object-fit: cover;
+  padding: 5px 10px;
 }
+
 
 .technic-category-list {
   width: 100%;
   overflow-x: scroll;
   display: -webkit-inline-box;
   //gap: 20px;
-  padding: 20px;
   margin-left: -20px;
   margin-right: -20px;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
 
+
 .technic-category-wrapper {
   display: flex;
+  padding: 20px;
 }
 
 .technic-categories-page {
@@ -284,6 +276,18 @@ body {
   width: 240px;
 }
 
+.page_not_exist_title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.page_not_exist_subtitle {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
 
 .technic-category-list::-webkit-scrollbar {
   display: none;
@@ -300,20 +304,27 @@ body {
     font-size: 20px;
     font-weight: 900;
   }
-  .action {
-    color: #DCDCDC;
-    font-size: 16px;
-    font-weight: 900;
-    display: flex;
-    flex-direction: row;
-  }
 
   img {
     width: 100%;
     height: 94px;
     object-fit: contain;
   }
+}
 
+.technic-category-card .action, .one-mark-card .action {
+  color: #DCDCDC;
+  font-size: 16px;
+  font-weight: 900;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.one-mark-card .action {
+  padding: 0 15px;
 }
 
 .technic-category-card:last-child {
@@ -351,6 +362,11 @@ body {
   border: 1px solid #DCDCDC;
 }
 
+.button-action-mark {
+  background: #DCDCDC;
+  color: white;
+}
+
 .button-action-category:hover {
   cursor: pointer;
   color: white;
@@ -384,7 +400,8 @@ body {
 .img-main-wrapper {
   //position: relative;
   width: 100%;
-  object-fit: contain;
+  max-height: calc(100vh - 100px);
+  object-fit: cover;
 }
 
 .page-heading-main {
@@ -400,14 +417,27 @@ body {
   padding: 10px;
 }
 
+.desc-categories {
+  .col-right-desc-main, .col-left-desc-main {
+    padding: 60px @paddingWrapperLaptop 60px @paddingWrapperLaptop;
+  }
+}
+
 @media (max-width: 1140px) {
   .col-left-desc-main, .col-right-desc-main {
     gap: 25px;
-    padding: 50px @paddingWrapperLaptop 50px 60px;
+    padding: 50px @paddingWrapperLaptop 50px @paddingWrapperLaptop;
   }
   .col-right-desc-main {
-    padding: 50px 50px 60px @paddingWrapperLaptop;
+    padding: 50px @paddingWrapperLaptop 50px @paddingWrapperLaptop;
   }
+
+  .item-site-description-line:before {
+    height: 50px;
+    top: -50px;
+  }
+
+
 }
 
 
@@ -421,21 +451,21 @@ body {
     top: 32px;
     font-size: 18px;
   }
-  //
-  //.main_cover {
-  //  height: 600px;
-  //  background-size: contain;
-  //}
+  .page_not_exist_title {
+    font-size: 28px;
+  }
 
   .desc-bottom-main-page {
     background: url("../images/tractor_main_page_background.png");
   }
 
-  .category-section {
-    footer {
+  .category-section footer{
       margin-top: 0;
-    }
   }
+  .category-section-marks footer {
+    margin-top: @paddingWrapperLaptop;
+  }
+
   .main-desc-wrapper {
     background: linear-gradient(77deg, #809E2A 63.85%, rgba(169, 205, 83, 0) 105.95%);
   }
@@ -443,7 +473,7 @@ body {
     background: none;
   }
 
-  .col-left-desc-main, .col-right-desc-main {
+  .desc-categories .col-left-desc-main,.desc-categories .col-right-desc-main, .col-left-desc-main, .col-right-desc-main {
     gap: 20px;
     padding: 30px 40px;
   }
@@ -476,7 +506,11 @@ body {
   }
 }
 
-
+@media (max-width: 767px) {
+  .page_not_exist_title {
+    font-size: 24px;
+  }
+}
 
 
 @media (max-width: 575px) {
@@ -513,7 +547,7 @@ body {
     min-height: 230px;
   }
 
-  .col-left-desc-main, .col-right-desc-main {
+  .desc-categories .col-left-desc-main,.desc-categories .col-right-desc-main, .col-left-desc-main, .col-right-desc-main {
     gap: 12px;
     padding: 24px 16px;
 
@@ -526,10 +560,8 @@ body {
       font-size: 18px;
     }
 
-    footer {
-      margin-top: 0;
-    }
   }
+
 
   .desc-bottom-main-page .title, .desc-bottom-main-page p {
     font-size: 14px;

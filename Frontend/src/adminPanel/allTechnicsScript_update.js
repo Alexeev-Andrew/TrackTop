@@ -1429,22 +1429,6 @@ function hideModal(){
                  console.log(err);
              }
              else {
-                 // let photos = JSON.parse(data1.data[0].photos);
-                 // if(photos!= null && photos!= undefined) {
-                 //    // deleteFile(photos);
-                 //     fs.unlink("yabluna.png", (err) => {
-                 //         if (err) {
-                 //             console.error(err)
-                 //             return
-                 //         }
-                 //     })
-                 //     // try {
-                 //     //     fs.unlink("yabluna.png")
-                 //     //     //file removed
-                 //     // } catch(err) {
-                 //     //     console.error(err)
-                 //     // }
-                 // }
                  function callback(err,data) {
                      if( err) {
                          Notify("Помилка! Не вдалось видалити.",null,null,'success');

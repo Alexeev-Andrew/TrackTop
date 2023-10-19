@@ -1,4 +1,5 @@
 let Templates = require('./Templates');
+let {validatePhone, Notify} = require("./helpers")
 
 let basil = require('basil.js');
 basil = new basil();
@@ -13,7 +14,7 @@ let Cart = [];
 let $cart = $(".buyList");
 let flag=true;
 
-let $amount = $(".amountOfBoughtPizz");
+let $amount = $(".amountOfProducts");
 let $allPrice = $(".amountLabel");
 
 
@@ -22,31 +23,43 @@ exports.initialiseBasket = function(){
         $('#user_info').css("display", "none");
         $('#myForm').css("display", "none");
         document.location.href = values.url + "/basket"
-        //openNav();
     })
 
 
     $('.btnSubscribeEmail').click(function () {
-        let email = document.getElementById("email_subscribe").value;
-        //console.log(email)
+        let email = document.getElementById("email_subscribe_footer").value;
+        checkAndSubscribeHelper(email)
+    })
 
+    $('#subscribeEmail').click(function () {
+        let email = document.getElementById("email_subscribe_left_menu").value;
+        checkAndSubscribeHelper(email)
+    })
+
+    $('.btnSubscribeEmailNews').click(function () {
+        let email = document.getElementById("email_subscribe").value;
+        checkAndSubscribeHelper(email)
+    })
+
+
+
+    function checkAndSubscribeHelper(email) {
         if(emailIsValid(email)) {
             $("#error-msg").css("display","none");
             writeEmail(email, function (err, result) {
-                console.log(result)
                 if(err || result.error) {
-                    $("#error-msg").css("display","block");
+                    Notify("Ви вже підписані на новини", null, null, 'info' , 4)
                 }
                 else {
-                    alert("Дякуємо за підписку!")
+                    Notify("Дякуємо за підписку!", null, null, 'success' , 4)
                 }
-
             });
         }
         else {
-            $("#error-msg").css("display","block");
+            Notify("Введіть вірний email", null, null, 'warning' , 4)
         }
-    })
+    }
+
 
 
     $(".sendNumberButton").click(function () {
@@ -55,18 +68,16 @@ exports.initialiseBasket = function(){
          let text = 'Передзвоніть мені на ' + $("#tele_phone_call").val();
          if(phone.length == 16) {
              require("./API").addPhone(phone);
-             require("./API").sendMessage({message: message }, () => {})
-
-             document.getElementById('slibotph').style.display='none';
-             document.getElementById('content1').style.width='300px';
-             document.getElementById('content1').style.padding='0px';
-             document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
-
+             require("./API").sendMessage({message: text }, () => {
+                 $("#pop_up_bl").hide();
+                 $("#minbotph").show()
+                 Notify('Дякую, ми передзвонимо до Вас найближчим часом', null, null, 'success' , 4)
+                 // document.getElementById('content1').style.width='300px';
+                 // document.getElementById('content1').style.padding='24px';
+                 // document.getElementById('mssgresbox').innerHTML = 'Дякую, ми Вам передзвонимо';
+             })
          }
-         else {
-             //document.getElementById('mssgresbox').innerHTML = 'Помилка!';
-         }
-        //console.log($("#tele_phone_call").val() + ", len = " + $("#tele_phone_call").val().length);
+
     });
 
     initialiseCart();
@@ -140,81 +151,105 @@ function initialiseCart() {
 
     $(".orderButton").click(function () {
         if(Cart.length!=0){
+            let form_anonim = document.querySelector("#buy-anonim-form")
 
-            let status = localStorage.getItem("status");
-            if(status) {
-                let id = localStorage.getItem("id");
 
-                let name = localStorage.getItem("name");
-                let surname = localStorage.getItem("surname");
-                let phone = localStorage.getItem("phone");
-                let settlement = localStorage.getItem("settlement");
+            let order_details = $("#description").val().trim()
+            let today = getCurrentDate();
 
-                let user_info = "Покупець:  " + surname + " " + name + "\nТелефон : " + phone + "\nнас. пункт : " + settlement;
+            let newCheck = {
+                total: allPrice,
+                purchase_date: today,
+                order_array: Cart
+            }
 
-                console.log(Cart)
-                console.log(Cart[0])
+            function callback(err, data) {
+                let user_info = "";
+                if(data.auth || window.getComputedStyle(document.querySelector(".row-col-anonim-wrapper"), null).display == "flex") {
+                    if (data.auth) {
+                        let user = data.user;
 
-                let order = "Замовлення\n";
-                for (let i = 0; i < Cart.length; i++) {
-                    let currency = ""
-                    //if (Cart[i].currency== "")
-                    if (Cart[i].url) {
-                        let url2 = "id: <a href=\""+ Cart[i].url + "\"> " + Cart[i].id + "</a>" + "\n";
-                        order += url2
+                        newCheck["client_id"] = user.id;
+
+                        if (user.surname || user.name) {
+                            user_info += "Покупець:  " + user.surname + " " + user.name + "\n"
+                        }
+
+                        user_info += "Телефон : " + user.phone_number;
+                        if (user.settlement && user.nova_poshta_number) {
+                            user_info += "\nнас. пункт : " + user.settlement + ` № ${user.nova_poshta_number}`
+                        }
+                    } else {
+                        let data_form = new FormData(form_anonim);
+                        let user_name = data_form.get("name");
+                        let phone = data_form.get("phone");
+                        let location = data_form.get("location");
+                        let post_number = data_form.get("post_number")
+
+
+                        if (!validatePhone(phone)) {
+                            return alert("Перевірте введений номер телефону")
+                        }
+
+                        if (data_form.get("name")) user_info += "Покупець:  " + user_name + "\n"
+                        if (location.length >= 3 && Number.isInteger(Number(post_number))) {
+                            user_info += "\nнас. пункт : " + location + ` № ${post_number}`
+                        } else {
+                            return alert("Перевірте дані для доставки")
+                        }
+
+                        newCheck["anonim_user"] = JSON.stringify({name: user_name, phone, location, post_number })
                     }
-                    order += "назва: " + Cart[i].title + "\n";
-                    order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
-                    order += "кількість: " + Cart[i].quantity + " шт.\n\n";
-                }
-                console.log(order);
 
-                let today = getCurrentDate();
-                let message = user_info + "\n" + order;
+                    let order = "Замовлення\n";
+                    for (let i = 0; i < Cart.length; i++) {
+                        if (Cart[i].url) {
+                            //console.log(Cart[i].url)
 
-                //require("./API").sendMessage({message: message }, () => {})
+                            function encodeRFC3986URI(str) {
+                                return encodeURI(str)
+                                    .replace(/%5B/g, "[")
+                                    .replace(/%5D/g, "]")
+                                    .replace(
+                                        /[!'()*]/g,
+                                        (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`,
+                                    );
+                            }
+                            //console.log(decodeURI(Cart[i].url))
 
-
-                let check_id;
-                let newCheck = {
-                    client_id: id,
-                    total: allPrice,
-                    purchase_date: today,
-                    order_array: Cart
-                };
-                let check_technic;
-                function callback(error,data){
-                    if(data.error) {
-                        console.log(data.error);
+                            let url = Cart[i].url;//Cart[i].url.replaceAll("%", '\\'); //'=?UTF-8?B?'+new Buffer(subject).toString('base64')+'?='
+                            url = decodeURI(Cart[i].url);
+                            url = encodeRFC3986URI(url)
+                            let url2 = `id: <a href="${url}">${Cart[i].id}</a>\n`;
+                            order += url2
+                        }
+                        order += "назва: " + Cart[i].title + "\n";
+                        order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
+                        order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                     }
-                    else if(!(data.data[0]==null)){
-                        id = data.data[0].id;
+                    console.log(order);
 
-                        newCheck.client_id = id;
+                    let message = user_info + "\n" + order;
+                    if (order_details) message += `\n Деталі замовлення: ${order_details}`
 
-                        addCheck(newCheck,function (check_id) {
-                            document.location.href = API_URL + "/thank-you";
-                            //addCheckEquipments(check_id);
-                        });
+                    require("./API").sendMessage({message: message }, () => {
+                        // notify
+                        Notify('Дякуємо, замовлення отримано!', null, null, 'success' , 4)
+                    })
+
+
+                    addCheck(newCheck,function () {
                         removeAll();
-
-                    }
+                        //document.location.href = API_URL + "/thank-you";
+                    });
 
                 }
-                require("./API").getClientbyPhone(phone,callback);
-
-
+                else {
+                    console.log("here")
+                    document.querySelector(".row-col-anonim-wrapper").style.display = "flex"
+                }
             }
-            else {
-                $("#logged-user-err").css("display","block")
-                $("#basket-logged-user-register").click(function(){
-                    require('./profile/signup_form').openSignUpFormBasket();
-                });
-                $('#basket-logged-user-log-in').click(function() {
-                    require('./profile/login_form').openForm();
-                })
-
-            }
+            require("./API").isLogIn(callback)
         }
     });
 
@@ -230,7 +265,10 @@ function initialiseCart() {
 
 function addCheck(check,callback) {
     require("./API").addOrder(check, function (err, data) {
-        if (data.error) console.log(data.error);
+        if (data.error) {
+            callback(data.error)
+            console.log(data.error);
+        }
         else {
              callback(data.data.insertId);
         }
@@ -272,18 +310,17 @@ function updateCart() {
     $amount.append(amountOfOrders);
     $allPrice.html("");
     $allPrice.append(allPrice + " грн");
+    $('.label_main_count').text(Cart.length)
+
 
     if(Cart.length>0) {
-        console.log("len" + Cart.length)
-
         $('.circle-basket').text(Cart.length)
         $('#basket-not-empty').css("display", "block");
         $('#basket-empty').css("display", "none");
         $('.circle-basket').css("display", "block");
-
     }
     else {
-        $('#basket-empty').css("display", "block");
+        $('#basket-empty').css("display", "flex");
         $('#basket-not-empty').css("display", "none");
         $('.circle-basket').text("")
         $('.circle-basket').css("display", "none");

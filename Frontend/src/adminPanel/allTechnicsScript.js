@@ -38,17 +38,12 @@ let files2 = [];
 openAddTechnicModel = function () {
 
     type = 'tech';
-    document.getElementById('addTechnicModelWithoutCategory').style.display='block';
+    $('#addTechnicModelWithoutCategory').modal("show");
+    // document.getElementById('addTechnicModelWithoutCategory').style.display='block';
     // $('#addTechnicModel').style.display='block';
     $("#add-btn").text("Додати");
     $("#technic_url").hide()
     technicFormClear();
-    $('.uploader__file-list').empty();
-// class="js-uploader__contents uploader__contents uploader__hide"
-    $('.uploader__contents').removeClass("uploader__hide");
-    $('.js-uploader__further-instructions').addClass("uploader__hide");
-
-    $('.js-uploader__submit-button').addClass("uploader__hide");
 
     // todo:
     // get all types of technics, loop through and add options text = type, value=type
@@ -108,8 +103,6 @@ getModels = function() {
 
 openEditTechnicModal = function(cell) {
     $('#addTechnicModelWithoutCategory').modal('show');
-    //type = 'tech';
-   // console.log(cell);
 
     let row = $(cell).parents("tr");
     let cols = row.children("td");
@@ -126,9 +119,7 @@ openEditTechnicModal = function(cell) {
     let mark = $("#mark-choice").prop("disabled", true);
     $("#model-choice").prop("disabled", true);
     $("#price-input-technic").val($(cols[4]).text());
-    console.log(model)
-    console.log(mark)
-    console.log(type)
+
 
     function callback(err,data) {
         if (err) {
@@ -140,6 +131,9 @@ openEditTechnicModal = function(cell) {
             //http://tracktop.com.ua/technic?model=186&mark=Massey%20Ferguson&type=%D0%9A%D0%BE%D0%BC%D0%B1%D0%B0%D0%B9%D0%BD%D0%B8&number_id=229
             editor.setData(data.data[0].description);
             $("#year-technic-input").val(data.data[0].production_date);
+
+            $("#status").val(data.data[0].status);
+
             let cur = data.data[0].currency;
             if(cur == "долар")  $("#currency-choice").val("$");
             if(cur == "євро")  $("#currency-choice").val("€");
@@ -204,39 +198,38 @@ openRemoveModalTechnic = function(cell){
     $('#modal-btn-delete').click(function() {
             function callback(err,data) {
                 if( err) {
-                    Notify("Помилка! Не вдалось видалити.",null,null,'success');
+                    require('../pagesScripts/notify').Notify("Помилка! Не вдалось виконати.", null, null, 'success');
                 }
                 else {
                     $(cell).parents("tr").remove();
                     $('#myModal').modal("hide");
+                    require('../pagesScripts/notify').Notify("Успішно видалено", null, null, 'success');
                 }
             }
             require("../API").deleteTechnicsByID(id,callback);
     });
-     // todo if btn sold is clicked - delete images and attribute sold
 
     $('#modal-btn-sold').click(function() {
         function callback2(err,data2) {
             if( err) {
-                Notify("Помилка! Не вдалось виконати.",null,null,'success');
+                require('../pagesScripts/notify').Notify("Помилка! Не вдалось виконати.", null, null, 'success');
             }
             else {
                 $('#myModal').modal("hide");
+                require('../pagesScripts/notify').Notify("Успішно видалено", null, null, 'success');
             }
         }
-        require("../API").updateTechnic(id,{sold: true},callback2)
+        require("../API").updateTechnic(id,{status: "продано"},callback2)
     });
 
 }
 
-
-
 deleteEquipment = function(cell) {
     // check if we can delete
-    var row = $(cell).parents("tr");
-    var cols = row.children("td");
-    var id  = $(cols[0]).text();
-    console.log(id);
+    let row = $(cell).parents("tr");
+    let cols = row.children("td");
+    let id  = $(cols[0]).text();
+    // console.log(id);
     var conf =confirm ("Ви впевнені, що хочете видалити?");
     if(conf) {
         function callback(err,data) {
@@ -277,8 +270,6 @@ getMarks = function() {
     require("../API").getModelsbyTypeMark(selectedType,null,callback);
 }
 
-//multiple-select-container-1
-
 showModels = function() {
     let selectedType = $('#type_technics').children("option:selected").val();
     let selectedMark = $('#mark-choice').val();
@@ -312,7 +303,7 @@ showModels = function() {
 
 openAddEquipmentModel = function () {
     type = 'eq';
-    document.getElementById('addEquipmentModel').style.display='block';
+    $('#addEquipmentModel').modal("show");
     $("#add-btn").text("Додати");
     $('#type_technics').prop("disabled", true);
     equipmentFormClear();
@@ -328,8 +319,6 @@ openAddEquipmentModel = function () {
         });
     }
     require("../API").getModels(callback1);
-    // to do
-    // get all types of technics, loop through and add options text = type, value=type
 
     $('#categories_modal').children().remove();
     $('#categories_modal').append('<option selected value="Категорія" disabled>Категорія</option>');
@@ -346,7 +335,6 @@ openAddEquipmentModel = function () {
 
 openEditEquipmentModal = function(cell) {
 
-
     $('#addEquipmentModel').modal('show');
     // console.log(cell);
     equipmentFormClear();
@@ -355,13 +343,12 @@ openEditEquipmentModal = function(cell) {
     let row = $(cell).parents("tr");
     let cols = row.children("td");
     let id  = $(cols[0]).text();
-    console.log(id);
+    // console.log(id);
     localStorage.setItem("currEquipmentId",id);
     //children("button")[0]).data("id");
     $("#name-equipment").val($(cols[1]).text());
     $("#price-input").val($(cols[2]).text());
     // $("#equipment-code").val($(cols[3]).text());
-    $("#vendor-choice").val();
     $("#equipment-amount").val($(cols[4]).text());
     $('#model-choice').children().remove();
     $('#mark-choice').children().remove();
@@ -371,23 +358,18 @@ openEditEquipmentModal = function(cell) {
     $('#multiple-select-container-'+(container_num-1)).remove();
     $('#multiple-select-container-'+(container_num)).remove();
 
-
-
     function callback(err,data) {
         if (err) {
             console.log(err);
         }
         else {
             let equipment = data.data[0];
-            //////////////////
             let eq_codes =  JSON.parse(equipment.vendor_code) || [];
 
             eq_codes.forEach(function (item) {
                     let option = new Option(item, item, false, true);
                     $('#vendor-choice').append(option).trigger("change")
             })
-
-            ///////
 
             let categories = [];
 
@@ -412,6 +394,7 @@ openEditEquipmentModal = function(cell) {
                     ///
 
                     $("#equipment_url").attr("href",API_URL + "/equipment?name=" + data.data[0].name + "&id=" + id )
+                    $("#status").val(data.data[0].status);
 
                     editor.setData(data.data[0].description);
                     $("#state-choice").val(data.data[0].state);
@@ -528,26 +511,9 @@ openEditEquipmentModal = function(cell) {
 }
 
 $(function(){
-    //
-    // for(var i=0;i<100;i++) {
-    //     $("#allTechnics tbody").append(
-    //         "<tr class='rowTechnic'>" +
-    //         "<td class=\"id\">"+i+"</td>" +
-    //         "<td class=\"type\">"+"Комбайни"+"</td>" +
-    //         " <td class=\"mark\">"+"claas"+"</td>" +
-    //         " <td class=\"model\">"+"mercator 50"+"</td>" +
-    //         " <td class=\"price\">"+"9000"+"</td>" +
-    //         " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditTechnicModal(this)'><i class=\"fa fa-edit\"></i></button></td>" +
-    //         "<td class=\"delete-btn\"><button class=\"btn btn-secondary\" onclick='deleteTechnic(this)'><i class=\"fa fa-remove\"></i></button></td>" +
-    //         "</tr>"
-    //     );
-    // }
-    //alert( "ready!" );
+
     function callback(err,data) {
         data.data.forEach(function(item){
-
-            //console.log(item.sold);
-           // console.log(item.sold==true);
             let el;
 
             if (item.sold) el += "<tr class='rowTechnic soldTechnic'>"; else {
@@ -569,21 +535,6 @@ $(function(){
 });
 
 $(function(){
-    console.log( "window loaded" );
-
-    // for(var i=0;i<100;i++) {
-    //     $("#allEquipments tbody").append(
-    //         "<tr class='rowEquipment'>" +
-    //         "<td class=\"id\">"+i+"</td>" +
-    //         "<td class=\"name\">"+"Комбайн"+"</td>" +
-    //         " <td class=\"price\">"+"45"+"</td>" +
-    //         " <td class=\"code\">"+"KM342342i"+"</td>" +
-    //         " <td class=\"amount\">"+"9000"+"</td>" +
-    //         " <td class=\"edit-btn\"><button class=\"btn btn-secondary\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit\"></i></button></td>" +
-    //         "<td class=\"delete-btn\"><button class=\"btn btn-secondary\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove\"></i></button></td>" +
-    //         "</tr>"
-    //     );
-    // }
     //alert( "ready!" );
     function callback(err,data) {
         data.data.forEach(function(item){
@@ -759,13 +710,11 @@ addTechnicToDB = function () {
                                                 }
                                             )
                                         }
-                                       // $('#addTechnicModel').modal('hide');
                                     }
-                                    //$('#addTechnicModel').modal('hide');
                                 }
 
                                 require("../API").addTehnic({technic:technic}, callback);
-                                $('#addTechnicModelWithoutCategory').css("display", "none");
+                                $('#addTechnicModelWithoutCategory').modal("toggle");
                             }
 
                             require("../API").addMarkTechnic({name: mark}, callback4);
@@ -795,7 +744,7 @@ addTechnicToDB = function () {
                                         )
                                     }
 
-                                    $('#addTechnicModelWithoutCategory').css("display", "none");
+                                    $('#addTechnicModelWithoutCategory').modal("toggle");
                                     require('../pagesScripts/notify').Notify("Оголошення успішно додано!", null, null, "success")
                                     let row = productBuildTableRow(table_row)
                                     $("#allTechnics tbody").prepend(row);
@@ -803,10 +752,7 @@ addTechnicToDB = function () {
                             }
 
                             require("../API").addTehnic({technic:technic}, callback9);
-                            // //$('#addTechnicModelWithoutCategory').css("display", "none");
-                            // require("../notify").Notify("Оголошення успішно додано!", null, null, "success")
-                            // let row = productBuildTableRow(table_row)
-                            // $("#allTechnics tbody").prepend(row);
+
                         }
                     }
 
@@ -944,24 +890,24 @@ unlockType = function() {
 }
 
 function checkInputEquipment() {
-    var name = $('#name-equipment').val();
-    var price = $("input[type=number][name=price-input]").val();
-    var amount = $("#equipment-amount").val();
-    var selectedType = $('#type_technics').children("option:selected").val();
-    var mark = $("#mark-choice").val();
-    var models = $("#model-choice").val();
+    let name = $('#name-equipment').val();
+    let price = $("input[type=number][name=price-input]").val();
+    let amount = $("#equipment-amount").val();
+    let selectedType = $('#type_technics').children("option:selected").val();
+    let mark = $("#mark-choice").val();
+    let models = $("#model-choice").val();
     let categories = $("#categories_modal").val();
-    if(categories=="Категорія") return false;
+    if(!categories || categories=="Категорія") return false;
     if(categories=="Запчастини до комбайнів") {
         if(selectedType=="Комбайни") {
             if(mark=="Марка") return  false;
             if(models==null) return  false;
             if(models.length==0) return false;
         }
-        else if(mark.trim()=="") return false;
+        else if(!mark || mark.trim()=="") return false;
     }
 
-    if(name.toString().trim() =="" || price.toString().trim()=="" || amount.toString().trim()==""  ) return false; // selectedType.toString().trim()=="Тип" ||
+    if(name.toString().trim().length <= 2 || +price < 0 || +amount < 0 ) return false; // selectedType.toString().trim()=="Тип" ||
     else  return true;
 }
 
@@ -978,13 +924,7 @@ addEquipmentToDB = function () {
     let mark = $("#mark-choice").val();
     let models = $("#model-choice").val();
     let status = $("#status").val()
-    // console.log(name);
-    // console.log(code);
-    // console.log(price);
-    // console.log(currency);
-    // console.log(state);
-    // console.log(description);
-    // console.log(amount);
+
     let add_update_btn = $("#add-btn").text();
 
     code.filter(item => item.toString().trim().length > 2)
@@ -1001,8 +941,6 @@ addEquipmentToDB = function () {
         status: status
     };
 
-    // if(currency=="€") equipment.currency="євро";
-    // if(currency=="грн") equipment.currency="гривня";
 
 
     if(add_update_btn=="Додати") {
@@ -1017,10 +955,7 @@ addEquipmentToDB = function () {
                     })
 
                     function callback(err, data) {
-                        //console.log(data.data);
-                       // console.log(data.data[0]);
                         let insertedid = data.data.insertId;
-                         //console.log(data.data.insertId);
                         let model_id = null;
 
                         if (category == "Запчастини до комбайнів") {
@@ -1073,8 +1008,7 @@ addEquipmentToDB = function () {
                             )
                         }
 
-                        $('#addEquipmentModel').css("display", "none");
-
+                        $('#addEquipmentModel').modal("toggle");
                         equipment.id = insertedid;
                         let row = productBuildEquipmentTableRow(equipment);
                         $("#allEquipments tbody").prepend(row);
@@ -1251,27 +1185,32 @@ addEquipmentToDB = function () {
 }
 
 
-
-
 function technicFormClear() {
     $("#mark-choice").val("");
     $('#mark-choice').prop("disabled", true);
     editor.setData("");
     $("#model-choice").val("");
     $('#model-choice').prop("disabled", true);
-    $("#status").val("В наявності");
+    $("#status").val("в наявності");
     $("#price-input-technic").val("");
     $("#year-technic-input").val("");
     $('#type_technics').val("Тип");
     $('#type_technics').prop("disabled", false);
    // delete photoes if needed
+
+    $('.uploader__file-list').empty();
+// class="js-uploader__contents uploader__contents uploader__hide"
+    $('.uploader__contents').removeClass("uploader__hide");
+    $('.js-uploader__further-instructions').addClass("uploader__hide");
+
+    $('.js-uploader__submit-button').addClass("uploader__hide");
 }
 
 function equipmentFormClear() {
     $("#mark-choice").val("");
     $('#mark-choice').prop("disabled", true);
     $("#description").val("");
-    $("#status").val("В наявності");
+    $("#status").val("в наявності");
     $("#vendor-choice").val("");
     $("#vendor-choice").children().remove();
     $("#vendor-choice").trigger("change")
@@ -1307,17 +1246,6 @@ function uploadPhoto(){
         }
     })
 }
-/*не корректный */
-// function getPhotos(){
-//     var arrCheck = [];
-//     $('.uploader__file-list li .uploader__file-list__text').each(function(idx, item) {
-//         var ert = {
-//             val: $(this, item).text()
-//         };
-//         arrCheck.push(ert);
-//     });
-//     return arrCheck;
-// }
 
  $(document).on('input','#fileinput0', function (event) {
      //console.log(event.target.files)
@@ -1332,13 +1260,9 @@ function uploadPhoto(){
  });
 
  function getFiles() {
-     //let files1 = Array.from($('#fileinput0').prop('files'));
-     //let files2 = Array.from($('#secondaryfileinput0').prop('files'));
-     //let files = files1.concat(files2);
+
      let filesNames = [];
-     // let files_slice = $.map(files, function (item) {
-     //     return item.name
-     // })
+
      $('#sortable1 li').each(function(i)
      {
          filesNames.push($(this).data('src-file')); // This is your rel value
@@ -1450,43 +1374,6 @@ $(function(){
         })*/
     });
 
-    // $('#fileinput0').change(function (event) {
-    //     for(var i=0;i<event.target.files.length;i++)
-    //         //files.push(event.target.files[i])
-    //         if(type=='tech') {
-    //             console.log(event.target.files[i])
-    //             require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-    //                 if(err || data.error)
-    //                     console.log(err||data.error);
-    //             });
-    //         }
-    //
-    //         else
-    //             require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
-    //                 if(err || data.error)
-    //                     console.log(err||data.error);
-    //             })
-    // })
-    //
-    // $('#secondaryfileinput0').change(function (event) {
-    //     for(var i=0;i<event.target.files.length;i++)
-    //         if(type=='tech')
-    //             require('../API').uploadTechnicPhoto(event.target.files[i],function(err,data){
-    //                 if(err || data.error)
-    //                 console.log(err||data.error);
-    //                 console.log(event.target.files[i])
-    //             });
-    //         else
-    //             require('../API').uploadEquipmentPhoto(event.target.files[i],function(err,data){
-    //                 if(err || data.error)
-    //                     console.log(err||data.error);
-    //             })
-    //
-    // })
-
-
-
-
 });
 
  var getFileBlob = function (url, cb) {
@@ -1551,86 +1438,13 @@ function hideModal(){
  }
 
 
- // $(".uploader__file-list__item").each(function(i) {
- //     var item = $(this);
- //     var item_clone = item.clone();
- //     item.data("clone", item_clone);
- //     var position = item.position();
- //     item_clone
- //         .css({
- //             left: position.left,
- //             top: position.top,
- //             visibility: "hidden"
- //         })
- //         .attr("data-pos", i+1);
- //
- //     $("#cloned.uploader__file-list__items").append(item_clone);
- // });
- //
- // $(".js-uploader__file-list").sortable({
- //
- //     axis: "y",
- //     revert: true,
- //     scroll: false,
- //     placeholder: "sortable-placeholder",
- //     cursor: "move",
- //
- //     start: function(e, ui) {
- //         ui.helper.addClass("exclude-me");
- //         $(".js-uploader__file-list .uploader__file-list__item:not(.exclude-me)")
- //             .css("visibility", "hidden");
- //         ui.helper.data("clone").hide();
- //         $(".cloned.uploader__file-list__items .uploader__file-list__item").css("visibility", "visible");
- //     },
- //
- //     stop: function(e, ui) {
- //         $(".js-uploader__file-list .uploader__file-list__item.exclude-me").each(function() {
- //             var item = $(this);
- //             var clone = item.data("clone");
- //             var position = item.position();
- //
- //             clone.css("left", position.left);
- //             clone.css("top", position.top);
- //             clone.show();
- //
- //             item.removeClass("exclude-me");
- //         });
- //
- //         $(".js-uploader__file-list .uploader__file-list__item").each(function() {
- //             var item = $(this);
- //             var clone = item.data("clone");
- //
- //             clone.attr("data-pos", item.index());
- //         });
- //
- //         $(".js-uploader__file-list .uploader__file-list__item").css("visibility", "visible");
- //         $(".cloned.uploader__file-list__items .uploader__file-list__item").css("visibility", "hidden");
- //     },
- //
- //     change: function(e, ui) {
- //         $(".js-uploader__file-list .uploader__file-list__item:not(.exclude-me)").each(function() {
- //             var item = $(this);
- //             var clone = item.data("clone");
- //             clone.stop(true, false);
- //             var position = item.position();
- //             clone.animate({
- //                 left: position.left,
- //                 top: position.top
- //             }, 200);
- //         });
- //     }
- //
- // });
-
-
-
-
  /// technics without category
 
 
  openAddTechnicWithoutCategoryModel = function () {
      type = 'tech';
-     document.getElementById('addTechnicModelWithoutCategory').style.display='block';
+     $('#addTechnicModelWithoutCategory').modal("show");
+     // document.getElementById('addTechnicModelWithoutCategory').style.display='block';
      $("#add-btn").text("Додати");
      loaderFormClear();
  }
@@ -1639,12 +1453,11 @@ function hideModal(){
  openEditTechnicWithoutCategoryModal = function(cell) {
      $('#addTechnicModelWithoutCategory').modal('show');
      type = 'tech';
-     var row = $(cell).parents("tr");
-     var cols = row.children("td");
-     var id  = $(cols[0]).text();
+     let row = $(cell).parents("tr");
+     let cols = row.children("td");
+     let id  = $(cols[0]).text();
      localStorage.setItem("currId", id);
      //console.log(id);
-     var s = $(cols[1]).text();
      $("#name_loader").val("");
      $("#price-input-technic").val($(cols[4]).text());
 
@@ -1653,60 +1466,61 @@ function hideModal(){
              console.log(err);
          }
          else {
-             let cont = JSON.parse(data.data[0].description,function (key, value) {
-                 if(typeof value === 'string')
-                     value = value.replace("/n/","\n");
-                 return value
-             });
-             //console.log(cont);
-
-             editor.setContents(cont);
              $('#name_loader').val(data.data[0].name);
              $("#price-input-technic").val(data.data[0].price);
-             //$("#description").val(data.data[0].description);
+             $("#year-technic-input").val(data.data[0].production_date);
+             $("#status").val(data.data[0].status);
+
+
              let cur = data.data[0].currency;
-             if(cur == "долар")  $("#currency-choice").val("$");
+             if (cur == "долар")  $("#currency-choice").val("$");
              else if(cur == "євро")  $("#currency-choice").val("€");
              else  $("#currency-choice").val("грн");
 
+             editor.setData(data.data[0].description);
 
-             let photos = JSON.parse(data.data[0].photos);
-
-             let dataset = [];
-             if(photos == null) {
-                 photos = []
-             }
+             let photos = JSON.parse(data.data[0].photos) || [];
              console.log(photos)
+             localStorage.setItem("photo_arr", JSON.stringify(photos));
 
-             // if(photos.length != 0)
-             //     photos.forEach(function(item) {
-             //         dataset.push("technics/"+item.val)
-             //     });
-             // if(dataset.length === 0) {
-             //     dataset.push("technics/"+default_photo)
-             // }
-             // photos = dataset;
-             // localStorage.setItem("photo_arr", JSON.stringify(dataset));
+
              $('.uploader__file-list').empty();
              $('.js-uploader__submit-button').removeClass("uploader__hide");
              $('.js-uploader__further-instructions').removeClass("uploader__hide");
              $('.js-uploader__contents').addClass("uploader__hide");
 
-             for(let i=0;i< photos.length;i++) {
-                 let item = photos[i];
-                 getFileObject("/images/technics/" + item , function (fileObject) {
-                     //console.log(fileObject.size);
-                     $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
-                         "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
-                         " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
-                         item.id +  "\""+ "></button></li>")
-                 })
+             try {
+                 for(let i=0;i< photos.length;i++) {
+                     let item = photos[i];
+                     getFileObject("/images/technics/" + item , function (fileObject) {
+                         //console.log(fileObject.size);
+                         $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
+                             "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
+                             " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+                             item.id +  "\""+ "></button></li>")
+                     })
+                 }
+                 photosMakeSortable();
              }
+             catch(e) {
+             }
+
+             // for(let i=0;i< photos.length;i++) {
+             //     let item = photos[i];
+             //     getFileObject("/images/technics/" + item , function (fileObject) {
+             //         //console.log(fileObject.size);
+             //         $('.uploader__file-list').append( `<li class="uploader__file-list__item" data-src-file=${item} data-type="old" data-index="` + item +  "\"" +
+             //             "><span class=\"uploader__file-list__thumbnail\"><img  class=\"thumbnail\" src=\"/images/technics/" + item + "\"" +
+             //             " ></span> <button onclick=\"console.log('delete click')\" class=\"delete uploader__icon-button js-upload-remove-button fa fa-times\" data-index=\"" +
+             //             item.id +  "\""+ "></button></li>")
+             //     })
+             // }
 
          }
      }
      require("../API").getTechnicsWithoutCategoryById(id,callback);
      $("#add-btn").text("Оновити");
+
 
  }
 
@@ -1715,47 +1529,23 @@ function hideModal(){
      let row = $(cell).parents("tr");
      let cols = row.children("td");
      let id  = $(cols[0]).text();
+     console.log(id)
      $('#modal-btn-delete').click(function() {
 
-         function callback1(err,data1) {
-             if (err) {
-                 console.log(err);
+     function callback(err,data) {
+             if(err) {
+                 console.log(err)
+                 notify.Notify("Помилка! Не вдалось видалити.",null,null,'success');
              }
              else {
-                 // let photos = JSON.parse(data1.data[0].photos);
-                 // if(photos!= null && photos!= undefined) {
-                 //    // deleteFile(photos);
-                 //     fs.unlink("yabluna.png", (err) => {
-                 //         if (err) {
-                 //             console.error(err)
-                 //             return
-                 //         }
-                 //     })
-                 //     // try {
-                 //     //     fs.unlink("yabluna.png")
-                 //     //     //file removed
-                 //     // } catch(err) {
-                 //     //     console.error(err)
-                 //     // }
-                 // }
-                 function callback(err,data) {
-                     if( err) {
-                         Notify("Помилка! Не вдалось видалити.",null,null,'success');
-                     }
-                     else {
-                         $(cell).parents("tr").remove();
-                         $('#myModal').modal("hide");
-                     }
-                 }
-                 require("../API").deleteTechnicsWithoutCategoryByID(id,callback);
+                 notify.Notify("Успішно видалено",null,null,'success');
+                 $(cell).parents("tr").remove();
+                 $('#myModal').modal("hide");
              }
          }
-         require("../API").getTechnicsWithoutCategoryById(id,callback1);
-
+             require("../API").deleteTechnicsWithoutCategoryByID(id,callback);
 
      });
-     //
-
 
  }
 
@@ -1789,41 +1579,49 @@ function hideModal(){
 
      let loader_name = $('#name_loader').val().trim();
      let price = $("input[type=number][name=price-input]").val().trim();
-     function replacer(key, value) {
-         // Фільтрація властивостей
-         if(typeof value === 'string')
-             value = value.toString().replace("\n","/n/");
-         return value;
-     }
-
-     let json_desc = JSON.stringify(editor.getContents(),replacer);
+     let year = $("input[type=number][name=year-input]").val();
+     let description = editor.getData()
+     let status = $('#status').children("option:selected").val();
      let currency = $('#currency-choice').children("option:selected").val();
+
      // ..todo photos
      let add_update = $("#add-btn").text();
-     //json_desc = json_desc.replace("\n","/n/")
 
-     let loader = {
+     let table_row = {
          name: loader_name,
          price: price,
-         description: json_desc,
-         currency:"гривня"
+         production_date: year,
+         currency: "долар",
      }
-     if (currency == '$') loader.currency = "долар";
-     if (currency == '€') loader.currency = "євро";
+
+     let loader = {
+         amount: 1,
+         name: loader_name,
+         price: price,
+         production_date: year,
+         description: description,
+         currency:"долар",
+         status: status
+     }
+     if (currency == 'грн') {
+         table_row.currency = "гривня";
+         loader.currency = "гривня";
+     }
+
+     if (currency == '€') {
+         table_row.currency = "євро";
+         loader.currency = "євро";
+     }
 
      if(add_update=="Додати") {
 
          if (checkInputLoader()) {
-             console.log(loader)
 
-             //loader.photos = getPhotos().length > 0 ? JSON.stringify(getPhotos()) : JSON.stringify(["default_technic.jpg"])
              function callback1(err, data1){
                  if(err) console.log(err)
                  else {
-
-                     console.log(data1.data.insertId)
+                     console.log(data1)
                      let id = data1.data.insertId;
-                     console.log("success");
                      let files = getFiles() || [];
 
                      if(files.length > 0) {
@@ -1843,6 +1641,9 @@ function hideModal(){
                              }
                          )
                      }
+
+                     $('#addTechnicModelWithoutCategory').modal("toggle");
+                     require('../pagesScripts/notify').Notify("Оголошення успішно додано!", null, null, "success")
                  }
              }
              require("../API").addTehnicWithoutCategory(loader, callback1);
@@ -1851,66 +1652,68 @@ function hideModal(){
          }
      }
      else {
-         // Оновлення фото не відбуваються
-
-
          let id  = localStorage.getItem("currId");
          let photo_arr = JSON.parse(localStorage.getItem("photo_arr"));
-         //let newPhotos = getPhotos();
-         //console.log(newPhotos)
 
-         let photos_to_add = [];
+         let photo_arr_names = [];
 
-         //
-         // for( let i =0; i < newPhotos.length;i++) {
-         //     let a = newPhotos[i].val.trim();
-         //     if(!photo_arr_names.includes(a)) photos_to_add.push({val:a});
-         //     newPhotos[i] = a;
-         //
-         // }
-         //
-         // for( let i =0; i < photo_arr.length;i++) {
-         //     if (!newPhotos.includes(photo_arr[i].file_name)) {
-         //         // to do    delete photo from server
-         //     }
-         // }
+         photo_arr.forEach(function (item) {
+             photo_arr_names.push(item.file_name);
+         })
+         let newPhotos = getFilesUpload() || [];
+         let allFileNames = getActualFileNames() || [];
 
-         //loader.photos = newPhotos.length > 0 ? JSON.stringify(newPhotos) : JSON.stringify(["default_technic.jpg"])
-         console.log(loader)
+
+         //console.log(newPhotos);
+         let data = new FormData();
+         for (let i = 0; i < newPhotos.length; i++) {
+             data.append('uploadFile', newPhotos[i]);
+         }
+
+         data.append("insertId", id)
+         data.append("sorted_list", JSON.stringify(allFileNames));
+         data.append("old_files", JSON.stringify(photo_arr));
+         data.append("type", "withoutCategoryTechnics")
+
+         require('../API').updateTechnicPhoto_(data, function (err, data) {
+                 if (err || data.error)
+                     console.log(err || data.error);
+                 else {}
+             }
+         )
+
+
          function callback5(err,data1) {
              if( err) {
-                 console.log(err);
+                 require('../pagesScripts/notify').Notify("Помилка. Не вдалось оновити!", null, null, "danger")
              }
              else {
-                 alert("Товар оновлено!");
+                 $('#addTechnicModelWithoutCategory').modal("toggle");
+                 require('../pagesScripts/notify').Notify("Оголошення успішно додано!", null, null, "success")
              }
          }
          require("../API").updateTechnicWithoutCategory(id,loader,callback5)
      }
-
  }
 
  function checkInputLoader() {
      let loader_name = $('#name_loader').val().trim();
-     let price = $("input[type=number][name=price-input]").val().trim();
-     //
-     // if(loader_name.isNullOrEmpty
-     //     || producer.isNullOrEmpty() || country_producer.isNullOrEmpty() || price.isNullOrEmpty())
-     //     return false;
-     // else
-     return true;
+     let price = $("input[type=number][name=price-input]").val();
+     let year = $("input[type=number][name=year-input]").val();
+
+     if(loader_name.length < 3 || price.toString().trim()=="" || year.toString().trim()=="") return false;
+     else  return true;
+
  }
 
  function loaderFormClear() {
-     $("#producer").val("");
-     $("#country-producer").val("");
-     editor.deleteText(0,editor.getLength())
+     $('#name_loader').val("");
      $("#price-input-technic").val("");
      $("#year-technic-input").val("");
-     $('#name_loader').val("Фронтальний навантажувач");
+     $("#status").val("в наявності");
+     editor.setData("")
 
      $('.uploader__file-list').empty();
-// class="js-uploader__contents uploader__contents uploader__hide"
      $('.uploader__contents').removeClass("uploader__hide");
      $('.js-uploader__further-instructions').addClass("uploader__hide");
 

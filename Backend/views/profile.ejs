@@ -11,6 +11,8 @@
         })(window,document,'script','dataLayer','GTM-KS45HK4');</script>
     <!-- End Google Tag Manager -->
     <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="shortcut icon"  type="images/x-icon" href="/assets/images/favicon.ico" >
+
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
 
@@ -20,7 +22,7 @@
     
     <script src="https://kit.fontawesome.com/572f7f2830.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--style for text-->
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
     <!--font awesome-->
@@ -37,90 +39,154 @@
 <div id="main">
 
     <div class="narrow-wrapper padding-wrapper">
+        <div class="row no-gutters profile-wrapper">
 
-    <h1 class="page-header">Профіль</h1>
-    <div class="row no-gutters">
+        <div class="col-12 col-md-12 col-lg-3 row-change-photo-wrapper">
+            <div class="row-change-photo">
+                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">
 
-        <div  class="left-col-fixed">
-            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-thumbnail" alt="avatar" id="my_avatar">
-            <h6>Завантажити фото</h6>
-            <input
-                    type="file"
-                    id="photo_input"
-                    accept="image/*"
-                    class="text-center center-block  file-wrapper">
-            <input type="button" >
+              <div class="btn-change-photo">
+                <label id="change-photo" class="btn-outline-color-main">
+                    <input type="file" id="photo_input" accept="image/*" class="text-center file-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.5156 1.5C6.91161 1.5 6.40829 1.98686 6.35523 2.62201C6.24506 3.94909 6.21717 5.28236 6.27173 6.61329L6.0743 6.62812L4.91159 6.71708C4.74178 6.73018 4.57811 6.7896 4.43659 6.88953C4.29507 6.98946 4.18056 7.12647 4.10426 7.28715C4.02796 7.44783 3.99249 7.62667 4.00132 7.80616C4.01016 7.98566 4.06299 8.15966 4.15466 8.31113C5.01024 9.72453 6.11269 10.9532 7.40323 11.9317L7.86831 12.2851C8.05249 12.4248 8.27358 12.5 8.50039 12.5C8.7272 12.5 8.94829 12.4248 9.13247 12.2851L9.59755 11.9317C10.8878 10.9532 11.99 9.72447 12.8453 8.31113C12.937 8.15966 12.9898 7.98566 12.9987 7.80616C13.0075 7.62667 12.972 7.44783 12.8957 7.28715C12.8194 7.12647 12.7049 6.98946 12.5634 6.88953C12.4219 6.7896 12.2582 6.73018 12.0884 6.71708L10.9257 6.62812C10.8602 6.62297 10.7946 6.61803 10.7291 6.61329C10.7837 5.28286 10.7556 3.94914 10.6456 2.62201C10.6202 2.31564 10.4869 2.03045 10.2721 1.82274C10.0573 1.61502 9.7765 1.49986 9.48518 1.5H7.5156ZM7.4719 7.15534C7.38302 5.68292 7.39946 4.20551 7.52106 2.73569H9.47972C9.60163 4.20549 9.61832 5.6829 9.52966 7.15534C9.52481 7.23697 9.53537 7.31881 9.56071 7.3961C9.58605 7.47339 9.62567 7.5446 9.67729 7.6056C9.7289 7.6666 9.79147 7.71617 9.86137 7.75144C9.93127 7.78672 10.0071 7.80699 10.0845 7.81108C10.3373 7.82426 10.5894 7.84074 10.8414 7.86051L11.685 7.92559C10.9357 9.09044 9.998 10.1069 8.91475 10.9283L8.50117 11.2422L8.08603 10.9283C7.0027 10.1066 6.06496 9.08993 5.31581 7.92477L6.15936 7.86133C6.41141 7.84156 6.66424 7.82509 6.91629 7.81191C6.99374 7.80792 7.06966 7.78773 7.13965 7.7525C7.20964 7.71727 7.27231 7.66771 7.324 7.6067C7.37569 7.54569 7.41539 7.47445 7.44078 7.3971C7.46617 7.31976 7.47674 7.23786 7.4719 7.15617V7.15534Z" fill="#242223" fill-opacity="0.5"/>
+                        <path d="M3.25806 13.1667C3.25806 12.9899 3.19179 12.8203 3.07383 12.6953C2.95586 12.5702 2.79586 12.5 2.62903 12.5C2.4622 12.5 2.30221 12.5702 2.18424 12.6953C2.06627 12.8203 2 12.9899 2 13.1667V14.9444C2 15.8031 2.65755 16.5 3.46774 16.5H13.5323C13.9215 16.5 14.2949 16.3361 14.5701 16.0444C14.8454 15.7527 15 15.357 15 14.9444V13.1667C15 12.9899 14.9337 12.8203 14.8158 12.6953C14.6978 12.5702 14.5378 12.5 14.371 12.5C14.2041 12.5 14.0441 12.5702 13.9262 12.6953C13.8082 12.8203 13.7419 12.9899 13.7419 13.1667V14.9444C13.7419 15.0034 13.7198 15.0599 13.6805 15.1016C13.6412 15.1433 13.5879 15.1667 13.5323 15.1667H3.46774C3.41213 15.1667 3.3588 15.1433 3.31948 15.1016C3.28016 15.0599 3.25806 15.0034 3.25806 14.9444V13.1667Z" fill="#242223" fill-opacity="0.5"/>
+                    </svg>
+                    <span>Завантажити фото</span>
+                </label>
+                    <label class="delete-user-photo">
+                        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.45825 14.875C5.06867 14.875 4.73504 14.7362 4.45738 14.4585C4.17971 14.1808 4.04111 13.8474 4.04159 13.4583V4.25H3.33325V2.83333H6.87492V2.125H11.1249V2.83333H14.6666V4.25H13.9583V13.4583C13.9583 13.8479 13.8194 14.1815 13.5418 14.4592C13.2641 14.7369 12.9307 14.8755 12.5416 14.875H5.45825ZM12.5416 4.25H5.45825V13.4583H12.5416V4.25ZM6.87492 12.0417H8.29158V5.66667H6.87492V12.0417ZM9.70825 12.0417H11.1249V5.66667H9.70825V12.0417Z" fill="#242223" fill-opacity="0.5"/>
+                        </svg>
+                        <span>Видалити фото</span>
+                    </label>
+              </div>
+            </div>
+            <div>
+
+            </div>
         </div>
 
-        <div class="col-lg-12 col-xs-12 text-center personal-info profile-fields-container">
+        <div class="col-12 col-md-12 col-lg-9 personal-info profile-fields-container">
 
             <form class="form-horizontal" role="form" id="form_user_info">
-                <div class="row no-gutters">
-                    <div class="form-group">
-                        <label class="control-label">Ім'я</label>
-                        <div class="">
-                            <input class="form-control" value="" id="name_value" type="name">
+                <div>
+                    <h2 class="profile-header-block">Основна інформація</h2>
+                    <div class="row no-gutters">
+                        <div class="form-group col-lg-6 auth-col ">
+                            <label class="control-label">Ім'я</label>
+                            <div class="">
+                                <input class="form-control form-item  input-border-green" value=""
+                                       name="name"
+                                       id="name_value" type="name" placeholder="Ваше ім'я">
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6 auth-col">
+                            <label class="control-label">Прізвище</label>
+                            <div class="">
+                                <input class="form-control form-item input-border-green" value=""
+                                       name="surname"
+                                       id="surname_value" type="surname" placeholder="Ваше прізвище">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Прізвище</label>
-                        <div class="">
-                            <input class="form-control" value="" id="surname_value" type="surname">
+                    <div class="row no-gutters">
+                        <div class="form-group col-lg-6 auth-col">
+                            <label class=" control-label">Телефон</label>
+                            <div class="">
+                                <input class="form-control form-item input-border-green" id="phone_value"
+                                       name="phone" value="" type="tel" placeholder="Ваш телефон">
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6 auth-col">
+                            <label class="control-label">Email</label>
+                            <div class="">
+                                <input class="form-control form-item input-border-green"
+                                       name="email"
+                                       id="email_value" value=""  type="email" placeholder="Введіть Email">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="profile-header-block">Доставка</h2>
+                    <div class="row no-gutters">
+                        <div class="form-group col-lg-6 auth-col">
+                            <label class=" control-label">Населений пункт</label>
+                            <div class="">
+                                <input class="form-control form-item input-border-green" value=""
+                                       name="settlement"
+                                       id="location_value" type="text" placeholder="Введіть населений пункт">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-6 auth-col">
+                            <label class="control-label">Відділення Нової Пошти</label>
+                            <div class="">
+                                <input class="form-control form-item input-border-green" value=""
+                                       name="post_number"
+                                       id="post_office_number_value" type="number" placeholder="Впишіть відділення Нової Пошти">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row no-gutters">
-                </div>
-
-                <div class="form-group">
-                    <label class=" control-label">Телефон</label>
-                    <div class="">
-                        <input class="form-control" id="phone_value" value="" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Місце проживання</label>
-                    <div class="">
-                        <input class="form-control" value="" id="location_value"  type="text">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class=" control-label">Пункт Нової Пошти</label>
-                    <div class="">
-                        <input class="form-control" value="" id="location_post_office_value"type="text">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Відділення Нової Пошти</label>
-                    <div class="">
-                        <input class="form-control" value="" id="post_office_number_value" type="text">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Пароль</label>
-                    <div class="">
-                        <input class="form-control" value="" id="password_value" type="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Підтвердіть пароль</label>
-                    <div class="">
-                        <input class="form-control" value="" id ="password_confirm_value" type="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label"></label>
-                    <div class="">
-                        <input class="btn btn-primary" id = "update_user_info" value="Зберегти" type="button">
-                        <span></span>
-                        <input class="btn btn-danger" value="Скасувати" type="reset" onclick="document.location.href='tracktop.com.ua' ">
+                <div class="form-group row no-gutters">
+                    <div class="col-12 col-md-6 auth-col auth-col-btn">
+                        <input class="btn btn-green-text-white w-100" id="update_user_info" value="Зберегти зміни" type="button">
                     </div>
                 </div>
             </form>
+
+                <div>
+                    <div class="accordion mt-5" id="profileAccordion">
+                        <div class="card border-0 wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                            <div class="card-header collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="headingOne">
+                                <h6 class="mb-0 collapsed" >Змінити пароль<span class="lni-chevron-up"></span></h6>
+                                <span class="fas fa-angle-down angle-faq"></span>
+                            </div>
+                            <div class="collapse" id="collapseOne" aria-labelledby="headingOne" data-parent="#profileAccordion">
+                                <div class="card-body">
+                                    <form class="form-horizontal" role="form" id="change_password_form">
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-lg-6">
+                                                <label class="control-label">Актуальний пароль</label>
+                                                <div class="">
+                                                    <input class="form-control form-item input-border-green" value=""
+                                                           name="password_value" id="password_old" type="password" placeholder="Введіть актуальний пароль">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-lg-6">
+                                                <label class="control-label">Пароль</label>
+                                                <div class="">
+                                                    <input class="form-control form-item input-border-green" value=""
+                                                           name="password_value" id="password_value" type="password" placeholder="Введіть новий пароль">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <div class="form-group col-lg-6">
+                                                <label class="control-label">Підтвердіть пароль</label>
+                                                <div class="">
+                                                    <input class="form-control form-item input-border-green" value="" name="password_value_confirm"
+                                                           id="password_confirm_value" type="password" placeholder="Підтвердіть новий пароль">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row no-gutters">
+                                            <button class="btn col-12 col-md-6 col-lg-6 btn-profile-action btn-green-text-white w-100" id ="update_user_password" type="button">Змінити пароль</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
         </div>
     </div>
 
@@ -136,6 +202,8 @@
 <!--Bootsrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript"  src="assets/js/profile_main.js"> </script>
-<!--font awesome-->
+
+<%include common/footer.ejs%>
+
 </body>
 </html>
