@@ -6,7 +6,7 @@ exports.mainPage = function(req, res) {
             marks = data;
         }
         res.render('mainPage', {
-            pageTitle: 'Магазин сг техніки Львівська область, сільгосптехніка Львів| TrackTop',
+            pageTitle: 'TrackTop | Магазин сг техніки Львівська область, сільгосптехніка Львів',
             marks: marks,
             user: req.currentUser,
         });
