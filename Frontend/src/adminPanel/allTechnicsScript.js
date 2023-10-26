@@ -71,7 +71,6 @@ openAddTechnicModel = function () {
     }
     require("../API").getMarks(callback2);
 
-
 }
 
 getModels = function() {
@@ -274,31 +273,60 @@ showModels = function() {
     let selectedType = $('#type_technics').children("option:selected").val();
     let selectedMark = $('#mark-choice').val();
     $('#model-choice').prop("disabled", false);
-    //let multipleSelect =
+    ///
 
-    if(multipleEquipmentOpen) {
-        $('#model-choice').children().remove();
-        console.log(container_num);
-        $('#multiple-select-container-'+container_num).remove();
-        container_num++;
-    }
+    $('#model-choice').children().remove();
+
     function callback(err,data) {
         if(err) console.log(err);
         else {
-            //console.log(data);
+            let ar = [];
             data.data.forEach(function (item) {
-                if (! $('#model-choice').find("option[value='" + item.model + "']").length)
-                      $('#model-choice').append(new Option(item.model, item.model));
-                    //console.log(item.model);
+                ar.push({id: item.model,text:  item.model})
             });
-            $('#model-choice').prop("multiple", true);
-            if(!multipleEquipmentOpen) {
-                multipleEquipmentOpen = true;
-            }
-            new MultipleSelect('#model-choice');
+            $('#model-choice').append('<option></option>');
+            $('#model-choice')
+                .select2({
+                    placeholder: 'Оберіть моделі',
+                    closeOnSelect: false,
+                    selectOnClose: false,
+                    allowClear: true,
+                    data: ar
+                });
+
         }
     }
     require("../API").getModelsbyTypeMark(selectedType,selectedMark,callback);
+
+
+    ///
+
+
+
+
+    //
+    // if(multipleEquipmentOpen) {
+    //     $('#model-choice').children().remove();
+    //     $('#multiple-select-container-'+container_num).remove();
+    //     container_num++;
+    // }
+    // function callback(err,data) {
+    //     if(err) console.log(err);
+    //     else {
+    //         //console.log(data);
+    //         data.data.forEach(function (item) {
+    //             if (! $('#model-choice').find("option[value='" + item.model + "']").length)
+    //                   $('#model-choice').append(new Option(item.model, item.model, false, false));
+    //                 //console.log(item.model);
+    //         });
+    //         $('#model-choice').prop("multiple", true);
+    //         if(!multipleEquipmentOpen) {
+    //             multipleEquipmentOpen = true;
+    //         }
+    //         new MultipleSelect('#model-choice');
+    //     }
+    // }
+    // require("../API").getModelsbyTypeMark(selectedType,selectedMark,callback);
 }
 
 openAddEquipmentModel = function () {
@@ -446,7 +474,6 @@ openEditEquipmentModal = function(cell) {
                                         }
                                     });
                                     new MultipleSelect('#model-choice');
-                                    console.log(container_num);
                                     multipleEquipmentOpen = true;
                                     container_num++;
                                 }
@@ -965,6 +992,7 @@ addEquipmentToDB = function () {
                                 else {
 
                                     let equipmentmodel;
+                                    console.log(models)
                                     models.forEach(function (item_model) {
                                         data1.data.forEach(function (item) {
                                             if (item.model == item_model) {
@@ -973,6 +1001,8 @@ addEquipmentToDB = function () {
                                                     equipment_id: insertedid,
                                                     model_id: model_id
                                                 }
+
+                                                console.log(equipmentmodel)
 
                                                 function callback3(err, data) {
                                                     if (err) console.log(err);
@@ -994,7 +1024,6 @@ addEquipmentToDB = function () {
                         }
 
                         let files = getFiles() || [];
-                        console.log("id= " + insertedid)
                         if(files.length > 0) {
                             let data = new FormData();
                             for (let i = 0; i < files.length; i++) {
@@ -1208,13 +1237,15 @@ function technicFormClear() {
 
 function equipmentFormClear() {
     $("#mark-choice").val("");
+    $("#name-equipment").val("")
+    $("#price-input").val("")
     $('#mark-choice').prop("disabled", true);
     $("#description").val("");
     $("#status").val("в наявності");
     $("#vendor-choice").val("");
     $("#vendor-choice").children().remove();
     $("#vendor-choice").trigger("change")
-
+    editor.setData("")
     $("#model-choice").children().remove();
     $('#model-choice').prop("disabled", true);
     $('#categories_modal').prop("disabled", false);

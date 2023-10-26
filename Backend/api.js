@@ -23,7 +23,7 @@ function initialaize() {
             await initializeCurrencyRate()
         }
 
-        convertPriceEquipment()
+        //convertPriceEquipment()
         //await priceconvert()
     }
 
