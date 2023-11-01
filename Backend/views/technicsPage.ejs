@@ -113,7 +113,11 @@
                 <% } %>
             </h1>
 
-        <div class="nothing_found">Нічого не знайдено. Напишіть повідомлення, щоб замовити товар!!!</div>
+        <div class="nothing_found">
+            <div class="nothing_found_title">Нічого не знайдено.</div>
+            <div class="nothing_found_subtitle">Напишіть повідомлення, щоб замовити товар</div>
+            <img class="nothing_found_img" src="/assets/images/nothing_found.jpg"/>
+        </div>
 
         <% if(!mark && !types) {%>
         <div class="technics-without-category narrow-wrapper padding-wrapper">

@@ -88,8 +88,12 @@
 
         <% if(name!="Запчастини до комбайнів"){ %>
             <% include common/searchBarEquipments.ejs %>
-                <div id="nothing_found"></div>
-            <div class="equipments">
+                    <div class="nothing_found">
+                        <div class="nothing_found_title">Нічого не знайдено.</div>
+                        <div class="nothing_found_subtitle">Напишіть повідомлення, щоб замовити товар</div>
+                        <img class="nothing_found_img" src="/assets/images/nothing_found.jpg"/>
+                    </div>
+                    <div class="equipments">
             </div>
 
                 <div id="description_technic_equipment" style="height: 300px; display: none"></div>
