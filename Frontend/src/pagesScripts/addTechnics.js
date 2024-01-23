@@ -174,9 +174,9 @@ function showTechnics(list) {
         e.stopPropagation()
         e.preventDefault();
         let card =  e.target.closest(".oneTechnic");
-        console.log(card)
+        //console.log(card)
         let productId = card;
-        console.log($(card).data("id"))
+        //console.log($(card).data("id"))
         openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
     })
 }

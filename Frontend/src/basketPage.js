@@ -182,7 +182,7 @@ function initialiseCart() {
                     } else {
                         let data_form = new FormData(form_anonim);
                         let user_name = data_form.get("name");
-                        let phone = data_form.get("phone");
+                        let phone = data_form.get("phone_anonim");
                         let location = data_form.get("location");
                         let post_number = data_form.get("post_number")
 
@@ -192,6 +192,9 @@ function initialiseCart() {
                         }
 
                         if (data_form.get("name")) user_info += "Покупець:  " + user_name + "\n"
+
+                        user_info += "Телефон : " + phone.trim();
+
                         if (location.length >= 3 && Number.isInteger(Number(post_number))) {
                             user_info += "\nнас. пункт : " + location + ` № ${post_number}`
                         } else {
