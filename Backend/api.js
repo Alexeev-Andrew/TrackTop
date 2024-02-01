@@ -334,8 +334,8 @@ function sendEmail(_to, _link) {
 exports.sendMessage = function (req, res) {
 
     //console.log(req.body.message)
-    axios.post('https://api.telegram.org/bot884221604:AAEVBWl5ETesASuZ0XjXZs3DBMG0YwovKZM/sendMessage',{
-        chat_id :"-327577485",
+    axios.post('https://api.telegram.org/bot6751808105:AAFDpv3i2zw7CQABbuuAGNhXN-zvgnhba3E/sendMessage',{
+        chat_id :"-4117522667",
         text: req.body.message,
         parse_mode: 'HTML',
         disable_web_page_preview: false,

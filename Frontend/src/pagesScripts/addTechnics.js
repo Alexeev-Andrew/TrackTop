@@ -49,7 +49,7 @@ function initializeBreadcrumbMarks(mark) {
         h.find("a").removeClass("seturl-last");
         let crums =
             " <li class='current'>\n" +
-            "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
+            "        <a class='seturl-last' href=\"https://tracktop.com.ua\">\n" +
             "            <span>" + mark + "</span></a>\n" +
             "    </li>\n";
         //let curCategory = localStorage.getItem('current_category_equipments');

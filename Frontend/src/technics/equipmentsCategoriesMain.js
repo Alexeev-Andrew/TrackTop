@@ -9,7 +9,7 @@ function  initializeCategories() {
 ///
 $(function(){
     $('#logo').click(function () {
-        document.location.href = "http://tracktop.com.ua/";
+        document.location.href = "https://tracktop.com.ua/";
     })
 
     require('../basketPage').initialiseBasket();
@@ -43,7 +43,7 @@ $(function(){
     require('../profile/user_form').isLogged();
 
     $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua/profile";
+        document.location.href = "https://tracktop.com.ua/profile";
     })
 
     initializeCategories();

@@ -126,7 +126,7 @@ $(function(){
 
 
     $('#logo').click(function () {
-        document.location.href = "http://tracktop.com.ua/";
+        document.location.href = "https://tracktop.com.ua/";
     })
 
 
@@ -162,7 +162,7 @@ $(function(){
 
 
     $('.edit-profile').click(function(){
-        document.location.href = "http://tracktop.com.ua/profile";
+        document.location.href = "https://tracktop.com.ua/profile";
     })
 
 });

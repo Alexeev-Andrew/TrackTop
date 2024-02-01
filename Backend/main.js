@@ -181,7 +181,7 @@ function configureEndpoints(app) {
             return
         }
         try {
-            const smStream = new SitemapStream({ hostname: 'http://tracktop.com.ua/' })
+            const smStream = new SitemapStream({ hostname: 'https://tracktop.com.ua/' })
             const pipeline = smStream.pipe(createGzip());
             function callback(err, data) {
                 if(data) {

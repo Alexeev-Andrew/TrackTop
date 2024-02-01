@@ -45,13 +45,13 @@ function initilizebreadcrumb(no_category = false){
         if (curType) {
             crums +=
                 " <li>\n" +
-                "        <a class='seturl' href=\"http://tracktop.com.ua\">\n" +
+                "        <a class='seturl' href=\"https://tracktop.com.ua\">\n" +
                 "            <span>" + curType + "</span></a>\n" +
                 "    </li>\n";
         }
         crums +=
             " <li class='current'>\n" +
-            "        <a class='seturl-last' href=\"http://tracktop.com.ua\">\n" +
+            "        <a class='seturl-last' href=\"https://tracktop.com.ua\">\n" +
             "            <span>" + curTech.mark + " "  + curTech.model + "</span></a>\n" +
             "    </li>\n";
 
