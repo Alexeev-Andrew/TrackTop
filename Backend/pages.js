@@ -40,7 +40,7 @@ exports.technics = function(req, res) {
         require('./db').get_types_of_technics( callback);
         function  callback(error,data) {
             if (error) {
-                console.log("Error! ", error.sqlMessage);
+                //console.log("Error! ", error.sqlMessage);
             } else {
                 data.forEach(function (i) {
                     if (i.name == type) {
@@ -59,7 +59,7 @@ exports.technics = function(req, res) {
 
                     });
                 else if (req.query.type == "Жатки") {
-                    console.log(req.query.type + " " + photo_location)
+                   // console.log(req.query.type + " " + photo_location)
                     res.render('technicsPage', {
                         pageTitle: req.query.type + " кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
                         description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
@@ -97,7 +97,7 @@ exports.marks = function(req, res) {
     require('./db').get_marks_of_technics( callback);
     function  callback(error, data) {
         if (error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
         }
          res.render('marks', {
                 pageTitle: "Купити сільгосптехніку Львів. Купити спецтехніку Україна | TrackTop",
@@ -119,7 +119,7 @@ exports.category = function(req, res) {
         require('./db').get_equipments_categories( callback);
         function  callback(error,data) {
                 if(error) {
-                    console.log("Error! ", error.sqlMessage);
+                    //console.log("Error! ", error.sqlMessage);
                 }
                 else {
                     data.forEach(function (i) {
@@ -200,7 +200,6 @@ exports.technic_without_category = function(req, res) {
         function (error,data) {
 
             if(error) {
-                console.log("Error! ", error.sqlMessage);
                 res.send({
                     success: true,
                     error: error.sqlMessage
@@ -245,7 +244,6 @@ exports.technic = function(req, res) {
         function (error,data) {
 
         if(error) {
-            console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -339,7 +337,7 @@ exports.equipment = function(req, res) {
     require('./db').get_equipment_by_id(req.query.id, function (error,data) {
 
         if(error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -354,8 +352,10 @@ exports.equipment = function(req, res) {
                 if(data[0].category_name != "Запчастини до комбайнів") {
                     res.render('oneEquipmentPage', {
                         equipment: data[0],
-                        title: "Купити " + equipment.name + ". " + equipment.category_name + ". Запчастини до сг техніки Львів | TrackTop",
+                        title: "Купити " + equipment.name + ". " + equipment.category_name + " | TrackTop",
+                        pageTitle: equipment.name + " " + vendor_code.join(", "),
                         description: "Купити " + equipment.description + " | TrackTop",
+                        alt: "Купити " + equipment.description,
                         type_technic: category,
                         marks: null,
                         models: null,
@@ -369,7 +369,7 @@ exports.equipment = function(req, res) {
                     require('./db').get_equipment_withModels_by_id(req.query.id, function (error, data) {
 
                         if (error) {
-                            console.log("Error! ", error.sqlMessage);
+                            //console.log("Error! ", error.sqlMessage);
                             res.send({
                                 success: true,
                                 error: error.sqlMessage
@@ -385,16 +385,18 @@ exports.equipment = function(req, res) {
                                     if(i<data.length-1) s +=",";
                                 }
 
-
+                                let desc = "Купити " + equipment.name + " до комбайна " + equipment.technic_mark + " "  + s;
                                 res.render('oneEquipmentPage', {
                                     equipment: equipment,
-                                    title: equipment.name + " " + equipment.technic_mark + " "  + s +" | TrackTop",
-                                    description: "Купити " + equipment.name + " до комбайна " + equipment.technic_mark + " "  + s +". Запчастини до комбайнів " + "Львів | TrackTop",
+                                    title: equipment.name + " " + equipment.technic_mark + " "  + s,
+                                    pageTitle: equipment.name + " " + data[0].technic_mark + " " + vendor_code.join(", "),
+                                    description:  desc + " | TrackTop",
+                                    alt: desc,
                                     models: models,
                                     marks: data[0].technic_mark,
                                     type_technic: category,
                                     vendor_code: vendor_code,
-                                    short_description: equipment.name + " " + vendor_code.join(", ") + ". Застосувається в комбайнах " +  data[0].technic_mark + " " + models.join(", "),
+                                    short_description: equipment.name + " " + data[0].technic_mark + " " + vendor_code.join(", ") + ". Застосовується в комбайнах " +  data[0].technic_mark + " " + models.join(", "),
                                     user: req.currentUser,
 
                                 });
@@ -438,8 +440,9 @@ exports.equipmentsByModel = function(req, res) {
     //require('./db').get_technic_by_type_model_mark(type,mark,model,
     function callback(error, data) {
 
+        //console.log(data)
         if (error) {
-            console.log("Error! ", error.sqlMessage);
+            //console.log("Error! ", error.sqlMessage);
             res.send({
                 success: true,
                 error: error.sqlMessage
@@ -447,15 +450,22 @@ exports.equipmentsByModel = function(req, res) {
         } else {
             let page = req.query.page;
             if(!page) page = 1;
-            console.log("page = "+ page)
+            let mark_ukr, model_ukr;
+            if (data && data.length > 0) {
+                 mark_ukr = data[0].mark_name_ukr;
+                 model_ukr = data[0].model_ukr;
+            }
+            //console.log("page = "+ page)
             res.render('categoryPage', {
                 pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
                 description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
                 name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
-                data: data.data,
+                //data: data,
                 page: page,
                 mark : req.params.mark,
                 model : req.params.model,
+                mark_ukr: mark_ukr,
+                model_ukr: model_ukr,
                 photo_location : null,
                 user: req.currentUser,
             });

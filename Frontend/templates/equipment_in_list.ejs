@@ -5,9 +5,7 @@
             <% if(equipment.technic_type=="Комбайни"){ %>
                 alt ="Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>
                 <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : "" %>
-                ( <%=equipment.mark_name_ukr%>
-                <% if(equipment.model_ukr){ %><%=equipment.model_ukr%>
-                    <% } else {%><%= equipment.model %>  <% } %>)"
+                ( <%=equipment.mark_name_ukr%> <% if(equipment.model_ukr){ %><%=equipment.model_ukr%> <% } else {%><%= equipment.model %>  <% } %>)"
             <%} else { %> alt="<%= equipment.name %> <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : "" %>"
                 <%}%>
         >

@@ -568,10 +568,9 @@ $(function(){
             $("#allEquipments tbody").append(
                 "<tr class='rowEquipment'>" +
                 "<td class=\"id\">"+item.id+"</td>" +
-                "<td class=\"name\">"+item.name+"</td>" +
+                "<td class=\"name\">"+item.name +"</td>" +
                 " <td class=\"price\">"+item.price+"</td>" +
                 " <td class=\"code\">"+item.vendor_code+"</td>" +
-                " <td class=\"amount\">"+item.amount+"</td>" +
                 " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
                 "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
                 "</tr>"
@@ -605,10 +604,9 @@ function productBuildTableRow(item) {
 
      el += "<tr class='rowEquipment'>" +
      "<td class=\"id\">"+item.id+"</td>" +
-     "<td class=\"name\">"+item.name+"</td>" +
+     "<td class=\"name\">"+item.name + item.mark + "</td>" +
      " <td class=\"price\">"+item.price+"</td>" +
      " <td class=\"code\">"+item.vendor_code+"</td>" +
-     " <td class=\"amount\">"+item.amount+"</td>" +
      " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
      "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
      "</tr>"

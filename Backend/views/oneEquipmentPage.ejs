@@ -85,8 +85,10 @@
             <% include breadcrumbs.ejs %>
             <header>
                 <div class="one-ad-header-wrapper">
-                    <h1 class='text-black-title-900-uppercase one-ad-header' data-id="<%= equipment.id %>" data-title="<%= equipment.name %> <%= equipment.technic_mark %> <%= equipment.model%>" data-url="<%= equipment.url %>">
-                        <%= equipment.name %>
+                    <h1 class='text-black-title-900-uppercase one-ad-header' data-id="<%= equipment.id %>"
+                        data-title="<%= equipment.name %> <%= equipment.technic_mark %> <%= equipment.model%>"
+                        data-url="<%= equipment.url %>" data-alt="<%=alt %>">
+                        <%= pageTitle %>
                     </h1>
                     <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
                 </div>

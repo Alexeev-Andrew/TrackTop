@@ -39,7 +39,7 @@ function  initialize() {
         }
 
         let equipment = data5.data[0];
-        console.log(equipment)
+        //console.log(equipment)
         localStorage.setItem("current_category_equipments", equipment.category_name);
 
         localStorage.setItem('currEquipment',JSON.stringify({
@@ -56,8 +56,12 @@ function  initialize() {
         initilizebreadcrumb()
 
         let alt;
-        if (data5.data[0].description) alt = "Купити " + data5.data[0].description ;
-        else alt = "Купити " + data5.data[0].name ;
+        if (equipment.category_name != "Запчастини до комбайнів") {
+            alt = "Купити " + equipment.name ;
+        }
+        else {
+            alt = $(".one-ad-header").data("alt") || equipment.description
+        }
 
         let dataset = [];
         let im = JSON.parse(equipment.images);
