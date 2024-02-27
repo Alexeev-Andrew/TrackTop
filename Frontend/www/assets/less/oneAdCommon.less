@@ -217,6 +217,19 @@ display: none;
 .long_desc {
   font-weight: 600;
 }
+.long_desc .table {
+  overflow: scroll;
+  width: 100%;
+}
+
+.long_desc .table::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+.long_desc table {
+  width: max-content;
+}
 
 
 @media screen and (max-width:991px) {
