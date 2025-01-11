@@ -1,12 +1,14 @@
-var Templates = require('../Templates');
-let {toMainPageBreadcrumb , getUrlParameter} = require("../helpers")
+var {technicWithoutCategory, technicInList, equipmentInList, equipmentCategory, oneMark, oneModel} = require('../Templates');
+let {toMainPageBreadcrumb , getUrlParameter, Notify} = require("../helpers")
 var $technics   =   $('.technics');
 var $equipments =   $('.equipments');
 var $categories =   $('.categories');
 var $marks =   $('.marks');
 var $models =   $('.models');
 var $technicsWithoutCategory   =   $('.technics-without-category');
-let openMessageModal = require("../profile/signup_form").openSendMessageModal;
+let {openSendMessageModal} = require("../profile/signup_form");
+let {addToCart} = require('../basketPage')
+
 
 var equipmentsByCategory = [];
 
@@ -80,10 +82,11 @@ function showTechnicsWithoutCategory(list) {
     function showOne(type) {
         //console.log(type);
         type.url = API_URL+"/technics-without-category/"+type.id;
-        let main_photo_location = JSON.parse(type.photos) || [];
+        // let main_photo_location = JSON.parse(type.photos) || [];
+        let main_photo_location = type.photos || [];
         type.main_photo_location = main_photo_location ? main_photo_location[0] : "default_technic.jpg"
 
-        let html_code = Templates.technicWithoutCategory({technic: type});
+        let html_code = technicWithoutCategory({technic: type});
         let $node = $(html_code);
 
         $node.click(function () {
@@ -136,7 +139,7 @@ function showTechnics(list) {
 
         let url = API_URL+"/technic?model="+type.model+"&mark="+type.name+'&type='+type.type_name+ '&number_id='+type.id;
         type.url = url;
-        let html_code = Templates.technicInList({technic: type});
+        let html_code = technicInList({technic: type});
         let $node = $(html_code);
 
         let model = $node.find('.model_').html();
@@ -177,7 +180,7 @@ function showTechnics(list) {
         //console.log(card)
         let productId = card;
         //console.log($(card).data("id"))
-        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+        openSendMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
     })
 }
 
@@ -325,7 +328,7 @@ function showEquipments(list , className , per_page, filter) {
         console.log(card)
         let productId = card;
         console.log($(card).data("id"))
-        openMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
+        openSendMessageModal({productId:$(card).data("id") , productTitle : $(card).data("title"), url : $(card).data("url") })
     })
 
     $(".btn-add-to-cart").click(function (e){
@@ -335,7 +338,7 @@ function showEquipments(list , className , per_page, filter) {
         let card =  e.target.closest(".oneTechnic");
         // console.log(card)
         let equipment = $(card).data("json");
-        require('../basketPage').addToCart({
+        addToCart({
             id: equipment.id,
             title: equipment.name,
             price_uah: equipment.price_uah,
@@ -344,13 +347,14 @@ function showEquipments(list , className , per_page, filter) {
             icon: equipment.main_photo_location,
             status: equipment.status,
             state: equipment.state,
-            vendor_code: JSON.parse(equipment.vendor_code),
+            //vendor_code: JSON.parse(equipment.vendor_code),
+            vendor_code: equipment.vendor_code,
             quantity: 1,
             url: equipment.url,
             isTech: false
         });
 
-        require('../pagesScripts/notify').Notify("Товар додано. Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
+       Notify("Товар додано. Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
     })
 
@@ -375,7 +379,7 @@ function showEquipments(list , className , per_page, filter) {
 
 function showOneEquipment(type , className) {
     type.url = API_URL+"/equipment?name="+type.name+"&id="+type.id;
-    var html_code = Templates.equipmentInList({equipment: type});
+    var html_code = equipmentInList({equipment: type});
     var $node = $(html_code);
 
 
@@ -499,7 +503,7 @@ function showCategories(list) {
     }
     function showOne(type) {
         type.url = API_URL+"/category_equipments/category?name="+ type.category_name ;
-        var html_code = Templates.equipmentCategory({category: type});
+        var html_code = equipmentCategory({category: type});
         var $node = $(html_code);
 
         $node.click(function () {
@@ -552,7 +556,7 @@ function showMarks(list) {
     }
     function showOneMark(mark) {
         mark.url = API_URL+"/category_equipments/category/combine_details/" + mark.name ;
-        let html_code = Templates.oneMark({mark: mark});
+        let html_code = oneMark({mark: mark});
         let $node = $(html_code);
 
         $node.click(function () {
@@ -607,7 +611,7 @@ function showModels(list) {
 
     function showOneModel(model) {
         model.url = document.location.href +"/"+ model.model ;
-        var html_code = Templates.oneModel({model: model});
+        var html_code = oneModel({model: model});
         var $node = $(html_code);
 
 

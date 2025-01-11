@@ -4,22 +4,22 @@
         <img class="lazy" src="https://via.placeholder.com/440x300?text=<%= equipment.name %>" data-src="/images/equipments/<%= equipment.main_photo_location %>"
             <% if(equipment.technic_type=="Комбайни"){ %>
                 alt ="Купити <%= equipment.name %> до комбайна <%= equipment.technic_mark %> <%= equipment.model %>
-                <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : "" %>
+                <%= equipment.vendor_code ? equipment.vendor_code[0] : "" %>
                 ( <%=equipment.mark_name_ukr%> <% if(equipment.model_ukr){ %><%=equipment.model_ukr%> <% } else {%><%= equipment.model %>  <% } %>)"
-            <%} else { %> alt="<%= equipment.name %> <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : "" %>"
+            <%} else { %> alt="<%= equipment.name %> <%= equipment.vendor_code ? equipment.vendor_code[0] : "" %>"
                 <%}%>
         >
 
         <div class="caption captionEquipment">
             <div class="nameEquipment">
                 <a href="<%= equipment.url %>">
-                    <h2 class="child_name"><%= equipment.name %> <%= equipment.vendor_code ? JSON.parse(equipment.vendor_code)[0] : "" %></h2>
+                    <h2 class="child_name"><%= equipment.name %> <%= equipment.vendor_code ? equipment.vendor_code[0] : "" %></h2>
                 </a>
             </div>
 
             <% if( equipment.vendor_code){ %>
                 <div class="vendor_code">
-                    <h4 class=""><%= equipment.vendor_code ? JSON.parse(equipment.vendor_code).join(", ") : "" %></h4>
+                    <h4 class=""><%= equipment.vendor_code ? equipment.vendor_code.join(", ") : "" %></h4>
                 </div>
             <% } %>
 

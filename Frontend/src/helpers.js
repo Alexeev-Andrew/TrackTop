@@ -23,15 +23,16 @@ exports.onSendMessageClick = function () {
         let form = new FormData(ask_question_one_ad_form)
         let phone = form.get("phone")
         let message = form.get("message");
+        let name = localStorage.getItem("name") || "";
         if(!validatePhone(phone)) {
             Notify("Перевірте введений телефон")
             return
         }
         if (message.trim().length < 5) {
-            Notify("Заповніть форму")
+            Notify("Повідомлення надто коротке")
             return
         }
-        let text_message = "Від: " + phone + "\nСтосовно: " + $(".one-ad-header").text() + "\nПовідомлення: " + message;
+        let text_message = `Від: ${name}\n` + phone + "\nСтосовно: " + $(".one-ad-header").text() + "\nПовідомлення: " + message;
 
         require("./API").sendMessage({message: text_message }, () => {
             ask_question_one_ad_form.reset();

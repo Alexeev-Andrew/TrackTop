@@ -1,4 +1,4 @@
-var Templates = require('../Templates');
+let {technicInMenu} = require('../Templates');
 
 var $technics =   $('.vertical-menu-technics');
 var $models =   $('.vertical-menu-models');
@@ -16,7 +16,7 @@ function showTechnics(list) {
     $technics.append('<a href="#" class="active active-none-link">Техніка</a>');
 
     function showOne(t) {
-        var html_code = Templates.technicInMenu({item: t});
+        var html_code = technicInMenu({item: t});
 
         var $node = $(html_code);
 
@@ -40,7 +40,7 @@ function showMarks(list) {
     $models.append('<a href="#" class="active active-none-link">Марки</a>');
 
     function showOne(t) {
-        var html_code = Templates.technicInMenu({item: t});
+        var html_code = technicInMenu({item: t});
 
         var $node = $(html_code);
 

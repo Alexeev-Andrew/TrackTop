@@ -166,29 +166,7 @@
 
                     </div>
 
-                    <form id="ask-question-one-ad">
-                        <h4 class="text-black-title-900-uppercase ask-form-title">Задати питання</h4>
-                        <!--                            <input type="text" placeholder="Ваше ім'я" name="name"-->
-                        <!--                                   class="form-control form-item form-item-auth form-item-border" required>-->
-                        <input  type="text" placeholder="Номер телефону" name="phone"
-                                class="form-control form-item form-item-auth form-item-border"  required>
-                        <textarea class="form-control form-item-auth message-textarea form-item-border" required name="message" rows="8" placeholder="Текст повідомлення"></textarea>
-
-                        <button class="btn btn-green-text-white w-100 send-message-one-ad" type="button">
-                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_679_6742)">
-                                    <path d="M22.856 3.29883H3.07232C2.59532 3.29883 2.13786 3.48831 1.80058 3.8256C1.46329 4.16289 1.2738 4.62035 1.2738 5.09734V20.3847C1.2738 20.8617 1.46329 21.3192 1.80058 21.6564C2.13786 21.9937 2.59532 22.1832 3.07232 22.1832H22.856C23.333 22.1832 23.7904 21.9937 24.1277 21.6564C24.465 21.3192 24.6545 20.8617 24.6545 20.3847V5.09734C24.6545 4.62035 24.465 4.16289 24.1277 3.8256C23.7904 3.48831 23.333 3.29883 22.856 3.29883Z" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M1.27368 5.54688L11.813 11.8848C12.1367 12.0755 12.5432 12.178 12.964 12.178C13.3849 12.178 13.7913 12.0755 14.1151 11.8848L24.6543 5.54688" stroke="white" stroke-width="2.07728" stroke-linecap="round" stroke-linejoin="round"/>
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_679_6742">
-                                        <rect width="25.1792" height="25.1792" fill="white" transform="translate(0.374512 0.152344)"/>
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                            Написати</button>
-                    </form>
-
+                    <% include common/message_column.ejs %>
                 </div>
 
             </div>

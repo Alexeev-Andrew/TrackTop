@@ -1,6 +1,5 @@
-var mysql      = require('mysql');
+var mysql      = require('mysql2');
 var connection;
-var fs = require('fs')
 
 exports.connect = function() {
     if(connection===null)
@@ -28,7 +27,7 @@ exports.insert_tehnic = function(tehnic,callback){
 }
 
 exports.insert_tehnic_without_category = function(tehnic,callback){
-    console.log(tehnic)
+    //console.log(tehnic)
     connection.query("INSERT INTO technics_without_category SET ?", tehnic, callback);
 }
 

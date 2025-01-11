@@ -1,4 +1,4 @@
-let Templates = require('../Templates');
+let {oneImage} = require('../Templates');
 
 let $images =   $('.slider__wrapper');
 
@@ -11,7 +11,6 @@ function initialize() {
     else {
         url_base = process.env.URL_BASE;
     }
-
 }
 
 function showImages(list,alt) {
@@ -22,7 +21,7 @@ function showImages(list,alt) {
     let i = 1;
 
     function showOne(type) {
-        let html_code = Templates.oneImage({image: type, base: url_base, alt :alt+" фото - "+ i});
+        let html_code = oneImage({image: type, base: url_base, alt :alt+" фото - "+ i});
 
         let $node = $(html_code);
 
@@ -64,7 +63,6 @@ exports.initialize = function(dataset,alt){
     });
     showImages(l,alt);
      let images = document.querySelectorAll(".lazy");
-     //console.log(images)
     lazyload(images);
     // require("../API").getTechnicsImagesById({type: tp1,model: tp.model, mark: tp.mark},callback);
 }
@@ -156,5 +154,4 @@ function multiItemSlider (selector, config) {
 }
 
 exports.multiItemSlider = multiItemSlider;
-    // var a = multiItemSlider('.slider');
 

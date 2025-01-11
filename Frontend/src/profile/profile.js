@@ -6,13 +6,13 @@ let {validatePhone , validateEmail, passwordValidation} = require("../helpers")
 exports.initializeUser = function () {
     let phone = localStorage.getItem('phone');
     function callback(error,data){
-        console.log(data);
+        //console.log(data);
         if(data.error) {
             alert( "Виникла помилка" );
         }
         else if(!(data.data[0]==null)){
             localStorage.setItem('status',true);
-            console.log(data.data.photo_location);
+            //console.log(data.data.photo_location);
             $('#my_avatar').attr("src", API_URL + "/images/users_photos/"+data.data[0].photo_location);
             $('#surname_value').val(data.data[0].surname);
             $('#name_value').val(data.data[0].name);

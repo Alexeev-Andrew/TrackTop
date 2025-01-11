@@ -1,4 +1,4 @@
-var Templates = require('../Templates');
+var {typeOfTechnic} = require('../Templates');
 
 var $types =   $('.typesOfTechnic');
 var values = require('../values.js');
@@ -9,7 +9,7 @@ function showTypes(list) {
     $types.html("");
 
     function showOne(type) {
-        var html_code = Templates.typeOfTechnic({type: type});
+        var html_code = typeOfTechnic({type: type});
 
         var $node = $(html_code);
         var typ = $node.find('.type_h2').html();

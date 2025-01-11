@@ -1,4 +1,4 @@
-let Templates = require('../Templates');
+let {oneOrder, oneOrderModal} = require('../Templates');
 let ordersHTML   =   $('.orders');
 let ordersListModal   =   $('.orders-list-modal');
 const values = require('../values')
@@ -36,8 +36,6 @@ function initializeOrders() {
 
         require("../API").getOrdersByClientPhone(phone, callback)
     }
-
-
 }
 
 function showOrders(list) {
@@ -54,9 +52,10 @@ function showOrders(list) {
     function showOne(order) {
         // let or = JSON.parse(order.order);
         // console.log(or)
-        order.order = JSON.parse(order.order_array);
+        // order.order = JSON.parse(order.order_array);
+        order.order = order.order_array;
 
-        let html_code = Templates.oneOrder({order: order});
+        let html_code = oneOrder({order: order});
         let $node = $(html_code);
 
 
@@ -87,10 +86,9 @@ initializeOneOrderModal = function(id) {
             //console.log(order)
 
             $("#text-order-id").text("#" + id);
-
             $(".modal-order-date").text(new Date(order.purchase_date).toLocaleDateString())
-
-        let order_positions = JSON.parse(order.order_array);
+            // let order_positions = JSON.parse(order.order_array);
+            let order_positions = order.order_array;
             //console.log(order_positions)
             order_positions.forEach(showOne);
 
@@ -106,11 +104,9 @@ initializeOneOrderModal = function(id) {
 
             $(".modal-order-total").text(order.total + "грн")
 
-
-
             function showOne(order) {
 
-                let html_code = Templates.oneOrderModal({position: order});
+                let html_code = oneOrderModal({position: order});
                 ordersListModal.append(html_code);
             }
         }
@@ -124,11 +120,9 @@ $(function(){
 
     initializeOrders();
 
-
     $('#logo').click(function () {
         document.location.href = "https://tracktop.com.ua/";
     })
-
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();
@@ -147,7 +141,6 @@ $(function(){
         require('../profile/user_form').isLogged();
         $('#user_info').css("display", "none");
         document.location.href = API_URL;
-
     })
 
 

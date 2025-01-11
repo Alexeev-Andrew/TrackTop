@@ -3,10 +3,12 @@ const { v4: uuidv4 } = require('uuid');
 const schedule = require('node-schedule');
 const sharp = require('sharp')
 let uniqid = require('uniqid');
+const path = require('path'); // For working with file paths
 let db = require('./db');
 let helper = require('./helper');
 let axios = require('axios');
 let authService = require('./authentification/AuthService');
+const fs = require("fs")
 
 let CUR_RATES = [];
 
@@ -632,9 +634,7 @@ exports.addOrder = function(req, res) {
         }
     }
 
-    //console.log(info)
     info.order_array = JSON.stringify(info.order_array)
-    // console.log(info)
 
     db.insert_order(info,callback);
 
@@ -1279,9 +1279,9 @@ exports.get_one_order_by_id = function (req,res) {
                 } else {
                     //console.log("Success! ", data);
                     //console.log(data[0].order)
-                    data.order_array = Array.from(JSON.parse(data[0].order_array))
-                    //console.log(data.order)
-                    //console.log(typeof data.order)
+                    //data.order_array = Array.from(JSON.parse(data[0].order_array))
+                    data.order_array = Array.from(data[0].order_array)
+                   
 
                     res.send({
                         success: true,
@@ -1313,11 +1313,6 @@ exports.is_log_in = function (req,res) {
 
 }
 
-
-
-var fs = require("fs"),
-    multiparty = require('multiparty');
-const {md5} = require("./hash");
 
 exports.upload_user_photo = function (req,res) {
     upload_photo_new(req,res,'users_photos', "add");
@@ -1362,7 +1357,7 @@ const asyncSaveImageToDB = async (oldpath, file_name, type) => {
                 image
                 // .resize(Math.round(metadata.width / 2))
                     .composite([{ input: 'logo.png', gravity: 'southeast' }])
-                    .ensureAlpha(0.5)
+                    .ensureAlpha(0.8)
                     .webp()
                     .toFile('./Backend/res/images/' + type + "/"+ file_name + ".webp", function(err) {
                     });
@@ -1535,252 +1530,6 @@ function upload_photo_new(req,res,path,action){
 }
 
 
-function upload_photo(req,res,path,action){
-
-    var form = new multiparty.Form();
-    var uploadFile = {uploadPath: '', type: '', size: 0};
-    var maxSize = 10 * 1024 * 1024; //10MB
-    var supportMimeTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
-    var errors = [];
-    let file_names = []
-    let insertId;
-
-
-    // form.on('error', function(err){
-    //     if(fs.existsSync(uploadFile.path)) {
-    //         //если загружаемый файл существует удаляем его
-    //         fs.unlinkSync(uploadFile.path);
-    //         //console.log('error');
-    //     }
-    // });
-
-    // form.on('close', function() {
-    //     //если нет ошибок и все хорошо
-    //     if(errors.length == 0) {
-    //         //сообщаем что все хорошо
-    //         console.log("ok end")
-    //         //res.send({status: 'ok', text: 'Success'});
-    //     }
-    //     else {
-    //         if(fs.existsSync(uploadFile.path)) {
-    //             //если загружаемый файл существует удаляем его
-    //             fs.unlinkSync(uploadFile.path);
-    //         }
-    //         //сообщаем что все плохо и какие произошли ошибки
-    //         res.send({status: 'bad', errors: errors});
-    //     }
-    // });
-
-
-    // парсим форму
-    form.parse(req, function(err, fields, files) {
-        // console.log(err)
-        // console.log(fields)
-        insertId = fields.insertId[0];
-
-
-        files = files['uploadFile[]'];
-        if(!files) files = []
-        //console.log("files to insert")
-        //console.log( files)
-        for(let i = 0; i < files.length;i++) {
-            let file = files[i];
-            uploadFile.type = file.headers['content-type'];
-            // //путь для сохранения файла
-            uploadFile.path = './Backend/res/images/'+path+'/' + file.originalFilename;
-            //
-            // //проверяем размер файла, он не должен быть больше максимального размера
-            if(uploadFile.size > maxSize) {
-                errors.push('File size is ' + uploadFile.size + '. Limit is' + (maxSize / 1024 / 1024) + 'MB.');
-            }
-            //
-            // //проверяем является ли тип поддерживаемым
-            if(supportMimeTypes.indexOf(uploadFile.type) == -1) {
-                errors.push('Unsupported mimetype ' + uploadFile.type);
-            }
-            //
-            // //если нет ошибок то создаем поток для записи файла
-            if(errors.length == 0) {
-
-                let oldpath = file.path;
-                // save to array and write to db
-                // update ads with this photos
-                let newpath = uniqid()
-                file_names.push(newpath+".webp")
-
-                asyncSaveImageToDB(oldpath, newpath, path).then(r => {})
-
-                // fs.copyFile(oldpath, newpath, function (err) {
-                //     if (err) throw err;
-                // });
-
-                // fs.rename(oldpath, newpath, function (err) {
-                //     if (err) throw err;
-                //     res.write('File uploaded and moved!');
-                //     res.end();
-                // });
-
-                // let out = fs.createWriteStream(uploadFile.path);
-                // file.pipe(out);
-                // out.on('finish', () => {
-                //     console.log('/images/technics/' + file.filename)
-                //     asyncSaveImageToDB(file.filename).then(r => console.log(''))
-                // });
-            }
-            else {
-                //console.log(errors);
-                //пропускаем
-                //вообще здесь нужно как-то остановить загрузку и перейти к onclose
-                file.resume();
-            }
-
-        }
-        if(action == "add") {
-            if (file_names.length > 0) {
-
-                switch (path) {
-                    case "technics" :
-                        // check if technics without category
-                        if(fields.type) {
-                            let type = fields.type[0]
-
-                            if(type === "withoutCategoryTechnics") {
-                                db.update_technic_without_category(insertId, {
-                                    photos: JSON.stringify(file_names),
-                                })
-                            }
-                        }
-                        else {
-                            // technic with category
-                            db.update_technic(insertId, {
-                                images: JSON.stringify(file_names),
-                                main_photo_location : file_names[0]
-                            }, function (err, data) {
-                            });
-                        }
-
-                        break;
-                    case "equipments" :
-                        db.update_equipments(insertId, {
-                            images: JSON.stringify(file_names),
-                            main_photo_location : file_names[0]
-                        }, function (err, data) {
-                        });
-                        break;
-                    case "users_photos" :
-
-                        db.update_client_by_phone(insertId, {
-                            photo_location : file_names[0]
-                        }, function (err, data) {
-                        });
-                        break;
-
-                }
-
-                // console.log("add")
-                 //console.log(file_names)
-            }
-        }
-
-        else if(action === "update") {
-            let to_update = []; // merged file names to update
-            //console.log(fields);
-
-            let old_files = JSON.parse(fields.old_list[0]);
-            let sorted_list = JSON.parse(fields.sorted_list[0]);
-            //console.log(sorted_list)
-
-            let j = 0;
-
-            for(let i = 0; i< sorted_list.length; i++) {
-
-                if(sorted_list[i].type === "old") {
-                    to_update.push(sorted_list[i].src)
-                }
-                else {
-                    if(j < file_names.length)
-                    to_update.push(file_names[j++])
-                }
-                //
-                // if(!old_files.includes(sorted_list[i])) {
-                //     if(j < file_names.length) {
-                //         console.log("here " + file_names.length)
-                //         sorted_list[i] = file_names[j];
-                //         j++;
-                //     }
-                // }
-            }
-
-            //console.log(to_update)
-
-            let el = {images : JSON.stringify(to_update)}
-            if (to_update.length > 0) {
-                el.main_photo_location = to_update[0];
-            }
-            else {
-                el.main_photo_location = "";
-            }
-                switch (path) {
-                    case "technics" :
-                        db.update_technic(insertId, el, function (err, data) {
-                        });
-                        break;
-                    case "equipments" :
-                        db.update_equipments(insertId, el, function (err, data) {
-                        });
-                        break;
-                }
-
-
-
-
-            // db.get_ad_by_id(insertId, function (err, data) {
-            //     let ad = data[0];
-            //     //console.log(ad.image_placeholder);
-            //     let ad_insert = {
-            //         images: JSON.stringify(sorted_list)
-            //     }
-            //     ad_insert.image_placeholder = ad.image_placeholder;
-            //
-            //     if (sorted_list.length > 0) {
-            //
-            //         if (ad.image_placeholder != sorted_list[0]) {
-            //             savePlaceholder("./Backend/res/images/technics/" + sorted_list[0], sorted_list[0]).then(r => console.log(""));
-            //             if (ad.image_placeholder) {
-            //                 let arr_temp_delete = []
-            //                 arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
-            //                 deleteFiles(arr_temp_delete)
-            //             }
-            //             ad_insert.image_placeholder = sorted_list[0];
-            //         }
-            //     }
-            //     else if (ad.image_placeholder) {
-            //         let arr_temp_delete = []
-            //         arr_temp_delete.push("./Backend/res/images/technics_placeholders/" + ad.image_placeholder)
-            //         deleteFiles(arr_temp_delete);
-            //         ad_insert.image_placeholder = "";
-            //     }
-            //
-            //     db.update_ad_by_id(insertId, ad_insert, function (err, data) {
-            //         if(err) console.log(err)
-            //         else {
-            //             console.log(data)
-            //         }
-            //     });
-            //
-            //     // delete old_files
-            //     let files_to_delete = [];
-            //     old_files.forEach(function (item) {
-            //         if(!sorted_list.includes(item)) {
-            //             files_to_delete.push("./Backend/res/images/technics/"+ item)
-            //         }
-            //     })
-            //     deleteFiles(files_to_delete)
-            // })
-
-        }
-    })
-}
 
 exports.update_user = function(req,res){
     let info = req.body;
@@ -1915,7 +1664,8 @@ exports.update_technic = function(req,res){
             }
             else {
                 //console.log("Success! ", data);
-                let images = JSON.parse(data5[0].images);
+                //let images = JSON.parse(data5[0].images);
+                let images = data5[0].images;
                 if(images.length > 0) {
                     let first_image = images[0];
 
@@ -2010,7 +1760,8 @@ exports.delete_technic_without_category_by_id = function(req,res){
                 });
             }
             else {
-                let photos = JSON.parse(data1[0].photos) || [];
+                //let photos = JSON.parse(data1[0].photos) || [];
+                let photos = data1[0].photos || [];
                 if(photos && photos.length > 0)
                     photos.forEach(function (item) {
                         let file_path = "./Backend/res/images/technics/"+ item;
@@ -2093,7 +1844,7 @@ exports.delete_technic_by_id = function(req,res){
                             });
                         } else {
                             try {
-                                helper.deleteFiles("./Backend/res/images/technics/", JSON.parse(data5[0].images))
+                                helper.deleteFiles("./Backend/res/images/technics/", data5[0].images)//JSON.parse(data5[0].images))
                             } catch (e) {}
 
                             res.send({
@@ -2518,3 +2269,119 @@ convertPriceToUAH = function(value, currency){
 }
 
 
+
+
+// Step 3: Convert image to .webp format
+async function convertImageToWebp(imagePath) {
+    //console.log("jjj"+ imagePath)
+    if(imagePath.toString().endsWith(".webp")) {
+        //console.log("here")
+        return imagePath;
+    }
+    //const newImagePath = imagePath.replace(/\.\w+$/, '.webp'); // Replace the file extension with .webp
+    const newImagePath = uniqid() + ".webp";
+    //console.log(newImagePath)
+    try {
+        // Use sharp to convert the image
+        await sharp(imagePath).composite([{ input: 'logo.png', gravity: 'southeast' }])
+                    .ensureAlpha(0.8).toFormat('webp').toFile(newImagePath);
+        return newImagePath; // Return the new image path
+    } catch (err) {
+        console.error(`Error converting image ${imagePath} to .webp:`, err);
+        throw err;
+    }
+}
+
+//Step 4: Update the database with the new image path
+// async function updateDatabase(connection, goodId, newImagePath) {
+//     try {
+//         await connection.execute('UPDATE goods SET image_path = ? WHERE id = ?', [newImagePath, goodId]);
+//         console.log(`Database updated for good ID ${goodId}: ${newImagePath}`);
+//     } catch (err) {
+//         console.error(`Error updating database for good ID ${goodId}:`, err);
+//         throw err;
+//     }
+// }
+
+async function fileExists(filePath) {
+    try {
+        await fs.promises.access(filePath); // Check if file is accessible
+        return true; // File exists
+    } catch {
+        return false; // File does not exist
+    }
+}
+
+//Step 5: Main function to orchestrate the task
+async function main() {
+
+    try {
+        db.get_equipments(callback); // Fetch goods with image paths
+        async function callback(err, data) {
+            if(data) {
+                //console.log(data)
+                let goods = data
+                for (const good of goods) {
+                    const { id, images } = good;
+                    //console.log(id)
+                    try {
+                        let newImagePaths = new Array; // Array to store updated image paths
+                            // Parse the JSON array of image paths
+                            //console.log(Array.isArray(good["images"]))              
+                            //console.log(Array.isArray(images) )
+
+                            let oldImagePathsArray = images || [];
+                            // Process each image in the array
+                            for (const [index, imagePath] of oldImagePathsArray.entries()) {
+                                //console.log(imagePath)
+                                let _imagePath = "./Backend/res/images/" + "equipments" + "/" + imagePath
+                                const absolutePath =  path.resolve(_imagePath); // Resolve the absolute path
+                                // let f_res = await fileExists(absolutePath)
+                                // console.log( f_res + "res")
+
+                                 // Check if the file exists
+                                if (await fileExists(absolutePath)) {
+                                    const newImagePath = await convertImageToWebp(absolutePath); // Convert the image to .webp
+                                    const fileName = path.basename(newImagePath);
+                                    newImagePaths.push(fileName); // Add the new path to the array
+                                    //console.log(fileName)
+    
+                                    // Optionally delete the old image
+                                    if(fileName != oldImagePathsArray[index]) {
+                                        // console.log(imagePathsArray[index])
+                                        // console.log(fileName == imagePathsArray[index])
+                                        // console.log(fileName != imagePathsArray[index])
+                                        //await fs.promises.unlink(absolutePath);
+                                        //fs.unlink(absolutePath);
+                                        //console.log(`Old image deleted: ${absolutePath}`);
+                                    }   
+                                }
+                                else {
+                                    console.warn(`File not found: ${absolutePath}`);
+                                }
+                                                      
+                            }
+
+                                let eq_to_update = {images: JSON.stringify(newImagePaths),
+                                main_photo_location : newImagePaths.length > 0 ? newImagePaths[0] : "default_technic.webp"}
+                                // db.update_equipments(id, eq_to_update, function(err,data){
+                                //     console.log(err)
+                                // })
+                        
+        
+                    } catch (err) {
+                        console.error(`Error processing good ID ${id}:`, err);
+                    }
+                }
+            }
+        }
+      
+    } catch (err) {
+        console.error('Error fetching goods:', err);
+    } finally {
+       // await connection.end(); // Close the database connection
+    }
+}
+
+
+ //main();

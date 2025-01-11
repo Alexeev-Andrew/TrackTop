@@ -83,8 +83,6 @@ exports.initialiseBasket = function(){
     initialiseCart();
 }
 
-
-
 function addToCart(tech) {
     Cart = basil.get('orders');
 
@@ -130,23 +128,21 @@ function removeFromCart(cart_item) {
 }
 
 
-
 function initialiseCart() {
     let savedOrders = basil.get('amountOfOrders');
     //if(!savedOrders) savedOrders = 0;
     if(savedOrders>0){
         Cart = basil.get('orders');
-        console.log(Cart)
+        //console.log(Cart)
        // if(!Cart) Cart = []
 
         Cart = Cart.filter(function(x) {
             return x !== undefined && x !== null;
         });
         allPrice = basil.get('price');
-        console.log(allPrice)
+        //console.log(allPrice)
         amountOfOrders = basil.get('amountOfOrders');
-        console.log(amountOfOrders)
-
+        //console.log(amountOfOrders)
     }
 
     $(".orderButton").click(function () {
@@ -230,10 +226,13 @@ function initialiseCart() {
                         order += "ціна: " + Cart[i].price_uah + "грн" + "\n";
                         order += "кількість: " + Cart[i].quantity + " шт.\n\n";
                     }
-                    console.log(order);
+                    //console.log(order);
 
                     let message = user_info + "\n" + order;
-                    if (order_details) message += `\n Деталі замовлення: ${order_details}`
+                    if (order_details) {
+                        message += `\n Деталі замовлення: ${order_details}`
+                        newCheck["comment"] = order_details 
+                    }
 
                     require("./API").sendMessage({message: message }, () => {
                         // notify
@@ -268,7 +267,7 @@ function initialiseCart() {
 
 function addCheck(check,callback) {
     require("./API").addOrder(check, function (err, data) {
-        if (data.error) {
+        if (data.error || err) {
             callback(data.error)
             console.log(data.error);
         }
@@ -278,29 +277,7 @@ function addCheck(check,callback) {
     });
 }
 
-function addCheckEquipments(check_id) {
-    let carts = getTechnicsInCart();
 
-    for(let i =0;i<carts.length;i++) {
-
-        if(carts[i].isTech) {
-            let check_technic = {
-                check_id : check_id,
-                technic_id: carts[i].id,
-                amount : carts[i].quantity
-            };
-            require("./API").addCheck_technic(check_technic, function (err, data) {
-                if (data.error) console.log(data.error);
-                else {
-                    //  console.log(data.insertId);
-                    console.log("Успіх техніка");
-                    //  return data.data.insertId
-                }
-            });
-        }
-    }
-    removeAll();
-}
 
 function getTechnicsInCart() {
     return Cart;
@@ -365,10 +342,10 @@ function updateCart() {
 
     Cart.forEach(showOne);
 
-    console.log(Cart)
+    // console.log(Cart)
 
-    console.log(allPrice)
-    console.log(amountOfOrders);
+    // console.log(allPrice)
+    // console.log(amountOfOrders);
 
     basil.set("orders",Cart);
     basil.set("price",allPrice);
@@ -402,8 +379,6 @@ function writeEmail(email,callback) {
 }
 
 
-
-
 function sendAjaxForm(result_form, ajax_form, callback) {
     // console.log($("#"+ajax_form).serialize())
     $.ajax({
@@ -424,39 +399,43 @@ function sendAjaxForm(result_form, ajax_form, callback) {
 }
 
 
-
-jQuery(document).ready(function ($) {
-    $("#setсookieph").click(function () {
-        $.cookie("pop_up_bl", "", {expires: 0});
-        $("#pop_up_bl").hide()
+exports.initialisePhonePopup = function() {
+    jQuery(document).ready(function ($) {
+        $("#setсookieph").click(function () {
+            $.cookie("pop_up_bl", "", {expires: 0});
+            $("#pop_up_bl").hide()
+        });
+        if ($.cookie("pop_up_bl") == null) {
+            setTimeout(function () {
+                $("#pop_up_bl").show();
+                $("#minbotph").hide()
+            }, 1)
+        } else {
+            $("#pop_up_bl").hide();
+            $("#minbotph").show()
+        }
     });
-    if ($.cookie("pop_up_bl") == null) {
-        setTimeout(function () {
-            $("#pop_up_bl").show();
-            $("#minbotph").hide()
-        }, 1)
-    } else {
-        $("#pop_up_bl").hide();
-        $("#minbotph").show()
-    }
-});
-jQuery(document).ready(function ($) {
-    $('a#stbotph').click(function (e) {
-        $(this).toggleClass('active');
-        $('#content1').toggle();
-        e.stopPropagation()
+    jQuery(document).ready(function ($) {
+        $('a#stbotph').click(function (e) {
+            $(this).toggleClass('active');
+            $('#content1').toggle();
+            e.stopPropagation()
+        });
+    
+        $('a#slibotph').click(function (e) {
+            $(this).toggleClass('active');
+            $('#content1').toggle();
+            e.stopPropagation()
+        })
     });
+    
+    jQuery(function($){
+        $("#tele_phone_call").mask("+38(999)999-9999");
+    });
+}
 
-    $('a#slibotph').click(function (e) {
-        $(this).toggleClass('active');
-        $('#content1').toggle();
-        e.stopPropagation()
-    })
-});
 
-jQuery(function($){
-    $("#tele_phone_call").mask("+38(999)999-9999");
-});
+
 
 fillStar = function(count) {
     let container = $('.feedbackStarContainer')[0].childNodes;

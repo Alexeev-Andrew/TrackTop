@@ -135,7 +135,8 @@ openEditTechnicModal = function(cell) {
 
             let im = [];
             try {
-                im = JSON.parse(data.data);
+                //im = JSON.parse(data.data);
+                im = data.data;
                 for(let i=0;i< im.length;i++) {
                     let item = im[i];
                     getFileObject("/images/technics/" + item , function (fileObject) {
@@ -1379,8 +1380,9 @@ function hideModal(){
              else if(cur == "євро")  $("#currency-choice").val("€");
              else  $("#currency-choice").val("грн");
 
+             //let photos = JSON.parse(data.data[0].photos);
 
-             let photos = JSON.parse(data.data[0].photos);
+             let photos = data.data[0].photos;
              let dataset = [];
              if(photos == null) {
                  photos = []

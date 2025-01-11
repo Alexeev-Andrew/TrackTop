@@ -156,7 +156,8 @@ openEditTechnicModal = function(cell) {
 
             let im = [];
             try {
-                im = JSON.parse(data.data);
+                //im = JSON.parse(data.data);
+                im = data.data;
                 for(let i=0;i< im.length;i++) {
                     let item = im[i];
                     getFileObject("/images/technics/" + item , function (fileObject) {
@@ -377,7 +378,6 @@ openEditEquipmentModal = function(cell) {
     $("#name-equipment").val($(cols[1]).text());
     $("#price-input").val($(cols[2]).text());
     // $("#equipment-code").val($(cols[3]).text());
-    $("#equipment-amount").val($(cols[4]).text());
     $('#model-choice').children().remove();
     $('#mark-choice').children().remove();
     $('#type_technics').children().remove();
@@ -392,8 +392,12 @@ openEditEquipmentModal = function(cell) {
         }
         else {
             let equipment = data.data[0];
-            let eq_codes =  JSON.parse(equipment.vendor_code) || [];
+            //console.log(equipment)
+            // check 
+            //let eq_codes =  JSON.parse(equipment.vendor_code) || [];
 
+            let eq_codes =  equipment.vendor_code || [];
+            $("#equipment-amount").val(equipment.amount);
             eq_codes.forEach(function (item) {
                     let option = new Option(item, item, false, true);
                     $('#vendor-choice').append(option).trigger("change")
@@ -492,10 +496,11 @@ openEditEquipmentModal = function(cell) {
             require("../API").get_equipments_categories(callback2);
 
             /// to do photo for equipment
+                    // let images = JSON.parse(equipment.images) || [];
 
-                    let images = JSON.parse(equipment.images) || [];
+                    let images = equipment.images || [];
                     console.log(images)
-                    localStorage.setItem("photo_arr", equipment.images);
+                    localStorage.setItem("photo_arr", JSON.stringify(images));
                     $('.uploader__file-list').empty();
 
                     $('.js-uploader__submit-button').removeClass("uploader__hide");
@@ -1507,8 +1512,8 @@ function hideModal(){
              else  $("#currency-choice").val("грн");
 
              editor.setData(data.data[0].description);
-
-             let photos = JSON.parse(data.data[0].photos) || [];
+            //  let photos = JSON.parse(data.data[0].photos) || [];
+             let photos = data.data[0].photos || [];
              console.log(photos)
              localStorage.setItem("photo_arr", JSON.stringify(photos));
 

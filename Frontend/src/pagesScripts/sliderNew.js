@@ -22,8 +22,8 @@ function multiItemSlider (selector, config) {
         _items.push({ item: item, position: index, transform: 0 });
     });
 
-    console.log(_mainElement)
-    console.log(_wrapperWidth)
+    //console.log(_mainElement)
+    //console.log(_wrapperWidth)
     // console.log(getComputedStyle(_sliderItems[0]).width)
     // console.log(Number(getComputedStyle(_sliderItems[0]).width))
 

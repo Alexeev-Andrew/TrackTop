@@ -2,6 +2,9 @@
 //     require('../pagesScripts/addTechnics').initializeEquipments();
 // }
 
+let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+
+
 // todo
 function  initializeCategories() {
     require('../pagesScripts/addTechnics').initializeCategories();
@@ -12,7 +15,8 @@ $(function(){
         document.location.href = "https://tracktop.com.ua/";
     })
 
-    require('../basketPage').initialiseBasket();
+    initialiseBasket();
+    initialisePhonePopup();
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();

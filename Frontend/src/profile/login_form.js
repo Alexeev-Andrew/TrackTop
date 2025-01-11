@@ -1,5 +1,5 @@
 let {hideToggleModal} = require("../helpers")
-
+let {isLogged} = require('./user_form')
 let user_info_dispalyed = false;
 
 exports.openForm = function() {
@@ -66,7 +66,7 @@ exports.login = function(){
                     document.querySelector(".row-col-anonim-wrapper").style.display = "none"
                 }
 
-                console.log(data);
+                //console.log(data);
 
                 if (!(data == null)) {
                     localStorage.setItem('status', true);
@@ -78,7 +78,7 @@ exports.login = function(){
                     localStorage.setItem('photo', data.data.photo_location);
                     toggleModal("#login-modal");
                     hideToggleModal()
-                    require('./user_form').isLogged();
+                    isLogged();
                 }
             }
         })

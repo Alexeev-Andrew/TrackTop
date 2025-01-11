@@ -209,7 +209,7 @@ exports.technic_without_category = function(req, res) {
 
                 if(data.length>0) {
                     let technic = data[0];
-                    let photos = JSON.parse(technic.photos) || ["default_technic.jpg"];
+                    let photos = technic.photos || ["default_technic.jpg"];
                             res.render('oneTechnicWithoutCategoryPage', {
                                 pageTitle: technic.name + " | Корчин, Львівська область",
                                 name: technic.name,
@@ -348,7 +348,7 @@ exports.equipment = function(req, res) {
             if(data.length>0) {
                 let category = data[0].category_name;
                 let equipment = data[0];
-                vendor_code = JSON.parse(equipment.vendor_code) || [];
+                vendor_code = equipment.vendor_code || [];
                 if(data[0].category_name != "Запчастини до комбайнів") {
                     res.render('oneEquipmentPage', {
                         equipment: data[0],

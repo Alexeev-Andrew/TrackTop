@@ -1,3 +1,6 @@
+let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+
+
 function  initialize() {
     require('../pagesScripts/addTechnics').initializeEquipments();
 }
@@ -8,8 +11,6 @@ function  initializeModels() {
 }
 
 
-
-
 $(function(){
     $('#logo').click(function () {
         document.location.href = "/";
@@ -17,8 +18,8 @@ $(function(){
 
     require('../pagesScripts/addTechnics').initializeMarks();
 
-
-    require('../basketPage').initialiseBasket();
+    initialiseBasket()
+    initialisePhonePopup()
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();

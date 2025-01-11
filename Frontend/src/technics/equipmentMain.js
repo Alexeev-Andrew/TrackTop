@@ -1,33 +1,9 @@
-const {openSendMessageModal: openMessageModal} = require("../profile/signup_form");
+const {openSendMessageModal: openMessageModal, openSendMessageModal} = require("../profile/signup_form");
+let {initialiseBasket, initialisePhonePopup, addToCart} = require('../basketPage')
+
 require('fancybox')($);
 
-let {getUrlParameter, toMainPageBreadcrumb} = require("../helpers")
-
-function initilizebreadcrumb(){
-    let curCategory = localStorage.getItem('current_category_equipments');
-    let currEquipment = JSON.parse(localStorage.getItem('currEquipment'));
-
-    let crums = toMainPageBreadcrumb();
-    crums +=
-        `<li>
-            <a class='seturl' href="/category_equipments">
-            <span>Запчастини</span></a>
-        </li>`;
-    crums +=
-        `<li class=''>
-            <a class='seturl-last' 
-                href="/category_equipments/category?name=${curCategory}">
-             <span>${curCategory}</span></a>
-        </li>`;
-    crums +=
-        ` <li class='current'>
-            <a class='seturl-last' href="${document.location.href}">
-            <span>${currEquipment.name}</span></a>
-        </li>`;
-
-    $("#breadcrumb").append(crums);
-
-}
+let {getUrlParameter, toMainPageBreadcrumb, Notify} = require("../helpers")
 
 
 function  initialize() {
@@ -64,7 +40,8 @@ function  initialize() {
         }
 
         let dataset = [];
-        let im = JSON.parse(equipment.images);
+        //let im = JSON.parse(equipment.images);
+        let im = equipment.images;
         if(!im) {
             im = ["default_technic.jpg"];
         }
@@ -74,10 +51,9 @@ function  initialize() {
         require('../pagesScripts/slider').initialize(dataset, alt);
 
         $('.order_equipment').click(function () {
+            Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
 
-            require('../pagesScripts/notify').Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
-
-            require('../basketPage').addToCart({
+            addToCart({
                 id: id,
                 title: equipment.name,
                 price_uah: equipment.price_uah,
@@ -87,7 +63,8 @@ function  initialize() {
                 quantity: 1,
                 status: equipment.status,
                 state: equipment.state,
-                vendor_code: JSON.parse(equipment.vendor_code),
+                // vendor_code: JSON.parse(equipment.vendor_code),
+                vendor_code: equipment.vendor_code,
                 url: document.location.href,
                 isTech: false
             });
@@ -99,7 +76,7 @@ function  initialize() {
             e.preventDefault();
             let one_eq = document.querySelector(".one-ad-header");
 
-            openMessageModal({productId:$(one_eq).data("id") , productTitle : $(one_eq).data("title"), url : $(one_eq).data("url") })
+            openSendMessageModal({productId:$(one_eq).data("id") , productTitle : $(one_eq).data("title"), url : $(one_eq).data("url") })
         })
     }
     require('../API').getEquipmentsById(id,callback5);
@@ -116,7 +93,8 @@ $(function(){
         document.location.href = "https://tracktop.com.ua/";
     })
 
-    require('../basketPage').initialiseBasket();
+    initialiseBasket()
+    initialisePhonePopup();
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();
@@ -154,3 +132,30 @@ $(function(){
         document.location.href = "https://tracktop.com.ua/profile";
     })
 });
+
+
+function initilizebreadcrumb(){
+    let curCategory = localStorage.getItem('current_category_equipments');
+    let currEquipment = JSON.parse(localStorage.getItem('currEquipment'));
+
+    let crums = toMainPageBreadcrumb();
+    crums +=
+        `<li>
+            <a class='seturl' href="/category_equipments">
+            <span>Запчастини</span></a>
+        </li>`;
+    crums +=
+        `<li class=''>
+            <a class='seturl-last' 
+                href="/category_equipments/category?name=${curCategory}">
+             <span>${curCategory}</span></a>
+        </li>`;
+    crums +=
+        ` <li class='current'>
+            <a class='seturl-last' href="${document.location.href}">
+            <span>${currEquipment.name}</span></a>
+        </li>`;
+
+    $("#breadcrumb").append(crums);
+
+}

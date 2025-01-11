@@ -1,5 +1,7 @@
 let values = require('../values.js');
 let API_URL = values.url;
+let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+
 
 $(function(){
 
@@ -28,8 +30,8 @@ $(function(){
 
     require('./profile').initializeUser();
 
-    require('../basketPage').initialiseBasket();
-
+    initialiseBasket();
+    initialisePhonePopup()
 
 
     $('#photo_input').change(function (event) {

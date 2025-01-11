@@ -1,5 +1,7 @@
 var values = require('../values.js');
 var API_URL = values.url;
+let {initialiseBasket, initialisePhonePopup} = require('../basketPage.js')
+
 
 function  initialize() {
     require('../pagesScripts/addTechnics').initializeTechnics();
@@ -10,7 +12,8 @@ $(function(){
         document.location.href = API_URL;
     })
 
-    require('../basketPage').initialiseBasket();
+    initialiseBasket()
+    initialisePhonePopup()
 
     $('#login').click(function() {
         require('../profile/login_form').openForm();

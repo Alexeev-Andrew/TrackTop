@@ -175,7 +175,7 @@ sendMessage_My = function (i) {
 }
 
 
-openMessageModal = function ({productId, productTitle, url } = {}) {
+openSendMessageModal = function ({productId, productTitle, url } = {}) {
 
     $('#messageModal').modal('show');
    // $('#messageModal').on('shown.bs.modal', function(e) {
@@ -201,7 +201,7 @@ openMessageModal = function ({productId, productTitle, url } = {}) {
         }
 }
 
-exports.openSendMessageModal = openMessageModal;
+exports.openSendMessageModal = openSendMessageModal;
 
 function createCookie(name, value, days) {
     var expires;
