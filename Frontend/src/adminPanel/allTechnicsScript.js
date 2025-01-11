@@ -394,9 +394,8 @@ openEditEquipmentModal = function(cell) {
             let equipment = data.data[0];
             //console.log(equipment)
             // check 
-            //let eq_codes =  JSON.parse(equipment.vendor_code) || [];
-
-            let eq_codes =  equipment.vendor_code || [];
+            let eq_codes =  JSON.parse(equipment.vendor_code) || [];
+            //let eq_codes =  equipment.vendor_code || [];
             $("#equipment-amount").val(equipment.amount);
             eq_codes.forEach(function (item) {
                     let option = new Option(item, item, false, true);
