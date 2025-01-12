@@ -394,8 +394,10 @@ openEditEquipmentModal = function(cell) {
             let equipment = data.data[0];
             //console.log(equipment)
             // check 
-            let eq_codes =  JSON.parse(equipment.vendor_code) || [];
-            //let eq_codes =  equipment.vendor_code || [];
+            //console.log(typeof equipment.vendor_code)
+            //let eq_codes =  JSON.parse(equipment.vendor_code) || [];
+            //console.log(eq_codes)
+            let eq_codes =  equipment.vendor_code || [];
             $("#equipment-amount").val(equipment.amount);
             eq_codes.forEach(function (item) {
                     let option = new Option(item, item, false, true);
@@ -495,11 +497,10 @@ openEditEquipmentModal = function(cell) {
             require("../API").get_equipments_categories(callback2);
 
             /// to do photo for equipment
-                    // let images = JSON.parse(equipment.images) || [];
-
+                    //let images = JSON.parse(equipment.images) || [];
                     let images = equipment.images || [];
-                    console.log(images)
-                    localStorage.setItem("photo_arr", JSON.stringify(images));
+                    //console.log(images)
+                    localStorage.setItem("photo_arr", JSON.stringify(equipment.images));
                     $('.uploader__file-list').empty();
 
                     $('.js-uploader__submit-button').removeClass("uploader__hide");

@@ -479,7 +479,7 @@ exports.initializeEquipments = function(){
                     } else {
                         //console.log(data.data);
                         equipmentsByCategory = data.data;
-                        console.log(equipmentsByCategory)
+                        //console.log(equipmentsByCategory)
 
                         filterSelectionEquipments(equipments_per_page);
                         lazyLoad();

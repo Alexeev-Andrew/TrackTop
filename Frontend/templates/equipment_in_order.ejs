@@ -15,7 +15,9 @@
         <% if(equipment.vendor_code) { %>
             <div class="one-ad-info-row">
                 <span class="one-ad-info-label">Код товару</span>
-                <span class="one-ad-info-value one-ad-info-value-regular"><%= equipment.vendor_code.join(", ")%></span>
+                <span class="one-ad-info-value one-ad-info-value-regular">
+                    <!-- <= JSON.parse(equipment.vendor_code).join(", ")%> -->
+                </span>
             </div>
         <%}%>
 

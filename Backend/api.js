@@ -261,13 +261,13 @@ exports.addTehnic = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -277,7 +277,7 @@ exports.addTehnic = function(req, res) {
             // function callback(error,data){
             //     if(error) {
             //         console.log("Error! ", error.sqlMessage);
-            //         res.send({
+            //         res.json({
             //             success: true,
             //             data: data
             //         });
@@ -349,10 +349,10 @@ exports.sendMessage = function (req, res) {
         //     }}
 
         ).then(function (response) {
-            res.send({status: true})
+            res.json({status: true})
     })
         .catch(function (error) {
-            res.send({status: false})
+            res.json({status: false})
         });
 
 }
@@ -363,13 +363,13 @@ exports.addTehnicWithoutCategory = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -400,14 +400,14 @@ exports.addReview = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -427,7 +427,7 @@ exports.addEquipment = function(req, res) {
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -453,14 +453,14 @@ exports.addEquipmentsModels = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -476,14 +476,14 @@ exports.addMarkTechnics = function(req, res) {
     function callback(error,data){
         if(error) {
            // console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -500,14 +500,14 @@ exports.addModel = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -524,14 +524,14 @@ exports.addImagesTechnic = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success ");
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -547,14 +547,14 @@ exports.addImagesEquipment = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success ");
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -572,13 +572,13 @@ exports.addClient = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -596,14 +596,14 @@ exports.addCheck = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -620,14 +620,14 @@ exports.addOrder = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -648,14 +648,14 @@ exports.addCheckEquipment = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -675,14 +675,14 @@ exports.addCheckTechnic = function(req, res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -699,7 +699,7 @@ exports.sign_in = function(req, res) {
 
     function callback(error,data){
         if(error) {
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
@@ -714,7 +714,7 @@ exports.sign_in = function(req, res) {
                 res.cookie("phone", data[0].phone_number, {maxAge: 60000 * 60 * 24})
                 res.cookie("refresh_token", refresh_token, {maxAge: 60000 * 60 * 24 * 30}) // 60000 is 1 min
 
-                res.send({
+                res.json({
                     success: true,
                     data: {
                         token: token,
@@ -728,7 +728,7 @@ exports.sign_in = function(req, res) {
                 });
             }
             else
-                res.send({
+                res.json({
                     success: true,
                     error: 'Wrong password'
                 });
@@ -745,14 +745,14 @@ exports.get_models_by_type_mark = function(req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -767,14 +767,14 @@ exports.get_models = function(req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -789,14 +789,14 @@ exports.get_reviews = function(req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -811,14 +811,14 @@ exports.get_id = function(req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -834,14 +834,14 @@ exports.get_types_of_technics = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -856,14 +856,14 @@ exports.get_marks_of_technics = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -880,14 +880,14 @@ exports.getTechnicsWithoutCategory = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -904,14 +904,14 @@ exports.get_technics = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -926,14 +926,14 @@ exports.get_equipments_categories = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -947,14 +947,14 @@ exports.get_equipments = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -968,14 +968,14 @@ exports.getequipmentswithmodels = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! some ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -990,13 +990,13 @@ exports.getequipmentsbymodal = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! some ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1011,14 +1011,14 @@ exports.get_technics_by_tp = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1034,14 +1034,14 @@ exports.getequipmentsbycategoryid = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1057,14 +1057,14 @@ exports.getequipmentsbycategoryid = function (req,res) {
 //     function callback(error,data){
 //         if(error) {
 //             console.log("Error! ", error.sqlMessage);
-//             res.send({
+//             res.json({
 //                 success: true,
 //                 error: error.sqlMessage
 //             });
 //         }
 //         else {
 //             console.log("Success! ", data);
-//             res.send({
+//             res.json({
 //                 success: true,
 //                 data: data
 //             });
@@ -1079,14 +1079,14 @@ exports.get_technics_im_by_id = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data[0].images);
-            res.send({
+            res.json({
                 success: true,
                 data: data[0].images
             });
@@ -1103,14 +1103,14 @@ exports.get_technics_without_category_by_id = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1126,14 +1126,14 @@ exports.get_technic_by_id = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1148,14 +1148,13 @@ exports.get_equipment_by_id = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1171,14 +1170,14 @@ exports.get_equipment_im_by_id = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1193,14 +1192,14 @@ exports.get_review = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1215,13 +1214,13 @@ exports.get_user_information = function (req,res) {
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -1236,7 +1235,7 @@ exports.get_client_orders_by_phone = function (req,res) {
 
     function callback2(error2,data2) {
         if (error2) {
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             })
@@ -1246,13 +1245,13 @@ exports.get_client_orders_by_phone = function (req,res) {
             function callback(error, data) {
                 if (error) {
                     //console.log("Error! ", error.sqlMessage);
-                    res.send({
+                    res.json({
                         success: true,
                         error: error.sqlMessage
                     });
                 } else {
                     //console.log("Success! ", data);
-                    res.send({
+                    res.json({
                         success: true,
                         data: data
                     });
@@ -1272,7 +1271,7 @@ exports.get_one_order_by_id = function (req,res) {
             function callback(error, data) {
                 if (error) {
                     //console.log("Error! ", error.sqlMessage);
-                    res.send({
+                    res.json({
                         success: true,
                         error: error.sqlMessage
                     });
@@ -1283,7 +1282,7 @@ exports.get_one_order_by_id = function (req,res) {
                     data.order_array = Array.from(data[0].order_array)
                    
 
-                    res.send({
+                    res.json({
                         success: true,
                         data: data
                     });
@@ -1301,14 +1300,14 @@ exports.is_log_in = function (req,res) {
     if (user) {
         function callback(err, data) {
             if(err) {
-                return res.send({auth: false});
+                return res.json({auth: false});
             } else {
-                return res.send({auth: true, user : user});
+                return res.json({auth: true, user : user});
             }
         }
         db.get_client_by_id(user.id, callback)
     } else {
-        return res.send({auth: false});
+        return res.json({auth: false});
     }
 
 }
@@ -1549,14 +1548,14 @@ exports.update_user = function(req,res){
         function callback(error,data){
             if(error) {
                 //console.log("Error! ", error.sqlMessage);
-                res.send({
+                res.json({
                     success: true,
                     error: error.sqlMessage
                 });
             }
             else {
                 //console.log("Success! ", data);
-                res.send({
+                res.json({
                     success: true
                 });
             }
@@ -1564,7 +1563,7 @@ exports.update_user = function(req,res){
 
         db.update_client(user.id, user_update,callback);
     } else {
-        res.send("error")
+        res.json("error")
     }
 
 }
@@ -1579,13 +1578,13 @@ exports.update_user_pwd = function(req,res){
         function callback(error,data){
             if(error) {
                 // console.log("Error! ", error.sqlMessage);
-                res.send({
+                res.json({
                     success: true,
                     error: "Виникла помилка"
                 });
             }
             else {
-                res.send({
+                res.json({
                     success: true
                 });
             }
@@ -1593,7 +1592,7 @@ exports.update_user_pwd = function(req,res){
 
         db.update_client(user.id, {hash},callback);
     } else {
-        res.send({
+        res.json({
             error: "Перевірте актуальний пароль"
         })
     }
@@ -1608,14 +1607,14 @@ exports.update_review = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -1632,14 +1631,14 @@ exports.update_technic_without_category = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -1657,7 +1656,7 @@ exports.update_technic = function(req,res){
         function callback5(error,data5){
             if(error) {
                 //console.log("Error! ", error.sqlMessage);
-                res.send({
+                res.json({
                     success: true,
                     error: error.sqlMessage
                 });
@@ -1702,7 +1701,7 @@ exports.update_technic = function(req,res){
 update_tehnic_helper = function(res, info, images) {
     function callback(error,data){
         if(error) {
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
@@ -1710,7 +1709,7 @@ update_tehnic_helper = function(res, info, images) {
         else {
             //console.log("Success! ", data);
 
-            res.send({
+            res.json({
                 success: true
             });
 
@@ -1729,13 +1728,13 @@ exports.update_equipment = function(req,res){
 
     function callback(error,data){
         if(error) {
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -1754,7 +1753,7 @@ exports.delete_technic_without_category_by_id = function(req,res){
 
         function callback1(err1, data1) {
             if (err1)      {
-                res.send({
+                res.json({
                     success: true,
                     error: error.sqlMessage
                 });
@@ -1775,12 +1774,12 @@ exports.delete_technic_without_category_by_id = function(req,res){
 
                 function callback(error, data) {
                     if (error) {
-                        res.send({
+                        res.json({
                             success: true,
                             error: error.sqlMessage
                         });
                     } else {
-                        res.send({
+                        res.json({
                             success: true
                         });
                     }
@@ -1815,7 +1814,7 @@ exports.delete_technic_by_id = function(req,res){
     //             if (error) {
     //                 console.log("Error! ", error.sqlMessage);
     //
-    //                 res.send({
+    //                 res.json({
     //                     success: true,
     //                     error: error.sqlMessage
     //                 });
@@ -1830,7 +1829,7 @@ exports.delete_technic_by_id = function(req,res){
             function callback2(error, data2) {
                 if (error) {
                     //console.log("Error! ", error.sqlMessage);
-                    res.send({
+                    res.json({
                         success: true,
                         error: error.sqlMessage
                     });
@@ -1838,7 +1837,7 @@ exports.delete_technic_by_id = function(req,res){
                     function callback(error, data) {
                         if (error) {
                             //console.log("Error! ", error.sqlMessage);
-                            res.send({
+                            res.json({
                                 success: true,
                                 error: error.sqlMessage
                             });
@@ -1847,7 +1846,7 @@ exports.delete_technic_by_id = function(req,res){
                                 helper.deleteFiles("./Backend/res/images/technics/", data5[0].images)//JSON.parse(data5[0].images))
                             } catch (e) {}
 
-                            res.send({
+                            res.json({
                                 success: true
                             });
                         }
@@ -1921,7 +1920,7 @@ exports.delete_equipments_by_id = function(req,res){
                         if (error) {
                            // console.log("Error! ", error.sqlMessage);
 
-                            res.send({
+                            res.json({
                                 success: true,
                                 error: error.sqlMessage
                             });
@@ -1929,7 +1928,7 @@ exports.delete_equipments_by_id = function(req,res){
                             function callback2(error, data2) {
                                 if (error) {
                                     //console.log("Error! ", error.sqlMessage);
-                                    res.send({
+                                    res.json({
                                         success: true,
                                         error: error.sqlMessage
                                     });
@@ -1937,13 +1936,13 @@ exports.delete_equipments_by_id = function(req,res){
                                     function callback(error, data) {
                                         if (error) {
                                             //console.log("Error! ", error.sqlMessage);
-                                            res.send({
+                                            res.json({
                                                 success: true,
                                                 error: error.sqlMessage
                                             });
                                         } else {
                                             //console.log("Success! ", data);
-                                            res.send({
+                                            res.json({
                                                 success: true
                                             });
                                         }
@@ -1974,14 +1973,14 @@ exports.delete_equipments_models_by_ids = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -1996,14 +1995,14 @@ exports.delete_equipments_models_by_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2018,14 +2017,14 @@ exports.delete_images_by_technic_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2041,14 +2040,14 @@ exports.delete_imageTechnic_by_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2064,14 +2063,14 @@ exports.delete_imageEquipment_by_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2088,14 +2087,14 @@ exports.delete_check_technics_by_technic_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2111,14 +2110,14 @@ exports.delete_images_by_equipment_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2133,7 +2132,7 @@ exports.delete_user_photo = function(req,res){
     if (user) {
         function callback(error,data){
             if(error) {
-                res.send({
+                res.json({
                     success: true,
                     error: error.sqlMessage
                 });
@@ -2142,14 +2141,14 @@ exports.delete_user_photo = function(req,res){
                 // delete images
                 if (user.photo_location && user.photo_location != "avatar.png")
                 deleteFile("./Backend/res/images/users_photos/" + user.photo_location)
-                res.send({
+                res.json({
                     success: true
                 });
             }
         }
         db.update_client(user.id, {photo_location: "avatar.png"}, callback);
     } else {
-        res.send({})
+        res.json({})
     }
 }
 
@@ -2160,14 +2159,14 @@ exports.delete_check_equipments_by_equipment_id = function(req,res){
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true
             });
         }
@@ -2180,7 +2179,7 @@ exports.logout = function(req,res) {
     res.clearCookie('jwt') ;
     res.clearCookie('refresh_token');
     res.clearCookie('phone');
-    res.send({success: true});
+    res.json({success: true});
 }
 
 exports.addUserSubmitFnc = function (req, res)
@@ -2191,14 +2190,14 @@ exports.addUserSubmitFnc = function (req, res)
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
@@ -2217,14 +2216,14 @@ exports.addPhone = function (req, res)
     function callback(error,data){
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
+            res.json({
                 success: true,
                 error: error.sqlMessage
             });
         }
         else {
             //console.log("Success! ", data);
-            res.send({
+            res.json({
                 success: true,
                 data: data
             });
