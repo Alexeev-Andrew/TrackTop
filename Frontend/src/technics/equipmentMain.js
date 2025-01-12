@@ -1,4 +1,4 @@
-const {openSendMessageModal: openMessageModal, openSendMessageModal} = require("../profile/signup_form");
+const { openSendMessageModal} = require("../profile/signup_form");
 let {initialiseBasket, initialisePhonePopup, addToCart} = require('../basketPage')
 
 require('fancybox')($);
