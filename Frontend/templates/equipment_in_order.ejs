@@ -12,11 +12,11 @@
             <span class="one-ad-info-label">Стан:</span>
             <span class="one-ad-info-value one-ad-info-value-regular"><%= equipment.state %></span>
         </div>
-        <% if(equipment.vendor_code) { %>
+        <% if(equipment.vendor_code && equipment.vendor_code.constructor == Array && equipment.vendor_code.length>0) { %>
             <div class="one-ad-info-row">
                 <span class="one-ad-info-label">Код товару</span>
                 <span class="one-ad-info-value one-ad-info-value-regular">
-                    <!-- <= JSON.parse(equipment.vendor_code).join(", ")%> -->
+                    <%= equipment.vendor_code.join(", ")%>
                 </span>
             </div>
         <%}%>
