@@ -32,12 +32,12 @@ const pages = require("./pages");
 // };
 
 function configureEndpoints(app) {
+    var db = require('./db');
+    db.connect();
     var pages = require('./pages');
     var api = require('./api');
-    var db = require('./db');
     let per_page = 12;
 
-    db.connect();
 
     app.all('*', function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
@@ -49,24 +49,32 @@ function configureEndpoints(app) {
     //Налаштування URL за якими буде відповідати сервер
 
     app.use(attachCurrentUser.attachCurrentUser);
+    // Middleware to remove trailing slash
+    app.use((req, res, next) => {
+        if (req.url.endsWith('/') && req.url !== '/') {
+            // Redirect to the URL without trailing slash
+            return res.redirect(301, req.url.slice(0, -1));
+        }
+        next();  // Continue to the next middleware or route handler
+    });
 
-    app.post('/api/addtechnic/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnic);
-    app.post('/api/addtechnicwithoutcategory/', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnicWithoutCategory);
+    app.post('/api/addtechnic',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnic);
+    app.post('/api/addtechnicwithoutcategory', isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addTehnicWithoutCategory);
 
-    app.post('/api/addreview/', api.addReview);
+    app.post('/api/addreview', api.addReview);
 
-    app.post('/api/addequipment/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addEquipment);
-    app.post('/api/addequipmentsmodels/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addEquipmentsModels);
-    app.post('/api/addclient/', api.addClient);
-    app.post('/api/addcheck/', api.addCheck);
-    app.post('/api/addorder/', api.addOrder);
-    app.post('/api/addcheckequipment/', api.addCheckEquipment);
-    app.post('/api/addchecktechnic/', api.addCheckTechnic);
-    app.post('/api/addimagestechnic/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),  api.addImagesTechnic);
-    app.post('/api/addimagesequipment/',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addImagesEquipment);
+    app.post('/api/addequipment',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addEquipment);
+    app.post('/api/addequipmentsmodels',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']), api.addEquipmentsModels);
+    app.post('/api/addclient', api.addClient);
+    app.post('/api/addcheck', api.addCheck);
+    app.post('/api/addorder', api.addOrder);
+    app.post('/api/addcheckequipment', api.addCheckEquipment);
+    app.post('/api/addchecktechnic', api.addCheckTechnic);
+    app.post('/api/addimagestechnic',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),  api.addImagesTechnic);
+    app.post('/api/addimagesequipment',  isAuth.authenticateToken, attachCurrentUser.attachCurrentUser, roleRequired.requiredRole(['admin']),api.addImagesEquipment);
     //app.post('/api/addtypetechnics/', api.addCheckEquipment);
-    app.post('/api/addmarktechnics/', api.addMarkTechnics);
-    app.post('/api/addmodel/', api.addModel);
+    app.post('/api/addmarktechnics', api.addMarkTechnics);
+    app.post('/api/addmodel', api.addModel);
     app.get('/api/gettypes', api.get_types_of_technics);
     app.get('/api/getmarks', api.get_marks_of_technics);
     app.get('/api/getclient', api.get_user_information);
@@ -78,7 +86,7 @@ function configureEndpoints(app) {
     app.get('/api/getreviews', api.get_reviews);
     app.get('/api/getordersbyclient', api.get_client_orders_by_phone);
     app.get('/api/getorderbyid', api.get_one_order_by_id);
-    app.get('/api/is-log-in/', attachCurrentUser.attachCurrentUser, api.is_log_in);
+    app.get('/api/is-log-in', attachCurrentUser.attachCurrentUser, api.is_log_in);
 
 
     app.get('/api/get_equipments_categories', api.get_equipments_categories);
@@ -141,23 +149,23 @@ function configureEndpoints(app) {
     app.post('/api/send-message', api.sendMessage);
     ////////////
 
-
     //Сторінки
     app.get('/', pages.mainPage);
     app.get('/profile', isAuth.authenticateToken, pages.profile);
     app.get('/technics', pages.technics);
+  
+
+    // Catch-all for subroutes
+ 
     app.get('/marks', pages.marks);
     app.get('/technics-without-category', pages.technics_without_category);
-    app.get('/technics-without-category/', pages.technics_without_category);
     app.get('/technics-without-category/:id', pages.technic_without_category);
-    app.get('/technics-without-category/:id/', pages.technic_without_category);
     app.get('/technic', pages.technic);
     app.get('/categories', pages.categories);
 
     app.get('/category_equipments', pages.equipments);
-    app.get('/category_equipments/', pages.equipments);
-    app.get('/category_equipments/category/:type/:mark', pages.models);
-    app.get('/category_equipments/category/:type/:mark/:model', pages.equipmentsByModel);
+    app.get('/category_equipments/category/:type/:mark', pages.models); //+
+    app.get('/category_equipments/category/:type/:mark/:model', pages.equipmentsByModel);//+
     app.get('/category_equipments/category', pages.category);
     app.get('/equipment', pages.equipment);
     app.get('/about', pages.about);

@@ -1,6 +1,8 @@
+const { render } = require('ejs');
+
 exports.mainPage = function(req, res) {
     require('./db').get_marks_of_technics(callback);
-    let marks;
+    let marks = [];
     function callback(err, data) {
         if(data) {
             marks = data;
@@ -35,36 +37,53 @@ exports.technics_without_category = function(req, res) {
 
 
 exports.technics = function(req, res) {
-    let type = req.query.type;
+    let {type,  ...otherParams }  = req.query;
+    console.log(req.query)
+    console.log(req.url)
+    console.log(decodeURIComponent(type))
+    if (Object.keys(otherParams).length > 0) {
+         return render404(req,res);
+    }
+
     let photo_location = null;
+    console.log(type)
+    if(type) {  
         require('./db').get_types_of_technics( callback);
         function  callback(error,data) {
             if (error) {
+                res.status(404).send({error:error.sqlMessage});
                 //console.log("Error! ", error.sqlMessage);
             } else {
+                let row;
                 data.forEach(function (i) {
                     if (i.name == type) {
+                        row = i;
                         photo_location = i.photo_location;
                     }
                 })
 
+                if(row.name != type) {
+                    console.log("here")
+                    return render404(req,res);
+                }
+    
                 if (req.query.type == "Фронтальні навантажувачі")
                     res.render('technicsPage', {
                         pageTitle: req.query.type + " на МТЗ, Т-40, Т25 (Польща)",
                         description: "Купити " + req.query.type + " на трактор. Гарантія 1 рік. Доставка по всій Україні. Дзвоніть ☎ (097)-837-87-72",
                         types: req.query.type,
-                        mark: req.query.mark,
+                        mark: null,
                         photo_location: photo_location,
                         user: req.currentUser,
-
+    
                     });
                 else if (req.query.type == "Жатки") {
-                   // console.log(req.query.type + " " + photo_location)
+                    // console.log(req.query.type + " " + photo_location)
                     res.render('technicsPage', {
                         pageTitle: req.query.type + " кукурудзяні. Купити приставку кукурудзяну. Львівська область | TrackTop",
                         description: "Купити " + req.query.type + " для кукурудзи. Жатки соняшникові. Приставка для кукурудзи. Великий вибір сг техніки. Обирай TrackTop! Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
-                        mark: req.query.mark,
+                        mark: null,
                         photo_location: photo_location,
                         user: req.currentUser,
                     });
@@ -73,27 +92,36 @@ exports.technics = function(req, res) {
                         pageTitle: 'Купити ' + req.query.type + " Львівська область | купити бу " + req.query.type + " | TrackTop",
                         description: req.query.type + " бу. Великий вибір сг техніки. Купуй " + req.query.type + " в Львівській області від TrackTop! Дзвоніть ☎ (067)-646-22-44",
                         types: req.query.type,
-                        mark: req.query.mark,
+                        mark: null,
                         photo_location: photo_location,
                         user: req.currentUser,
                     });
-                else {
-                    res.render('technicsPage', {
-                        pageTitle: 'Купити техніку марки ' + req.query.mark + " Львівська область | TrackTop",
-                        description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " | Львівська область. Дзвоніть ☎ (067)-646-22-44",
-                        types: req.query.type,
-                        mark: req.query.mark,
-                        photo_location: photo_location,
-                        user: req.currentUser,
-                    });
-                }
-
-
+                // else {
+                //     res.render('technicsPage', {
+                //         pageTitle: 'Купити техніку марки ' + req.query.mark + " Львівська область | TrackTop",
+                //         description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " | Львівська область. Дзвоніть ☎ (067)-646-22-44",
+                //         types: null,
+                //         mark: req.query.mark,
+                //         photo_location: photo_location,
+                //         user: req.currentUser,
+                //     });
+                // }
+    
+    
             }
-        }
+        }}
+  
+    else {
+        return render404(req,res);
+    }
 };
 
 exports.marks = function(req, res) {
+    let { ...otherParams} = req.query;
+    if (Object.keys(otherParams).length > 0) {
+        return render404(req,res);
+    }
+
     require('./db').get_marks_of_technics( callback);
     function  callback(error, data) {
         if (error) {
@@ -102,9 +130,10 @@ exports.marks = function(req, res) {
          res.render('marks', {
                 pageTitle: "Купити сільгосптехніку Львів. Купити спецтехніку Україна | TrackTop",
                 description: "Купити сільгосптехніку бу та нова, спецтехніка в Україні та під замовлення | TrackTop",
-                types: req.query.type,
-                mark: req.query.mark,
+                types: null,
+                mark: null,
                 photo_location: "",
+                // marks: data
                 user: req.currentUser,
             });
 
@@ -119,6 +148,7 @@ exports.category = function(req, res) {
         require('./db').get_equipments_categories( callback);
         function  callback(error,data) {
                 if(error) {
+                    res.status(404).json({error:error.sqlMessage})
                     //console.log("Error! ", error.sqlMessage);
                 }
                 else {
@@ -128,6 +158,10 @@ exports.category = function(req, res) {
                        }
                     })
                 }
+            if(!isValueInRows("category_name", req.query.name, data)) {
+                return render404(req,res)
+            }
+
             if(req.query.name=="Колеса"){
                 res.render('categoryPage', {
                     pageTitle:  "Колеса до с/г техніки! Шини до спецтехніки. Корчин, Львівська область | TrackTop",
@@ -164,22 +198,38 @@ exports.category = function(req, res) {
             }
             // not found
             else {
-                res.render('404_error_template', {
+                return res.status(404).render('404_error_template', {
                     title: 'Сторінки не знайдено!',
                     user: req.currentUser,
                 })
             }
         }
 
+    }  else {
+        res.status(404).render('404_error_template', {
+            title: 'Сторінки не знайдено!',
+            user: req.currentUser,
+        })
     }
 
 };
 
 exports.models = function(req, res) {
     //console.log(req.params.type);
-        let type = req.params.type;
+        let {...otherParams} = req.query;
+        let {type, mark} = req.params;
         let photo_location = null;
-        if(type ==="combine_details") {
+
+        if (Object.keys(otherParams).length > 0) {
+            return render404(req,res);
+        }
+
+        let marks = ["John Deere", "Claas", "Massey Ferguson"]
+        // if(!isValueInRows("category_name", req.query.name, data)) {
+        //     return render404(req,res)
+        // }
+
+        if(type ==="combine_details" && mark && marks.includes(mark)) {
             res.render('models', {
                 pageTitle: "Запчастини " + req.params.mark+ ". Купити запчастини до комбайнів " +req.params.mark + " Львівська область| TrackTop",
                 mark: req.params.mark,
@@ -187,6 +237,11 @@ exports.models = function(req, res) {
                 photo_location : photo_location,
                 user: req.currentUser,
             });
+        }  else {
+            res.status(404).render('404_error_template', {
+                title: 'Сторінки не знайдено!',
+                user: req.currentUser,
+            })
         }
 
 };
@@ -200,13 +255,9 @@ exports.technic_without_category = function(req, res) {
         function (error,data) {
 
             if(error) {
-                res.send({
-                    success: true,
-                    error: error.sqlMessage
-                });
+                res.status(404).json({error:error.sqlMessage})
             }
             else {
-
                 if(data.length>0) {
                     let technic = data[0];
                     let photos = technic.photos || ["default_technic.jpg"];
@@ -221,10 +272,7 @@ exports.technic_without_category = function(req, res) {
                 }
                 // not found
                 else {
-                    res.render('404_error_template', {
-                        title: 'Сторінки не знайдено!',
-                        user: req.currentUser,
-                    })
+                    return render404(req,res)
                 }
             }
         });
@@ -234,25 +282,30 @@ exports.technic_without_category = function(req, res) {
 
 
 exports.technic = function(req, res) {
-    let model = req.query.model;
-    let mark = req.query.mark;
-    let type = req.query.type;
-    let number_id = req.query.number_id;
+    let {model, mark, type, number_id, ...otherParams} = req.query
+ 
 
     require('./db').get_technics_by_id(number_id,
 
         function (error,data) {
 
         if(error) {
-            res.send({
-                success: true,
+            res.status(404).send({
+                success: false,
                 error: error.sqlMessage
             });
         }
         else {
+            if(data.length>0 ) {
+                let row = data[0];
+                //console.log(row)
+                if(model!=row.model || row.types_of_technics_name!=type  || row.marks_of_technics_name!= mark
+                    ||  Object.keys(otherParams).length > 0) {
+                
+                    return render404(req,res);
+                }
+                
 
-            if(data.length>0) {
-               // console.log(data[0]+"\n");
                     if(type=="Сівалки") type="Сівалка";
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
                     else if(type=="Жатки")type="Жатка кукурудзяна (приставка кукурудзяна)";
@@ -260,17 +313,17 @@ exports.technic = function(req, res) {
                     else type = type.substring(0,type.length-1);
                     let type_ = type=="Жатка кукурудзяна (приставка кукурудзяна)" ? "Жатка" : type;
                 if(type=="Фронтальні навантажувачі") {
-                    if(type.includes("гак") || type.includes("вила")) {
-                        res.render('oneTechnicPage', {
-                            pageTitle: model + ' ' + mark + " (Польща)",
-                            name: mark + ' ' + model,
-                            type: type_,
-                            description: "Купити "  + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (097)-837-87-72",
-                            technic: data[0],
-                            user: req.currentUser,
-                        });
-                    }
-                    else {
+                    // if(type.includes("гак") || type.includes("вила")) {
+                    //     res.render('oneTechnicPage', {
+                    //         pageTitle: model + ' ' + mark + " (Польща)",
+                    //         name: mark + ' ' + model,
+                    //         type: type_,
+                    //         description: "Купити "  + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (097)-837-87-72",
+                    //         technic: data[0],
+                    //         user: req.currentUser,
+                    //     });
+                    // }
+                    // else {
                         res.render('oneTechnicPage', {
                             pageTitle: type + ' ' + mark + ' ' + model + " (Польща)",
                             name: mark + ' ' + model,
@@ -279,7 +332,7 @@ exports.technic = function(req, res) {
                             technic: data[0],
                             user: req.currentUser,
                         });
-                    }
+                   // }
                 }
                 else {
                     res.render('oneTechnicPage', {
@@ -294,10 +347,7 @@ exports.technic = function(req, res) {
             }
             // not found
             else {
-                res.render('404_error_template', {
-                    title: 'Сторінки не знайдено!',
-                    user: req.currentUser,
-                })
+                render404(req,res)
             }
         }
     });
@@ -311,7 +361,7 @@ exports.categories = function(req, res) {
         function (error,data) {
 
             if(error) {
-                res.send({
+                res.status(404).send({
                     success: true,
                     error: error.sqlMessage
                 });
@@ -320,26 +370,29 @@ exports.categories = function(req, res) {
                     res.render('categories', {
                         pageTitle: "Купити сільгосптехніку б/у Львів з Європи. Cпецтехніка Україна | TrackTop",
                         description: "Купити комбайни бу, трактори, жатки, сівалки. Спецтехніка під замовлення | Техніка з Європи",
-
                         photo_location : "",
                         user: req.currentUser,
                     })
             }
         });
-
-
 };
 
 
 exports.equipment = function(req, res) {
     let vendor_code;
 
+    let {id, name, ...otherParams} = req.query;
+
+    if (Object.keys(otherParams).length > 0) {
+        return render404(req,res);
+    }
+
     require('./db').get_equipment_by_id(req.query.id, function (error,data) {
 
         if(error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
+            res.status(404).send({
+                success: false,
                 error: error.sqlMessage
             });
         }
@@ -348,6 +401,10 @@ exports.equipment = function(req, res) {
             if(data.length>0) {
                 let category = data[0].category_name;
                 let equipment = data[0];
+                if(name != equipment.name) {
+                    return render404(req,res)
+                }
+
                 vendor_code = equipment.vendor_code || [];
                 if(data[0].category_name != "Запчастини до комбайнів") {
                     res.render('oneEquipmentPage', {
@@ -370,8 +427,8 @@ exports.equipment = function(req, res) {
 
                         if (error) {
                             //console.log("Error! ", error.sqlMessage);
-                            res.send({
-                                success: true,
+                            return res.status(404).send({
+                                success: fasle,
                                 error: error.sqlMessage
                             });
                         } else {
@@ -398,7 +455,6 @@ exports.equipment = function(req, res) {
                                     vendor_code: vendor_code,
                                     short_description: equipment.name + " " + data[0].technic_mark + " " + vendor_code.join(", ") + ". Застосовується в комбайнах " +  data[0].technic_mark + " " + models.join(", "),
                                     user: req.currentUser,
-
                                 });
                             }
                         }
@@ -406,13 +462,9 @@ exports.equipment = function(req, res) {
                     });
                 }
             }
-
             // not found
             else {
-                res.render('404_error_template', {
-                    title: 'Сторінки не знайдено!',
-                    user: req.currentUser,
-                })
+                return render404(req,res)
             }
         }
     });
@@ -433,6 +485,13 @@ exports.equipments = function(req, res) {
 };
 
 exports.equipmentsByModel = function(req, res) {
+    let {mark, model, type} = req.params;
+    let {page, ...otherParamsQuery} = req.query;
+    if(!page) page = 1;
+
+    if (Object.keys(otherParamsQuery).length > 0) {
+        return render404(req,res);
+    }
 
     require('./db').get_equipments_by_model(req.params.model, callback);
 
@@ -443,17 +502,21 @@ exports.equipmentsByModel = function(req, res) {
         //console.log(data)
         if (error) {
             //console.log("Error! ", error.sqlMessage);
-            res.send({
-                success: true,
+            return res.status(404).send({
+                success: false,
                 error: error.sqlMessage
             });
         } else {
-            let page = req.query.page;
-            if(!page) page = 1;
             let mark_ukr, model_ukr;
+                            console.log(data)
+
             if (data && data.length > 0) {
+                // console.log(data)
                  mark_ukr = data[0].mark_name_ukr;
                  model_ukr = data[0].model_ukr;
+            }
+            if(data.length==0 || data[0].model != model || data[0].mark_name != mark || type != "combine_details") {
+                return render404(req,res);
             }
             //console.log("page = "+ page)
             res.render('categoryPage', {
@@ -508,7 +571,7 @@ exports.purchases = (req, res) => {
 }
 
 exports.error_404 = (req, res) => {
-    res.render('404_error_template', {
+    res.status(404).render('404_error_template', {
         title: 'Сторінки не знайдено!',
         user: req.currentUser,
     })
@@ -528,3 +591,13 @@ exports.adminPanel = (req, res) => {
         user: req.currentUser,
     })
 }
+
+render404 = (req,res) => {
+     res.status(404).render('404_error_template', {
+        title: 'Сторінки не знайдено!',
+        user: req.currentUser,
+    })
+    return;
+}
+
+isValueInRows = (columnToCheck, myvalue, rows) => rows.some(row => row[columnToCheck] === myvalue);

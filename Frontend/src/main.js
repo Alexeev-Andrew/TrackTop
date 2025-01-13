@@ -1,6 +1,7 @@
 let values = require('./values.js');
 let API_URL = values.url;
 let {initialiseBasket, initialisePhonePopup} = require('./basketPage')
+const {multiItemSlider} = require('../src/pagesScripts/sliderNew');
 
 $(function(){
 
@@ -38,7 +39,7 @@ $(function(){
 
     require('./profile/signup_form').openSubscribeModal();
 
-    require('../src/pagesScripts/sliderNew').multiItemSlider(".technic-category-list")
+    multiItemSlider(".technic-category-list")
 
     $('.btn-send-contact-form').click(function() {
         let contact_form = document.querySelector("#contact-form");

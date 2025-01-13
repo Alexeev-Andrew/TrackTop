@@ -1,24 +1,30 @@
-var mysql      = require('mysql2');
+var mysql = require('mysql2');
 var connection;
 
 exports.connect = function() {
     if(connection===null)
         return;
 
-    connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'tracktop',
-        password: 'tracktop123',
-        database: "tracktop"
-        // user: 'root',
-        // password: 'Mihamiha_123',
-        // database: "tracktop2"
-    });
+    try {
+        connection = mysql.createPool({
+            host: 'localhost',
+            user: 'tracktop',
+            password: 'tracktop123',
+            database: "tracktop"
+            // user: 'root',
+            // password: 'Mihamiha_123',
+            // database: "tracktop2"
+        });
+    }
+    catch (e) {
 
-    connection.connect(function(err) {
-        if (err) throw err;
-        console.log("Connected!");
-    });
+    }
+
+
+    // connection.connect(function(err) {
+    //     if (err) throw err;
+    //     console.log("Connected!");
+    // });
 
 }
 
