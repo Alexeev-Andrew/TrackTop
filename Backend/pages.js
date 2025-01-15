@@ -320,7 +320,8 @@ exports.technic = function(req, res) {
                 
                     return render404(req,res);
                 }
-                
+                let og_description = stripHTMLAndRemoveWhitespace(row.description)
+                //console.log(og_description)
 
                     if(type=="Сівалки") type="Сівалка";
                     else if(type=="Преси-підбирачі")type="Прес-підбирач";
@@ -344,6 +345,7 @@ exports.technic = function(req, res) {
                             pageTitle: type + ' ' + mark + ' ' + model + " (Польща)",
                             name: mark + ' ' + model,
                             type: type_,
+                            og_description:og_description,
                             description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " на МТЗ, Т-40, ЮМЗ, Т-25. Дзвоніть ☎ (097)-837-87-72",
                             technic: data[0],
                             user: req.currentUser,
@@ -355,6 +357,7 @@ exports.technic = function(req, res) {
                         pageTitle: type + ' ' + mark + ' ' + model + ". Корчин, Львівська область | TrackTop",
                         name: mark + ' ' + model,
                         type: type_,
+                        og_description:og_description,
                         description: "Купити " + type.toLowerCase() + ' ' + mark + ' ' + model + " від TrackTop у Львівській області. Великий вибір сг техніки та запчастин! Дзвоніть ☎ (067)-646-22-44",
                         technic: data[0],
                         user: req.currentUser,
