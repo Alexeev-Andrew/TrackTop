@@ -19,6 +19,9 @@ let $allPrice = $(".amountLabel");
 
 
 exports.initialiseBasket = function(){
+    initialiseCart();
+
+    
     $('.basketBtn').click(function () {
         $('#user_info').css("display", "none");
         $('#myForm').css("display", "none");
@@ -80,7 +83,6 @@ exports.initialiseBasket = function(){
 
     });
 
-    initialiseCart();
 }
 
 function addToCart(tech) {
