@@ -3,6 +3,7 @@
 // }
 
 let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 // todo
@@ -38,7 +39,6 @@ $(function(){
     })
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
 
    // initialize();
     require('../profile/login_form').login();

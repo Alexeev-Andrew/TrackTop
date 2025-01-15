@@ -91,7 +91,9 @@ Frontend/src/values.js
 Frontend/www/assets/js/profile_main.js
 Frontend/www/assets/js/equipmentsMain.js
 Frontend/www/assets/js/adminPanel.js
+Frontend/www/assets/js/orders.js
 Frontend/www/assets/js/oneEquipmentMain.js
 Frontend/www/assets/js/equipmentsByCategory.js
+Frontend/www/assets/less/all.css
 
 .env

@@ -165,7 +165,7 @@ sendMessage_My = function (i) {
         }
         message += "Повідомлення: " + text;
         //console.log(message);
-        require("../API").addPhone(phone, name);
+        require("../API").addPhone(phone, name, () => {});
 
         require("../API").sendMessage({message}, () => {
             Notify("Повідомлення відправлено!!!",null,null,'success');

@@ -4,6 +4,8 @@ require('fancybox')($);
 let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
 let {toMainPageBreadcrumb, getUrlParameter, onSendMessageClick } = require("../helpers")
 let default_photo = "default_technic.jpg"
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
+
 
 
 // $( window ).on( "orientationchange", function( event ) {
@@ -163,7 +165,6 @@ $(function(){
     })
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
     require('../profile/signup_form').openSubscribeModal();
 
     require('../profile/login_form').login();

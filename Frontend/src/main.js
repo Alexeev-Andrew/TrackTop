@@ -2,6 +2,7 @@ let values = require('./values.js');
 let API_URL = values.url;
 let {initialiseBasket, initialisePhonePopup} = require('./basketPage')
 const {multiItemSlider} = require('../src/pagesScripts/sliderNew');
+let {toggleLeftPanel} = require('./pagesScripts/leftPanel');
 
 $(function(){
 
@@ -29,7 +30,7 @@ $(function(){
 
     require('./profile/signup_form').initializeLogin();
     require('./pagesScripts/typesOfTechnics').initializeTypes();
-    require('./pagesScripts/leftPanel').initialize();
+
 
     require('./profile/login_form').login();
 
@@ -39,7 +40,9 @@ $(function(){
 
     require('./profile/signup_form').openSubscribeModal();
 
-    multiItemSlider(".technic-category-list")
+    if($('.technic-category-list').length > 0) {
+        multiItemSlider(".technic-category-list")
+    }
 
     $('.btn-send-contact-form').click(function() {
         let contact_form = document.querySelector("#contact-form");

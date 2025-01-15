@@ -4,6 +4,7 @@ let {initialiseBasket, initialisePhonePopup, addToCart} = require('../basketPage
 require('fancybox')($);
 
 let {getUrlParameter, toMainPageBreadcrumb, Notify} = require("../helpers")
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 function  initialize() {
@@ -118,8 +119,6 @@ $(function(){
 
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
-
 
     require('../profile/login_form').login();
 

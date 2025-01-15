@@ -37,16 +37,16 @@ exports.technics_without_category = function(req, res) {
 
 
 exports.technics = function(req, res) {
-    let {type,  ...otherParams }  = req.query;
+    let {type,  mark, ...otherParams }  = req.query;
     console.log(req.query)
-    console.log(req.url)
-    console.log(decodeURIComponent(type))
-    if (Object.keys(otherParams).length > 0) {
+     console.log(req.url)
+    // console.log(decodeURIComponent(type))
+    if (Object.keys(otherParams).length > 0 || (type && mark)) {
          return render404(req,res);
     }
 
     let photo_location = null;
-    console.log(type)
+    //console.log(type)
     if(type) {  
         require('./db').get_types_of_technics( callback);
         function  callback(error,data) {
@@ -55,17 +55,24 @@ exports.technics = function(req, res) {
                 //console.log("Error! ", error.sqlMessage);
             } else {
                 let row;
-                data.forEach(function (i) {
-                    if (i.name == type) {
-                        row = i;
-                        photo_location = i.photo_location;
-                    }
-                })
+                console.log(data)
 
-                if(row.name != type) {
-                    console.log("here")
-                    return render404(req,res);
+                if(!isValueInRows("name", type, data)) {
+                    return render404(req,res)
                 }
+                photo_location = data.find(row => row.name == type).photo_location;
+                // console.log(photo_location)
+                // data.forEach(function (i) {
+                //     console.log(i)
+                //     if (i.name == type) {
+                //         row = i;
+                //         photo_location = i.photo_location;
+                //     }
+                // })
+
+                // if(row.name != type) {
+                //     return render404(req,res);
+                // }
     
                 if (req.query.type == "Фронтальні навантажувачі")
                     res.render('technicsPage', {
@@ -95,22 +102,30 @@ exports.technics = function(req, res) {
                         mark: null,
                         photo_location: photo_location,
                         user: req.currentUser,
-                    });
-                // else {
-                //     res.render('technicsPage', {
-                //         pageTitle: 'Купити техніку марки ' + req.query.mark + " Львівська область | TrackTop",
-                //         description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " | Львівська область. Дзвоніть ☎ (067)-646-22-44",
-                //         types: null,
-                //         mark: req.query.mark,
-                //         photo_location: photo_location,
-                //         user: req.currentUser,
-                //     });
-                // }
-    
-    
+                    });    
             }
         }}
-  
+    else if(mark) {
+        require('./db').get_marks_of_technics((err, data) => {
+            //console.log(data)
+            if(err || !isValueInRows("name", mark, data)) {
+                return render404(req,res)
+            }
+            photo_location = data.find(row => row.name == mark).logo_file;
+
+            //console.log(photo_location)
+
+            res.render('technicsPage', {
+            pageTitle: 'Купити техніку марки ' + req.query.mark + " Львівська область | TrackTop",
+            description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " | Львівська область. Дзвоніть ☎ (067)-646-22-44",
+            types: null,
+            mark: mark,
+            photo_location: photo_location,
+            user: req.currentUser,
+            });
+        })
+    
+    }
     else {
         return render404(req,res);
     }
@@ -125,6 +140,7 @@ exports.marks = function(req, res) {
     require('./db').get_marks_of_technics( callback);
     function  callback(error, data) {
         if (error) {
+            return res.status(404).send({error: error.sqlMessage })
             //console.log("Error! ", error.sqlMessage);
         }
          res.render('marks', {
@@ -404,16 +420,18 @@ exports.equipment = function(req, res) {
                 if(name != equipment.name) {
                     return render404(req,res)
                 }
+                let og_description = stripHTMLAndRemoveWhitespace(equipment.description)
 
                 vendor_code = equipment.vendor_code || [];
                 if(data[0].category_name != "Запчастини до комбайнів") {
                     res.render('oneEquipmentPage', {
-                        equipment: data[0],
+                        equipment: equipment,
                         title: "Купити " + equipment.name + ". " + equipment.category_name + " | TrackTop",
                         pageTitle: equipment.name + " " + vendor_code.join(", "),
                         description: "Купити " + equipment.description + " | TrackTop",
                         alt: "Купити " + equipment.description,
                         type_technic: category,
+                        og_description:og_description,
                         marks: null,
                         models: null,
                         vendor_code: vendor_code,
@@ -449,6 +467,7 @@ exports.equipment = function(req, res) {
                                     pageTitle: equipment.name + " " + data[0].technic_mark + " " + vendor_code.join(", "),
                                     description:  desc + " | TrackTop",
                                     alt: desc,
+                                    og_description:og_description,
                                     models: models,
                                     marks: data[0].technic_mark,
                                     type_technic: category,
@@ -508,7 +527,7 @@ exports.equipmentsByModel = function(req, res) {
             });
         } else {
             let mark_ukr, model_ukr;
-                            console.log(data)
+                            //console.log(data)
 
             if (data && data.length > 0) {
                 // console.log(data)
@@ -601,3 +620,14 @@ render404 = (req,res) => {
 }
 
 isValueInRows = (columnToCheck, myvalue, rows) => rows.some(row => row[columnToCheck] === myvalue);
+
+function stripHTMLAndRemoveWhitespace(text) {
+    if (typeof text !== "string") return text; // Ensure input is a string
+
+    // Match and remove all HTML tags, including self-closing and multiline tags
+    const regex = /<\/?[^>]+(>|$)/g;
+    let strippedText = text.replace(regex, "");
+
+    // Replace tabs, new lines, and carriage returns with an empty string
+    return strippedText.replace(/[\t\n\r]/g, "").trim();
+}

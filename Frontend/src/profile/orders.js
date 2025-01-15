@@ -3,6 +3,9 @@ let ordersHTML   =   $('.orders');
 let ordersListModal   =   $('.orders-list-modal');
 const values = require('../values')
 const API_URL = values.url;
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
+
+
 
 function initializeOrders() {
 
@@ -145,7 +148,6 @@ $(function(){
 
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
 
 
     require('../profile/login_form').login();

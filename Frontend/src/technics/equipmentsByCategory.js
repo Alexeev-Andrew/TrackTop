@@ -1,4 +1,5 @@
 let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 function  initialize() {
@@ -37,7 +38,6 @@ $(function(){
     })
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
 
     require('../profile/login_form').login();
 

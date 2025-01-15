@@ -1,6 +1,7 @@
 var values = require('../values.js');
 var API_URL = values.url;
 let {initialiseBasket, initialisePhonePopup} = require('../basketPage.js')
+let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 function  initialize() {
@@ -36,7 +37,6 @@ $(function(){
     })
 
     require('../profile/signup_form').initializeLogin();
-    require('../pagesScripts/leftPanel').initialize();
 
    // initialize();
     require('../profile/login_form').login();
