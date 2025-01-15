@@ -54,9 +54,6 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-#.env
-
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -75,29 +72,26 @@ typings/
 # FuseBox cache
 .fusebox/
 
+# IDE-specific files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+
 .iws
 workspace.xml
-.idea/workspace.xml
-.idea/workspace.xml
+
+# Project-specific ignored files
 Frontend/www/assets/js/main.js
 Frontend/www/assets/js/oneTechnicMain.js
-
 Frontend/www/assets/js/technicsMain.js
-.idea/workspace.xml
 Frontend/src/profile/main_profile.js
-
-.idea/misc.xml
-
+Frontend/src/values.js
 Frontend/www/assets/js/profile_main.js
-
 Frontend/www/assets/js/equipmentsMain.js
 Frontend/www/assets/js/adminPanel.js
 Frontend/www/assets/js/oneEquipmentMain.js
 Frontend/www/assets/js/equipmentsByCategory.js
-Frontend/src/values.js
-Frontend/www/assets/js/equipmentsByCategory.js
-Frontend/www/assets/js/equipmentsByCategory.js
+
 .env
-Frontend/www/assets/js/equipmentsByCategory.js
-.env
-Frontend/www/assets/js/equipmentsByCategory.js
