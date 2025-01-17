@@ -255,20 +255,20 @@ exports.initializeTechnics = function(){
 
 
 function showEquipments(list , className , per_page, filter) {
+    console.log("here2")
     $(".search").css("display", "none");
     if (className == "equipments")
         $equipments.html("");
     else if (className == "searchedEquipments")
         $searchedEquipments.html("");
-    if (list.length === 0 && filter.toString().trim() == "") {
+    if (list.length == 0 && filter.toString().trim() == "") {
         //TODO: templ for empty result
         $("#nothing_found").text("Категорія поки не заповнена. Напишіть нам або подзвоніть, щоб зробити замовлення");
-        $("#description_technic_equipment").css("display", "block");
+        $(".nothing_found").css("display", "block");
         return;
-    } else if (list.length === 0) {
+    } else if (list.length == 0) {
         //TODO: templ for empty result
-
-        $("#description_technic_equipment").css("display", "block");
+        $(".nothing_found").css("display", "block");
         return;
     }
     let paginataion = $("#pagination");
@@ -477,7 +477,7 @@ exports.initializeEquipments = function(){
                     if (error) {
                         //console.log("Error! ", error.sqlMessage);
                     } else {
-                        //console.log(data.data);
+                        console.log(data.data);
                         equipmentsByCategory = data.data;
                         //console.log(equipmentsByCategory)
 

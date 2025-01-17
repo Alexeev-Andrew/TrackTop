@@ -1491,7 +1491,7 @@ function upload_photo_new(req,res,path,action){
         if (sorted_list.length > 0) {
             to_insert.main_photo_location = sorted_list[0]
         } else {
-            to_insert.main_photo_location = ""
+            to_insert.main_photo_location = "default_technic.jpg"
         }
 
         switch (path) {

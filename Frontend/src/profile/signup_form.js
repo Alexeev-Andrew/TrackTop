@@ -249,7 +249,7 @@ const getDeviceType = () => {
 exports.openSubscribeModal = function(){
 
     $('.one-social-item-modal').on('click', function() {
-        createCookie('visited', 'yes', 30);
+        createCookie('visited', 'yes', 7);
     });
 
     let device = getDeviceType();

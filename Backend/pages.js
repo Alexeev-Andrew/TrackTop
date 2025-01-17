@@ -1,4 +1,5 @@
 const { render } = require('ejs');
+const values = require('../Frontend/src/values');
 
 exports.mainPage = function(req, res) {
     require('./db').get_marks_of_technics(callback);
@@ -38,8 +39,8 @@ exports.technics_without_category = function(req, res) {
 
 exports.technics = function(req, res) {
     let {type,  mark, ...otherParams }  = req.query;
-    console.log(req.query)
-     console.log(req.url)
+    //console.log(req.query)
+     //console.log(req.url)
     // console.log(decodeURIComponent(type))
     if (Object.keys(otherParams).length > 0 || (type && mark)) {
          return render404(req,res);
@@ -73,6 +74,7 @@ exports.technics = function(req, res) {
                 // if(row.name != type) {
                 //     return render404(req,res);
                 // }
+                photo_location = "technics_placeholders/" + photo_location
     
                 if (req.query.type == "Фронтальні навантажувачі")
                     res.render('technicsPage', {
@@ -112,7 +114,9 @@ exports.technics = function(req, res) {
                 return render404(req,res)
             }
             photo_location = data.find(row => row.name == mark).logo_file;
+            photo_location = "marks_photos/" + photo_location
 
+            
             //console.log(photo_location)
 
             res.render('technicsPage', {
@@ -515,48 +519,64 @@ exports.equipmentsByModel = function(req, res) {
         return render404(req,res);
     }
 
-    require('./db').get_equipments_by_model(req.params.model, callback);
+    require('./db').get_models_by_type_mark("Комбайни", mark, (err, data2) => {
+        if(err || ( data2 && data2.length == 0))         
+            return render404(req,res);
+        else {
+            let row_model = data2.find(value => value.model == model)
+            console.log(row_model)
+            require('./db').get_equipments_by_model(req.params.model, callback);
 
+            //require('./db').get_technic_by_type_model_mark(type,mark,model,
+            function callback(error, data) {
+        
+                if (error) {
+                    //console.log("Error! ", error.sqlMessage);
+                    return res.status(404).send({
+                        success: false,
+                        error: error.sqlMessage
+                    });
+                } else {
+                    if(!row_model || model != row_model.model || row_model.technic_mark != mark || type != "combine_details") {
+                        return render404(req,res);
+                    }
 
-    //require('./db').get_technic_by_type_model_mark(type,mark,model,
-    function callback(error, data) {
+                    let mark_ukr, model_ukr;  
+                    mark_ukr = row_model.mark_name_ukr;
+                    model_ukr = row_model.model_ukr;
 
-        //console.log(data)
-        if (error) {
-            //console.log("Error! ", error.sqlMessage);
-            return res.status(404).send({
-                success: false,
-                error: error.sqlMessage
-            });
-        } else {
-            let mark_ukr, model_ukr;
-                            //console.log(data)
+                   
 
-            if (data && data.length > 0) {
-                // console.log(data)
-                 mark_ukr = data[0].mark_name_ukr;
-                 model_ukr = data[0].model_ukr;
+                    // if (data && data.length > 0) {
+                    //     //console.log(data)
+                    //      mark_ukr = data[0].mark_name_ukr;
+                    //      model_ukr = data[0].model_ukr;
+                    // }
+                    // if(data.length==0 || data[0].model != model || data[0].mark_name != mark || type != "combine_details") {
+                    //     return render404(req,res);
+                    // }
+                    //console.log("page = "+ page)
+                    res.render('categoryPage', {
+                        pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
+                        description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
+                        name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
+                        //data: data,
+                        page: page,
+                        mark : req.params.mark,
+                        model : req.params.model,
+                        mark_ukr: mark_ukr,
+                        model_ukr: model_ukr,
+                        photo_location : null,
+                        user: req.currentUser,
+                    });
+                }
+        
             }
-            if(data.length==0 || data[0].model != model || data[0].mark_name != mark || type != "combine_details") {
-                return render404(req,res);
-            }
-            //console.log("page = "+ page)
-            res.render('categoryPage', {
-                pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
-                description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
-                name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
-                //data: data,
-                page: page,
-                mark : req.params.mark,
-                model : req.params.model,
-                mark_ukr: mark_ukr,
-                model_ukr: model_ukr,
-                photo_location : null,
-                user: req.currentUser,
-            });
         }
 
-    }
+    })
+
+
 }
 
 exports.about = (req, res) => {

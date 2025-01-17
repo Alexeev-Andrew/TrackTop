@@ -242,9 +242,7 @@ exports.get_technics_by_model = function(model,callback){
 exports.get_models_by_type_mark = function(type,mark,callback){
     if (mark==null || mark.toString().length==0)   connection.query("SELECT Distinct * FROM models WHERE models.technic_type = '" + type +"'",callback);
     else if (type!=null && mark !=null)
-    connection.query("SELECT Distinct model FROM models WHERE models.technic_type = '" + type +"' AND models.technic_mark = '"+ mark+"'",callback);
-    console.log("mark = " + mark);
-    console.log("mark len = " + mark.toString().length);
+    connection.query("SELECT Distinct * FROM models WHERE models.technic_type = '" + type +"' AND models.technic_mark = '"+ mark+"'",callback);
 }
 
 exports.get_models = function(callback){

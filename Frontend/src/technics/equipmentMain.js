@@ -42,8 +42,8 @@ function  initialize() {
 
         let dataset = [];
         //let im = JSON.parse(equipment.images);
-        let im = equipment.images;
-        if(!im) {
+        let im = equipment.images || [];
+        if(!im || im.length == 0) {
             im = ["default_technic.jpg"];
         }
         im.forEach(function (item) {
