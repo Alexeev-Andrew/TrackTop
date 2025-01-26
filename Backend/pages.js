@@ -513,7 +513,7 @@ exports.equipments = function(req, res) {
 };
 
 exports.equipmentsByModel = function(req, res) {
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = `https://${req.get('host')}`;
 
     // if(process.env.DEBUG == "true") {
     //     console.log(process.env.DEBUG_URL_BASE)
