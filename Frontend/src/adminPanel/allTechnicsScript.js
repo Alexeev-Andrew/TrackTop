@@ -944,6 +944,7 @@ function checkInputEquipment() {
 addEquipmentToDB = function () {
     let name = $('#name-equipment').val();
     let code = $("#vendor-choice").val();
+    code = Array.isArray(code) ? code : (code ? [code] : []);
     let price = $("input[type=number][name=price-input]").val();
     let currency = $('#currency-choice').children("option:selected").val();
     let state = $('#state-choice').children("option:selected").val();

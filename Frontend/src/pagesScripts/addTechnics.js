@@ -255,7 +255,7 @@ exports.initializeTechnics = function(){
 
 
 function showEquipments(list , className , per_page, filter) {
-    console.log("here2")
+    // console.log("here2")
     $(".search").css("display", "none");
     if (className == "equipments")
         $equipments.html("");
@@ -289,16 +289,19 @@ function showEquipments(list , className , per_page, filter) {
         if(cur_page == 2) pagination_pages += url
         else if (cur_page > 2) pagination_pages += (url + '?page=' + (cur_page - 1))
         else pagination_pages += "#"
-        pagination_pages += '" aria-label="Previous" ><i class="fa fa-arrow-left"></i></a></li>'
+        pagination_pages += '" aria-label="Попередня сторінка" rel="prev"><i class="fa fa-arrow-left"></i></a></li>'
 
 
     for (let i = 1; i <= max_pages; i++) {
         let cur_url = url;
         if (i != 1) cur_url += '?page=' + i;
         pagination_pages += '<li class="page-item';
-        if (cur_page == i)
-            pagination_pages += ' active';
-        pagination_pages += '"><a class="page-link" href="' + cur_url + '">' + i + '</a></li>';
+        if (cur_page == i) {
+            pagination_pages += ' disabled';
+        }
+        //pagination_pages += '"><a class="page-link" href="' + cur_url + '">' + i + '</a></li>';
+
+        pagination_pages += `"><a class="page-link" aria-label="Перейти на сторінку ${i}" href="${cur_page == i ? '#' : cur_url}">${i}</a></li>`;
     }
     pagination_pages += '<li class="page-item'
 
@@ -307,7 +310,7 @@ function showEquipments(list , className , per_page, filter) {
     let next_page = parseInt(cur_page) + 1;
     if (cur_page != max_pages) pagination_pages += (url + '?page=' + next_page)
     else pagination_pages += "#"
-    pagination_pages += '" aria-label="Next"><i class="fa fa-arrow-right"></i></a></li>'
+    pagination_pages += '" aria-label="Наступна сторінка" rel="next"><i class="fa fa-arrow-right"></i></a></li>'
 
     paginataion.append(pagination_pages)
 

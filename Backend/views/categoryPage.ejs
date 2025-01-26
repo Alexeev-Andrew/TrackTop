@@ -6,6 +6,20 @@
     <title><%= pageTitle %></title>
     <meta name="description" content="<%=description%>"/>
     <link rel="shortcut icon"  type="images/x-icon" href="/assets/images/favicon.ico" >
+
+    <% try { %>
+    <% if (currPage) { %>
+        <link rel="canonical" href="<%= baseUrl %><%= url %>" />
+    <% } %>
+    <% if (currPage && currPage != 1) { %>
+        <link rel="prev" href="<%= baseUrl %><%= prev_url %>" />
+    <% } %>
+    <% if (currPage && totalPages && currPage != totalPages) { %>
+        <link rel="next" href="<%= baseUrl %><%= next_url %>" />
+    <% } %>
+    <% } catch (err) { %>
+        
+    <% } %>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154016757-1"></script>
     <script>

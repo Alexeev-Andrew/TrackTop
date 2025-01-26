@@ -1,7 +1,9 @@
 const { render } = require('ejs');
-const values = require('../Frontend/src/values');
+
+
 
 exports.mainPage = function(req, res) {
+
     require('./db').get_marks_of_technics(callback);
     let marks = [];
     function callback(err, data) {
@@ -511,20 +513,37 @@ exports.equipments = function(req, res) {
 };
 
 exports.equipmentsByModel = function(req, res) {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+    // if(process.env.DEBUG == "true") {
+    //     console.log(process.env.DEBUG_URL_BASE)
+    //     const API_URL = process.env.DEBUG_URL_BASE;
+    // }
+    // else {
+    //     console.log(process.env.URL_BASE)
+
+    //     const API_URL = process.env.URL_BASE;
+    // }
+
+
     let {mark, model, type} = req.params;
     let {page, ...otherParamsQuery} = req.query;
-    if(!page) page = 1;
+   if(!page) page = 1;
+   // console.log(page)
+    page = Number(page)
 
-    if (Object.keys(otherParamsQuery).length > 0) {
+    if (Object.keys(otherParamsQuery).length > 0 || isNaN(Number(page)) || !Number.isInteger(page) || page == 0 ) {
         return render404(req,res);
     }
+    
+
 
     require('./db').get_models_by_type_mark("Комбайни", mark, (err, data2) => {
         if(err || ( data2 && data2.length == 0))         
             return render404(req,res);
         else {
             let row_model = data2.find(value => value.model == model)
-            console.log(row_model)
+            //console.log(row_model)
             require('./db').get_equipments_by_model(req.params.model, callback);
 
             //require('./db').get_technic_by_type_model_mark(type,mark,model,
@@ -537,15 +556,31 @@ exports.equipmentsByModel = function(req, res) {
                         error: error.sqlMessage
                     });
                 } else {
-                    if(!row_model || model != row_model.model || row_model.technic_mark != mark || type != "combine_details") {
+                    let total = data.length || 0;
+                    let per_page = process.env.per_page | 12;
+                    let totalPages = Math.floor((total - 1) / per_page) + 1; //Math.ceil(total/per_page),
+                    let url = req.url;
+                    let next, prev;
+
+                    if(!row_model || model != row_model.model || row_model.technic_mark != mark || type != "combine_details" || page > totalPages || page < 1) {
                         return render404(req,res);
+                    }
+
+                
+                    if(url.includes("?page")) {
+                        url = url.substring(0, url.indexOf("?page"));
+                    }
+                    if(page!= totalPages) {
+                         next = url + `?page=${page+1}`
+                    }
+                    if(page != 1) {
+                         prev = url + `?page=${page-1}`
+                        url += `?page=${page}`
                     }
 
                     let mark_ukr, model_ukr;  
                     mark_ukr = row_model.mark_name_ukr;
                     model_ukr = row_model.model_ukr;
-
-                   
 
                     // if (data && data.length > 0) {
                     //     //console.log(data)
@@ -560,12 +595,17 @@ exports.equipmentsByModel = function(req, res) {
                         pageTitle: "Запчастини до комбайна " + req.params.mark + " " + req.params.model +", Львіська область | TrackTop",
                         description: "Купити запчастини до зернозбирального комбайна " + req.params.mark + " " + req.params.model + "! Запчастини до с/г техніки. Доставка по всій Україні! Дзвоніть ☎ (067)-646-22-44",
                         name: "Запчастини до комбайна " + req.params.mark + " " + req.params.model,
-                        //data: data,
-                        page: page,
+                        baseUrl: baseUrl,
+                        page: Number(page),
+                        currPage:Number(page),
+                        totalPages:totalPages,
                         mark : req.params.mark,
                         model : req.params.model,
                         mark_ukr: mark_ukr,
                         model_ukr: model_ukr,
+                        url: url,
+                        next_url: next,
+                        prev_url: prev,
                         photo_location : null,
                         user: req.currentUser,
                     });
