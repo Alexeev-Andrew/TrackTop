@@ -17,12 +17,12 @@
                 <a href="tel:380680163226">
                     (068) 016-32-26
                 </a>
-<!--                    <a href="tel:380676462244">-->
-<!--                        (067) 646-22-44-->
-<!--                    </a>-->
-                    <a href="tel:380978378772">
+                   <a href="tel:380676462244">
+                       (067) 646-22-44
+                  </a>
+                    <!-- <a href="tel:380978378772">
                         (097) 837-87-72
-                    </a>
+                    </a> -->
             </div>
         </div>
     </div>
@@ -165,7 +165,7 @@
 
             </div>
             <%if (user?.role == "admin") {%>
-            <div class="menu-popup-item ">
+            <div class="menu-popup-item to-admin">
                 <a href="/admin-panel">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
                     <path d="M10.9999 21.0833C5.906 19.9512 1.83325 15.1451 1.83325 10.0833V4.58329L10.9999 0.916626L20.1666 4.58329V10.0833C20.1666 15.147 16.0938 19.9512 10.9999 21.0833ZM3.66659 5.49996V10.0833C3.71897 12.2027 4.46442 14.2466 5.78883 15.9022C7.11325 17.5577 8.94366 18.7336 10.9999 19.25C13.0562 18.7336 14.8866 17.5577 16.211 15.9022C17.5354 14.2466 18.2809 12.2027 18.3333 10.0833V5.49996L10.9999 2.74996L3.66659 5.49996Z" fill="#2F9321"/>
@@ -212,7 +212,7 @@
 <div id="register-modal" class="modal">
     <div class="modal-dialog modal-dialog-centered" role="document">
 
-        <form class="modal-content  auth-modal" onsubmit='return false'>
+        <form id="reg-form" class="modal-content auth-modal" onsubmit='return false'>
 
             <div class="row no-gutters">
 

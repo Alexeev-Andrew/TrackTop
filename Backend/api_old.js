@@ -2455,7 +2455,7 @@ exports.addPhone = function (req, res)
 exports.adminPanel = function(req,res){
     res.render('adminPage', {
         pageTitle: 'admin panel',
-        currPage:  req.query.page || "check",
+        currPage:  req.query.page || 2,
     })
 }
 

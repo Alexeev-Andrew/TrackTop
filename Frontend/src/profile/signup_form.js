@@ -46,6 +46,7 @@ exports.initializeLogin = function(){
                         }
                         else {
                             $("#register-modal").modal("toggle");
+                            document.getElementById("reg-form").reset();
                             hideToggleModal()
                             Notify("Вітаю! Профіль створено, тепер вам потрібно увійти")
                         }
