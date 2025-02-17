@@ -11,6 +11,7 @@ exports.isLogged = function () {
 
     if(status) {
         // add info to panel
+        $('.to-admin').show()
         $('.menu-user-name').html(surname + " " + name);
         $('.menu-user-phone').html(phone);
         $('.menu-item-auth').hide()
@@ -18,6 +19,7 @@ exports.isLogged = function () {
         $("#logged-user-err").css("display","none")
     }
     else {
+        $('.to-admin').hide()
         $('.menu-user-name').html("");
         $('.menu-user-phone').html("");
         $('.menu-item-auth').show()

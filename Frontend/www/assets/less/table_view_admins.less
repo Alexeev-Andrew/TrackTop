@@ -1,3 +1,11 @@
 .header_table {
   text-align: center;
 }
+
+.column-limited {
+  max-width: 150px;
+  word-wrap: break-word; /* Break long words to fit within the max-width */
+  overflow: hidden; /* Hide any overflow */
+  text-overflow: ellipsis; /* Add ellipsis (…) for truncated text */
+  white-space: nowrap; /* Prevent wrapping (optional, depends on your needs) */
+}

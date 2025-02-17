@@ -76,6 +76,8 @@ exports.login = function(){
                     localStorage.setItem('phone', data.data.phone_number);
                     localStorage.setItem('settlement', data.data.settelment);
                     localStorage.setItem('photo', data.data.photo_location);
+
+                    
                     toggleModal("#login-modal");
                     hideToggleModal()
                     isLogged();

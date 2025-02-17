@@ -22,6 +22,8 @@ exports.initializeLogin = function(){
         if (isValid) {
             function callback(error,data){
                 if(data.error) {
+                    console.log(data.error)
+                    console.log(error)
                     alert( "Виникла помилка" );
                 }
                 else if(!(data.data[0]==null)){

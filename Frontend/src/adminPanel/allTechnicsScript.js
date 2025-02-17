@@ -376,7 +376,6 @@ openEditEquipmentModal = function(cell) {
     localStorage.setItem("currEquipmentId",id);
     //children("button")[0]).data("id");
     $("#name-equipment").val($(cols[1]).text());
-    $("#price-input").val($(cols[2]).text());
     // $("#equipment-code").val($(cols[3]).text());
     $('#model-choice').children().remove();
     $('#mark-choice').children().remove();
@@ -392,6 +391,8 @@ openEditEquipmentModal = function(cell) {
         }
         else {
             let equipment = data.data[0];
+            $("#price-input").val(equipment.price);
+
             //console.log(equipment)
             // check 
             //console.log(typeof equipment.vendor_code)
@@ -570,15 +571,31 @@ $(function(){
     //alert( "ready!" );
     function callback(err,data) {
         data.data.forEach(function(item){
-            $("#allEquipments tbody").append(
-                "<tr class='rowEquipment'>" +
-                "<td class=\"id\">"+item.id+"</td>" +
-                "<td class=\"name\">"+item.name +"</td>" +
-                " <td class=\"price\">"+item.price+"</td>" +
-                " <td class=\"code\">"+item.vendor_code+"</td>" +
-                " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
-                "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
-                "</tr>"
+            $("#allEquipments tbody").append(`
+                <tr class="rowEquipment">
+                    <td class="id">${item.id}</td>
+                    <td class="name">${item.name}</td>
+                    <td class="price">${item.price} ${item.currency}</td>
+                    <td class="code column-limited">${item.vendor_code}</td>
+                    <td class="edit-btn">
+                        <button class="btn btn-secondary btn-admin-panel" onclick="openEditEquipmentModal(this)">
+                            <i class="fa fa-edit fa-button-admin"></i>
+                        </button>
+                    </td>
+                    <td class="delete-btn">
+                        <button class="btn btn-secondary btn-admin-panel" onclick="deleteEquipment(this)">
+                            <i class="fa fa-remove fa-button-admin"></i>
+                        </button>
+                    </td>
+                </tr>`
+                // "<tr class='rowEquipment'>" +
+                // "<td class=\"id\">"+item.id+"</td>" +
+                // "<td class=\"name\">"+item.name +"</td>" +
+                // " <td class=\"price\">"+item.price+ item.currency +"</td>" +
+                // " <td class=\"code column-limited\">"+item.vendor_code+"</td>" +
+                // " <td class=\"edit-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='openEditEquipmentModal(this)'><i class=\"fa fa-edit fa-button-admin\"></i></button></td>" +
+                // "<td class=\"delete-btn\"><button class=\"btn btn-secondary btn-admin-panel\" onclick='deleteEquipment(this)'><i class=\"fa fa-remove fa-button-admin\"></i></button></td>" +
+                // "</tr>"
             );
         });
 
@@ -1242,7 +1259,9 @@ function technicFormClear() {
 function equipmentFormClear() {
     $("#mark-choice").val("");
     $("#name-equipment").val("")
-    $("#price-input").val("")
+    $("#price-input").val(1)
+    $("#equipment-amount").val(1);
+    $("#currency-choice").val("$")
     $('#mark-choice').prop("disabled", true);
     $("#description").val("");
     $("#status").val("в наявності");
