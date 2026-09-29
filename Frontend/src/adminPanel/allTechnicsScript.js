@@ -399,6 +399,7 @@ openEditEquipmentModal = function(cell) {
             //let eq_codes =  JSON.parse(equipment.vendor_code) || [];
             //console.log(eq_codes)
             let eq_codes =  equipment.vendor_code || [];
+            Array.isArray(eq_codes) ? eq_codes : eq_codes =  Array.of(eq_codes)
             $("#equipment-amount").val(equipment.amount);
             eq_codes.forEach(function (item) {
                     let option = new Option(item, item, false, true);
@@ -1261,7 +1262,7 @@ function equipmentFormClear() {
     $("#name-equipment").val("")
     $("#price-input").val(1)
     $("#equipment-amount").val(1);
-    $("#currency-choice").val("$")
+    $("#currency-choice").val("usd")
     $('#mark-choice').prop("disabled", true);
     $("#description").val("");
     $("#status").val("в наявності");

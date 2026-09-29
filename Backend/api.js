@@ -50,6 +50,7 @@ initializeCurrencyRate = async function () {
                             date: new Date()
                         }
 
+                        //console.log(rates)
                         db.insert_currency_rate(currency_rate, function (err, data) {
                             //console.log(err)
                         })
@@ -77,33 +78,6 @@ const job = schedule.scheduleJob('0 8 * * *', async function () {
 });
 
 
-function convertImagetoJSON() {
-    let technics;
-    db.connect()
-    function callback(error,data){
-        if(error) {
-            //console.log("Error! ", error.sqlMessage);
-        }
-        else {
-            technics = data;
-            for(let i = 0; i < technics.length; i ++ ) {
-                function callback2(error2, data2) {
-                    let images = [];
-                    for( let y = 0; y < data2.length; y++) {
-                        images.push(data2[y].file_name);
-                    }
-
-                    technics[i].images = JSON.stringify(images);
-                    db.update_technic(technics[i].id, technics[i])
-                }
-                db.get_technic_im_by_id( technics[i].id, callback2)
-            }
-        }
-    }
-    db.get_technics_simple(callback)
-}
-
-//convertImagetoJSON()
 
 function convertImageEquipmentstoJSON() {
     let technics;
@@ -200,7 +174,6 @@ priceconvert = async function () {
                         }
                     }
                      db.update_equipments(equipments[i].id, equipments[i])
-
                 }
             }
         }
@@ -739,7 +712,6 @@ exports.sign_in = function(req, res) {
 
 }
 
-
 exports.get_models_by_type_mark = function(req,res) {
     var db = require('./db');
     function callback(error,data){
@@ -896,7 +868,7 @@ exports.getTechnicsWithoutCategory = function (req,res) {
     db.get_technics_without_category(callback);
 }
 
-
+/////////////////////
 
 exports.get_technics = function (req,res) {
     var db = require('./db');
@@ -1051,28 +1023,6 @@ exports.getequipmentsbycategoryid = function (req,res) {
 }
 
 
-// exports.get_technics_im_by_tp_model = function (req,res) {
-//     var db = require('./db');
-//
-//     function callback(error,data){
-//         if(error) {
-//             console.log("Error! ", error.sqlMessage);
-//             res.json({
-//                 success: true,
-//                 error: error.sqlMessage
-//             });
-//         }
-//         else {
-//             console.log("Success! ", data);
-//             res.json({
-//                 success: true,
-//                 data: data
-//             });
-//         }
-//     }
-//     db.get_technic_im_by_type_model_mark(req.body.type, req.body.mark, req.body.model, callback);
-// }
-
 exports.get_technics_im_by_id = function (req,res) {
     var db = require('./db');
 
@@ -1094,7 +1044,6 @@ exports.get_technics_im_by_id = function (req,res) {
     }
     db.get_technic_images_by_id(req.body.id, callback);
 }
-
 
 
 exports.get_technics_without_category_by_id = function (req,res) {
@@ -1684,7 +1633,6 @@ exports.update_technic = function(req,res){
 
                 }
 
-
             }
         }
         db.get_technics_by_id(info.id, callback5);
@@ -1794,31 +1742,6 @@ exports.delete_technic_without_category_by_id = function(req,res){
 
 exports.delete_technic_by_id = function(req,res){
     let info = req.body;
-
-    // function callback3(error,data3) {
-    //     if(error) console.log(error)
-    //     else {
-    //             if(data3 && data3.length > 0)
-    //             data3.forEach(function (item) {
-    //                 let file_path = "./Backend/res/images/technics/"+ item.file_name;
-    //                 if(fs.existsSync(file_path)) {
-    //                     fs.unlinkSync(file_path);
-    //                 }
-    //                 else {
-    //                     //console.log("file not exist")
-    //                 }
-    //
-    //             })
-    //
-    //         function callback1(error, data1) {
-    //             if (error) {
-    //                 console.log("Error! ", error.sqlMessage);
-    //
-    //                 res.json({
-    //                     success: true,
-    //                     error: error.sqlMessage
-    //                 });
-    //             } else {
 
     function callback5(error,data5) {
         if(error) console.log(error)

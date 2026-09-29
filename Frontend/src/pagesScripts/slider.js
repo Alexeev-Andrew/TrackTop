@@ -21,7 +21,7 @@ function showImages(list,alt) {
     let i = 1;
 
     function showOne(type) {
-        let html_code = oneImage({image: type, base: url_base, alt :alt+" фото - "+ i});
+        let html_code = oneImage({image: type, base: url_base, alt :alt+" фото - "+ i, order : i});
 
         let $node = $(html_code);
 
