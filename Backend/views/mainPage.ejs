@@ -27,14 +27,18 @@
     <title><%= pageTitle %></title>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
 
+
+
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" >
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 
+    <link rel="stylesheet" type="text/css" href="/assets/less/all.css" />
+
     <!-- LESS основний файл -->
-    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <link rel="stylesheet/less" type="text/css" href="assets/less/main.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/4.1.1/less.min.js" integrity="sha512-mE4RWRhILuNDWPx8sl5Q739XNbibSUZP9dEjdepzpYVw1kDco9ZZ5l/+KHAMffzXNHnmSWexMSN+OX137tNL5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -60,19 +64,7 @@
                    src="https://www.facebook.com/tr?id=446478622679823&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
-    <script data-ad-client="ca-pub-3700570185209972" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
-    <!-- Hotjar Tracking Code for http://tracktop.com.ua -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:2205765,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
 </head>
 
 <body>
@@ -88,7 +80,7 @@
 
     <div id="main">
         <div class="main_cover ">
-            <img src="/assets/images/main-page-wrapper.webp" class="img-main-wrapper">
+            <img src="/assets/images/main-page-wrapper.webp" class="img-main-wrapper" alt="TrackTop - головна сторінка слайдер">
             <h1 class="page-heading page-heading-main">Магазин сільськогосподарської техніки</h1>
             <a class="svg-to-next-section vert-move" href="#categories-section-main-page">
                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
@@ -464,7 +456,7 @@
                 <div class="marks_list row no-gutters">
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Pronar">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Pronar" data-src="/images/marks_photos/pronar.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/pronar.png" loading="lazy"
                                  alt="Купити техніку марки Pronar Львівська область. Сільгосптехніка бу марки Pronar"/>
                             <div class="action">
                                 <span>
@@ -478,7 +470,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Amazone">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Amazone" data-src="/images/marks_photos/amazone.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/amazone.png" loading="lazy"
                                  alt="Купити техніку марки Amazone Львівська область. Сільгосптехніка бу марки Amazone"/>
                             <div class="action">
                                 <span>
@@ -492,7 +484,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Massey Ferguson">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Massey Ferguson" data-src="/images/marks_photos/massey-ferguson.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/massey-ferguson.png" loading="lazy"
                                  alt="Купити техніку марки Massey Ferguson Львівська область. Сільгосптехніка бу марки Massey Ferguson"/>
                             <div class="action">
                                 <span>
@@ -506,7 +498,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Claas">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Claas" data-src="/images/marks_photos/claas.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/claas.png" loading="lazy"
                                  alt="Купити техніку марки Claas Львівська область. Сільгосптехніка бу марки Claas"/>
                             <div class="action">
                                 <span>
@@ -520,7 +512,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=John Deere">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=John Deere" data-src="/images/marks_photos/john-deere.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/john-deere.png" loading="lazy"
                                  alt="Купити техніку марки John Deere Львівська область. Сільгосптехніка бу марки John Deere"/>
                             <div class="action">
                                 <span>
@@ -534,7 +526,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Hassia">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Hassia" data-src="/images/marks_photos/hassia.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/hassia.png" loading="lazy"
                                  alt="Купити техніку марки Hassia Львівська область. Сільгосптехніка бу марки Hassia"/>
                             <div class="action">
                                 <span>
@@ -548,7 +540,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Tume">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Tume" data-src="/images/marks_photos/tume.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/tume.png" loading="lazy"
                                  alt="Купити техніку марки Tume Львівська область. Сільгосптехніка бу марки Tume"/>
                             <div class="action">
                                 <span>
@@ -562,7 +554,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=International">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=International" data-src="/images/marks_photos/ihc.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/ihc.png" loading="lazy"
                                  alt="Купити техніку марки International Львівська область. Сільгосптехніка бу марки International"/>
                             <div class="action">
                                 <span>
@@ -576,7 +568,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Sipma">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Sipma" data-src="/images/marks_photos/sipma.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/sipma.png" loading="lazy"
                                  alt="Купити техніку марки Sipma Львівська область. Сільгосптехніка бу марки Sipma"/>
                             <div class="action">
                                 <span>
@@ -590,7 +582,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Nordsten">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Nordsten" data-src="/images/marks_photos/nordsten.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/nordsten.png" loading="lazy"
                                  alt="Купити техніку марки Nordsten Львівська область. Сільгосптехніка бу марки Nordsten"/>
                             <div class="action">
                                 <span>
@@ -604,7 +596,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Lemken">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Lemken" data-src="/images/marks_photos/lemken.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/lemken.png" loading="lazy"
                                  alt="Купити техніку марки Lemken Львівська область. Сільгосптехніка бу марки Lemken"/>
                             <div class="action">
                                 <span>
@@ -618,7 +610,7 @@
                     </a>
                     <a class="one-mark-card-wrapper col-6 col-md-3 col-lg-2" href="/technics?mark=Rabewerk">
                         <div class="one-mark-card">
-                            <img class="lazy mark-logo" src="https://via.placeholder.com/190x94?text=Rabewerk" data-src="/images/marks_photos/rabe-werk.png"
+                            <img class="lazy mark-logo" src="/images/marks_photos/rabe-werk.png" loading="lazy"
                                  alt="Купити техніку марки Rabewerk Львівська область. Сільгосптехніка бу марки Rabewerk"/>
                             <div class="action">
                                 <span>
@@ -643,7 +635,7 @@
             </footer>
         </section>
 
-        <section class="promote_own_business_section">
+        <!-- <section class="promote_own_business_section">
             <div class="wrapper-background">
                 <h3 class="d-inline-block text-center pr-3 pl-3 promote_own_business_section_title">
                     Продаєте техніку?
@@ -659,7 +651,7 @@
 
                 </a>
             </div>
-        </section>
+        </section> -->
 
     </div>
 
@@ -671,11 +663,7 @@
 
     <!--Bootsrap JavaScript -->
     <script async type="text/javascript" src="/assets/js/main.js"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
-    <script>
-        let images = document.querySelectorAll(".lazy");
-        lazyload(images);
-    </script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
     <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>
