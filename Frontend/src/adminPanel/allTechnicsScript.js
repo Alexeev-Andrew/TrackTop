@@ -145,7 +145,9 @@ openEditTechnicModal = function(cell) {
             console.log(err);
         }
         else {
-            localStorage.setItem("photo_arr", data.data);
+            //console.log(data.data)
+
+            localStorage.setItem("photo_arr", JSON.stringify(data.data));
             $('.uploader__file-list').empty();
 
             $('.js-uploader__submit-button').removeClass("uploader__hide");

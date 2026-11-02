@@ -816,7 +816,22 @@
 
 
                     <% }  %>
+                <% if(mark){ %>
+                    <div class="row no-gutters narrow-wrapper padding-wrapper">
+                        <div class="col-desc-technics-left">
+                            <h2 class="title">Сільськогосподарська техніка <%=mark%></h2>
+                            <% if(mark_data.seo_description) { %>
+                            <%-mark_data.seo_description%>
+                            <% } else {%>
+                                <p><b><%=mark%></b> — виробник сільськогосподарської техніки та обладнання, продукція якого використовується в різних напрямках аграрного виробництва. На сторінці бренду зібрані пропозиції техніки, агрегатів і комплектуючих цієї марки.</p>
 
+<p>Вживана сільськогосподарська техніка може стати практичним рішенням для фермерських господарств, які шукають надійне обладнання за доступною ціною. Під час вибору варто враховувати технічний стан машини, її комплектацію та сумісність із наявною технікою.</p>
+
+<p>На TrackTop ви можете переглянути доступні пропозиції <b><%=mark%></b>, знайти сільськогосподарське обладнання та запчастини для ремонту й обслуговування техніки.</p>
+                            <% } %>
+                        </div>
+                    </div>                
+                <% } %>
 
             <% } %>
 
@@ -832,7 +847,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
         <script type="text/javascript" src="/assets/js/technicsMain.js"> </script>
-        <script  src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
         <script defer type="text/javascript" src="/assets/js/jcookieph_call.js"></script>
         <script defer type="text/javascript" src="/assets/js/maskph_call.js"></script>

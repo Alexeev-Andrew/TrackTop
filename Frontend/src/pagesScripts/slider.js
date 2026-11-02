@@ -13,15 +13,23 @@ function initialize() {
     }
 }
 
-function showImages(list,alt) {
+function showImages(list,alt, vendor_code) {
     initialize();
 
     $images.html("");
 
     let i = 1;
+    let alt_with_vendor_code = alt
 
     function showOne(type) {
-        let html_code = oneImage({image: type, base: url_base, alt :alt+" фото - "+ i, order : i});
+        
+        if (i == 1 && vendor_code && Array.isArray(vendor_code) ) {
+            alt_with_vendor_code = `${vendor_code.slice(0,1)} — ${alt}` 
+        } else {
+            alt_with_vendor_code = alt
+        }
+
+        let html_code = oneImage({image: type, base: url_base, alt :alt_with_vendor_code+" | фото - "+ i, order : i});
 
         let $node = $(html_code);
 
@@ -54,16 +62,15 @@ function showImages(list,alt) {
 //     require("../API").getTechnicsImagesByTypeMarkModel({type: tp1,model: tp.model, mark: tp.mark},callback);
 // }
 
-exports.initialize = function(dataset,alt){
+exports.initialize = function(dataset,alt, vendor_code){
 
     var l=[];
 
     dataset.forEach(function(item){
         l.push(item)
     });
-    showImages(l,alt);
-     let images = document.querySelectorAll(".lazy");
-    lazyload(images);
+    showImages(l,alt, vendor_code);
+
     // require("../API").getTechnicsImagesById({type: tp1,model: tp.model, mark: tp.mark},callback);
 }
 

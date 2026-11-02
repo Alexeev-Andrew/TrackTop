@@ -306,10 +306,24 @@ function sendEmail(_to, _link) {
     });
 }
 
+// async function checkBot() {
+//     try {
+//         const { data } = await axios.get(
+//             `https://api.telegram.org/bot${process.env.BOT_TOKEN}/getMe`
+//         );
+
+//         console.log(data);
+//     } catch (error) {
+//         console.log(error.response?.data);
+//     }
+// }
+
+// checkBot();
+
+
 exports.sendMessage = function (req, res) {
 
-    //console.log(req.body.message)
-    axios.post('https://api.telegram.org/bot6751808105:AAFDpv3i2zw7CQABbuuAGNhXN-zvgnhba3E/sendMessage',{
+    axios.post(`https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`,{
         chat_id :"-4117522667",
         text: req.body.message,
         parse_mode: 'HTML',
@@ -317,6 +331,10 @@ exports.sendMessage = function (req, res) {
         disable_notification: false,
         reply_to_message_id: null
     },
+
+    
+
+
         // {headers: {
         //         'Content-type': 'application/json; charset=utf-8',
         //     }}

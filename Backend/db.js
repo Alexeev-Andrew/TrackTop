@@ -311,6 +311,10 @@ exports.get_equipment_withModels_by_id = function(id,callback){
     connection.query("SELECT * FROM models inner join equipments_models on models.id = equipments_models.model_id inner join equipments on equipments.id = equipments_models.equipment_id where equipments.id = " + id,callback);
 }
 
+exports.get_eq_withModels_short_by_id = function(id,callback){
+    connection.query("SELECT equipments.id, models.model, models.technic_mark FROM models inner join equipments_models on models.id = equipments_models.model_id inner join equipments on equipments.id = equipments_models.equipment_id where equipments.id = " + id,callback);
+}
+
 exports.get_equipments_by_model = function(model,callback) {
     connection.query("SELECT * FROM models inner join equipments_models on models.id = equipments_models.model_id inner join equipments on equipments.id = equipments_models.equipment_id inner join ( select name as mark_name, mark_name_ukr from marks_of_technics) s on models.technic_mark = s.mark_name where "+
     "model = \'" + model + "\'", callback);

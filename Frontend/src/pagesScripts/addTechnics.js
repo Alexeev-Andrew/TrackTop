@@ -76,7 +76,8 @@ function showTechnicsWithoutCategory(list) {
     $technicsWithoutCategory.html("");
     if(list.length === 0) {
         // $technics.append("Нічого не знайдено");
-        $(".nothing_found").css("display","block");
+        $(".nothing_found").text("Нічого не знайдено.").css("display", "block");
+        //$(".nothing_found").css("display","block");
         return;
     }
     function showOne(type) {
@@ -131,7 +132,8 @@ function showTechnics(list) {
     $technics.html("");
     if(list.length===0) {
        // $technics.append("Нічого не знайдено");
-        $(".nothing_found").css("display","block");
+               $(".nothing_found").text("Нічого не знайдено.").css("display", "block");
+        //$(".nothing_found").css("display","block");
         return;
     }
     function showOne(type) {
@@ -206,8 +208,7 @@ exports.initializeTechnics = function(){
 
 
         showTechnics(l.concat(sold_technics));
-        let images = document.querySelectorAll(".lazy");
-        lazyload(images);
+        
     }
 
     function callback2(err,data) {
@@ -216,8 +217,7 @@ exports.initializeTechnics = function(){
             l.push(item)
         });
         showTechnicsWithoutCategory(l);
-        let images = document.querySelectorAll(".lazy");
-        lazyload(images);
+        
     }
 
 
@@ -423,7 +423,6 @@ exports.initializeEquipments = function(){
                        equipmentsByCategory = data.data;
 
                        filterSelectionEquipments(data.data.length);
-                       lazyLoad();
                    }
                    require("../API").getEquipmentsByCategoryId(item.id,callback);
                }
@@ -485,7 +484,6 @@ exports.initializeEquipments = function(){
                         //console.log(equipmentsByCategory)
 
                         filterSelectionEquipments(equipments_per_page);
-                        lazyLoad();
                     }
 
                 }
@@ -501,7 +499,9 @@ function showCategories(list) {
     if(list.length===0) {
         // $equipments.append("Нічого не знайдено");
         //TODO: templ for empty result
-        $(".nothing_found").css("display","block");
+        $(".nothing_found").text("Нічого не знайдено.").css("display", "block");
+
+        //$(".nothing_found").css("display","block");
         return;
     }
     function showOne(type) {
@@ -596,10 +596,10 @@ exports.initializeModels = function () {
                 data.data.forEach(function (item) {
                     l.push({model: item.model, mark: mark});
                     let model_location = loc.endsWith('/') ? loc + item.model : loc + '/' + item.model;
-                    str += "<li class='font-sm'><a href='" + model_location + "'><p>Запчастини до комбайна " + mark + " " + item.model + "</p></a></li>"
+                    str += `<li class='font-sm'><a href='${model_location}'><span class='model_list_desc'>Запчастини до комбайна ${mark} ${item.model} </span></a></li>`
                 })
                 showModels(l);
-                $('#text_models').append("<br> Ми пропонуємо: " + str + "</ul>");
+                $('#text_models').append("Ми пропонуємо: " + str + "</ul>");
             }
 
         }
@@ -671,12 +671,6 @@ getMarkEquipment = function(from_page = 1) {
     let param = document.location.href.toString().split("/");
     let mark = (param[param.length - from_page].replaceAll("%20"," "));
     return mark;
-}
-
-lazyLoad = function() {
-    let images = document.querySelectorAll(".lazy");
-    //console.log(images)
-    lazyload(images);
 }
 
 

@@ -124,7 +124,7 @@ $(function(){
     initializeOrders();
 
     $('#logo').click(function () {
-        document.location.href = "https://tracktop.com.ua/";
+        document.location.href = "/";
     })
 
     $('#login').click(function() {

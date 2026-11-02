@@ -8,24 +8,29 @@ let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 function  initialize() {
-    let id =   getUrlParameter("id");
 
-    function callback5(err,data5) {
-        if (data5.error) {
-            console.log(data5.error);
-        }
+    let equipment2 = $("#one-ad-info").data("json");
+    //console.log(equipment2)
 
-        let equipment = data5.data[0];
-        //console.log(equipment)
+    let id = equipment2.id  //getUrlParameter("id");
+
+    //function callback5(err,data5) {
+        // if (data5.error) {
+        //     console.log(data5.error);
+        // }
+
+        let equipment = equipment2//data5.data[0];
+        //console.log(data5.data[0])
         localStorage.setItem("current_category_equipments", equipment.category_name);
 
         localStorage.setItem('currEquipment',JSON.stringify({
-            id: id,
+            id: equipment.id,
             name: equipment.name,
             main_photo_location: equipment.main_photo_location,
             price_uah: equipment.price_uah,
             price: equipment.price,
             currency: equipment.currency,
+            vendor_code: equipment.vendor_code,
             amount: equipment.amount,
             description: equipment.description,
             mark: equipment.mark,
@@ -49,7 +54,7 @@ function  initialize() {
         im.forEach(function (item) {
             dataset.push("equipments/" + item)
         });
-        require('../pagesScripts/slider').initialize(dataset, alt);
+        require('../pagesScripts/slider').initialize(dataset, alt, equipment.vendor_code);
 
         $('.order_equipment').click(function () {
             Notify("Товар додано.Перейдіть в корзину, щоб оформити замовлення!!!", null, null, 'success');
@@ -79,8 +84,8 @@ function  initialize() {
 
             openSendMessageModal({productId:$(one_eq).data("id") , productTitle : $(one_eq).data("title"), url : $(one_eq).data("url") })
         })
-    }
-    require('../API').getEquipmentsById(id,callback5);
+    //}
+    //require('../API').getEquipmentsById(id,callback5);
 }
 
 $(document).ready(function() {
@@ -151,7 +156,7 @@ function initilizebreadcrumb(){
         </li>`;
     crums +=
         ` <li class='current'>
-            <a class='seturl-last' href="${document.location.href}">
+            <a class='seturl-last' disabled href="${document.location.href}">
             <span>${currEquipment.name}</span></a>
         </li>`;
 

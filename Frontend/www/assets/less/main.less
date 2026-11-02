@@ -212,6 +212,10 @@
   }
 }
 
+.marks-wrapper {
+  // max-width: 1000px;
+  margin: 0 auto;
+}
 
 .marks_list {
   display: flex;
@@ -219,6 +223,7 @@
   align-items: flex-end;
   align-content: flex-end;
   row-gap: 20px;
+  // column-gap: 20px;
   flex-wrap: wrap;
 }
 
@@ -227,6 +232,11 @@
   text-decoration: none;
   border-radius: 15px;
 }
+
+// .marks_list > .one-mark-card-wrapper {
+//     flex: 0 0 calc((100% - 100px) / 6);
+//     max-width: none;
+// }
 
 .one-mark-card-wrapper:hover {
   box-shadow: 4px 4px 24px 0px rgba(177, 216, 158, 0.60);
@@ -242,9 +252,15 @@
 }
 
 .mark-logo {
-  width: 100%;
-  object-fit: cover;
   padding: 5px 10px;
+  border-radius: 20px;
+    display: block;
+    width: 100%;
+    height: 90px;
+    /* min-height: 150px; */
+    object-fit: contain;
+    object-position: center;
+    margin: auto 0;
 }
 
 
@@ -510,12 +526,24 @@
     top: -25px;
     background-color: white;
   }
+
+    // .marks_list > .one-mark-card-wrapper {
+    //     flex-basis: calc((100% - 60px) / 4);
+    // }
 }
+
+
+   
+
 
 @media (max-width: 767px) {
   .page_not_exist_title {
     font-size: 24px;
   }
+
+  //  .marks_list > .one-mark-card-wrapper {
+  //       flex-basis: calc((100% - 20px) / 2);
+  //   }
 }
 
 

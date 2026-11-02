@@ -23,7 +23,8 @@
     <title><%= title%></title>
     <meta property="description" content="<%= description %>"/>
     <meta property="og:type" content="website" />
-
+    <meta property="og:title"
+      content="<%= title%>"/>
     <meta property="og:image" content="tracktop.com.ua/images/equipments/<%=equipment.main_photo_location%>"/>
     <meta property="og:description" content="<%= og_description %>"/>
     <meta property="og:locale" content="uk_UA">
@@ -84,9 +85,9 @@
             <% include breadcrumbs.ejs %>
             <header>
                 <div class="one-ad-header-wrapper">
-                    <h1 class='text-black-title-900-uppercase one-ad-header' data-id="<%= equipment.id %>"
+                    <h1 class='text-black-title-900-uppercase one-ad-header' id="one-ad-info" data-id="<%= equipment.id %>"
                         data-title="<%= equipment.name %> <%= equipment.technic_mark %> <%= equipment.model%>"
-                        data-url="<%= equipment.url %>" data-alt="<%=alt %>">
+                        data-url="<%= equipment.url %>" data-alt="<%=alt %>" data-json="<%=JSON.stringify(equipment)%>">
                         <%= pageTitle %>
                     </h1>
                     <span class="order-label <%= equipment.status.toString().toLowerCase() == "в наявності" ? "order-label-available" : equipment.status.toString().toLowerCase() == "під замовлення" ? "order-label-on-demand" :  equipment.status.toString().toLowerCase() == "продано" ? "order-label-sold" : "order-label-not-available" %>"><%= equipment.status %></span>
@@ -156,7 +157,7 @@
                             <% if(equipment.vendor_code && equipment.vendor_code.constructor == Array && equipment.vendor_code.length>0) { %>
                                 <div class="one-ad-info-row">
                                     <span class="one-ad-info-label">Код товару</span>
-                                    <span class="one-ad-info-value one-ad-info-value-regular"><%= vendor_code.join(", ")%></span>
+                                    <span class="one-ad-info-value one-ad-info-value-regular" itemprop="sku"><%= vendor_code.slice(0,1).join(", ")%></span>
                                 </div>
                             <%}%>
 
@@ -257,7 +258,7 @@
                                     <div class="one-ad-usage-row">
                                         <div class="one-ad-usage-desc-wrap">
                                         <% for(let i=0; i< vendor_code.length; i++) {%>
-                                            <div class="one-ad-usage-desc">
+                                            <div class="one-ad-usage-desc" itemprop="sku">
                                                 <%= vendor_code[i]%>
                                             </div>
                                         <% } %>
