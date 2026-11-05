@@ -65,26 +65,3 @@ exports.toggleLeftPanel = toggleLeftPanel;
 //     list.forEach(showOne);
 // }
 
-// function showMarks(list) {
-
-//     $models.html("");
-//     $models.append('<a href="#" class="active active-none-link">Марки</a>');
-
-//     function showOne(t) {
-//         var html_code = technicInMenu({item: t});
-
-//         var $node = $(html_code);
-
-//         var mark = $node.html();
-//         $node.click(function () {
-//             localStorage.setItem('currentMarkOfTechnics', mark);
-//             localStorage.setItem('currentTypeOfTechnics', "");
-//             document.location.href = API_URL+"/technics?mark="+mark;
-//             $( "body" ).removeClass("bodyOverflowHidden");
-//         })
-
-//         $models.append($node);
-//     }
-
-//     list.forEach(showOne);
-// }

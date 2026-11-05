@@ -1,6 +1,7 @@
 let values = require('../values.js');
 let API_URL = values.url;
 let {initialiseBasket, initialisePhonePopup} = require('../basketPage')
+//let {toggleLeftPanel} = require('../pagesScripts/leftPanel');
 
 
 $(function(){
@@ -15,6 +16,8 @@ $(function(){
 
     // added
     $('.exit_btn').click(function() {
+        // delete status
+        localStorage.removeItem("status");
         require('./user_form').deleteInfoFromLocalStorage();
         require('./user_form').isLogged();
         $('#user_info').css("display", "none");
@@ -25,7 +28,7 @@ $(function(){
     require('./user_form').isLogged();
     require('./profile').updateClient();
 
-    require('../pagesScripts/leftPanel').initialize();
+    require('../pagesScripts/leftPanel');
 
 
     require('./profile').initializeUser();

@@ -157,6 +157,7 @@ function configureEndpoints(app) {
     // Catch-all for subroutes
  
     app.get('/marks', pages.marks);
+    app.get('/marks/:slug', pages.one_mark);
     app.get('/technics-without-category', pages.technics_without_category);
     app.get('/technics-without-category/:id', pages.technic_without_category);
     app.get('/technic', pages.technic);
@@ -210,30 +211,30 @@ function configureEndpoints(app) {
                 }
                 db.get_technics_without_category(callback9)
 
-                smStream.write({ url: '/about',  changefreq: 'weekly',  priority: 0.8 })
-                smStream.write({ url: '/marks',  changefreq: 'weekly',  priority: 0.8 })
-                smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Трактори',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Плуги',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Жатки',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics?type=Фронтальні%20навантажувачі',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/technics-without-category',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/category_equipments',  changefreq: 'daily', priority: 0.8 })
-                smStream.write({ url: '/category_equipments/category/combine_details/Massey%20Ferguson',  changefreq: 'daily', priority: 0.7 })
-                smStream.write({ url: '/category_equipments/category/combine_details/Claas',  changefreq: 'daily', priority: 0.7 })
-                smStream.write({ url: '/category_equipments/category/combine_details/John%20Deere',  changefreq: 'daily', priority: 0.7 })
+                smStream.write({ url: '/about',  changefreq: 'monthly',  priority: 0.5 })
+                smStream.write({ url: '/marks',  changefreq: 'monthly',  priority: 0.8 })
+                smStream.write({ url: '/technics?type=Комбайни',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Сівалки',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Трактори',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Преси-підбирачі',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Плуги',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Жатки',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics?type=Фронтальні%20навантажувачі',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/technics-without-category',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/category_equipments',  changefreq: 'weekly', priority: 0.9 })
+                smStream.write({ url: '/category_equipments/category/combine_details/Massey%20Ferguson',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/category_equipments/category/combine_details/Claas',  changefreq: 'daily', priority: 0.8 })
+                smStream.write({ url: '/category_equipments/category/combine_details/John%20Deere',  changefreq: 'daily', priority: 0.8 })
                 function callback1(err, data1) {
                     if (data1) {
                         data1.forEach(function (item) {
-                            smStream.write({url: '/technics?mark=' + item.name, changefreq: 'weekly', priority: 0.75})
+                            smStream.write({url: '/marks/' + item.slug, changefreq: 'weekly', priority: 0.8})
                         });
 
                         function callback2(err, data2) {
                             if (data2) {
                                 data2.forEach(function (item) {
-                                    smStream.write({url: 'category_equipments/category?name=' + item.category_name, changefreq: 'daily', priority: 0.75})
+                                    smStream.write({url: 'category_equipments/category?name=' + item.category_name, changefreq: 'weekly', priority: 0.8})
                                 });
 
                             }
@@ -244,8 +245,8 @@ function configureEndpoints(app) {
                                         data4.forEach(function (item) {
                                             smStream.write({
                                                 url: '/category_equipments/category/combine_details/' + mark_item +"/" + item.model,
-                                                changefreq: 'daily',
-                                                priority: 0.7
+                                                changefreq: 'weekly',
+                                                priority: 0.8
                                             })
                                             function callback8(err, data8) {
                                                 if(data8 && data8.length > per_page) {
@@ -253,8 +254,8 @@ function configureEndpoints(app) {
                                                     for(let i = 2; i<=pages;i++) {
                                                         smStream.write({
                                                             url: '/category_equipments/category/combine_details/' + mark_item +"/" + item.model+"?page=" + i,
-                                                            changefreq: 'daily',
-                                                            priority: 0.7
+                                                            changefreq: 'weekly',
+                                                            priority: 0.75
                                                         })
                                                     }
                                                 }
@@ -271,8 +272,8 @@ function configureEndpoints(app) {
                                                 data5.forEach(function (item) {
                                                     smStream.write({
                                                         url: '/equipment?name=' + item.name + "&id=" + item.id,
-                                                        changefreq: 'weekly',
-                                                        priority: 0.6
+                                                        changefreq: 'monthly',
+                                                        priority: 0.7
                                                     })
                                                 });
                                                 smStream.end();

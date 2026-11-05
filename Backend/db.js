@@ -210,6 +210,10 @@ exports.get_technic_im_by_type_model_mark = function(type_of_technics, mark_of_t
         , callback);
 }
 
+exports.get_mark_by_slug = function(slug, callback){
+    connection.query(`SELECT * from marks_of_technics where slug = '${slug}'`, callback);
+}
+
 exports.get_technic_im_by_id = function(id, callback){
     connection.query("SELECT * from images_technics where id_technic="+id, callback);
 }

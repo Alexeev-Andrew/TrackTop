@@ -59,7 +59,7 @@ exports.technics = function(req, res) {
                 //console.log("Error! ", error.sqlMessage);
             } else {
                 let row;
-                console.log(data)
+                //console.log(data)
 
                 if(!isValueInRows("name", type, data)) {
                     return render404(req,res)
@@ -111,28 +111,37 @@ exports.technics = function(req, res) {
             }
         }}
     else if(mark) {
+
         require('./db').get_marks_of_technics((err, data) => {
             //console.log(data)
             if(err || !isValueInRows("name", mark, data)) {
                 return render404(req,res)
             }
             let mark_info = data.find(row => row.name == mark)
-            photo_location = mark_info.logo_file;
-            photo_location = "marks_photos/" + photo_location
-            
-            
-            console.log(mark_info)
+            let slug = mark_info.slug
 
-            res.render('technicsPage', {
-            pageTitle: 'Купити техніку марки ' + req.query.mark + " | від TrackTop",
-            description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " від TrackTop. Дзвоніть ☎ (067)-646-22-44",
-            types: null,
-            mark: mark,
-            mark_data:mark_info,
-            photo_location: photo_location,
-            user: req.currentUser,
-            });
+           // create a 301 redirect
+
+           return res.redirect(301,`/marks/${slug}`);
+            
+
+            // photo_location = mark_info.logo_file;
+            // photo_location = "marks_photos/" + photo_location
+            
+            
+            // console.log(mark_info)
+
+            // res.render('technicsPage', {
+            // pageTitle: 'Купити техніку марки ' + req.query.mark + " | від TrackTop",
+            // description: "У нас ви можете купити сг техніку " + req.query.mark + "! Сільгосптехніка бу марки " + req.query.mark + " від TrackTop. Дзвоніть ☎ (067)-646-22-44",
+            // types: null,
+            // mark: mark,
+            // mark_data:mark_info,
+            // photo_location: photo_location,
+            // user: req.currentUser,
+            // });
         })
+        
     
     }
     else {
@@ -239,6 +248,39 @@ exports.category = function(req, res) {
 
 };
 
+exports.one_mark = function(req, res) {
+    let {slug} = req.params;
+
+     require('./db').get_mark_by_slug(slug, callback);
+     function callback(error, data) {
+
+        if(error || !data || data.length == 0) {
+                return render404(req,res)
+        } else {
+            
+            let mark = data[0];
+
+            photo_location = mark.logo_file;
+            photo_location = "marks_photos/" + photo_location
+        
+            res.render('technicsPage', {
+            pageTitle: 'Купити техніку марки ' + mark.name + " | від TrackTop",
+            description: mark.meta_description ?  mark.meta_description : "У нас ви можете купити сг техніку " + mark.name + "! Сільгосптехніка бу марки " + mark.name + " від TrackTop. Дзвоніть ☎ (067)-646-22-44",
+            types: null,
+            mark: mark.name,
+            mark_data: mark,
+            photo_location: photo_location,
+            user: req.currentUser,
+            });
+
+        }
+
+     }
+    
+    
+}
+
+
 exports.models = function(req, res) {
     //console.log(req.params.type);
         let {...otherParams} = req.query;
@@ -301,9 +343,7 @@ exports.technic_without_category = function(req, res) {
                 }
             }
         });
-
-
-};
+}; 
 
 
 exports.technic = function(req, res) {
@@ -429,7 +469,7 @@ exports.equipment = function(req, res) {
             if(data.length>0) {
                 let category = data[0].category_name;
                 let equipment = data[0];
-                console.log(equipment)
+                //console.log(equipment)
             
                 if(name != equipment.name) {
                     return render404(req,res)

@@ -119,11 +119,20 @@ function showTechnics(list) {
     if (curType == null && curMark == null) {} else {
 
         let crums = toMainPageBreadcrumb();
-        crums +=
-            `<li class='current'>
-                <a class='seturl' href="/">
-                <span>${curMark ? curMark : curType}</span></a>
+        if(curMark) {
+            crums +=
+            `<li class=''>
+                <a class='' href="/marks">
+                <span>Всі марки</span></a>
              </li>`;
+        }
+ 
+        crums +=
+        `<li class='current'>
+        <a class='seturl' href="/">
+        <span>${curMark ? curMark : curType}</span></a>
+        </li>`;
+      
 
         $("#breadcrumb").append(crums);
         $(".seturl").attr("href", document.location.href);
@@ -132,7 +141,9 @@ function showTechnics(list) {
     $technics.html("");
     if(list.length===0) {
        // $technics.append("Нічого не знайдено");
-               $(".nothing_found").text("Нічого не знайдено.").css("display", "block");
+       //console.log("hedere test")
+       $(".nothing_found").css("display","block")
+               $(".nothing_found_title").text("Нічого не знайдено.").css("display", "block");
         //$(".nothing_found").css("display","block");
         return;
     }

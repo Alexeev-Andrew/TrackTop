@@ -9,9 +9,11 @@ exports.isLogged = function () {
     let phone = localStorage.getItem('phone');
     let photo_location = localStorage.getItem("photo");
 
+    //console.log(status)
     if(status) {
         // add info to panel
         $('.to-admin').show()
+        console.log(surname + " " + name)
         $('.menu-user-name').html(surname + " " + name);
         $('.menu-user-phone').html(phone);
         $('.menu-item-auth').hide()
@@ -19,6 +21,7 @@ exports.isLogged = function () {
         $("#logged-user-err").css("display","none")
     }
     else {
+        //console.log("not logged")
         $('.to-admin').hide()
         $('.menu-user-name').html("");
         $('.menu-user-phone').html("");
