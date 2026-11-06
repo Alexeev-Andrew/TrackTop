@@ -392,7 +392,7 @@ function showEquipments(list , className , per_page, filter) {
 }
 
 function showOneEquipment(type , className) {
-    type.url = API_URL+"/equipment?name="+type.name+"&id="+type.id;
+    type.url = API_URL+"/equipment/" + type.id;
     var html_code = equipmentInList({equipment: type});
     var $node = $(html_code);
 
@@ -407,7 +407,7 @@ function showOneEquipment(type , className) {
             amount: type.amount,
             description: type.description
         }));
-        document.location.href = API_URL+"/equipment?name="+type.name+"&id="+type.id;
+        document.location.href = API_URL+"/equipment/" + type.id;
 
     });
     if(className=="equipments")

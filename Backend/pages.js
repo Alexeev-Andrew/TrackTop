@@ -446,16 +446,18 @@ exports.categories = function(req, res) {
 };
 
 
-exports.equipment = function(req, res) {
+exports.one_equipment = function(req, res) {
     let vendor_code;
 
-    let {id, name, ...otherParams} = req.query;
+    let {...otherParams} = req.query;
+
+    let {id} = req.params;
 
     if (Object.keys(otherParams).length > 0) {
         return render404(req,res);
     }
 
-    require('./db').get_equipment_by_id(req.query.id, function (error,data) {
+    require('./db').get_equipment_by_id(id, function (error,data) {
 
         if(error) {
             //console.log("Error! ", error.sqlMessage);
@@ -471,9 +473,10 @@ exports.equipment = function(req, res) {
                 let equipment = data[0];
                 //console.log(equipment)
             
-                if(name != equipment.name) {
-                    return render404(req,res)
-                }
+                // if(name != equipment.name) {
+                //     return render404(req,res)
+                // }
+
                 let og_description = stripHTMLAndRemoveWhitespace(equipment.description)
 
                 vendor_code = equipment.vendor_code || [];
@@ -496,12 +499,12 @@ exports.equipment = function(req, res) {
                 else {
                     ///get_equipment_withModels_by_id
                       
-                    require('./db').get_eq_withModels_short_by_id(req.query.id, function (error, data) {
+                    require('./db').get_eq_withModels_short_by_id(id, function (error, data) {
 
                         if (error) {
                             //console.log("Error! ", error.sqlMessage);
                             return res.status(404).send({
-                                success: fasle,
+                                success: false,
                                 error: error.sqlMessage
                             });
                         } else {
@@ -524,7 +527,7 @@ exports.equipment = function(req, res) {
 
                                 const skuTitle = firstSku ? `${firstSku} — ` : "";
 
-                                let desc = `Купити ${equipment.name} ${skuTitle} до комбайна ${equipment.technic_mark}  ${s}`;
+                                let desc = `Купити ${equipment.name} ${skuTitle} до комбайна ${equipment.technic_mark} ${s}`;
 
 
                                 res.render('oneEquipmentPage', {

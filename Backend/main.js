@@ -167,7 +167,13 @@ function configureEndpoints(app) {
     app.get('/category_equipments/category/:type/:mark', pages.models); //+
     app.get('/category_equipments/category/:type/:mark/:model', pages.equipmentsByModel);//+
     app.get('/category_equipments/category', pages.category);
-    app.get('/equipment', pages.equipment);
+    app.get('/equipment', (req, res) => {
+            const { id } = req.query;
+            if (id) { return res.redirect(301, `/equipment/${id}`); }
+            else pages.error_404;
+    });
+    app.get('/equipment/:id', pages.one_equipment);
+
     app.get('/about', pages.about);
     app.get('/error-404', pages.error_404);
     app.get('/sitemap', pages.sitemap);
@@ -246,7 +252,7 @@ function configureEndpoints(app) {
                                             smStream.write({
                                                 url: '/category_equipments/category/combine_details/' + mark_item +"/" + item.model,
                                                 changefreq: 'weekly',
-                                                priority: 0.8
+                                                priority: 0.75
                                             })
                                             function callback8(err, data8) {
                                                 if(data8 && data8.length > per_page) {
@@ -271,7 +277,7 @@ function configureEndpoints(app) {
                                             if (data5) {
                                                 data5.forEach(function (item) {
                                                     smStream.write({
-                                                        url: '/equipment?name=' + item.name + "&id=" + item.id,
+                                                        url: '/equipment/' + item.id,
                                                         changefreq: 'monthly',
                                                         priority: 0.7
                                                     })

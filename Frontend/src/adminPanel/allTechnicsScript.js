@@ -430,7 +430,7 @@ openEditEquipmentModal = function(cell) {
                     }
                     ///
 
-                    $("#equipment_url").attr("href",API_URL + "/equipment?name=" + data.data[0].name + "&id=" + id )
+                    $("#equipment_url").attr("href",API_URL + "/equipment/" + id )
                     $("#status").val(data.data[0].status);
 
                     editor.setData(data.data[0].description);

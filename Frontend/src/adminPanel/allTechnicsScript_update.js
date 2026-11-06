@@ -909,7 +909,7 @@ addEquipmentToDB = function () {
     else // update equipment
         {
         let curId = localStorage.getItem("currEquipmentId");
-        console.log(curId);
+        //console.log(curId);
             if (checkInputEquipment()) {
 
                 //// in process
